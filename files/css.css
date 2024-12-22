@@ -463,11 +463,12 @@ p spoiler-text {
   transition: none;
 }
 .roundImage .frame {
-  width: 22rem;
+  width: 20rem;
   border-radius: 100%;
   transition: none;
   box-shadow: 0px 0px 15px red;
 }
+
 .roundImage .frame img {
   transition: none;
   filter: sepia(0.4);
@@ -1030,23 +1031,41 @@ hr:before {
 }
 
 @media (max-width: 1680px) {
+  .sectioSubtext {
+    font-size: 1.3em;
+  }
+  .roundImage .frame {
+    width: 18rem;
+  }
   html {
     font-size: 13pt;
   }
 }
 
 @media (max-width: 1280px) {
+  .roundImage .frame {
+    width: 16rem;
+  }
   html {
     font-size: 13pt;
   }
 }
 
 @media (max-width: 980px) {
+  .roundImage .frame {
+    width: 14rem;
+  }
   html {
     font-size: 11pt;
   }
 }
 @media (max-width: 736px) {
+  .sectioSubtext {
+    font-size: 1.1em;
+  }
+  .roundImage .frame {
+    width: 10rem;
+  }
   html {
     font-size: 11pt;
   }
@@ -1069,12 +1088,6 @@ hr:before {
 
   .logos img {
     width: 9rem;
-  }
-  #image03 .frame {
-    width: 16rem;
-  }
-  #image02 .frame {
-    width: 16rem;
   }
   #imgBrowsers .frame {
     width: 16rem;
@@ -1316,6 +1329,9 @@ hr:before {
 }
 
 @media (max-width: 480px) {
+  .roundImage .frame {
+    width: 10rem;
+  }
   #main > .inner {
     --spacing: 1.75rem;
   }
@@ -1328,6 +1344,10 @@ hr:before {
 }
 
 @media (max-width: 360px) {
+  .roundImage .frame {
+    width: 10rem;
+  }
+
   #main > .inner {
     --padding-horizontal: 1.5rem;
     --padding-vertical: 3rem;
@@ -1337,7 +1357,8 @@ hr:before {
     font-size: 2em;
   }
   #introText {
-    font-size: 3em;
+    font-size: 2em;
+    margin-bottom: 8rem;
   }
   .sectionText {
     font-size: 2.25em;
