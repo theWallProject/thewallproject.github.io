@@ -1,9 +1,9 @@
-@font-face {
+/* @font-face {
   font-family: "JimmyCollins";
   font-weight: normal;
   font-display: swap;
   src: url("./JimmyCollins.otf") format("opentype");
-}
+} */
 
 html,
 body,
@@ -90,7 +90,7 @@ video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
+  /* font: inherit; */
   vertical-align: baseline;
 }
 article,
@@ -106,9 +106,7 @@ nav,
 section {
   display: block;
 }
-body {
-  font-family: "JimmyCollins";
-}
+
 ol,
 ul {
   list-style: none;
@@ -174,7 +172,7 @@ body:before {
   z-index: 0;
   background-image: linear-gradient(
       to top,
-      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 1),
       rgba(0, 0, 0, 0.8)
     ),
     url("bg.jpg");
@@ -232,17 +230,7 @@ strong {
 em {
   font-style: italic;
 }
-code {
-  background-color: rgba(144, 144, 144, 0.25);
-  border-radius: 0.25em;
-  font-family: "Lucida Console", "Courier New", monospace;
-  font-size: 0.9em;
-  font-weight: normal;
-  letter-spacing: 0;
-  margin: 0 0.25em;
-  padding: 0.25em 0.5em;
-  text-indent: 0;
-}
+
 mark {
   background-color: rgba(144, 144, 144, 0.25);
 }
@@ -496,7 +484,7 @@ p spoiler-text {
 }
 #introText {
   color: rgb(255 73 73 / 95%);
-  font-size: 3.25em;
+  font-size: 2.25em;
   line-height: 1.5;
   font-weight: 200;
 }
@@ -533,7 +521,7 @@ p spoiler-text {
   font-size: 1em;
   line-height: 1.625;
   font-weight: 200;
-  font-family: monospace;
+  /* font-family: monospace; */
   text-align: left;
 }
 .sectioSubtext a {
@@ -932,7 +920,6 @@ hr:before {
   border-radius: 24px;
   cursor: pointer;
   display: inline-block;
-  font-family: Arial, sans-serif;
   font-size: 12px;
   letter-spacing: 0;
   line-height: 1;
