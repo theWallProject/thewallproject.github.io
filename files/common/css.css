@@ -592,6 +592,7 @@ hr:before {
 #divider01:not(:first-child) {
   margin-top: 0.25rem !important;
 }
+
 #divider01:not(:last-child) {
   margin-bottom: 0.25rem !important;
 }
@@ -1004,6 +1005,9 @@ hr:before {
   background-color: #412d2d;
   padding: 1rem;
   border-radius: 1rem;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
 }
 
 .downloadContainer:hover {
