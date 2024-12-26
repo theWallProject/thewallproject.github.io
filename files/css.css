@@ -321,6 +321,13 @@ unloaded-script {
   margin-top: var(--spacing);
   margin-bottom: var(--spacing);
 }
+
+#main > .inner iframe {
+  width: 100%;
+  100%: 400px;
+  min-height: 680px;
+}
+
 #main > .inner > :first-child {
   margin-top: 0 !important;
 }
@@ -1018,6 +1025,10 @@ hr:before {
 }
 
 @media (max-width: 1680px) {
+  #main > .inner iframe {
+    width: 100%;
+    min-height: 500px;
+}
   .sectioSubtext {
     font-size: 1.3em;
   }
@@ -1030,6 +1041,10 @@ hr:before {
 }
 
 @media (max-width: 1280px) {
+  #main > .inner iframe {
+    width: 100%;
+    min-height: 436px;
+}
   .roundImage .frame {
     width: 16rem;
   }
@@ -1039,6 +1054,10 @@ hr:before {
 }
 
 @media (max-width: 980px) {
+  #main > .inner iframe {
+    width: 100%;
+    min-height: 330px;
+}
   .roundImage .frame {
     width: 14rem;
   }
@@ -1047,6 +1066,10 @@ hr:before {
   }
 }
 @media (max-width: 736px) {
+  #main > .inner iframe {
+    width: 100%;
+    min-height: 292px;
+}
   .sectioSubtext {
     font-size: 1.1em;
   }
@@ -1344,8 +1367,8 @@ hr:before {
     font-size: 2em;
   }
   #introText {
-    font-size: 2em;
-    margin-bottom: 8rem;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
   }
   .sectionText {
     font-size: 2.25em;
