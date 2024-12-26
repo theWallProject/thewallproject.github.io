@@ -324,7 +324,6 @@ unloaded-script {
 
 #main > .inner iframe {
   width: 100%;
-  100%: 400px;
   min-height: 680px;
 }
 
@@ -989,13 +988,22 @@ hr:before {
   margin-top: 1.5rem !important;
 }
 
-.downloadContainer {
+.downloadText {
   display: flex;
   flex-direction: column;
-  margin-bottom: 9rem;
+  gap: 2px;
+  margin-left: 15px;
+}
+.downloadContainer {
+  display: flex;
+  /* flex-direction: column; */
+  margin-bottom: 4rem;
   color: white;
-  text-decoration: none;
-  font-size: 2rem;
+  /* text-decoration: none; */
+  font-size: 1rem;
+  background-color: #412d2d;
+  padding: 1rem;
+  border-radius: 1rem;
 }
 
 .downloadContainer:hover {
@@ -1003,12 +1011,12 @@ hr:before {
 }
 
 .downloadDesc {
-  font-size: 5rem;
+  font-size: 2.3rem;
   /* margin-bottom: 10rem; */
 }
 
 .downloadIcon {
-  width: 10rem;
+  width: 5rem;
   border-radius: 0; /* Normal image with no rounding */
   transform: scale(1) rotate(0deg); /* Initial state */
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Consistent transition */
@@ -1028,7 +1036,7 @@ hr:before {
   #main > .inner iframe {
     width: 100%;
     min-height: 500px;
-}
+  }
   .sectioSubtext {
     font-size: 1.3em;
   }
@@ -1044,7 +1052,7 @@ hr:before {
   #main > .inner iframe {
     width: 100%;
     min-height: 436px;
-}
+  }
   .roundImage .frame {
     width: 16rem;
   }
@@ -1057,7 +1065,7 @@ hr:before {
   #main > .inner iframe {
     width: 100%;
     min-height: 330px;
-}
+  }
   .roundImage .frame {
     width: 14rem;
   }
@@ -1069,7 +1077,7 @@ hr:before {
   #main > .inner iframe {
     width: 100%;
     min-height: 292px;
-}
+  }
   .sectioSubtext {
     font-size: 1.1em;
   }
