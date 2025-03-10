@@ -200,7 +200,7 @@ body:after {
 }
 
 .logos img {
-  width: 14rem;
+  width: 8rem;
 }
 body.is-loading:after {
   opacity: 1;
@@ -305,7 +305,7 @@ unloaded-script {
 }
 #main > .inner {
   --padding-horizontal: 5rem;
-  --padding-vertical: 6.5rem;
+  --padding-vertical: 2.5rem;
   --spacing: 7rem;
   --width: 61rem;
   border-radius: var(--border-radius-tl) var(--border-radius-tr)
@@ -490,7 +490,7 @@ p spoiler-text {
 }
 #introText {
   color: rgb(255 73 73 / 95%);
-  font-size: 2.25em;
+  font-size: 1.8em;
   line-height: 1.5;
   font-weight: 200;
 }
@@ -993,7 +993,7 @@ hr:before {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  margin-left: 15px;
+  margin-left: 45px;
 }
 .downloadContainer {
   display: flex;
@@ -1007,7 +1007,6 @@ hr:before {
   border-radius: 1rem;
   justify-content: center;
   align-items: center;
-  width: fit-content;
 }
 
 .downloadContainer:hover {
