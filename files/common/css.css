@@ -866,7 +866,7 @@ hr:before {
 #icons01 li a svg {
   height: 100%;
   width: 100%;
-  transition: fill 0.25s ease;
+  /* transition: fill 0.25s ease; */
 }
 #icons01 a svg {
   fill: #2f2f2f;
