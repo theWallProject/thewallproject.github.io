@@ -859,8 +859,8 @@ hr:before {
   margin-bottom: 2.625rem !important;
 }
 #icons01 li a {
-  height: 1em;
-  width: 1em;
+  height: 2em;
+  width: 2em;
   transition: color 0.25s ease, background-color 0.25s ease,
     border-color 0.25s ease;
 }
@@ -870,7 +870,7 @@ hr:before {
   transition: fill 0.25s ease;
 }
 #icons01 a svg {
-  fill: #ffffff;
+  fill: #2f2f2f;
 }
 #icons01 a:hover svg {
   fill: #d46679 !important;
