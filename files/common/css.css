@@ -89,8 +89,6 @@ video {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
-  /* font: inherit; */
   vertical-align: baseline;
 }
 article,
@@ -158,6 +156,7 @@ body {
   overflow-x: hidden;
   word-wrap: break-word;
   background-color: #f0e7e6;
+  direction: ltr;
 }
 
 .logos img {
@@ -505,7 +504,7 @@ hr {
   align-items: center;
   border: 0;
   display: flex;
-  justify-content: var(--flex-alignment);
+  justify-content: flex-end;
   min-height: 1rem;
   padding: 0;
   position: relative;
@@ -521,10 +520,10 @@ hr:before {
   margin-bottom: 0.25rem !important;
 }
 #divider03:before {
-  width: 4rem;
-  background-color: #d46679;
-  height: 2px;
-  border-radius: 0px;
+  /* width: 54rem; */
+  /* background-color: #d46679; */
+  /* height: 2px; */
+  /* border-radius: 0px; */
 }
 #divider02:not(:first-child) {
   margin-top: 0.25rem !important;
@@ -955,7 +954,7 @@ hr:before {
   flex-direction: column;
   gap: 2px;
   margin-left: 45px;
-  max-width: 30rem;
+  width: 30rem;
 }
 
 .downloadContainer {
@@ -963,7 +962,7 @@ hr:before {
   margin-bottom: 2rem;
   color: #000000;
   /* text-decoration: none; */
-  /* font-size: 2rem; */
+  font-size: 2rem;
   background-color: #ffffff;
   padding: 1rem;
   border-radius: 1rem;
