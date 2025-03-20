@@ -421,7 +421,7 @@ p spoiler-text {
   width: 20rem;
   border-radius: 100%;
   transition: none;
-  box-shadow: 0px 0px 15px red;
+  box-shadow: 0px 0px 39px #c5c5c5;
 }
 
 .roundImage .frame img {
@@ -465,12 +465,12 @@ p spoiler-text {
   margin-top: 1rem;
 }
 .sectionText {
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   color: #393939;
-  letter-spacing: 0.275rem;
-  width: calc(100% + 0.275rem);
+  /* letter-spacing: 0.275rem; */
+  /* width: calc(100% + 0.275rem); */
   font-size: 2.25em;
-  line-height: 1.25;
+  /* line-height: 1.25; */
   font-weight: 900;
 }
 .sectionText a {
@@ -484,9 +484,9 @@ p spoiler-text {
 }
 
 .sectioSubtext {
-  color: rgb(57 57 57);
+  color: rgb(99 99 99);
   font-size: 1em;
-  line-height: 1.625;
+  /* line-height: 1.625; */
   font-weight: 200;
   /* font-family: monospace; */
   text-align: left;
@@ -1041,7 +1041,7 @@ hr:before {
     min-height: 292px;
   }
   .sectioSubtext {
-    font-size: 1.1em;
+    /* font-size: 1.1em; */
   }
   .roundImage .frame {
     width: 10rem;
@@ -1090,8 +1090,8 @@ hr:before {
   .sectionText {
     letter-spacing: 0.240625rem;
     width: calc(100% + 0.240625rem);
-    font-size: 1.25em;
-    line-height: 1.25;
+    /* font-size: 1.25em; */
+    /* line-height: 1.25; */
   }
   #text03 {
     letter-spacing: 0.240625rem;
