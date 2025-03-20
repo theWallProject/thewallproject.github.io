@@ -157,46 +157,7 @@ body {
   min-width: 320px;
   overflow-x: hidden;
   word-wrap: break-word;
-}
-body:before {
-  content: "";
-  display: block;
-  background-attachment: scroll;
-  height: var(--background-height);
-  left: 0;
-  pointer-events: none;
-  position: fixed;
-  top: 0;
-  transform: scale(1);
-  width: 100vw;
-  z-index: 0;
-  background-image: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 1),
-      rgba(0, 0, 0, 0.8)
-    ),
-    url("bg.jpg");
-  background-position: 0% 0%, center;
-  background-repeat: repeat, no-repeat;
-  background-size: auto, cover;
-  background-color: #ffffff;
-}
-
-body:after {
-  background-color: #000000;
-  content: "";
-  display: block;
-  height: 100%;
-  left: 0;
-  opacity: 0;
-  pointer-events: none;
-  position: fixed;
-  top: 0;
-  transform: scale(1);
-  transition: opacity 2s ease-in-out 1s, visibility 2s 1s;
-  visibility: hidden;
-  width: 100%;
-  z-index: 1;
+  background-color: #f0e7e6;
 }
 
 .logos img {
@@ -259,8 +220,8 @@ sup {
   vertical-align: super;
 }
 a {
-  color: inherit;
-  text-decoration: underline;
+  /* color: inherit; */
+  text-decoration: none;
   transition: color 0.25s ease;
 }
 a[onclick]:not([href]) {
@@ -464,8 +425,8 @@ p spoiler-text {
 }
 
 .roundImage .frame img {
-  transition: none;
-  filter: sepia(0.4);
+  /* transition: none; */
+  /* filter: sepia(0.4); */
 }
 
 #SiteHeader {
@@ -489,10 +450,10 @@ p spoiler-text {
   margin-top: 1rem;
 }
 #introText {
-  color: rgb(255 73 73 / 95%);
-  font-size: 1.8em;
-  line-height: 1.5;
+  color: rgb(15, 15, 15);
+  font-size: 2.2em;
   font-weight: 200;
+  margin-bottom: 2rem;
 }
 #introText a {
   text-decoration: underline;
@@ -505,7 +466,7 @@ p spoiler-text {
 }
 .sectionText {
   text-transform: uppercase;
-  color: #ffffff;
+  color: #393939;
   letter-spacing: 0.275rem;
   width: calc(100% + 0.275rem);
   font-size: 2.25em;
@@ -523,7 +484,7 @@ p spoiler-text {
 }
 
 .sectioSubtext {
-  color: rgb(255 255 255);
+  color: rgb(57 57 57);
   font-size: 1em;
   line-height: 1.625;
   font-weight: 200;
@@ -994,15 +955,16 @@ hr:before {
   flex-direction: column;
   gap: 2px;
   margin-left: 45px;
+  max-width: 30rem;
 }
+
 .downloadContainer {
   display: flex;
-  /* flex-direction: column; */
-  margin-bottom: 4rem;
-  color: white;
+  margin-bottom: 2rem;
+  color: #000000;
   /* text-decoration: none; */
-  font-size: 1rem;
-  background-color: #412d2d;
+  /* font-size: 2rem; */
+  background-color: #ffffff;
   padding: 1rem;
   border-radius: 1rem;
   justify-content: center;
@@ -1073,6 +1035,7 @@ hr:before {
     font-size: 11pt;
   }
 }
+
 @media (max-width: 736px) {
   #main > .inner iframe {
     min-height: 292px;
@@ -1386,6 +1349,14 @@ hr:before {
   }
   .sectionText {
     font-size: 2.25em;
+  }
+
+  .downloadText {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-left: -1px;
+    max-width: 30rem;
   }
 
   .columnsCommon > .wrapper > .inner {
