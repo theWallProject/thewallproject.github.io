@@ -1,4 +1,4 @@
-# Minimal .htaccess file with HTTPS redirect
+# Minimal .htaccess file with HTTPS redirect and Matomo tracking pixel
 DirectoryIndex index.html
 
 # HTTP to HTTPS redirect
@@ -10,3 +10,21 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ar$ ar.html [L,QSA]
+
+# Matomo tracking pixel redirect (/bg.gif to local Matomo installation)
+# Handle requests with query parameters
+RewriteCond %{REQUEST_URI} ^/bg\.gif$ [NC]
+RewriteCond %{QUERY_STRING} ^(.+)$
+RewriteRule ^(.*)$ /matomo/matomo.php?idsite=1&%1 [L]
+
+# Handle requests without query parameters
+RewriteCond %{REQUEST_URI} ^/bg\.gif$ [NC]
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^(.*)$ /matomo/matomo.php?idsite=1 [L]
+
+# Set proper headers for Matomo tracking pixel response
+<IfModule mod_headers.c>
+  <FilesMatch "bg\.gif$">
+    Header set Content-Type "image/gif"
+  </FilesMatch>
+</IfModule>
