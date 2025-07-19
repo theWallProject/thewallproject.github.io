@@ -38,12 +38,26 @@
   color: inherit;
   transition: all 0.3s ease;
   border: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.downloadContainer.recommended {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid #d46679;
+  box-shadow: 0 4px 20px rgba(212, 102, 121, 0.2);
+  transform: translateY(-2px);
 }
 
 .downloadContainer:hover {
   background: rgba(255, 255, 255, 0.95);
   transform: translateY(-2px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.downloadContainer.recommended:hover {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 6px 25px rgba(212, 102, 121, 0.3);
+  transform: translateY(-3px);
 }
 
 .iconContainer {
@@ -72,6 +86,35 @@
   font-weight: 600;
   font-size: 1rem;
   color: #333;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.recommendedBadge {
+  background: linear-gradient(135deg, #d46679, #de7386);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(212, 102, 121, 0.3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
 }
 
 .downloadSubtitle {
@@ -87,6 +130,10 @@
 
 [dir="rtl"] .downloadText {
   text-align: right;
+}
+
+[dir="rtl"] .downloadDesc {
+  flex-direction: row-reverse;
 }
 
 /* Responsive design */
@@ -115,6 +162,11 @@
   .downloadSubtitle {
     font-size: 0.8rem;
   }
+
+  .recommendedBadge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -142,5 +194,10 @@
 
   .downloadSubtitle {
     font-size: 0.75rem;
+  }
+
+  .recommendedBadge {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.35rem;
   }
 }

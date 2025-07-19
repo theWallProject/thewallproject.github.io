@@ -1,9 +1,11 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useBrowserDetection } from "./BrowserDetector";
 import styles from "./Downloads.module.css";
 
 const Downloads: React.FC = () => {
   const { t } = useTranslation();
+  const { recommendedDownload } = useBrowserDetection();
 
   const downloadLinks = [
     {
@@ -43,37 +45,56 @@ const Downloads: React.FC = () => {
     },
   ];
 
+  // Reorder downloads to put recommended first
+  const reorderedDownloads = [...downloadLinks].sort((a, b) => {
+    if (a.id === recommendedDownload) return -1;
+    if (b.id === recommendedDownload) return 1;
+    return 0;
+  });
+
   return (
     <section className={styles.downloads}>
       <div className={styles.container}>
         <div className={styles.downloadsContent}>
           <hr className={styles.divider} />
           <div className={styles.wrapper}>
-            {downloadLinks.map((link) => (
-              <a
-                key={link.id}
-                className={styles.downloadContainer}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className={styles.iconContainer}>
-                  <img
-                    className={styles.downloadIcon}
-                    src={link.icon}
-                    alt={`${link.id} icon`}
-                  />
-                </span>
-                <div className={styles.downloadText}>
-                  <span className={styles.downloadDesc}>{link.title}</span>
-                  {link.subtitle && (
-                    <span className={styles.downloadSubtitle}>
-                      {link.subtitle}
+            {reorderedDownloads.map((link) => {
+              const isRecommended = link.id === recommendedDownload;
+              return (
+                <a
+                  key={link.id}
+                  className={`${styles.downloadContainer} ${
+                    isRecommended ? styles.recommended : ""
+                  }`}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className={styles.iconContainer}>
+                    <img
+                      className={styles.downloadIcon}
+                      src={link.icon}
+                      alt={`${link.id} icon`}
+                    />
+                  </span>
+                  <div className={styles.downloadText}>
+                    <span className={styles.downloadDesc}>
+                      {link.title}
+                      {isRecommended && (
+                        <span className={styles.recommendedBadge}>
+                          {t("downloads.recommended")}
+                        </span>
+                      )}
                     </span>
-                  )}
-                </div>
-              </a>
-            ))}
+                    {link.subtitle && (
+                      <span className={styles.downloadSubtitle}>
+                        {link.subtitle}
+                      </span>
+                    )}
+                  </div>
+                </a>
+              );
+            })}
           </div>
         </div>
       </div>

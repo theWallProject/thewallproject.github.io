@@ -35,6 +35,13 @@ export const translations = {
     es: "Un plugin de navegador para detectar y bloquear más de {{count}} sitios web israelíes y sus cuentas sociales.",
     de: "Ein Browser-Plugin zur Erkennung und Blockierung von mehr als {{count}} israelischen Websites und ihren Social-Media-Konten.",
   },
+  "downloads.recommended": {
+    en: "Recommended",
+    ar: "موصى به",
+    fr: "Recommandé",
+    es: "Recomendado",
+    de: "Empfohlen",
+  },
   "downloads.chrome.title": {
     en: "Click to download for Chrome",
     ar: "إضغط هنا للتحميل على كروم",
