@@ -1,0 +1,155 @@
+.features {
+  margin-bottom: 3rem;
+}
+
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.featuresContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.feature {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.feature:nth-child(even) {
+  direction: rtl;
+}
+
+.feature:nth-child(even) .content {
+  direction: ltr;
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imageWrapper {
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.imageWrapper:hover {
+  transform: scale(1.05);
+}
+
+.featureImage {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, #333, transparent);
+  border: none;
+  margin: 0;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #666;
+  margin: 0;
+}
+
+/* RTL support */
+[dir="rtl"] .feature {
+  direction: rtl;
+}
+
+[dir="rtl"] .feature:nth-child(even) {
+  direction: ltr;
+}
+
+[dir="rtl"] .feature:nth-child(even) .content {
+  direction: rtl;
+}
+
+[dir="rtl"] .divider {
+  background: linear-gradient(90deg, transparent, #333);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .feature {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .feature:nth-child(even) {
+    direction: ltr;
+  }
+
+  .feature:nth-child(even) .content {
+    direction: ltr;
+  }
+
+  .featureImage {
+    width: 250px;
+    height: 250px;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .description {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    gap: 2rem;
+  }
+
+  .feature {
+    gap: 1rem;
+  }
+
+  .featureImage {
+    width: 200px;
+    height: 200px;
+  }
+
+  .title {
+    font-size: 1.1rem;
+  }
+
+  .description {
+    font-size: 0.85rem;
+  }
+}
