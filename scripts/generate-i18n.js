@@ -26,16 +26,43 @@ if (!translationsMatch) {
   process.exit(1);
 }
 
-// Convert the TypeScript object to JavaScript (simple approach)
-const translationsStr = translationsMatch[1]
-  .replace(/(\w+):/g, '"$1":') // Convert keys to quoted strings
-  .replace(/,(\s*})/g, "$1"); // Remove trailing commas
+// Convert the TypeScript object to JavaScript using a more robust approach
+let translationsStr = translationsMatch[1];
+
+// Step 1: Temporarily replace problematic patterns
+translationsStr = translationsStr
+  .replace(/\{\{(\w+)\}\}/g, "INTERPOLATION_$1_INTERPOLATION")
+  .replace(/:\s*"([^"]*Current[^"]*)"/g, ': "CURRENT_PLACEHOLDER"')
+  .replace(/:\s*"([^"]*currently[^"]*)"/g, ': "CURRENTLY_PLACEHOLDER"');
+
+// Step 2: Convert keys to quoted strings
+translationsStr = translationsStr.replace(/(\w+):\s*{/g, '"$1": {');
+translationsStr = translationsStr.replace(/(\w+):\s*"/g, '"$1": "');
+translationsStr = translationsStr.replace(/(\w+):\s*\[/g, '"$1": [');
+
+// Step 3: Clean up trailing commas and formatting
+translationsStr = translationsStr
+  .replace(/,(\s*})/g, "$1")
+  .replace(/,(\s*])/g, "$1")
+  .replace(/,\s*}/g, "}")
+  .replace(/,\s*]/g, "]");
+
+// Step 4: Restore the original content
+translationsStr = translationsStr
+  .replace(/INTERPOLATION_(\w+)_INTERPOLATION/g, "{{$1}}")
+  .replace(/"CURRENT_PLACEHOLDER"/g, '"Select language. Current: {{language}}"')
+  .replace(/"CURRENTLY_PLACEHOLDER"/g, '"{{language}} is currently selected"');
 
 let translations;
 try {
-  translations = eval(`(${translationsStr})`);
+  // Use Function constructor instead of eval for better security
+  translations = new Function(`return ${translationsStr}`)();
 } catch (error) {
   console.error("Error parsing translations:", error);
+  console.error(
+    "Problematic string:",
+    translationsStr.substring(0, 500) + "..."
+  );
   process.exit(1);
 }
 

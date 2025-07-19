@@ -42,7 +42,7 @@
       },
       "smartDetection": {
         "title": "Smart detection",
-        "description": "Detects websites and also their related LinkedIn, Twitter and Facebook accuonts. More platforms coming soon."
+        "description": "Detects websites and also their related LinkedIn, Twitter and Facebook accounts. More platforms coming soon."
       },
       "trustedData": {
         "title": "Trusted data",
@@ -50,7 +50,19 @@
       }
     },
     "footer": {
-      "github": "GitHub"
+      "github": "GitHub",
+      "email": "Email"
+    },
+    "language": {
+      "switcher": {
+        "aria": {
+          "label": "Select language. Current: {{language}}",
+          "expanded": "Language dropdown menu",
+          "listbox": "Available languages",
+          "option": "Select {{language}}",
+          "selected": "{{language}} is currently selected"
+        }
+      }
     }
   }
 }

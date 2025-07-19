@@ -3,16 +3,16 @@
 }
 
 .container {
-  max-width: 1600px;
+  max-width: 1800px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 2rem;
   display: flex;
   flex-direction: column;
   gap: 3rem;
 }
 
 .featuresContent {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
 }
@@ -103,6 +103,10 @@
 
 /* Responsive design */
 @media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
   .feature {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -133,6 +137,7 @@
 
 @media (max-width: 480px) {
   .container {
+    padding: 0 0.5rem;
     gap: 2rem;
   }
 

@@ -50,7 +50,19 @@
       }
     },
     "footer": {
-      "github": "GitHub"
+      "github": "GitHub",
+      "email": "Email"
+    },
+    "language": {
+      "switcher": {
+        "aria": {
+          "label": "Sélectionner la langue. Actuelle : {{language}}",
+          "expanded": "Menu déroulant des langues",
+          "listbox": "Langues disponibles",
+          "option": "Sélectionner {{language}}",
+          "selected": "{{language}} est actuellement sélectionné"
+        }
+      }
     }
   }
 }

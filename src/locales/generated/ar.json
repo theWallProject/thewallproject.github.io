@@ -50,7 +50,19 @@
       }
     },
     "footer": {
-      "github": "جيت هب"
+      "github": "جيت هب",
+      "email": "البريد الإلكتروني"
+    },
+    "language": {
+      "switcher": {
+        "aria": {
+          "label": "اختر اللغة. الحالية: {{language}}",
+          "expanded": "قائمة اختيار اللغة",
+          "listbox": "اللغات المتاحة",
+          "option": "اختر {{language}}",
+          "selected": "{{language}} محدد حالياً"
+        }
+      }
     }
   }
 }

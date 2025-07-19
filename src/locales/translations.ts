@@ -127,7 +127,7 @@ export const translations = {
     de: "Intelligente Erkennung",
   },
   "features.smartDetection.description": {
-    en: "Detects websites and also their related LinkedIn, Twitter and Facebook accuonts. More platforms coming soon.",
+    en: "Detects websites and also their related LinkedIn, Twitter and Facebook accounts. More platforms coming soon.",
     ar: "يكشف المواقع وأيضاً حسابات لينكد إن وتويتر وفيسبوك المرتبطة بها. المزيد من المنصات قريباً.",
     fr: "Détecte les sites web et aussi leurs comptes LinkedIn, Twitter et Facebook associés. Plus de plateformes à venir.",
     es: "Detecta sitios web y también sus cuentas relacionadas de LinkedIn, Twitter y Facebook. Más plataformas próximamente.",
@@ -153,6 +153,48 @@ export const translations = {
     fr: "GitHub",
     es: "GitHub",
     de: "GitHub",
+  },
+  "footer.email": {
+    en: "Email",
+    ar: "البريد الإلكتروني",
+    fr: "Email",
+    es: "Email",
+    de: "E-Mail",
+  },
+  "language.switcher.aria.label": {
+    en: "Select language. Current: {{language}}",
+    ar: "اختر اللغة. الحالية: {{language}}",
+    fr: "Sélectionner la langue. Actuelle : {{language}}",
+    es: "Seleccionar idioma. Actual: {{language}}",
+    de: "Sprache auswählen. Aktuell: {{language}}",
+  },
+  "language.switcher.aria.expanded": {
+    en: "Language dropdown menu",
+    ar: "قائمة اختيار اللغة",
+    fr: "Menu déroulant des langues",
+    es: "Menú desplegable de idiomas",
+    de: "Sprachauswahl-Menü",
+  },
+  "language.switcher.aria.listbox": {
+    en: "Available languages",
+    ar: "اللغات المتاحة",
+    fr: "Langues disponibles",
+    es: "Idiomas disponibles",
+    de: "Verfügbare Sprachen",
+  },
+  "language.switcher.aria.option": {
+    en: "Select {{language}}",
+    ar: "اختر {{language}}",
+    fr: "Sélectionner {{language}}",
+    es: "Seleccionar {{language}}",
+    de: "{{language}} auswählen",
+  },
+  "language.switcher.aria.selected": {
+    en: "{{language}} is currently selected",
+    ar: "{{language}} محدد حالياً",
+    fr: "{{language}} est actuellement sélectionné",
+    es: "{{language}} está actualmente seleccionado",
+    de: "{{language}} ist derzeit ausgewählt",
   },
 } as const;
 
