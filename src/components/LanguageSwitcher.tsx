@@ -151,7 +151,7 @@ const LanguageSwitcher: React.FC = () => {
         }}
       >
         <span className={styles.languageInfo}>
-          {currentLanguageConfig.flag} {currentLanguageConfig.nativeName}
+          {currentLanguageConfig.nativeName}
           {hasDetectedLanguage && (
             <span
               className={styles.detectedIndicator}
@@ -207,7 +207,7 @@ const LanguageSwitcher: React.FC = () => {
                 }
               >
                 <span className={styles.languageInfo}>
-                  {languageConfig.flag} {languageConfig.nativeName}
+                  {languageConfig.nativeName}
                   {isDetected && (
                     <span
                       className={styles.detectedBadge}

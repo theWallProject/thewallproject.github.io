@@ -14,10 +14,12 @@ const App: React.FC = () => {
     <div className="App" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
       <Header />
       <main>
-        <Hero />
-        <Downloads />
-        <Features />
-        <Footer />
+        <div className="main-content-wrapper">
+          <Hero />
+          <Downloads />
+          <Features />
+          <Footer />
+        </div>
       </main>
     </div>
   );
