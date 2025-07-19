@@ -8,7 +8,7 @@
 }
 
 .downloadsContent {
-  max-width: 800px;
+  max-width: 560px; /* Increased from 480px */
   margin: 0 auto;
   width: 100%;
 }
@@ -53,11 +53,12 @@
 .downloadIcon {
   width: 2.5rem;
   height: 2.5rem;
-  transition: transform 0.3s ease;
+  transform: scale(1) rotate(0deg); /* Initial state */
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth and snappy */
 }
 
 .downloadContainer:hover .downloadIcon {
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(360deg); /* Scale up and full rotation */
 }
 
 .downloadText {
@@ -94,6 +95,10 @@
     padding: 0 1rem;
   }
 
+  .downloadsContent {
+    max-width: 460px; /* Keep proportional on mobile */
+  }
+
   .downloadContainer {
     padding: 0.75rem;
   }
@@ -115,6 +120,10 @@
 @media (max-width: 480px) {
   .container {
     padding: 0 0.5rem;
+  }
+
+  .downloadsContent {
+    max-width: 380px; /* Keep proportional on small mobile */
   }
 
   .downloadContainer {

@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
 import styles from "./Header.module.css";
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}>
       <div className={styles.container}>
         <div className={styles.headerContent}>
           <div className={styles.logoContainer}>
-            <h1 className={styles.title}>{t("header.title")}</h1>
             <div className={styles.logos}>
               <img
                 src="./files/common/logo-red.svg"
@@ -24,6 +34,7 @@ const Header: React.FC = () => {
                 className={styles.logo}
               />
             </div>
+            <h1 className={styles.title}>{t("header.title")}</h1>
           </div>
           <div className={styles.languageSwitcherContainer}>
             <LanguageSwitcher />
