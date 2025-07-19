@@ -1,0 +1,56 @@
+{
+  "translation": {
+    "meta": {
+      "title": "The Wall Addon",
+      "description": "The Wall Addon - Une puissante extension de navigateur qui vous aide à détecter et bloquer automatiquement plus de 19 000 sites web israéliens et leurs comptes de réseaux sociaux.",
+      "keywords": "The Wall, extension navigateur, bloqueur de sites, assistant boycott, sites israéliens, blocage réseaux sociaux, extension Chrome, extension Firefox"
+    },
+    "header": {
+      "title": "The Wall Addon"
+    },
+    "intro": {
+      "text": "Un plugin de navigateur pour détecter et bloquer plus de {{count}} sites web israéliens et leurs comptes sociaux."
+    },
+    "downloads": {
+      "chrome": {
+        "title": "Cliquez pour télécharger pour Chrome",
+        "subtitle": "Aussi pour Brave, Edge et Kiwi pour Android !"
+      },
+      "firefox": {
+        "title": "Cliquez pour télécharger pour Firefox",
+        "subtitle": "Aussi pour Firefox Android !"
+      },
+      "safari": {
+        "title": "Cliquez pour télécharger pour Safari desktop"
+      },
+      "ios": {
+        "title": "Cliquez pour télécharger pour Safari iOS",
+        "subtitle": "pour iPhone et iPad"
+      },
+      "telegram": {
+        "title": "Rejoignez notre canal Telegram pour les mises à jour"
+      }
+    },
+    "features": {
+      "installOnce": {
+        "title": "Installez une fois, fonctionne pour toujours",
+        "description": "Tout ce que vous avez à faire est d'installer l'extension. Et chaque fois que vous ouvrez un site web d'une entreprise connectée à Israël, vous verrez \"le mur\" à la place."
+      },
+      "worksEverywhere": {
+        "title": "Fonctionne partout !",
+        "description": "Fonctionne sur Chrome, Firefox, Edge, Brave, Opera et bientôt Safari. Il fonctionne aussi sur les navigateurs mobiles comme Firefox mobile et Kiwi browser !"
+      },
+      "smartDetection": {
+        "title": "Détection intelligente",
+        "description": "Détecte les sites web et aussi leurs comptes LinkedIn, Twitter et Facebook associés. Plus de plateformes à venir."
+      },
+      "trustedData": {
+        "title": "Données fiables",
+        "description": "La principale source de données est la dernière liste Crunchbase des entreprises ayant leur siège en Israël. Aussi les entreprises avec un fondateur ou investisseur d'Israël. Plus de données comme la liste BDS à venir. L'extension montrera la raison."
+      }
+    },
+    "footer": {
+      "github": "GitHub"
+    }
+  }
+}

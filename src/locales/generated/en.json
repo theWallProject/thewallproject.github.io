@@ -1,0 +1,56 @@
+{
+  "translation": {
+    "meta": {
+      "title": "The Wall Addon",
+      "description": "The Wall Addon - A powerful browser extension that helps you detect and block over 19,000 Israeli-connected websites and their social media accounts automatically.",
+      "keywords": "The Wall, browser addon, website blocker, boycott assistant, Israeli websites, social media blocking, Chrome extension, Firefox addon"
+    },
+    "header": {
+      "title": "The Wall Addon"
+    },
+    "intro": {
+      "text": "A browser plugin to detect and block more than {{count}} Israeli-related websites and their social accounts."
+    },
+    "downloads": {
+      "chrome": {
+        "title": "Click to download for Chrome",
+        "subtitle": "Also for Brave, Edge and Kiwi for Android!"
+      },
+      "firefox": {
+        "title": "Click to download for Firefox",
+        "subtitle": "Also for Firefox android!"
+      },
+      "safari": {
+        "title": "Click to download for Safari desktop"
+      },
+      "ios": {
+        "title": "Click to download for Safari for iOS",
+        "subtitle": "for iPhone and iPad"
+      },
+      "telegram": {
+        "title": "Join our Telegram channel for updates"
+      }
+    },
+    "features": {
+      "installOnce": {
+        "title": "Install once, works forever",
+        "description": "All you have to do is Install the Addon. And anytime you open a website of an Israeli-connected company you will see \"the wall\" instead."
+      },
+      "worksEverywhere": {
+        "title": "Works everywhere!",
+        "description": "Works on Chrome, Firefox, Edge, Brave, Opera and soon Safari. It also works on mobile browsers like Firefox mobile and Kiwi browser!"
+      },
+      "smartDetection": {
+        "title": "Smart detection",
+        "description": "Detects websites and also their related LinkedIn, Twitter and Facebook accuonts. More platforms coming soon."
+      },
+      "trustedData": {
+        "title": "Trusted data",
+        "description": "The main source of the data is the latest Crunchbase list of companies with headquarters in Israel. Also companies with a founder or investor from Israel. More data like BDS list coming soon. The addon will show the reason."
+      }
+    },
+    "footer": {
+      "github": "GitHub"
+    }
+  }
+}

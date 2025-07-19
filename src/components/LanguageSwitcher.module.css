@@ -1,0 +1,141 @@
+.languageSwitcherContainer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.languageSwitcher {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+  justify-content: space-between;
+}
+
+.languageSwitcher:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: translateY(-2px);
+}
+
+.languageSwitcher:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+.dropdownArrow {
+  font-size: 10px;
+  transition: transform 0.3s ease;
+}
+
+.languageSwitcher[aria-expanded="true"] .dropdownArrow {
+  transform: rotate(180deg);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 5px;
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 5px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  min-width: 150px;
+  overflow: hidden;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.languageOption {
+  width: 100%;
+  background: none;
+  border: none;
+  color: white;
+  padding: 12px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.2s ease;
+  gap: 8px;
+}
+
+.languageOption:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.languageOption.selected {
+  background: rgba(0, 123, 255, 0.3);
+  font-weight: 600;
+}
+
+.checkmark {
+  color: #007bff;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* RTL specific positioning */
+[dir="rtl"] .languageSwitcherContainer {
+  right: auto;
+  left: 20px;
+}
+
+[dir="rtl"] .dropdownMenu {
+  right: auto;
+  left: 0;
+}
+
+[dir="rtl"] .languageOption {
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .languageSwitcherContainer {
+    top: 10px;
+    right: 10px;
+  }
+
+  .languageSwitcher {
+    padding: 8px 12px;
+    font-size: 12px;
+    min-width: 100px;
+  }
+
+  .dropdownMenu {
+    min-width: 120px;
+  }
+
+  .languageOption {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  [dir="rtl"] .languageSwitcherContainer {
+    right: auto;
+    left: 10px;
+  }
+}
