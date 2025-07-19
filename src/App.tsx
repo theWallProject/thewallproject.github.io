@@ -1,6 +1,5 @@
 import React from "react";
 import { useLanguage } from "./contexts/LanguageContext";
-import LanguageSwitcher from "./components/LanguageSwitcher";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Downloads from "./components/Downloads";
@@ -13,9 +12,8 @@ const App: React.FC = () => {
 
   return (
     <div className="App" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
-      <LanguageSwitcher />
+      <Header />
       <main>
-        <Header />
         <Hero />
         <Downloads />
         <Features />
