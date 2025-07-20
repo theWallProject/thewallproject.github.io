@@ -64,6 +64,14 @@
           "selected": "{{language}} ist derzeit ausgewählt"
         }
       }
+    },
+    "privacy": {
+      "title": "Datenschutzrichtlinie",
+      "intro": "Um den besten Service zu bieten, verfolgen wir NUR eine sehr begrenzte Anzahl von Ereignissen.",
+      "noData": "WIR WERDEN NIEMALS BENUTZERIDENTIFIZIERENDE DATEN ODER NAVIGATIONSHISTORIE SAMMELN!",
+      "eventsTracked": "Das sind die Ereignisse, die wir verfolgen:",
+      "event1": "Wenn die Mauer erscheint (um sicherzustellen, dass das Addon wie erwartet funktioniert, und um die Anzahl für die Ermutigung anderer in der Zukunft zu zählen)",
+      "event2": "Wenn die Teilen-, Weiter- oder Melden-Schaltflächen der Mauer geklickt werden (um die Leistung von Designänderungen usw. zu untersuchen)"
     }
   }
 }

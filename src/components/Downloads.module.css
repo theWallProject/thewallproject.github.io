@@ -180,20 +180,20 @@ html[dir="rtl"] .downloadText {
   text-align: right;
   align-items: flex-start;
   direction: rtl;
-  unicode-bidi: bidi-override;
+  unicode-bidi: plaintext;
 }
 
 html[dir="rtl"] .downloadDesc {
   text-align: right;
   justify-content: flex-start;
   direction: rtl;
-  unicode-bidi: bidi-override;
+  unicode-bidi: plaintext;
 }
 
 html[dir="rtl"] .downloadSubtitle {
   text-align: right;
   direction: rtl;
-  unicode-bidi: bidi-override;
+  unicode-bidi: plaintext;
 }
 
 [dir="rtl"] .recommendedBadge {

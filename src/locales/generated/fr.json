@@ -64,6 +64,14 @@
           "selected": "{{language}} est actuellement sélectionné"
         }
       }
+    },
+    "privacy": {
+      "title": "Politique de confidentialité",
+      "intro": "Pour fournir le meilleur service, nous ne suivons QU'UN nombre très limité d'événements.",
+      "noData": "NOUS NE COLLECTERONS JAMAIS DE DONNÉES D'IDENTIFICATION UTILISATEUR NI D'HISTORIQUE DE NAVIGATION !",
+      "eventsTracked": "Voici les événements que nous suivons :",
+      "event1": "Quand le Mur apparaît (pour s'assurer que l'extension fonctionne comme prévu, et pour compter le nombre pour encourager les autres à l'avenir)",
+      "event2": "Quand les boutons partager, continuer ou signaler du Mur sont cliqués (pour étudier les performances des changements de conception etc.)"
     }
   }
 }

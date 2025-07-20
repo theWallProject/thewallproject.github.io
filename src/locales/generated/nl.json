@@ -64,6 +64,14 @@
           "selected": "{{language}} is momenteel geselecteerd"
         }
       }
+    },
+    "privacy": {
+      "title": "Privacybeleid",
+      "intro": "Om de beste service te bieden, volgen we ALLEEN een zeer beperkt aantal gebeurtenissen op.",
+      "noData": "WE ZULLEN NOOIT GEBRUIKERSIDENTIFICERENDE GEGEVENS OF NAVIGATIEGESCHIEDENIS VERZAMELEN!",
+      "eventsTracked": "Dit zijn de gebeurtenissen die we volgen:",
+      "event1": "Wanneer de Muur verschijnt (om ervoor te zorgen dat de addon werkt zoals verwacht, en om het aantal te tellen voor het aanmoedigen van anderen in de toekomst)",
+      "event2": "Wanneer de deel-, doorgaan- of rapportageknoppen van de Muur worden geklikt (om de prestaties van ontwerpwijzigingen etc. te bestuderen)"
     }
   }
 }

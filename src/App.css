@@ -88,6 +88,7 @@ img {
 
 [dir="rtl"] p {
   text-align: right;
+  unicode-bidi: plaintext;
 }
 
 [dir="rtl"] h1,
@@ -97,6 +98,7 @@ img {
 [dir="rtl"] h5,
 [dir="rtl"] h6 {
   text-align: right;
+  unicode-bidi: plaintext;
 }
 
 /* More specific RTL selectors */
@@ -106,6 +108,7 @@ html[dir="rtl"] .main-content-wrapper {
 
 html[dir="rtl"] p {
   text-align: right;
+  unicode-bidi: plaintext;
 }
 
 html[dir="rtl"] h1,
@@ -115,6 +118,7 @@ html[dir="rtl"] h4,
 html[dir="rtl"] h5,
 html[dir="rtl"] h6 {
   text-align: right;
+  unicode-bidi: plaintext;
 }
 
 /* Responsive design */

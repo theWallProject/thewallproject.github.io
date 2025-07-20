@@ -64,6 +64,14 @@
           "selected": "{{language}} saat ini dipilih"
         }
       }
+    },
+    "privacy": {
+      "title": "Kebijakan Privasi",
+      "intro": "Untuk memberikan layanan terbaik, kami HANYA melacak sejumlah peristiwa yang sangat terbatas.",
+      "noData": "KAMI TIDAK AKAN PERNAH MENGUMPULKAN DATA IDENTIFIKASI PENGGUNA ATAU RIWAYAT NAVIGASI!",
+      "eventsTracked": "Berikut adalah peristiwa yang kami lacak:",
+      "event1": "Ketika Tembok muncul (untuk memastikan addon bekerja seperti yang diharapkan, dan untuk menghitung jumlah untuk mendorong orang lain di masa depan)",
+      "event2": "Ketika tombol berbagi, lanjutkan, atau laporkan Tembok diklik (untuk mempelajari kinerja perubahan desain dll)"
     }
   }
 }

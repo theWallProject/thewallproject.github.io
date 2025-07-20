@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import styles from "./Footer.module.css";
 
 const Footer: React.FC = () => {
@@ -30,6 +31,14 @@ const Footer: React.FC = () => {
     },
   ];
 
+  const footerLinks = [
+    {
+      id: "privacy",
+      href: "/privacy",
+      label: t("privacy.title"),
+    },
+  ];
+
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
@@ -46,6 +55,19 @@ const Footer: React.FC = () => {
                 {link.icon}
                 <span className={styles.label}>{link.label}</span>
               </a>
+            </li>
+          ))}
+        </ul>
+        <ul className={styles.footerLinks}>
+          {footerLinks.map((link) => (
+            <li key={link.id}>
+              <Link
+                className={styles.footerLink}
+                to={link.href}
+                aria-label={link.label}
+              >
+                {link.label}
+              </Link>
             </li>
           ))}
         </ul>

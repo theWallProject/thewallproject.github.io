@@ -1,0 +1,84 @@
+.privacyPolicy {
+  padding: 2rem 0;
+  min-height: 100vh;
+  background-color: #f0e7e6;
+  font-family: "Tinos", serif;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.container h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.container hr {
+  border: none;
+  height: 2px;
+  background-color: #333;
+  margin: 2rem 0;
+}
+
+.container p {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.container ol {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.container li {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+/* RTL support */
+html[dir="rtl"] .container h1,
+html[dir="rtl"] .container p,
+html[dir="rtl"] .container li {
+  text-align: right;
+}
+
+html[dir="rtl"] .container ol {
+  padding-right: 2rem;
+  padding-left: 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .container h1 {
+    font-size: 2rem;
+  }
+
+  .container p,
+  .container ol {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container h1 {
+    font-size: 1.8rem;
+  }
+
+  .container p,
+  .container ol {
+    font-size: 1rem;
+  }
+}

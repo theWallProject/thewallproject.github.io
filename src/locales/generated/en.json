@@ -64,6 +64,14 @@
           "selected": "{{language}} is currently selected"
         }
       }
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "intro": "To provide the best service, we ONLY track a very limited number of events.",
+      "noData": "WE WILL NEVER COLLECT USER IDENTIFYING DATA NOR NAVIGATION HISTORY!",
+      "eventsTracked": "Those are the events we track:",
+      "event1": "When the Wall appears (to ensure the addon works as expected, and to count the number for encouraging others in the future)",
+      "event2": "When the Wall's share, continue, or report buttons are clicked (to study the performance of design changes etc.)"
     }
   }
 }
