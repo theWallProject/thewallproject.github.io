@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -17,14 +17,6 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(
   undefined
 );
-
-export const useLanguage = () => {
-  const context = useContext(LanguageContext);
-  if (context === undefined) {
-    throw new Error("useLanguage must be used within a LanguageProvider");
-  }
-  return context;
-};
 
 interface LanguageProviderProps {
   children: ReactNode;
@@ -101,14 +93,14 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
 
   // Detect browser language
   const [detectedLanguage] = useState<SupportedLanguages | null>(
-    detectBrowserLanguage
+    detectBrowserLanguage()
   );
 
   // Initialize language with priority order:
   // 1. User manually changed (stored in localStorage) - highest priority
   // 2. Browser language (if detected and available)
   // 3. English (fallback)
-  const getInitialLanguage = (): SupportedLanguages => {
+  const getInitialLanguage = useCallback((): SupportedLanguages => {
     // First priority: Check if user manually changed language
     const stored = getStoredLanguage();
     if (stored) {
@@ -128,7 +120,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
     // Third priority: Fallback to English
     console.log("Language: Using fallback to English");
     return "en";
-  };
+  }, [detectedLanguage]);
 
   const [currentLanguage, setCurrentLanguage] = useState<SupportedLanguages>(
     getInitialLanguage()
@@ -168,7 +160,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
         i18n.changeLanguage(lang);
       }
     }
-  }, [i18n]);
+  }, [i18n, getInitialLanguage]);
 
   const value: LanguageContextType = {
     currentLanguage,
@@ -184,3 +176,6 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
     </LanguageContext.Provider>
   );
 };
+
+// Export the context for the hook
+export { LanguageContext };

@@ -5,7 +5,7 @@ import styles from "./Downloads.module.css";
 
 const Downloads: React.FC = () => {
   const { t } = useTranslation();
-  const { recommendedDownload } = useBrowserDetection();
+  const { recommendedDownload, name } = useBrowserDetection();
 
   const downloadLinks = [
     {
@@ -45,8 +45,11 @@ const Downloads: React.FC = () => {
     },
   ];
 
-  // Reorder downloads to put recommended first
+  // Reorder downloads to put recommended first, but only if browser is detected with certainty
   const reorderedDownloads = [...downloadLinks].sort((a, b) => {
+    // If browser is unknown, don't reorder (no highlighting)
+    if (name === "unknown") return 0;
+
     if (a.id === recommendedDownload) return -1;
     if (b.id === recommendedDownload) return 1;
     return 0;
@@ -59,7 +62,9 @@ const Downloads: React.FC = () => {
           <hr className={styles.divider} />
           <div className={styles.wrapper}>
             {reorderedDownloads.map((link) => {
-              const isRecommended = link.id === recommendedDownload;
+              // Only highlight if browser is detected with certainty and this is the recommended download
+              const isRecommended =
+                name !== "unknown" && link.id === recommendedDownload;
               return (
                 <a
                   key={link.id}

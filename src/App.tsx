@@ -1,44 +1,33 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useLanguage } from "./contexts/LanguageContext";
-import Header from "./components/Header";
+import { LanguageProvider } from "./contexts/LanguageContext";
+import { I18nextProvider } from "react-i18next";
+import i18n from "./i18n";
 import Hero from "./components/Hero";
-import Downloads from "./components/Downloads";
 import Features from "./components/Features";
+import Downloads from "./components/Downloads";
 import Newsletter from "./components/Newsletter";
 import Footer from "./components/Footer";
-import PrivacyPolicy from "./components/PrivacyPolicy";
 import "./App.css";
 
-const HomePage: React.FC = () => {
+const AppContent: React.FC = () => {
   return (
-    <>
+    <div className="App">
       <Hero />
-      <Downloads />
       <Features />
+      <Downloads />
       <Newsletter />
-    </>
+      <Footer />
+    </div>
   );
 };
 
 const App: React.FC = () => {
-  const { currentLanguage } = useLanguage();
-
   return (
-    <Router>
-      <div className="App">
-        <Header />
-        <main dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
-          <div className="main-content-wrapper">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/privacy" element={<PrivacyPolicy />} />
-            </Routes>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+    <I18nextProvider i18n={i18n}>
+      <LanguageProvider>
+        <AppContent />
+      </LanguageProvider>
+    </I18nextProvider>
   );
 };
 

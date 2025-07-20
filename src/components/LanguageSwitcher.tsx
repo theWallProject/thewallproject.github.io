@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useLanguage } from "../contexts/LanguageContext";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { useLanguage } from "../hooks/useLanguage";
 import { useTranslation } from "react-i18next";
 import styles from "./LanguageSwitcher.module.css";
 
@@ -25,6 +25,15 @@ const LanguageSwitcher: React.FC = () => {
   // Check if current language is different from detected language
   const hasDetectedLanguage =
     detectedLanguage && detectedLanguage !== currentLanguage;
+
+  const handleLanguageSelect = useCallback(
+    (languageCode: keyof typeof availableLanguages) => {
+      changeLanguage(languageCode);
+      setIsOpen(false);
+      setFocusedIndex(-1);
+    },
+    [changeLanguage]
+  );
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -97,7 +106,7 @@ const LanguageSwitcher: React.FC = () => {
       document.addEventListener("keydown", handleKeyDown);
       return () => document.removeEventListener("keydown", handleKeyDown);
     }
-  }, [isOpen, focusedIndex, languageCodes]);
+  }, [isOpen, focusedIndex, languageCodes, handleLanguageSelect]);
 
   // Focus management
   useEffect(() => {
@@ -114,14 +123,6 @@ const LanguageSwitcher: React.FC = () => {
       setIsOpen(true);
       setFocusedIndex(0);
     }
-  };
-
-  const handleLanguageSelect = (
-    languageCode: keyof typeof availableLanguages
-  ) => {
-    changeLanguage(languageCode);
-    setIsOpen(false);
-    setFocusedIndex(-1);
   };
 
   const handleOptionFocus = (index: number) => {
