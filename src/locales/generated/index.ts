@@ -1,4 +1,4 @@
-// Auto-generated from flat translations
+// Auto-generated from JSON files
 // Do not edit manually - run 'npm run generate-i18n' to regenerate
 
 import en from './en.json' assert { type: 'json' };
