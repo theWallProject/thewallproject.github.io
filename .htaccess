@@ -1,21 +1,12 @@
 # .htaccess file for React SPA with HTTPS redirect and Matomo tracking
-DirectoryIndex index.html
+DirectoryIndex dist/index.html
 
 # HTTP to HTTPS redirect
 RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# React Router support - redirect all non-file/non-directory requests to index.html
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /index.html [L,QSA]
-
-# Internal rewrite from /ar to ar.html (URL stays as /ar) - keeping for compatibility
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ar$ ar.html [L,QSA]
-
+# Matomo tracking configuration - ALL MATOMO RULES TOGETHER
 # Matomo tracking pixel redirect (/bg.gif to local Matomo installation)
 # Handle requests with query parameters
 RewriteCond %{REQUEST_URI} ^/bg\.gif$ [NC]
@@ -31,8 +22,24 @@ RewriteRule ^(.*)$ /matomo/matomo.php?idsite=1 [L]
 <IfModule mod_headers.c>
   <FilesMatch "bg\.gif$">
     Header set Content-Type "image/gif"
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
   </FilesMatch>
 </IfModule>
+
+# Redirect old /ar path to homepage
+RewriteRule ^ar$ / [L,R=301]
+
+# Serve static files from dist folder
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /dist/$1 [L]
+
+# React Router support - redirect all non-file/non-directory requests to index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^dist/(.*)$ /dist/index.html [L,QSA]
 
 # Cache static assets for better performance
 <IfModule mod_expires.c>
