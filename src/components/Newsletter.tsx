@@ -37,11 +37,6 @@ const Newsletter: React.FC = () => {
     <section className={styles.newsletterSection}>
       <div className={styles.container}>
         <div className={styles.content}>
-          <h2 className={styles.title}>Stay Updated</h2>
-          <p className={styles.description}>
-            Get the latest updates about The Wall Addon, new features, and
-            important announcements.
-          </p>
           <div className={styles.formContainer}>
             <div className="ml-embedded" data-form="QTf4uM"></div>
           </div>
