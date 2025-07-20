@@ -1,5 +1,4 @@
 # .htaccess file for React SPA with HTTPS redirect and Matomo tracking
-DirectoryIndex dist/index.html
 
 # HTTP to HTTPS redirect
 RewriteEngine On
@@ -31,10 +30,12 @@ RewriteRule ^(.*)$ /matomo/matomo.php?idsite=1 [L]
 # Redirect old /ar path to homepage
 RewriteRule ^ar$ / [L,R=301]
 
+# Serve the built React app for the root URL
+RewriteRule ^$ /dist/index.html [L]
+
 # Serve static files from dist folder - but only if they exist
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^/$
 RewriteRule ^(.*)$ /dist/$1 [L]
 
 # React Router support - redirect all non-file/non-directory requests to index.html
