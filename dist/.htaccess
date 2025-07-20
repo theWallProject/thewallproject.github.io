@@ -30,16 +30,20 @@ RewriteRule ^(.*)$ /matomo/matomo.php?idsite=1 [L]
 # Redirect old /ar path to homepage
 RewriteRule ^ar$ / [L,R=301]
 
-# Serve the built React app for the root URL
-RewriteRule ^$ /dist/index.html [L]
+# Serve the built React app for the root URL (explicitly)
+RewriteRule ^/?$ /dist/index.html [L]
 
-# Serve static files from dist folder - but only if they exist
+# Serve static assets from dist folder
+RewriteCond %{REQUEST_URI} ^/assets/
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^assets/(.*)$ /dist/assets/$1 [L]
+
+# Serve other static files from dist folder
+RewriteCond %{REQUEST_URI} ^/(vite\.svg|files/.*)$
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ /dist/$1 [L]
 
 # React Router support - redirect all non-file/non-directory requests to index.html
-# This should only apply to requests that don't match existing files/directories
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ /dist/index.html [L,QSA]
