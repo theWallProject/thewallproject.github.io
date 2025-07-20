@@ -6,6 +6,10 @@ export const translations = {
     fr: "The Wall Addon",
     es: "The Wall Addon",
     de: "The Wall Addon",
+    id: "The Wall Addon",
+    nl: "The Wall Addon",
+    zh_CN: "The Wall 插件",
+    zh_TW: "The Wall 插件",
   },
   "meta.description": {
     en: "The Wall Addon - A powerful browser extension that helps you detect and block over 19,000 Israeli-connected websites and their social media accounts automatically.",
@@ -13,6 +17,12 @@ export const translations = {
     fr: "The Wall Addon - Une puissante extension de navigateur qui vous aide à détecter et bloquer automatiquement plus de 19 000 sites web israéliens et leurs comptes de réseaux sociaux.",
     es: "The Wall Addon - Una potente extensión de navegador que te ayuda a detectar y bloquear automáticamente más de 19,000 sitios web israelíes y sus cuentas de redes sociales.",
     de: "The Wall Addon - Eine leistungsstarke Browser-Erweiterung, die Ihnen hilft, automatisch über 19.000 israelische Websites und ihre Social-Media-Konten zu erkennen und zu blockieren.",
+    id: "The Wall Addon - Ekstensi browser yang kuat yang membantu Anda mendeteksi dan memblokir lebih dari 19.000 situs web yang terhubung dengan Israel dan akun media sosial mereka secara otomatis.",
+    nl: "The Wall Addon - Een krachtige browser-extensie die u helpt meer dan 19.000 Israëlische websites en hun sociale media-accounts automatisch te detecteren en blokkeren.",
+    zh_CN:
+      "The Wall 插件 - 一个强大的浏览器扩展，帮助您自动检测和阻止超过19,000个与以色列相关的网站及其社交媒体账户。",
+    zh_TW:
+      "The Wall 插件 - 一個強大的瀏覽器擴展，幫助您自動檢測和阻止超過19,000個與以色列相關的網站及其社交媒體帳戶。",
   },
   "meta.keywords": {
     en: "The Wall, browser addon, website blocker, boycott assistant, Israeli websites, social media blocking, Chrome extension, Firefox addon",
@@ -20,6 +30,12 @@ export const translations = {
     fr: "The Wall, extension navigateur, bloqueur de sites, assistant boycott, sites israéliens, blocage réseaux sociaux, extension Chrome, extension Firefox",
     es: "The Wall, extensión navegador, bloqueador sitios, asistente boicot, sitios israelíes, bloqueo redes sociales, extensión Chrome, extensión Firefox",
     de: "The Wall, Browser-Addon, Website-Blocker, Boykott-Assistent, israelische Websites, Social-Media-Blockierung, Chrome-Erweiterung, Firefox-Addon",
+    id: "The Wall, ekstensi browser, pemblokir situs web, asisten boikot, situs web Israel, pemblokiran media sosial, ekstensi Chrome, addon Firefox",
+    nl: "The Wall, browser-addon, website-blokker, boycot-assistent, Israëlische websites, sociale media-blokkering, Chrome-extensie, Firefox-addon",
+    zh_CN:
+      "The Wall, 浏览器插件, 网站拦截器, 抵制助手, 以色列网站, 社交媒体拦截, Chrome扩展, Firefox插件",
+    zh_TW:
+      "The Wall, 瀏覽器插件, 網站攔截器, 抵制助手, 以色列網站, 社交媒體攔截, Chrome擴展, Firefox插件",
   },
   "header.title": {
     en: "The Wall Addon",
@@ -27,6 +43,10 @@ export const translations = {
     fr: "The Wall Addon",
     es: "The Wall Addon",
     de: "The Wall Addon",
+    id: "The Wall Addon",
+    nl: "The Wall Addon",
+    zh_CN: "The Wall 插件",
+    zh_TW: "The Wall 插件",
   },
   "intro.text": {
     en: "A browser plugin to detect and block more than {{count}} Israeli-related websites and their social accounts.",
@@ -34,6 +54,12 @@ export const translations = {
     fr: "Un plugin de navigateur pour détecter et bloquer plus de {{count}} sites web israéliens et leurs comptes sociaux.",
     es: "Un plugin de navegador para detectar y bloquear más de {{count}} sitios web israelíes y sus cuentas sociales.",
     de: "Ein Browser-Plugin zur Erkennung und Blockierung von mehr als {{count}} israelischen Websites und ihren Social-Media-Konten.",
+    id: "Plugin browser untuk mendeteksi dan memblokir lebih dari {{count}} situs web yang terkait dengan Israel dan akun sosial mereka.",
+    nl: "Een browser-plugin om meer dan {{count}} Israëlische websites en hun sociale accounts te detecteren en blokkeren.",
+    zh_CN:
+      "一个浏览器插件，用于检测和阻止超过{{count}}个与以色列相关的网站及其社交账户。",
+    zh_TW:
+      "一個瀏覽器插件，用於檢測和阻止超過{{count}}個與以色列相關的網站及其社交帳戶。",
   },
   "downloads.recommended": {
     en: "For your browser",
@@ -41,6 +67,10 @@ export const translations = {
     fr: "Pour votre navigateur",
     es: "Para tu navegador",
     de: "Für Ihren Browser",
+    id: "Untuk browser Anda",
+    nl: "Voor uw browser",
+    zh_CN: "适用于您的浏览器",
+    zh_TW: "適用於您的瀏覽器",
   },
   "downloads.chrome.title": {
     en: "Click to download for Chrome",
@@ -48,6 +78,10 @@ export const translations = {
     fr: "Cliquez pour télécharger pour Chrome",
     es: "Haz clic para descargar para Chrome",
     de: "Klicken Sie zum Herunterladen für Chrome",
+    id: "Klik untuk mengunduh untuk Chrome",
+    nl: "Klik om te downloaden voor Chrome",
+    zh_CN: "点击下载 Chrome 版本",
+    zh_TW: "點擊下載 Chrome 版本",
   },
   "downloads.chrome.subtitle": {
     en: "Also for Brave, Edge and Kiwi for Android!",
@@ -55,6 +89,10 @@ export const translations = {
     fr: "Aussi pour Brave, Edge et Kiwi pour Android !",
     es: "¡También para Brave, Edge y Kiwi para Android!",
     de: "Auch für Brave, Edge und Kiwi für Android!",
+    id: "Juga untuk Brave, Edge dan Kiwi untuk Android!",
+    nl: "Ook voor Brave, Edge en Kiwi voor Android!",
+    zh_CN: "也适用于 Brave、Edge 和 Android 版 Kiwi！",
+    zh_TW: "也適用於 Brave、Edge 和 Android 版 Kiwi！",
   },
   "downloads.firefox.title": {
     en: "Click to download for Firefox",
@@ -62,6 +100,10 @@ export const translations = {
     fr: "Cliquez pour télécharger pour Firefox",
     es: "Haz clic para descargar para Firefox",
     de: "Klicken Sie zum Herunterladen für Firefox",
+    id: "Klik untuk mengunduh untuk Firefox",
+    nl: "Klik om te downloaden voor Firefox",
+    zh_CN: "点击下载 Firefox 版本",
+    zh_TW: "點擊下載 Firefox 版本",
   },
   "downloads.firefox.subtitle": {
     en: "Also for Firefox android!",
@@ -69,6 +111,10 @@ export const translations = {
     fr: "Aussi pour Firefox Android !",
     es: "¡También funciona en Firefox Android!",
     de: "Funktioniert auch mit Firefox Android!",
+    id: "Juga untuk Firefox Android!",
+    nl: "Ook voor Firefox Android!",
+    zh_CN: "也适用于 Firefox Android！",
+    zh_TW: "也適用於 Firefox Android！",
   },
   "downloads.safari.title": {
     en: "Click to download for Safari desktop",
@@ -76,6 +122,10 @@ export const translations = {
     fr: "Cliquez pour télécharger pour Safari desktop",
     es: "Haz clic para descargar para Safari desktop",
     de: "Klicken Sie zum Herunterladen für Safari Desktop",
+    id: "Klik untuk mengunduh untuk Safari desktop",
+    nl: "Klik om te downloaden voor Safari desktop",
+    zh_CN: "点击下载 Safari 桌面版",
+    zh_TW: "點擊下載 Safari 桌面版",
   },
   "downloads.ios.title": {
     en: "Click to download for Safari for iOS",
@@ -83,6 +133,10 @@ export const translations = {
     fr: "Cliquez pour télécharger pour Safari iOS",
     es: "Haz clic para descargar para Safari iOS",
     de: "Klicken Sie zum Herunterladen für Safari iOS",
+    id: "Klik untuk mengunduh untuk Safari iOS",
+    nl: "Klik om te downloaden voor Safari iOS",
+    zh_CN: "点击下载 iOS 版 Safari",
+    zh_TW: "點擊下載 iOS 版 Safari",
   },
   "downloads.ios.subtitle": {
     en: "for iPhone and iPad",
@@ -90,6 +144,10 @@ export const translations = {
     fr: "pour iPhone et iPad",
     es: "para iPhone y iPad",
     de: "für iPhone und iPad",
+    id: "untuk iPhone dan iPad",
+    nl: "voor iPhone en iPad",
+    zh_CN: "适用于 iPhone 和 iPad",
+    zh_TW: "適用於 iPhone 和 iPad",
   },
   "downloads.telegram.title": {
     en: "Join our Telegram channel for updates",
@@ -97,6 +155,10 @@ export const translations = {
     fr: "Rejoignez notre canal Telegram pour les mises à jour",
     es: "¡Únete a nuestro canal de Telegram para actualizaciones!",
     de: "Treten Sie unserem Telegram-Kanal für Updates bei!",
+    id: "Bergabunglah dengan saluran Telegram kami untuk pembaruan",
+    nl: "Word lid van ons Telegram-kanaal voor updates",
+    zh_CN: "加入我们的 Telegram 频道获取更新",
+    zh_TW: "加入我們的 Telegram 頻道獲取更新",
   },
   "features.installOnce.title": {
     en: "Install once, works forever",
@@ -104,6 +166,10 @@ export const translations = {
     fr: "Installez une fois, fonctionne pour toujours",
     es: "Instala una vez, funciona para siempre",
     de: "Einmal installieren, funktioniert für immer",
+    id: "Instal sekali, bekerja selamanya",
+    nl: "Installeer eenmaal, werkt voor altijd",
+    zh_CN: "安装一次，永久有效",
+    zh_TW: "安裝一次，永久有效",
   },
   "features.installOnce.description": {
     en: 'All you have to do is Install the Addon. And anytime you open a website of an Israeli-connected company you will see "the wall" instead.',
@@ -111,6 +177,12 @@ export const translations = {
     fr: "Tout ce que vous avez à faire est d'installer l'extension. Et chaque fois que vous ouvrez un site web d'une entreprise connectée à Israël, vous verrez \"le mur\" à la place.",
     es: 'Todo lo que tienes que hacer es instalar la extensión. Y cada vez que abras un sitio web de una empresa conectada a Israel, verás "el muro" en su lugar.',
     de: 'Alles was Sie tun müssen, ist das Addon zu installieren. Und jedes Mal, wenn Sie eine Website eines israelischen Unternehmens öffnen, sehen Sie stattdessen "die Mauer".',
+    id: 'Yang perlu Anda lakukan hanyalah menginstal Addon. Dan setiap kali Anda membuka situs web perusahaan yang terhubung dengan Israel, Anda akan melihat "tembok" sebagai gantinya.',
+    nl: 'Alles wat u hoeft te doen is de Addon te installeren. En elke keer dat u een website van een Israëlisch bedrijf opent, ziet u in plaats daarvan "de muur".',
+    zh_CN:
+      '您只需要安装插件即可。每当您打开与以色列相关的公司网站时，您会看到"墙"来代替。',
+    zh_TW:
+      '您只需要安裝插件即可。每當您打開與以色列相關的公司網站時，您會看到"牆"來代替。',
   },
   "features.worksEverywhere.title": {
     en: "Works everywhere!",
@@ -118,6 +190,10 @@ export const translations = {
     fr: "Fonctionne partout !",
     es: "¡Funciona en todas partes!",
     de: "Funktioniert überall!",
+    id: "Bekerja di mana saja!",
+    nl: "Werkt overal!",
+    zh_CN: "随处可用！",
+    zh_TW: "隨處可用！",
   },
   "features.worksEverywhere.description": {
     en: "Works on Chrome, Firefox, Edge, Brave, Opera and soon Safari. It also works on mobile browsers like Firefox mobile and Kiwi browser!",
@@ -125,6 +201,12 @@ export const translations = {
     fr: "Fonctionne sur Chrome, Firefox, Edge, Brave, Opera et bientôt Safari. Il fonctionne aussi sur les navigateurs mobiles comme Firefox mobile et Kiwi browser !",
     es: "Funciona en Chrome, Firefox, Edge, Brave, Opera y pronto Safari. También funciona en navegadores móviles como Firefox mobile y Kiwi browser!",
     de: "Funktioniert mit Chrome, Firefox, Edge, Brave, Opera und bald Safari. Es funktioniert auch mit mobilen Browsern wie Firefox Mobile und Kiwi Browser!",
+    id: "Bekerja di Chrome, Firefox, Edge, Brave, Opera dan segera Safari. Juga bekerja di browser mobile seperti Firefox mobile dan Kiwi browser!",
+    nl: "Werkt op Chrome, Firefox, Edge, Brave, Opera en binnenkort Safari. Het werkt ook op mobiele browsers zoals Firefox mobile en Kiwi browser!",
+    zh_CN:
+      "适用于 Chrome、Firefox、Edge、Brave、Opera，很快也将支持 Safari。也适用于移动浏览器如 Firefox mobile 和 Kiwi browser！",
+    zh_TW:
+      "適用於 Chrome、Firefox、Edge、Brave、Opera，很快也將支援 Safari。也適用於行動瀏覽器如 Firefox mobile 和 Kiwi browser！",
   },
   "features.smartDetection.title": {
     en: "Smart detection",
@@ -132,6 +214,10 @@ export const translations = {
     fr: "Détection intelligente",
     es: "Detección inteligente",
     de: "Intelligente Erkennung",
+    id: "Deteksi cerdas",
+    nl: "Slimme detectie",
+    zh_CN: "智能检测",
+    zh_TW: "智慧檢測",
   },
   "features.smartDetection.description": {
     en: "Detects websites and also their related LinkedIn, Twitter and Facebook accounts. More platforms coming soon.",
@@ -139,6 +225,12 @@ export const translations = {
     fr: "Détecte les sites web et aussi leurs comptes LinkedIn, Twitter et Facebook associés. Plus de plateformes à venir.",
     es: "Detecta sitios web y también sus cuentas relacionadas de LinkedIn, Twitter y Facebook. Más plataformas próximamente.",
     de: "Erkennt Websites und auch ihre zugehörigen LinkedIn-, Twitter- und Facebook-Konten. Weitere Plattformen kommen bald.",
+    id: "Mendeteksi situs web dan juga akun LinkedIn, Twitter, dan Facebook yang terkait. Lebih banyak platform segera hadir.",
+    nl: "Detecteert websites en ook hun gerelateerde LinkedIn, Twitter en Facebook accounts. Meer platforms komen binnenkort.",
+    zh_CN:
+      "检测网站及其相关的 LinkedIn、Twitter 和 Facebook 账户。更多平台即将推出。",
+    zh_TW:
+      "檢測網站及其相關的 LinkedIn、Twitter 和 Facebook 帳戶。更多平台即將推出。",
   },
   "features.trustedData.title": {
     en: "Trusted data",
@@ -146,6 +238,10 @@ export const translations = {
     fr: "Données fiables",
     es: "Datos confiables",
     de: "Vertrauenswürdige Daten",
+    id: "Data terpercaya",
+    nl: "Betrouwbare gegevens",
+    zh_CN: "可信数据",
+    zh_TW: "可信數據",
   },
   "features.trustedData.description": {
     en: "The main source of the data is the latest Crunchbase list of companies with headquarters in Israel. Also companies with a founder or investor from Israel. More data like BDS list coming soon. The addon will show the reason.",
@@ -153,6 +249,12 @@ export const translations = {
     fr: "La principale source de données est la dernière liste Crunchbase des entreprises ayant leur siège en Israël. Aussi les entreprises avec un fondateur ou investisseur d'Israël. Plus de données comme la liste BDS à venir. L'extension montrera la raison.",
     es: "La principal fuente de datos es la última lista de Crunchbase de empresas con sede en Israel. También empresas con un fundador o inversor de Israel. Más datos como la lista BDS próximamente. La extensión mostrará la razón.",
     de: "Die Hauptquelle der Daten ist die neueste Crunchbase-Liste von Unternehmen mit Hauptsitz in Israel. Auch Unternehmen mit einem Gründer oder Investor aus Israel. Weitere Daten wie die BDS-Liste kommen bald. Das Addon wird den Grund anzeigen.",
+    id: "Sumber utama data adalah daftar Crunchbase terbaru dari perusahaan yang berkantor pusat di Israel. Juga perusahaan dengan pendiri atau investor dari Israel. Lebih banyak data seperti daftar BDS segera hadir. Addon akan menunjukkan alasannya.",
+    nl: "De belangrijkste bron van gegevens is de nieuwste Crunchbase-lijst van bedrijven met hoofdkantoor in Israël. Ook bedrijven met een oprichter of investeerder uit Israël. Meer gegevens zoals de BDS-lijst komen binnenkort. De addon zal de reden tonen.",
+    zh_CN:
+      "数据的主要来源是 Crunchbase 最新的以色列总部公司名单。还包括有以色列创始人或投资者的公司。更多数据如 BDS 名单即将推出。插件将显示原因。",
+    zh_TW:
+      "數據的主要來源是 Crunchbase 最新的以色列總部公司名單。還包括有以色列創始人或投資者的公司。更多數據如 BDS 名單即將推出。插件將顯示原因。",
   },
   "footer.github": {
     en: "GitHub",
@@ -160,6 +262,10 @@ export const translations = {
     fr: "GitHub",
     es: "GitHub",
     de: "GitHub",
+    id: "GitHub",
+    nl: "GitHub",
+    zh_CN: "GitHub",
+    zh_TW: "GitHub",
   },
   "footer.email": {
     en: "Email",
@@ -167,6 +273,10 @@ export const translations = {
     fr: "Email",
     es: "Email",
     de: "E-Mail",
+    id: "Email",
+    nl: "E-mail",
+    zh_CN: "邮箱",
+    zh_TW: "郵箱",
   },
   "language.switcher.aria.label": {
     en: "Select language. Current: {{language}}",
@@ -174,6 +284,10 @@ export const translations = {
     fr: "Sélectionner la langue. Actuelle : {{language}}",
     es: "Seleccionar idioma. Actual: {{language}}",
     de: "Sprache auswählen. Aktuell: {{language}}",
+    id: "Pilih bahasa. Saat ini: {{language}}",
+    nl: "Selecteer taal. Huidig: {{language}}",
+    zh_CN: "选择语言。当前：{{language}}",
+    zh_TW: "選擇語言。當前：{{language}}",
   },
   "language.switcher.aria.expanded": {
     en: "Language dropdown menu",
@@ -181,6 +295,10 @@ export const translations = {
     fr: "Menu déroulant des langues",
     es: "Menú desplegable de idiomas",
     de: "Sprachauswahl-Menü",
+    id: "Menu dropdown bahasa",
+    nl: "Taal dropdown menu",
+    zh_CN: "语言下拉菜单",
+    zh_TW: "語言下拉選單",
   },
   "language.switcher.aria.listbox": {
     en: "Available languages",
@@ -188,6 +306,10 @@ export const translations = {
     fr: "Langues disponibles",
     es: "Idiomas disponibles",
     de: "Verfügbare Sprachen",
+    id: "Bahasa yang tersedia",
+    nl: "Beschikbare talen",
+    zh_CN: "可用语言",
+    zh_TW: "可用語言",
   },
   "language.switcher.aria.option": {
     en: "Select {{language}}",
@@ -195,6 +317,10 @@ export const translations = {
     fr: "Sélectionner {{language}}",
     es: "Seleccionar {{language}}",
     de: "{{language}} auswählen",
+    id: "Pilih {{language}}",
+    nl: "Selecteer {{language}}",
+    zh_CN: "选择{{language}}",
+    zh_TW: "選擇{{language}}",
   },
   "language.switcher.aria.selected": {
     en: "{{language}} is currently selected",
@@ -202,6 +328,10 @@ export const translations = {
     fr: "{{language}} est actuellement sélectionné",
     es: "{{language}} está actualmente seleccionado",
     de: "{{language}} ist derzeit ausgewählt",
+    id: "{{language}} saat ini dipilih",
+    nl: "{{language}} is momenteel geselecteerd",
+    zh_CN: "{{language}}当前已选择",
+    zh_TW: "{{language}}當前已選擇",
   },
 } as const;
 

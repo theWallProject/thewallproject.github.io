@@ -1,0 +1,69 @@
+{
+  "translation": {
+    "meta": {
+      "title": "The Wall Addon",
+      "description": "The Wall Addon - Een krachtige browser-extensie die u helpt meer dan 19.000 Israëlische websites en hun sociale media-accounts automatisch te detecteren en blokkeren.",
+      "keywords": "The Wall, browser-addon, website-blokker, boycot-assistent, Israëlische websites, sociale media-blokkering, Chrome-extensie, Firefox-addon"
+    },
+    "header": {
+      "title": "The Wall Addon"
+    },
+    "intro": {
+      "text": "Een browser-plugin om meer dan {{count}} Israëlische websites en hun sociale accounts te detecteren en blokkeren."
+    },
+    "downloads": {
+      "recommended": "Voor uw browser",
+      "chrome": {
+        "title": "Klik om te downloaden voor Chrome",
+        "subtitle": "Ook voor Brave, Edge en Kiwi voor Android!"
+      },
+      "firefox": {
+        "title": "Klik om te downloaden voor Firefox",
+        "subtitle": "Ook voor Firefox Android!"
+      },
+      "safari": {
+        "title": "Klik om te downloaden voor Safari desktop"
+      },
+      "ios": {
+        "title": "Klik om te downloaden voor Safari iOS",
+        "subtitle": "voor iPhone en iPad"
+      },
+      "telegram": {
+        "title": "Word lid van ons Telegram-kanaal voor updates"
+      }
+    },
+    "features": {
+      "installOnce": {
+        "title": "Installeer eenmaal, werkt voor altijd",
+        "description": "Alles wat u hoeft te doen is de Addon te installeren. En elke keer dat u een website van een Israëlisch bedrijf opent, ziet u in plaats daarvan \"de muur\"."
+      },
+      "worksEverywhere": {
+        "title": "Werkt overal!",
+        "description": "Werkt op Chrome, Firefox, Edge, Brave, Opera en binnenkort Safari. Het werkt ook op mobiele browsers zoals Firefox mobile en Kiwi browser!"
+      },
+      "smartDetection": {
+        "title": "Slimme detectie",
+        "description": "Detecteert websites en ook hun gerelateerde LinkedIn, Twitter en Facebook accounts. Meer platforms komen binnenkort."
+      },
+      "trustedData": {
+        "title": "Betrouwbare gegevens",
+        "description": "De belangrijkste bron van gegevens is de nieuwste Crunchbase-lijst van bedrijven met hoofdkantoor in Israël. Ook bedrijven met een oprichter of investeerder uit Israël. Meer gegevens zoals de BDS-lijst komen binnenkort. De addon zal de reden tonen."
+      }
+    },
+    "footer": {
+      "github": "GitHub",
+      "email": "E-mail"
+    },
+    "language": {
+      "switcher": {
+        "aria": {
+          "label": "Selecteer taal. Huidig: {{language}}",
+          "expanded": "Taal dropdown menu",
+          "listbox": "Beschikbare talen",
+          "option": "Selecteer {{language}}",
+          "selected": "{{language}} is momenteel geselecteerd"
+        }
+      }
+    }
+  }
+}

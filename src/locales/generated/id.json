@@ -1,0 +1,69 @@
+{
+  "translation": {
+    "meta": {
+      "title": "The Wall Addon",
+      "description": "The Wall Addon - Ekstensi browser yang kuat yang membantu Anda mendeteksi dan memblokir lebih dari 19.000 situs web yang terhubung dengan Israel dan akun media sosial mereka secara otomatis.",
+      "keywords": "The Wall, ekstensi browser, pemblokir situs web, asisten boikot, situs web Israel, pemblokiran media sosial, ekstensi Chrome, addon Firefox"
+    },
+    "header": {
+      "title": "The Wall Addon"
+    },
+    "intro": {
+      "text": "Plugin browser untuk mendeteksi dan memblokir lebih dari {{count}} situs web yang terkait dengan Israel dan akun sosial mereka."
+    },
+    "downloads": {
+      "recommended": "Untuk browser Anda",
+      "chrome": {
+        "title": "Klik untuk mengunduh untuk Chrome",
+        "subtitle": "Juga untuk Brave, Edge dan Kiwi untuk Android!"
+      },
+      "firefox": {
+        "title": "Klik untuk mengunduh untuk Firefox",
+        "subtitle": "Juga untuk Firefox Android!"
+      },
+      "safari": {
+        "title": "Klik untuk mengunduh untuk Safari desktop"
+      },
+      "ios": {
+        "title": "Klik untuk mengunduh untuk Safari iOS",
+        "subtitle": "untuk iPhone dan iPad"
+      },
+      "telegram": {
+        "title": "Bergabunglah dengan saluran Telegram kami untuk pembaruan"
+      }
+    },
+    "features": {
+      "installOnce": {
+        "title": "Instal sekali, bekerja selamanya",
+        "description": "Yang perlu Anda lakukan hanyalah menginstal Addon. Dan setiap kali Anda membuka situs web perusahaan yang terhubung dengan Israel, Anda akan melihat \"tembok\" sebagai gantinya."
+      },
+      "worksEverywhere": {
+        "title": "Bekerja di mana saja!",
+        "description": "Bekerja di Chrome, Firefox, Edge, Brave, Opera dan segera Safari. Juga bekerja di browser mobile seperti Firefox mobile dan Kiwi browser!"
+      },
+      "smartDetection": {
+        "title": "Deteksi cerdas",
+        "description": "Mendeteksi situs web dan juga akun LinkedIn, Twitter, dan Facebook yang terkait. Lebih banyak platform segera hadir."
+      },
+      "trustedData": {
+        "title": "Data terpercaya",
+        "description": "Sumber utama data adalah daftar Crunchbase terbaru dari perusahaan yang berkantor pusat di Israel. Juga perusahaan dengan pendiri atau investor dari Israel. Lebih banyak data seperti daftar BDS segera hadir. Addon akan menunjukkan alasannya."
+      }
+    },
+    "footer": {
+      "github": "GitHub",
+      "email": "Email"
+    },
+    "language": {
+      "switcher": {
+        "aria": {
+          "label": "Pilih bahasa. Saat ini: {{language}}",
+          "expanded": "Menu dropdown bahasa",
+          "listbox": "Bahasa yang tersedia",
+          "option": "Pilih {{language}}",
+          "selected": "{{language}} saat ini dipilih"
+        }
+      }
+    }
+  }
+}

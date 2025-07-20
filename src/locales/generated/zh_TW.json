@@ -1,0 +1,69 @@
+{
+  "translation": {
+    "meta": {
+      "title": "The Wall 插件",
+      "description": "The Wall 插件 - 一個強大的瀏覽器擴展，幫助您自動檢測和阻止超過19,000個與以色列相關的網站及其社交媒體帳戶。",
+      "keywords": "The Wall, 瀏覽器插件, 網站攔截器, 抵制助手, 以色列網站, 社交媒體攔截, Chrome擴展, Firefox插件"
+    },
+    "header": {
+      "title": "The Wall 插件"
+    },
+    "intro": {
+      "text": "一個瀏覽器插件，用於檢測和阻止超過{{count}}個與以色列相關的網站及其社交帳戶。"
+    },
+    "downloads": {
+      "recommended": "適用於您的瀏覽器",
+      "chrome": {
+        "title": "點擊下載 Chrome 版本",
+        "subtitle": "也適用於 Brave、Edge 和 Android 版 Kiwi！"
+      },
+      "firefox": {
+        "title": "點擊下載 Firefox 版本",
+        "subtitle": "也適用於 Firefox Android！"
+      },
+      "safari": {
+        "title": "點擊下載 Safari 桌面版"
+      },
+      "ios": {
+        "title": "點擊下載 iOS 版 Safari",
+        "subtitle": "適用於 iPhone 和 iPad"
+      },
+      "telegram": {
+        "title": "加入我們的 Telegram 頻道獲取更新"
+      }
+    },
+    "features": {
+      "installOnce": {
+        "title": "安裝一次，永久有效",
+        "description": "您只需要安裝插件即可。每當您打開與以色列相關的公司網站時，您會看到\"牆\"來代替。"
+      },
+      "worksEverywhere": {
+        "title": "隨處可用！",
+        "description": "適用於 Chrome、Firefox、Edge、Brave、Opera，很快也將支援 Safari。也適用於行動瀏覽器如 Firefox mobile 和 Kiwi browser！"
+      },
+      "smartDetection": {
+        "title": "智慧檢測",
+        "description": "檢測網站及其相關的 LinkedIn、Twitter 和 Facebook 帳戶。更多平台即將推出。"
+      },
+      "trustedData": {
+        "title": "可信數據",
+        "description": "數據的主要來源是 Crunchbase 最新的以色列總部公司名單。還包括有以色列創始人或投資者的公司。更多數據如 BDS 名單即將推出。插件將顯示原因。"
+      }
+    },
+    "footer": {
+      "github": "GitHub",
+      "email": "郵箱"
+    },
+    "language": {
+      "switcher": {
+        "aria": {
+          "label": "選擇語言。當前：{{language}}",
+          "expanded": "語言下拉選單",
+          "listbox": "可用語言",
+          "option": "選擇{{language}}",
+          "selected": "{{language}}當前已選擇"
+        }
+      }
+    }
+  }
+}

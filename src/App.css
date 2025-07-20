@@ -12,7 +12,7 @@
 }
 
 main {
-  padding: 120px 0 1rem 0;
+  padding: 160px 0 1rem 0;
   width: 100%;
   font-family: "Tinos", serif;
   font-size: inherit;
@@ -81,10 +81,49 @@ img {
   height: auto;
 }
 
+/* RTL support */
+[dir="rtl"] .main-content-wrapper {
+  direction: rtl;
+}
+
+[dir="rtl"] p {
+  text-align: right;
+}
+
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+  text-align: right;
+}
+
+/* More specific RTL selectors */
+html[dir="rtl"] .main-content-wrapper {
+  direction: rtl;
+}
+
+html[dir="rtl"] p {
+  text-align: right;
+}
+
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4,
+html[dir="rtl"] h5,
+html[dir="rtl"] h6 {
+  text-align: right;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   main {
-    padding: 100px 0 0.5rem 0;
+    padding: 140px 0 0.5rem 0;
+  }
+  .main-content-wrapper {
+    margin: 0 20px !important;
   }
   p {
     font-size: 1.3rem; /* Still very large on mobile */
@@ -93,9 +132,60 @@ img {
 
 @media (max-width: 480px) {
   main {
-    padding: 80px 0 0.25rem 0;
+    padding: 120px 0 0.25rem 0;
+  }
+  .main-content-wrapper {
+    margin: 0 15px !important;
   }
   p {
     font-size: 1.25rem; /* Still large on small mobile */
+  }
+}
+
+@media (max-width: 360px) {
+  main {
+    padding: 110px 0 0.25rem 0;
+  }
+  .main-content-wrapper {
+    margin: 0 12px !important;
+  }
+  p {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 320px) {
+  main {
+    padding: 100px 0 0.25rem 0;
+  }
+  .main-content-wrapper {
+    margin: 0 10px !important;
+  }
+  p {
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 280px) {
+  main {
+    padding: 90px 0 0.25rem 0;
+  }
+  .main-content-wrapper {
+    margin: 0 8px !important;
+  }
+  p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 240px) {
+  main {
+    padding: 80px 0 0.25rem 0;
+  }
+  .main-content-wrapper {
+    margin: 0 6px !important;
+  }
+  p {
+    font-size: 1rem;
   }
 }
