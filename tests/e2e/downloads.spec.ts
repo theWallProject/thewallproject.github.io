@@ -8,15 +8,15 @@ test.describe("Downloads", () => {
   test("should display downloads section with all download options", async ({
     page,
   }) => {
-    // Check for downloads section (third section in the page)
-    const downloadsSection = page.locator("section").nth(2);
+    // Check for downloads section (second section in the page)
+    const downloadsSection = page.locator("section").nth(1);
     await expect(downloadsSection).toBeVisible();
 
     // Check for all download containers (5 total: Chrome, Firefox, Safari, iOS, Telegram)
     // Use more specific selector to target only download links, not social links
     const downloadContainers = page
       .locator("section")
-      .nth(2)
+      .nth(1)
       .locator("a[target='_blank']");
     await expect(downloadContainers).toHaveCount(5);
 

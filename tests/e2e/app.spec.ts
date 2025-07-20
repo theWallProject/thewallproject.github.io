@@ -28,8 +28,8 @@ test.describe("Application", () => {
     // Check for all main sections based on actual App.tsx structure
     await expect(page.locator("header")).toBeVisible();
     await expect(page.locator("section").first()).toBeVisible(); // Hero section
-    await expect(page.locator("section").nth(1)).toBeVisible(); // Features section
-    await expect(page.locator("section").nth(2)).toBeVisible(); // Downloads section
+    await expect(page.locator("section").nth(1)).toBeVisible(); // Downloads section
+    await expect(page.locator("section").nth(2)).toBeVisible(); // Features section
     await expect(page.locator("section").nth(3)).toBeVisible(); // Newsletter section
     await expect(page.locator("footer")).toBeVisible();
   });
@@ -46,8 +46,8 @@ test.describe("Application", () => {
     // All sections should still be visible
     await expect(page.locator("header")).toBeVisible();
     await expect(page.locator("section").first()).toBeVisible(); // Hero section
-    await expect(page.locator("section").nth(1)).toBeVisible(); // Features section
-    await expect(page.locator("section").nth(2)).toBeVisible(); // Downloads section
+    await expect(page.locator("section").nth(1)).toBeVisible(); // Downloads section
+    await expect(page.locator("section").nth(2)).toBeVisible(); // Features section
     await expect(page.locator("section").nth(3)).toBeVisible(); // Newsletter section
     await expect(page.locator("footer")).toBeVisible();
   });
@@ -57,24 +57,24 @@ test.describe("Application", () => {
     await page.setViewportSize({ width: 1200, height: 800 });
     await expect(page.locator("header")).toBeVisible();
     await expect(page.locator("section").first()).toBeVisible(); // Hero section
-    await expect(page.locator("section").nth(1)).toBeVisible(); // Features section
-    await expect(page.locator("section").nth(2)).toBeVisible(); // Downloads section
+    await expect(page.locator("section").nth(1)).toBeVisible(); // Downloads section
+    await expect(page.locator("section").nth(2)).toBeVisible(); // Features section
     await expect(page.locator("section").nth(3)).toBeVisible(); // Newsletter section
 
     // Test tablet viewport
     await page.setViewportSize({ width: 768, height: 1024 });
     await expect(page.locator("header")).toBeVisible();
     await expect(page.locator("section").first()).toBeVisible(); // Hero section
-    await expect(page.locator("section").nth(1)).toBeVisible(); // Features section
-    await expect(page.locator("section").nth(2)).toBeVisible(); // Downloads section
+    await expect(page.locator("section").nth(1)).toBeVisible(); // Downloads section
+    await expect(page.locator("section").nth(2)).toBeVisible(); // Features section
     await expect(page.locator("section").nth(3)).toBeVisible(); // Newsletter section
 
     // Test mobile viewport
     await page.setViewportSize({ width: 375, height: 667 });
     await expect(page.locator("header")).toBeVisible();
     await expect(page.locator("section").first()).toBeVisible(); // Hero section
-    await expect(page.locator("section").nth(1)).toBeVisible(); // Features section
-    await expect(page.locator("section").nth(2)).toBeVisible(); // Downloads section
+    await expect(page.locator("section").nth(1)).toBeVisible(); // Downloads section
+    await expect(page.locator("section").nth(2)).toBeVisible(); // Features section
     await expect(page.locator("section").nth(3)).toBeVisible(); // Newsletter section
   });
 });

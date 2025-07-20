@@ -9,13 +9,17 @@
     "generate-i18n": "node scripts/generate-i18n.js",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "playwright test",
+    "test": "npm run build && playwright test",
     "test:clean": "npm run build && playwright test",
     "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
     "test:debug": "playwright test --debug",
     "test:report": "playwright show-report",
-    "test:install": "playwright install"
+    "test:install": "playwright install",
+    "test:performance": "npm run build && playwright test tests/performance/",
+    "test:lighthouse": "npm run build && playwright test tests/performance/lighthouse.spec.ts",
+    "test:bundle": "npm run build && playwright test tests/performance/bundle-analysis.spec.ts",
+    "test:comprehensive": "npm run build && playwright test tests/performance/comprehensive-performance.spec.ts"
   },
   "dependencies": {
     "bowser": "^2.11.0",
@@ -24,7 +28,8 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-i18next": "^15.6.0",
-    "react-router-dom": "^7.7.0"
+    "react-router-dom": "^7.7.0",
+    "terser": "^5.43.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
@@ -34,10 +39,12 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
+    "chrome-launcher": "^1.2.0",
     "eslint": "^9.30.1",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "lighthouse": "^12.8.0",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
     "vite": "^7.0.4"

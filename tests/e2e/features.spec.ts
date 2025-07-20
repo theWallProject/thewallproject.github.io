@@ -8,8 +8,8 @@ test.describe("Features Section", () => {
   test("should display features section with all feature items", async ({
     page,
   }) => {
-    // Check for features section (second section in the page)
-    const featuresSection = page.locator("section").nth(1);
+    // Check for features section (third section in the page)
+    const featuresSection = page.locator("section").nth(2);
     await expect(featuresSection).toBeVisible();
 
     // Check for all feature titles (4 total features)
@@ -23,7 +23,7 @@ test.describe("Features Section", () => {
   });
 
   test("should display feature titles and descriptions", async ({ page }) => {
-    const featuresSection = page.locator("section").nth(1);
+    const featuresSection = page.locator("section").nth(2);
 
     // Check for feature titles and descriptions within features section
     const featureTitles = featuresSection.locator("h3");
