@@ -9,6 +9,8 @@
   width: 100%;
   overflow-x: hidden;
   font-size: inherit; /* Inherit from root */
+  position: relative;
+  z-index: 1;
 }
 
 main {
@@ -24,6 +26,9 @@ main {
   width: 100% !important;
   font-family: "Tinos", serif;
   font-size: inherit;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
 }
 
 /* Global styles */
@@ -127,7 +132,8 @@ html[dir="rtl"] h6 {
     padding: 140px 0 0.5rem 0;
   }
   .main-content-wrapper {
-    margin: 0 20px !important;
+    margin: 0 32px !important;
+    max-width: calc(100% - 64px) !important;
   }
   p {
     font-size: 1.3rem; /* Still very large on mobile */
@@ -139,7 +145,8 @@ html[dir="rtl"] h6 {
     padding: 120px 0 0.25rem 0;
   }
   .main-content-wrapper {
-    margin: 0 15px !important;
+    margin: 0 24px !important;
+    max-width: calc(100% - 48px) !important;
   }
   p {
     font-size: 1.25rem; /* Still large on small mobile */
@@ -151,7 +158,8 @@ html[dir="rtl"] h6 {
     padding: 110px 0 0.25rem 0;
   }
   .main-content-wrapper {
-    margin: 0 12px !important;
+    margin: 0 20px !important;
+    max-width: calc(100% - 40px) !important;
   }
   p {
     font-size: 1.2rem;

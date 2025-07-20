@@ -240,20 +240,20 @@ html[dir="rtl"] .downloadSubtitle {
   }
 
   .downloadsContent {
-    max-width: 600px; /* Keep proportional on mobile */
+    max-width: 100%;
   }
 
   .downloadContainer {
     padding: 0.75rem;
-    width: 500px;
-    max-width: 500px;
+    width: 100%;
+    max-width: 100%;
   }
 
   .downloadContainer.recommended {
     padding: 0.75rem;
-    scale: 1.08;
-    width: 650px;
-    max-width: 650px;
+    scale: 1.02;
+    width: 100%;
+    max-width: 100%;
     margin: 0 auto 1.5rem auto;
   }
 
