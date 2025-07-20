@@ -3,21 +3,30 @@ import styles from "./Newsletter.module.css";
 
 const Newsletter: React.FC = () => {
   useEffect(() => {
-    // Load MailerLite script if not already loaded
-    if (!window.ml) {
-      const script = document.createElement("script");
-      script.src = "https://assets.mailerlite.com/js/universal.js";
-      script.async = true;
-      script.onload = () => {
-        if (window.ml) {
-          window.ml("account", "1459988");
-        }
-      };
-      document.head.appendChild(script);
-    } else {
-      // If script is already loaded, just initialize
-      window.ml("account", "1459988");
-    }
+    // Load MailerLite script exactly like the old version
+    const script = document.createElement("script");
+    script.innerHTML = `
+      (function (w, d, e, u, f, l, n) {
+        (w[f] =
+          w[f] ||
+          function () {
+            (w[f].q = w[f].q || []).push(arguments);
+          }),
+          (l = d.createElement(e)),
+          (l.async = 1),
+          (l.src = u),
+          (n = d.getElementsByTagName(e)[0]),
+          n.parentNode.insertBefore(l, n);
+      })(
+        window,
+        document,
+        "script",
+        "https://assets.mailerlite.com/js/universal.js",
+        "ml"
+      );
+      ml("account", "1459988");
+    `;
+    document.head.appendChild(script);
 
     return () => {
       // Cleanup if needed
