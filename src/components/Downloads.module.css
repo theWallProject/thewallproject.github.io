@@ -4,11 +4,11 @@
 
 .container {
   width: 100%;
-  padding: 0 2rem;
+  padding: 0 1rem;
 }
 
 .downloadsContent {
-  max-width: 800px; /* Increased from 560px */
+  max-width: 100%;
   margin: 0 auto;
   width: 100%;
 }
@@ -40,8 +40,8 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: visible;
-  width: 600px;
-  max-width: 600px;
+  width: 100%;
+  max-width: 450px;
   margin: 0 auto;
 }
 
@@ -50,10 +50,9 @@
   border: 2px solid #d46679;
   box-shadow: 0 4px 20px rgba(212, 102, 121, 0.2);
   transform: translateY(-2px);
-  padding: 1rem;
-  scale: 1.15;
-  width: 800px;
-  max-width: 800px;
+  padding: 1.2rem;
+  width: 100%;
+  max-width: 500px;
   margin: 0 auto 2rem auto;
 }
 
@@ -66,7 +65,7 @@
 .downloadContainer.recommended:hover {
   background: rgba(255, 255, 255, 1);
   box-shadow: 0 6px 25px rgba(212, 102, 121, 0.3);
-  transform: translateY(-3px) scale(1.2);
+  transform: translateY(-3px);
 }
 
 .iconContainer {
