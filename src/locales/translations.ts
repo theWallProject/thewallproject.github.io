@@ -2,7 +2,7 @@
 export const translations = {
   "meta.title": {
     en: "The Wall Addon",
-    ar: "The Wall Addon - إضافة الجدار",
+    ar: "The Wall Addon",
     fr: "The Wall Addon",
     es: "The Wall Addon",
     de: "The Wall Addon",
@@ -39,7 +39,7 @@ export const translations = {
   },
   "header.title": {
     en: "The Wall Addon",
-    ar: "The Wall Addon - إضافة الجدار",
+    ar: "The Wall Addon",
     fr: "The Wall Addon",
     es: "The Wall Addon",
     de: "The Wall Addon",

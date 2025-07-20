@@ -1,12 +1,12 @@
 {
   "translation": {
     "meta": {
-      "title": "The Wall Addon - إضافة الجدار",
+      "title": "The Wall Addon",
       "description": "إضافة للمتصفح تمنع اكثر من 19,000 موقع إسرائيلي بسهولة وأمان ودقة",
       "keywords": "The Wall, إضافة الجدار, browser addon, website blocker, boycott assistant, Israeli websites, social media blocking, Chrome extension, Firefox addon"
     },
     "header": {
-      "title": "The Wall Addon - إضافة الجدار"
+      "title": "The Wall Addon"
     },
     "intro": {
       "text": "إضافة للمتصفح تمنع اكثر من {{count}} موقع إسرائيلي بسهولة وأمان ودقة"
