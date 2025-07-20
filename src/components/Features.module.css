@@ -7,13 +7,16 @@
   padding: 0 2rem;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 7rem;
 }
 
 .featuresContent {
   max-width: 1000px;
   margin: 0 auto;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
 }
 
 .feature {
@@ -137,7 +140,10 @@
 @media (max-width: 480px) {
   .container {
     padding: 0 0.5rem;
-    gap: 2rem;
+  }
+
+  .featuresContent {
+    gap: 3rem;
   }
 
   .feature {

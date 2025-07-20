@@ -12,6 +12,7 @@
       "text": "Un plugin de navigateur pour détecter et bloquer plus de {{count}} sites web israéliens et leurs comptes sociaux."
     },
     "downloads": {
+      "recommended": "Pour votre navigateur",
       "chrome": {
         "title": "Cliquez pour télécharger pour Chrome",
         "subtitle": "Aussi pour Brave, Edge et Kiwi pour Android !"

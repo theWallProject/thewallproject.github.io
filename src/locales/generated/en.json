@@ -12,6 +12,7 @@
       "text": "A browser plugin to detect and block more than {{count}} Israeli-related websites and their social accounts."
     },
     "downloads": {
+      "recommended": "For your browser",
       "chrome": {
         "title": "Click to download for Chrome",
         "subtitle": "Also for Brave, Edge and Kiwi for Android!"

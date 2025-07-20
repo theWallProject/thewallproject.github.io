@@ -78,20 +78,18 @@ const Downloads: React.FC = () => {
                     />
                   </span>
                   <div className={styles.downloadText}>
-                    <span className={styles.downloadDesc}>
-                      {link.title}
-                      {isRecommended && (
-                        <span className={styles.recommendedBadge}>
-                          {t("downloads.recommended")}
-                        </span>
-                      )}
-                    </span>
+                    <span className={styles.downloadDesc}>{link.title}</span>
                     {link.subtitle && (
                       <span className={styles.downloadSubtitle}>
                         {link.subtitle}
                       </span>
                     )}
                   </div>
+                  {isRecommended && (
+                    <span className={styles.recommendedBadge}>
+                      {t("downloads.recommended")}
+                    </span>
+                  )}
                 </a>
               );
             })}
