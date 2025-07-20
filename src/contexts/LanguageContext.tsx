@@ -31,37 +31,42 @@ interface LanguageProviderProps {
 }
 
 // Function to detect browser language
-const detectBrowserLanguage = (): SupportedLanguages => {
-  // Get browser language
-  const browserLang = navigator.language.toLowerCase();
+const detectBrowserLanguage = (): SupportedLanguages | null => {
+  try {
+    // Get browser language
+    const browserLang = navigator.language.toLowerCase();
 
-  // Check for exact matches first
-  const exactMatch = Object.keys(SUPPORTED_LANGUAGES).find(
-    (lang) => lang.toLowerCase() === browserLang
-  ) as SupportedLanguages | undefined;
+    // Check for exact matches first
+    const exactMatch = Object.keys(SUPPORTED_LANGUAGES).find(
+      (lang) => lang.toLowerCase() === browserLang
+    ) as SupportedLanguages | undefined;
 
-  if (exactMatch) {
-    return exactMatch;
+    if (exactMatch) {
+      return exactMatch;
+    }
+
+    // Check for language code matches (e.g., "en-us" -> "en")
+    const langCode = browserLang.split("-")[0];
+    const langMatch = Object.keys(SUPPORTED_LANGUAGES).find(
+      (lang) => lang.toLowerCase() === langCode
+    ) as SupportedLanguages | undefined;
+
+    if (langMatch) {
+      return langMatch;
+    }
+
+    // Check for RTL languages
+    const rtlLanguages = ["ar", "he", "fa", "ur"];
+    if (rtlLanguages.includes(langCode)) {
+      return "ar"; // Default to Arabic for RTL languages
+    }
+
+    // If no match found, return null
+    return null;
+  } catch (error) {
+    console.warn("Could not detect browser language:", error);
+    return null;
   }
-
-  // Check for language code matches (e.g., "en-us" -> "en")
-  const langCode = browserLang.split("-")[0];
-  const langMatch = Object.keys(SUPPORTED_LANGUAGES).find(
-    (lang) => lang.toLowerCase() === langCode
-  ) as SupportedLanguages | undefined;
-
-  if (langMatch) {
-    return langMatch;
-  }
-
-  // Check for RTL languages
-  const rtlLanguages = ["ar", "he", "fa", "ur"];
-  if (rtlLanguages.includes(langCode)) {
-    return "ar"; // Default to Arabic for RTL languages
-  }
-
-  // Default to English
-  return "en";
 };
 
 // Function to get stored language preference
@@ -93,15 +98,36 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
   children,
 }) => {
   const { i18n } = useTranslation();
-  const [detectedLanguage] = useState<SupportedLanguages>(
+
+  // Detect browser language
+  const [detectedLanguage] = useState<SupportedLanguages | null>(
     detectBrowserLanguage
   );
 
-  // Initialize language: stored preference > detected language > default
+  // Initialize language with priority order:
+  // 1. User manually changed (stored in localStorage) - highest priority
+  // 2. Browser language (if detected and available)
+  // 3. English (fallback)
   const getInitialLanguage = (): SupportedLanguages => {
+    // First priority: Check if user manually changed language
     const stored = getStoredLanguage();
-    if (stored) return stored;
-    return detectedLanguage;
+    if (stored) {
+      console.log("Language: Using stored preference:", stored);
+      return stored;
+    }
+
+    // Second priority: Use detected browser language if available
+    if (detectedLanguage) {
+      console.log(
+        "Language: Using detected browser language:",
+        detectedLanguage
+      );
+      return detectedLanguage;
+    }
+
+    // Third priority: Fallback to English
+    console.log("Language: Using fallback to English");
+    return "en";
   };
 
   const [currentLanguage, setCurrentLanguage] = useState<SupportedLanguages>(
@@ -114,6 +140,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
   const changeLanguage = (lang: SupportedLanguages) => {
     const languageConfig = SUPPORTED_LANGUAGES[lang];
     if (!languageConfig) return;
+
+    console.log("Language: User manually changed to:", lang);
 
     i18n.changeLanguage(lang);
     setCurrentLanguage(lang);
