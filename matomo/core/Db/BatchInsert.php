@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Config\DatabaseConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\ExceptionHandler;
 use Piwik\Log;
 use Piwik\SettingsServer;
 use Piwik\SettingsPiwik;
@@ -113,7 +114,7 @@ class BatchInsert
                     },
                     'eol'              => "\r\n",
                     'null'             => 'NULL',
-                    'charset'          => $charset
+                    'charset'          => $charset,
                 );
 
                 self::createCSVFile($filePath, $fileSpec, $values);
@@ -227,7 +228,7 @@ class BatchInsert
         /*
          * Second attempt: using the LOCAL keyword means the client reads the file and sends it to the server;
          * the LOCAL keyword may trigger a known PHP PDO\MYSQL bug when MySQL not built with --enable-local-infile
-         * @see http://bugs.php.net/bug.php?id=54158
+         * @see https://bugs.php.net/bug.php?id=54158
          */
         $openBaseDir = ini_get('open_basedir');
         $safeMode = ini_get('safe_mode');
@@ -252,7 +253,7 @@ class BatchInsert
             } catch (Exception $e) {
                 $code = $e->getCode();
                 $message = $e->getMessage() . ($code ? "[$code]" : '');
-                if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+                if (ExceptionHandler::shouldPrintBackTraceWithMessage()) {
                     $message .= "\n" . $e->getTraceAsString();
                 }
                 $exceptions[] = "\n  Try #" . (count($exceptions) + 1) . ': ' . $queryStart . ": " . $message;

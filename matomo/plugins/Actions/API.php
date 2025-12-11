@@ -28,7 +28,7 @@ use Piwik\Tracker\PageUrl;
  * The Actions API lets you request reports for all your Visitor Actions: Page URLs, Page titles, Events, Content Tracking,
  * File Downloads and Clicks on external websites.
  *
- * For example, "getPageTitles" will return all your page titles along with standard <a href='http://matomo.org/docs/analytics-api/reference/#toc-metric-definitions' rel='noreferrer' target='_blank'>Actions metrics</a> for each row.
+ * For example, "getPageTitles" will return all your page titles along with standard <a href='https://matomo.org/docs/analytics-api/reference/#toc-metric-definitions' rel='noreferrer' target='_blank'>Actions metrics</a> for each row.
  *
  * It is also possible to request data for a specific Page Title with "getPageTitle"
  * and setting the parameter pageName to the page title you wish to request.
@@ -166,7 +166,7 @@ class API extends \Piwik\Plugin\API
             PiwikMetrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS,
             function ($value) {
                 return $value <= 0;
-            }
+            },
         ]);
     }
 
@@ -363,7 +363,7 @@ class API extends \Piwik\Plugin\API
                 PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT,
                 function ($value) {
                     return $value < 1;
-                }
+                },
             ]
         );
         $dataTable->deleteRow(DataTable::ID_SUMMARY_ROW);
@@ -536,7 +536,7 @@ class API extends \Piwik\Plugin\API
                 PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS,
                 function ($visits) {
                     return !strlen($visits);
-                }
+                },
             ]
         );
     }
@@ -554,7 +554,7 @@ class API extends \Piwik\Plugin\API
                 PiwikMetrics::INDEX_PAGE_EXIT_NB_VISITS,
                 function ($visits) {
                     return !strlen($visits);
-                }
+                },
             ]
         );
     }

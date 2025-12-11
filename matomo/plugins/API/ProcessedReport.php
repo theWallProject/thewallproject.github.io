@@ -452,7 +452,7 @@ class ProcessedReport
             'columns'        => $columns,
             'reportData'     => $newReport,
             'reportMetadata' => $rowsMetadata,
-            'reportTotal'    => $totals
+            'reportTotal'    => $totals,
         );
         if ($showTimer) {
             $return['timerMillis'] = $timer->getTimeMs(0);
@@ -550,7 +550,7 @@ class ProcessedReport
             $newReport,
             $columns,
             $rowsMetadata,
-            $totals
+            $totals,
         );
     }
 
@@ -772,7 +772,7 @@ class ProcessedReport
 
         return array(
             $enhancedDataTable,
-            $rowsMetadata
+            $rowsMetadata,
         );
     }
 
@@ -849,14 +849,14 @@ class ProcessedReport
 
     private function buildReportMetadataCacheKey($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports)
     {
-        if (isset($_GET) && isset($_POST) && is_array($_GET) && is_array($_POST)) {
+        if (is_array($_GET) && is_array($_POST)) {
             $request = $_GET + $_POST;
-        } elseif (isset($_GET) && is_array($_GET)) {
+        } elseif (is_array($_GET)) {
             $request = $_GET;
-        } elseif (isset($_POST) && is_array($_POST)) {
+        } elseif (is_array($_POST)) {
             $request = $_POST;
         } else {
-            $request = array();
+            $request = [];
         }
 
         $key = '';

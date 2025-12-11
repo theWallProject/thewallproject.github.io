@@ -38,7 +38,7 @@ use Piwik\Validators\WhitelistedValue;
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",
  * or list existing Goals for one or several websites via "getGoals"
  *
- * If you are <a href='http://matomo.org/docs/ecommerce-analytics/' target='_blank'>tracking Ecommerce orders and products</a> on your site, the functions "getItemsSku", "getItemsName" and "getItemsCategory"
+ * If you are <a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'>tracking Ecommerce orders and products</a> on your site, the functions "getItemsSku", "getItemsName" and "getItemsCategory"
  * will return the list of products purchased on your site, either grouped by Product SKU, Product Name or Product Category. For each name, SKU or category, the following
  * metrics are returned: Total revenue, Total quantity, average price, average quantity, number of orders (or abandoned carts) containing this product, number of visits on the Product page,
  * Conversion rate.
@@ -50,7 +50,7 @@ use Piwik\Validators\WhitelistedValue;
  * If you wish to request specific metrics about Ecommerce goals, you can set the parameter &idGoal=ecommerceAbandonedCart to get metrics about abandoned carts (including Lost revenue, and number of items left in the cart)
  * or &idGoal=ecommerceOrder to get metrics about Ecommerce orders (number of orders, visits with an order, subtotal, tax, shipping, discount, revenue, items ordered)
  *
- * See also the documentation about <a href='http://matomo.org/docs/tracking-goals-web-analytics/' rel='noreferrer' target='_blank'>Tracking Goals</a> in Matomo.
+ * See also the documentation about <a href='https://matomo.org/docs/tracking-goals-web-analytics/' rel='noreferrer' target='_blank'>Tracking Goals</a> in Matomo.
  *
  * @method static \Piwik\Plugins\Goals\API getInstance()
  */
@@ -408,7 +408,7 @@ class API extends \Piwik\Plugin\API
         $reportToNotDefinedString = array(
             'Goals_ItemsSku' => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductSKU')), // Note: this should never happen
             'Goals_ItemsName' => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductName')),
-            'Goals_ItemsCategory' => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductCategory'))
+            'Goals_ItemsCategory' => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductCategory')),
         );
         $notDefinedStringPretty = $reportToNotDefinedString[$recordName];
         $this->renameNotDefinedRow($dataTable, $notDefinedStringPretty);
@@ -538,7 +538,7 @@ class API extends \Piwik\Plugin\API
         $segments = array(
             '' => false,
             '_new_visit' => VisitFrequencyAPI::NEW_VISITOR_SEGMENT,
-            '_returning_visit' => VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT
+            '_returning_visit' => VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT,
         );
 
         foreach ($segments as $appendToMetricName => $predefinedSegment) {

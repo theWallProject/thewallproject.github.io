@@ -353,7 +353,7 @@ class Segment
     {
         $requiresSubQuery = in_array($operator, [
                 SegmentExpression::MATCH_DOES_NOT_CONTAIN,
-                SegmentExpression::MATCH_NOT_EQUAL
+                SegmentExpression::MATCH_NOT_EQUAL,
             ]) && !$this->isVisitSegment($segmentName);
 
         if ($requiresSubQuery && empty($this->startDate) && empty($this->endDate)) {
@@ -606,7 +606,7 @@ class Segment
      *              Use only when you're not aggregating or it will sample the data.
      * @return array The entire select query.
      */
-    public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0, $forceGroupBy = false)
+    public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0, $forceGroupBy = false, bool $withRollup = false)
     {
         if (Development::isEnabled() && !empty($this->missingDatesException)) {
             $e = new Exception();
@@ -635,7 +635,8 @@ class Segment
                 $bind,
                 $groupBy,
                 $orderBy,
-                $limitAndOffset
+                $limitAndOffset,
+                $withRollup
             );
         } catch (Exception $e) {
             if ($forceGroupBy && $groupBy) {

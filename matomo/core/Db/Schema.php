@@ -24,7 +24,7 @@ class Schema extends Singleton
     /**
      * Type of database schema
      *
-     * @var SchemaInterface
+     * @var SchemaInterface|null
      */
     private $schema = null;
 
@@ -87,6 +87,15 @@ class Schema extends Singleton
         }
 
         return $this->schema;
+    }
+
+    /**
+     * Unset schema instance
+     * @return void
+     */
+    public function unsetSchema(): void
+    {
+        $this->schema = null;
     }
 
     /**
@@ -293,6 +302,17 @@ class Schema extends Singleton
     }
 
     /**
+     * Returns if the database engine can provide a rollup ranking query result
+     * without needing additional sorting.
+     *
+     * @return bool
+     */
+    public function supportsRankingRollupWithoutExtraSorting(): bool
+    {
+        return $this->getSchema()->supportsRankingRollupWithoutExtraSorting();
+    }
+
+    /**
      * Returns if the database engine is able to use sorted subqueries
      *
      * @return bool
@@ -313,5 +333,38 @@ class Schema extends Singleton
     public function getSupportedReadIsolationTransactionLevel(): string
     {
         return $this->getSchema()->getSupportedReadIsolationTransactionLevel();
+    }
+
+    /**
+     * Returns the type of the current database (e.g. MySQL, MariaDb, ...)
+     */
+    public function getDatabaseType(): string
+    {
+        return $this->getSchema()->getDatabaseType();
+    }
+
+    /**
+     * Returns the version of the currently used database server
+     */
+    public function getVersion(): string
+    {
+        return $this->getSchema()->getVersion();
+    }
+
+    /**
+     * Returns the minimum supported version of the currently used database server
+     * @return string
+     */
+    public function getMinimumSupportedVersion(): string
+    {
+        return $this->getSchema()->getMinimumSupportedVersion();
+    }
+
+    /**
+     * Returns if the currently used database version has reach its EOL
+     */
+    public function hasReachedEOL(): string
+    {
+        return $this->getSchema()->hasReachedEOL();
     }
 }

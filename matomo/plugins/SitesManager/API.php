@@ -14,6 +14,8 @@ use Exception;
 use Matomo\Network\IPUtils;
 use Piwik\Access;
 use Piwik\Common;
+use Piwik\Concurrency\Lock;
+use Piwik\Concurrency\LockBackend;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\Model as CoreModel;
@@ -56,7 +58,7 @@ use Piwik\Validators\WhitelistedValue;
  * Some methods will affect all websites globally: "setGlobalExcludedIps" will set the list of IPs to be excluded on all websites,
  * "setGlobalExcludedQueryParameters" will set the list of URL parameters to remove from URLs for all websites.
  * The existing values can be fetched via "getExcludedIpsGlobal" and "getExcludedQueryParametersGlobal".
- * See also the documentation about <a href='http://matomo.org/docs/manage-websites/' rel='noreferrer' target='_blank'>Managing Websites</a> in Matomo.
+ * See also the documentation about <a href='https://matomo.org/docs/manage-websites/' rel='noreferrer' target='_blank'>Managing Websites</a> in Matomo.
  * @method static \Piwik\Plugins\SitesManager\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -408,6 +410,52 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Returns the list of websites, where the current user has at least the provided access level
+     *
+     * @param string $permission one of view, write or admin
+     * @param null|string $pattern pattern to match name against
+     * @param null|int $limit optional parameter to limit the amount of returned records
+     * @param int[] $sitesToExclude optional array of Integer IDs of sites to exclude from the result.
+     * @param string[] $siteTypesToExclude optional array of site types to exclude from the result.
+     * @return array for each site, an array of information (idsite, name, main_url, etc.)
+     */
+    public function getSitesWithMinimumAccess(string $permission, ?string $pattern = null, ?int $limit = null, array $sitesToExclude = [], array $siteTypesToExclude = []): array
+    {
+        switch (strtolower($permission)) {
+            case Access\Role\Admin::ID:
+                $sitesId = Access::getInstance()->getSitesIdWithAdminAccess();
+                break;
+            case Access\Role\Write::ID:
+                $sitesId = Access::getInstance()->getSitesIdWithAtLeastWriteAccess();
+                break;
+            case Access\Role\View::ID:
+                $sitesId = Access::getInstance()->getSitesIdWithAtLeastViewAccess();
+                break;
+            default:
+                throw new Exception('Invalid permission provided');
+        }
+
+        // Remove the sites to exclude from the list of IDs.
+        if (is_array($sitesId) && is_array($sitesToExclude) && count($sitesToExclude)) {
+            $sitesId = array_diff($sitesId, $sitesToExclude);
+        }
+
+        if (empty($pattern)) {
+            $sites = $this->getSitesFromIds($sitesId, $limit, $siteTypesToExclude);
+        } else {
+            $sites = $this->getModel()->getPatternMatchSites($sitesId, $pattern, $limit, $siteTypesToExclude);
+
+            foreach ($sites as &$site) {
+                $this->enrichSite($site);
+            }
+
+            $sites = Site::setSitesFromArray($sites);
+        }
+
+        return $sites;
+    }
+
+    /**
      * Returns the messages to warn users on site deletion.
      *
      * @param int $idSite
@@ -540,11 +588,12 @@ class API extends \Piwik\Plugin\API
      *
      * @param array $idSites list of website ID
      * @param bool $limit
+     * @param string[] $siteTypesToExclude optional array of site types to exclude from the result.
      * @return array
      */
-    private function getSitesFromIds($idSites, $limit = false)
+    private function getSitesFromIds($idSites, $limit = false, array $siteTypesToExclude = [])
     {
-        $sites = $this->getModel()->getSitesFromIds($idSites, $limit);
+        $sites = $this->getModel()->getSitesFromIds($idSites, $limit, $siteTypesToExclude);
 
         foreach ($sites as &$site) {
             $this->enrichSite($site);
@@ -568,7 +617,7 @@ class API extends \Piwik\Plugin\API
             "http://" . $hostname,
             "http://www." . $hostname,
             "https://" . $hostname,
-            "https://www." . $hostname
+            "https://www." . $hostname,
         ];
     }
 
@@ -823,7 +872,7 @@ class API extends \Piwik\Plugin\API
 
         $measurableSettings = $this->settingsProvider->getAllMeasurableSettings($idSite, $idMeasurableType = false);
 
-        return $this->settingsMetadata->formatSettings($measurableSettings);
+        return $this->settingsMetadata->formatSettings($measurableSettings, $idSite);
     }
 
     private function setAndValidateMeasurableSettings($idSite, $idType, $settingValues)
@@ -858,7 +907,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Delete a website from the database, given its Id. The method deletes the actual site as well as some associated
      * data. However, it does not delete any logs or archives that belong to this website. You can delete logs and
-     * archives for a site manually as described in this FAQ: http://matomo.org/faq/how-to/faq_73/ .
+     * archives for a site manually as described in this FAQ: https://matomo.org/faq/how-to/faq_73/ .
      *
      * Requires Super User access.
      *
@@ -866,8 +915,11 @@ class API extends \Piwik\Plugin\API
      * @param string $passwordConfirmation the current user's password, only required when the request is authenticated with session token auth
      * @throws Exception
      */
-    public function deleteSite($idSite, $passwordConfirmation = null)
-    {
+    public function deleteSite(
+        int $idSite,
+        #[\SensitiveParameter]
+        $passwordConfirmation = null
+    ) {
         Piwik::checkUserHasSuperUserAccess();
         SitesManager::dieIfSitesAdminIsDisabled();
 
@@ -875,41 +927,48 @@ class API extends \Piwik\Plugin\API
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
-        $idSites = $this->getSitesId();
-        if (!in_array($idSite, $idSites)) {
-            throw new Exception("website id = $idSite not found");
-        }
-        $nbSites = count($idSites);
-        if ($nbSites == 1) {
-            throw new Exception($this->translator->translate("SitesManager_ExceptionDeleteSite"));
-        }
+        $lock = new Lock(StaticContainer::get(LockBackend::class), 'SitesManager.deleteSite');
+        // we use the same lock id for all requests to ensure only one site is removed at a time and the check for one remaining site can't be bypassed
+        $lock->execute('delete', function () use ($idSite) {
+            $idSites = $this->getSitesId();
+            if (!in_array($idSite, $idSites)) {
+                throw new Exception("website id = $idSite not found");
+            }
+            $nbSites = count($idSites);
+            if ($nbSites == 1) {
+                throw new Exception($this->translator->translate("SitesManager_ExceptionDeleteSite"));
+            }
 
-        $this->getModel()->deleteSite($idSite);
+            $this->getModel()->deleteSite($idSite);
 
-        $coreModel = new CoreModel();
-        $coreModel->deleteInvalidationsForSites([$idSite]);
+            $coreModel = new CoreModel();
+            $coreModel->deleteInvalidationsForSites([$idSite]);
 
-        /**
-         * Triggered after a site has been deleted.
-         *
-         * Plugins can use this event to remove site specific values or settings, such as removing all
-         * goals that belong to a specific website. If you store any data related to a website you
-         * should clean up that information here.
-         *
-         * @param int $idSite The ID of the site being deleted.
-         */
-        Piwik::postEvent('SitesManager.deleteSite.end', [$idSite]);
+            /**
+             * Triggered after a site has been deleted.
+             *
+             * Plugins can use this event to remove site specific values or settings, such as removing all
+             * goals that belong to a specific website. If you store any data related to a website you
+             * should clean up that information here.
+             *
+             * @param int $idSite The ID of the site being deleted.
+             */
+            Piwik::postEvent('SitesManager.deleteSite.end', [$idSite]);
+        });
     }
 
     private function checkValidTimezone($timezone)
     {
-        $timezones = $this->getTimezonesList();
-        foreach (array_values($timezones) as $cities) {
-            foreach ($cities as $timezoneId => $city) {
-                if ($timezoneId == $timezone) {
-                    return true;
-                }
-            }
+        try {
+            Date::factory('today', $timezone);
+        } catch (\Exception $e) {
+            throw new Exception($this->translator->translate('SitesManager_ExceptionInvalidTimezone', [$timezone]));
+        }
+
+        $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC);
+        $timezones = array_merge($timezones, array_keys($this->getTimezonesListUTCOffsets()));
+        if (in_array($timezone, $timezones)) {
+            return true;
         }
         throw new Exception($this->translator->translate('SitesManager_ExceptionInvalidTimezone', [$timezone]));
     }
@@ -1179,6 +1238,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getExcludedReferrers($idSite)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         try {
             $attributes = Cache::getCacheWebsiteAttributes($idSite);
 
@@ -1923,7 +1984,7 @@ class API extends \Piwik\Plugin\API
             $consentManager = $this->siteContentDetector->getSiteContentDetectionById(reset($consentManagers));
             return ['name' => $consentManager::getName(),
                     'url' => $consentManager::getInstructionUrl(),
-                    'isConnected' => in_array($consentManager::getId(), $this->siteContentDetector->connectedConsentManagers)
+                    'isConnected' => in_array($consentManager::getId(), $this->siteContentDetector->connectedConsentManagers),
             ];
         }
 

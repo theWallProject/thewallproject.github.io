@@ -12,8 +12,10 @@ namespace Piwik\Plugins\API;
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\API\Renderer\Original;
 use Piwik\Url;
@@ -27,7 +29,7 @@ class Controller extends \Piwik\Plugin\Controller
 {
     public function index()
     {
-        $tokenAuth = Common::getRequestVar('token_auth', 'anonymous', 'string');
+        $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken() ?: 'anonymous';
         $format = Common::getRequestVar('format', false);
         $serialize = Common::getRequestVar('serialize', false);
 
@@ -64,10 +66,15 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::checkUserHasSomeViewAccess();
 
         $ApiDocumentation = new DocumentationGenerator();
-        $prefixUrls = Common::getRequestVar('prefixUrl', 'https://demo.matomo.org/', 'string');
-        $hostname = parse_url($prefixUrls, PHP_URL_HOST);
-        if (empty($hostname) || !UrlHelper::isLookLikeUrl($prefixUrls) || strpos($prefixUrls, 'http') !== 0 || !Url::isValidHost($hostname)) {
+        $prefixUrls = Common::getRequestVar('prefixUrl', 'https://demo.matomo.cloud/', 'string');
+        $parsedUrl = parse_url($prefixUrls);
+        if (empty($parsedUrl['host']) || !UrlHelper::isLookLikeUrl($prefixUrls) || strpos($prefixUrls, 'http') !== 0 || !Url::isValidHost($parsedUrl['host'])) {
             $prefixUrls = '';
+        } else {
+            // We put together the url based on the parsed parameters manually to ensure it might not contain unexpected locations
+            // unescaped slashes in username or password part for example have unexpected results in browsers
+            unset($parsedUrl['query'], $parsedUrl['fragment']);
+            $prefixUrls = UrlHelper::getParseUrlReverse($parsedUrl);
         }
         return $ApiDocumentation->getApiDocumentationAsStringForDeveloperReference($outputExampleUrls = true, $prefixUrls);
     }
@@ -167,12 +174,12 @@ class Controller extends \Piwik\Plugin\Controller
         $glossaryItems = array(
             'metrics' => array(
                 'title' => Piwik::translate('General_Metrics'),
-                'entries' => $metrics
+                'entries' => $metrics,
             ),
             'reports' => array(
                 'title' => Piwik::translate('General_Reports'),
-                'entries' => $reports
-            )
+                'entries' => $reports,
+            ),
         );
 
         /**

@@ -134,7 +134,7 @@ class CliMulti
      *
      * @param string[]  $piwikUrls   An array of urls, for instance:
      *
-     *                               `array('http://www.example.com/piwik?module=API...')`
+     *                               `array('https://www.example.com/matomo?module=API...')`
      *
      *                               **Make sure query parameter values are properly encoded in the URLs.**
      *
@@ -245,7 +245,7 @@ class CliMulti
         $this->outputs[] = $output;
     }
 
-    private function buildCommand($hostname, $query, $outputFileIfAsync, $doEsacpeArg = true)
+    private function buildCommand($hostname, $query, $outputFileIfAsync, $doEscapeArg = true)
     {
         $bin = $this->findPhpBinary();
         $superuserCommand = $this->runAsSuperUser ? "--superuser" : "";
@@ -255,7 +255,7 @@ class CliMulti
             $append = sprintf(' > %s 2>&1 &', $outputFileIfAsync);
         }
 
-        if ($doEsacpeArg) {
+        if ($doEscapeArg) {
             $hostname = escapeshellarg($hostname);
             $query = escapeshellarg($query);
         }
@@ -278,7 +278,7 @@ class CliMulti
 
         foreach ($this->outputs as $output) {
             $content = $output->get();
-            // Remove output that can be ignored in climulti . works around some worpdress setups where the hash bang may
+            // Remove output that can be ignored in climulti . works around some WordPress setups where the hash bang may
             // be printed
             $search = '#!/usr/bin/env php';
             if (
@@ -591,6 +591,8 @@ class CliMulti
             $requestBody = 'token_auth=' . $tokenAuth;
         }
 
+        $response = null;
+
         try {
             $this->logger->debug("Execute HTTP API request: "  . $url);
             $response = Http::sendHttpRequestBy('curl', $url, $timeout = 0, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $this->acceptInvalidSSLCertificate, false, false, 'POST', null, null, $requestBody, [], $forcePost = true);
@@ -598,7 +600,7 @@ class CliMulti
         } catch (\Exception $e) {
             $message = "Got invalid response from API request: $url. ";
 
-            if (isset($response) && empty($response)) {
+            if (empty($response)) {
                 $message .= "The response was empty. This usually means a server error. This solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. Please check your Web server Error Log file for more details.";
             } else {
                 $message .= "Response was '" . $e->getMessage() . "'";

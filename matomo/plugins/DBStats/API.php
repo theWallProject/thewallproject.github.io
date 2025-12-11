@@ -58,7 +58,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Gets general database info that is not specific to any table.
      *
-     * @return array See http://dev.mysql.com/doc/refman/5.1/en/show-status.html .
+     * @return array See https://dev.mysql.com/doc/refman/5.1/en/show-status.html .
      */
     public function getDBStatus()
     {
@@ -83,7 +83,7 @@ class API extends \Piwik\Plugin\API
             'tracker_data' => $emptyRow,
             'metric_data'  => $emptyRow,
             'report_data'  => $emptyRow,
-            'other_data'   => $emptyRow
+            'other_data'   => $emptyRow,
         );
 
         foreach ($this->metadataProvider->getAllTablesStatus() as $status) {
@@ -144,7 +144,7 @@ class API extends \Piwik\Plugin\API
             'label',
             function ($tableName) {
                 return $this->getArchiveTableYear($tableName);
-            }
+            },
         ));
 
         return $dataTable;
@@ -178,7 +178,7 @@ class API extends \Piwik\Plugin\API
             'label',
             function ($tableName) {
                 return $this->getArchiveTableYear($tableName);
-            }
+            },
         ));
 
         return $dataTable;
@@ -244,7 +244,7 @@ class API extends \Piwik\Plugin\API
                                                    'label'      => $status['Name'],
                                                    'data_size'  => $status['Data_length'],
                                                    'index_size' => $status['Index_length'],
-                                                   'row_count'  => $status['Rows']
+                                                   'row_count'  => $status['Rows'],
                                               ));
         }
         return $dataTable;

@@ -46,7 +46,7 @@ class SitesManager extends \Piwik\Plugin
     public const URL_PARAM_EXCLUSION_TYPES =  [
         self::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS,
         self::URL_PARAM_EXCLUSION_TYPE_NAME_MATOMO_RECOMMENDED_PII,
-        self::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM
+        self::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM,
     ];
 
     /**
@@ -395,12 +395,16 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'General_Share';
         $translationKeys[] = 'Goals_Ecommerce';
         $translationKeys[] = 'Goals_Optional';
+        $translationKeys[] = 'PrivacyManager_ManagePrivacySettings';
+        $translationKeys[] = 'PrivacyManager_TrackingDataAnonymizationSettings';
         $translationKeys[] = 'SitesManager_AddMeasurable';
         $translationKeys[] = 'SitesManager_AddSite';
         $translationKeys[] = 'SitesManager_AdvancedTimezoneSupportNotFound';
         $translationKeys[] = 'SitesManager_AliasUrlHelp';
         $translationKeys[] = 'SitesManager_ChangingYourTimezoneWillOnlyAffectDataForward';
         $translationKeys[] = 'SitesManager_ChooseMeasurableTypeHeadline';
+        $translationKeys[] = 'SitesManager_ChooseMeasurableTypeSubheader';
+        $translationKeys[] = 'SitesManager_ChooseMeasurableTypeSubheaderRollUp';
         $translationKeys[] = 'SitesManager_Currency';
         $translationKeys[] = 'SitesManager_CurrencySymbolWillBeUsedForGoals';
         $translationKeys[] = 'SitesManager_DefaultCurrencyForNewWebsites';

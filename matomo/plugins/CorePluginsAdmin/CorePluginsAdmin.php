@@ -31,7 +31,7 @@ class CorePluginsAdmin extends Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Updater.componentUpdated'               => 'addPluginChanges',
             'PluginManager.pluginActivated'          => 'onPluginActivated',
-            'PluginManager.pluginDeactivated'        => 'removePluginChanges'
+            'PluginManager.pluginDeactivated'        => 'removePluginChanges',
         );
     }
 
@@ -166,5 +166,13 @@ class CorePluginsAdmin extends Plugin
         $translations[] = 'CorePluginsAdmin_PluginFreeTrialStarted';
         $translations[] = 'CorePluginsAdmin_PluginFreeTrialStartedAccountCreatedMessage';
         $translations[] = 'CorePluginsAdmin_PluginFreeTrialStartedAccountCreatedTitle';
+        $translations[] = 'General_Confirm';
+        $translations[] = 'General_Cancel';
+        $translations[] = 'UsersManager_ConfirmThisChange';
+        $translations[] = 'UsersManager_ConfirmWithPassword';
+        $translations[] = 'UsersManager_ConfirmWithReAuthentication';
+        $translations[] = 'UsersManager_YourCurrentPassword';
+        $translations[] = 'PrivacyManager_PolicyControlledSetting';
+        $translations[] = 'PrivacyManager_ViewPrivacyComplianceOverview';
     }
 }

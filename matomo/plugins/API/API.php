@@ -37,7 +37,7 @@ use Piwik\Widget\WidgetsList;
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
 /**
- * This API is the <a href='http://matomo.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API</a>: it gives information about all other available APIs methods, as well as providing
+ * This API is the <a href='https://matomo.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API</a>: it gives information about all other available APIs methods, as well as providing
  * human readable and more complete outputs than normal API methods.
  *
  * Some of the information that is returned by the Metadata API:
@@ -50,7 +50,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  * <li>the method "getSuggestedValuesForSegment" returns top suggested values for a particular segment. It uses the Live.getLastVisitsDetails API to fetch the most recently used values, and will return the most often used values first.</li>
  * </ul>
  * The Metadata API is for example used by the Matomo Mobile App to automatically display all Matomo reports, with translated report & columns names and nicely formatted values.
- * More information on the <a href='http://matomo.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API documentation page</a>
+ * More information on the <a href='https://matomo.org/docs/analytics-api/metadata/' rel='noreferrer' target='_blank'>Metadata API documentation page</a>
  *
  * @method static \Piwik\Plugins\API\API getInstance()
  */
@@ -159,8 +159,9 @@ class API extends \Piwik\Plugin\API
                 'id' => $type->getId(),
                 'name' => Piwik::translate($type->getName()),
                 'description' => Piwik::translate($type->getDescription()),
+                'longDescription' => Piwik::translate($type->getLongDescription()),
                 'howToSetupUrl' => $type->getHowToSetupUrl(),
-                'settings' => $settingsMetadata->formatSettings($measurableSettings)
+                'settings' => $settingsMetadata->formatSettings($measurableSettings),
             );
         }
 
@@ -525,7 +526,12 @@ class API extends \Piwik\Plugin\API
 
             $params += $queryParameters;
 
-            if (!empty($params['method']) && is_string($params['method']) && trim($params['method']) === 'API.getBulkRequest') {
+            $method = $params['method'] ?? '';
+
+            if (
+                !empty($method) && is_string($method) &&
+                preg_replace('/[^\w\.]+/', '', Common::sanitizeInputValue($method)) === 'API.getBulkRequest'
+            ) {
                 continue;
             }
 
@@ -604,7 +610,7 @@ class API extends \Piwik\Plugin\API
                 'segment' => '',
                 'filter_offset' => 0,
                 'flat' => (int) $flat,
-                'filter_limit' => $maxSuggestionsToReturn
+                'filter_limit' => $maxSuggestionsToReturn,
             ));
 
             if ($table && $table instanceof DataTable && $table->getRowsCount()) {
@@ -613,7 +619,7 @@ class API extends \Piwik\Plugin\API
                     $segment = $row->getMetadata('segment');
                     $remove = array(
                         $segmentName . Segment\SegmentExpression::MATCH_EQUAL,
-                        $segmentName . Segment\SegmentExpression::MATCH_STARTS_WITH
+                        $segmentName . Segment\SegmentExpression::MATCH_STARTS_WITH,
                     );
                     // we don't look at row columns since this could include rows that won't work eg Other summary rows. etc
                     // and it is generally not reliable.
@@ -803,7 +809,7 @@ class API extends \Piwik\Plugin\API
             'pageUrl', 'pageTitle', 'siteSearchKeyword', 'siteSearchCategory', 'siteSearchCount',
             'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl',
             'outlinkUrl', 'downloadUrl', 'eventUrl', 'orderId', 'revenueOrder', 'revenueAbandonedCart', 'productViewName', 'productViewSku', 'productViewPrice',
-            'productViewCategory1', 'productViewCategory2', 'productViewCategory3', 'productViewCategory4', 'productViewCategory5'
+            'productViewCategory1', 'productViewCategory2', 'productViewCategory3', 'productViewCategory4', 'productViewCategory5',
         );
         $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
         $isEventSegment = stripos($segmentName, 'event') !== false;
@@ -837,7 +843,7 @@ class API extends \Piwik\Plugin\API
         foreach ($values as $value => $count) {
             $sortArray[] = [
                 'value' => $value,
-                'count' => $count
+                'count' => $count,
             ];
         }
 
@@ -890,7 +896,7 @@ class Plugin extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Template.jsGlobalVariables' => 'getJsGlobalVariables',
-            'Platform.initialized' => 'detectIsApiRequest'
+            'Platform.initialized' => 'detectIsApiRequest',
         );
     }
 

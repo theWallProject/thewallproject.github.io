@@ -20,7 +20,7 @@ use Piwik\Session\SessionNamespace;
  *
  * Nonces in Piwik are stored as a session variable and have a configurable expiration.
  *
- * Learn more about nonces [here](http://en.wikipedia.org/wiki/Cryptographic_nonce).
+ * Learn more about nonces [here](https://en.wikipedia.org/wiki/Cryptographic_nonce).
  *
  * @api
  */
@@ -104,13 +104,13 @@ class Nonce
         if (Url::isSecureConnectionAssumedByPiwikButNotForcedYet()) {
             $additionalErrors =  '<br/><br/>' . Piwik::translate(
                 'Login_InvalidNonceSSLMisconfigured',
-                array(
-                  '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_91/') . '">',
+                [
+                  Url::getExternalLinkTag('https://matomo.org/faq/how-to/faq_91/'),
                   '</a>',
                   'config/config.ini.php',
                   '<pre>force_ssl=1</pre>',
                   '<pre>[General]</pre>',
-                )
+                ]
             );
         }
 
@@ -124,10 +124,10 @@ class Nonce
         if (!empty($referrer)) {
             // Allow the instance host by default, if no allowedReferrerHost is specified.
             if (empty($allowedReferrerHost) && !Url::isLocalUrl($referrer)) {
-                return Piwik::translate('Login_InvalidNonceReferrer', array(
-                        '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-install/faq_98') . '">',
-                        '</a>'
-                    )) . $additionalErrors;
+                return Piwik::translate('Login_InvalidNonceReferrer', [
+                        Url::getExternalLinkTag('https://matomo.org/faq/how-to-install/faq_98'),
+                        '</a>',
+                    ]) . $additionalErrors;
             }
 
             // Test that referrer matches what is allowed.
@@ -241,6 +241,9 @@ class Nonce
         }
 
         if (!self::verifyNonce($nonceName, $nonce, $allowedReferrerHost)) {
+            if (!empty($nonce)) {
+                self::discardNonce($nonceName); // Invalidate nonce on failed attempts
+            }
             throw new \Exception(Piwik::translate('General_ExceptionSecurityCheckFailed'));
         }
 

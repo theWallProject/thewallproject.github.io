@@ -59,7 +59,7 @@ class DocumentationGenerator
     }
 
     /**
-     * Used on developer.piwik.org
+     * Used on developer.matomo.org
      *
      * @param bool|true $outputExampleUrls
      * @param string $prefixUrls
@@ -137,7 +137,7 @@ class DocumentationGenerator
         $parametersToSet = array(
             'idSite' => Common::getRequestVar('idSite', 1, 'int'),
             'period' => Common::getRequestVar('period', 'day', 'string'),
-            'date' => Common::getRequestVar('date', 'today', 'string')
+            'date' => Common::getRequestVar('date', 'today', 'string'),
         );
         $str = '';
         $str .= "<span class=\"example\">";
@@ -252,7 +252,7 @@ class DocumentationGenerator
             'updateGoal',
             'deleteGoal',
             //Marketplace
-            'deleteLicenseKey'
+            'deleteLicenseKey',
         );
 
         if (in_array($methodName, $doNotPrintExampleForTheseMethods)) {
@@ -269,6 +269,7 @@ class DocumentationGenerator
         $aParameters['label'] = false;
         $aParameters['labelSeries'] = false;
         $aParameters['flat'] = false;
+        $aParameters['show_dimensions'] = false;
         $aParameters['include_aggregate_rows'] = false;
         $aParameters['filter_offset'] = false;
         $aParameters['filter_limit'] = false;
@@ -299,6 +300,7 @@ class DocumentationGenerator
         $aParameters['invert_compare_change_compute'] = false;
         $aParameters['filter_update_columns_when_show_all_goals'] = false;
         $aParameters['filter_show_goal_columns_process_goals'] = false;
+        $aParameters['showMetadata'] = false;
 
         $extraParameters = StaticContainer::get('entities.idNames');
         $extraParameters = array_merge($extraParameters, StaticContainer::get('DocumentationGenerator.customParameters'));
