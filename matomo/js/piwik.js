@@ -68,6 +68,7 @@
     setDomains, setIgnoreClasses, setRequestMethod, setRequestContentType, setGenerationTimeMs, setPagePerformanceTiming,
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, setPageViewId, getPageViewId, getPiwikUrl, getMatomoUrl, getCurrentUrl,
     setExcludedReferrers, getExcludedReferrers,
+    setIgnoreCampaignsForReferrers, getIgnoreCampaignsForReferrers,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, isConsentRequired,
@@ -116,7 +117,7 @@
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
-    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials, visibilityState, enableFileTracking
+    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials, visibilityState, enableFileTracking, setReferrerUrlMaxLength
  */
 /*global _paq:true */
 /*members push */
@@ -2321,6 +2322,9 @@ if (typeof window.Matomo !== 'object') {
                   'mtm_placement', 'pk_placement' // campaign placement
                 ],
 
+                // An initial list of known referrers that are sending unexpected/unwanted campaign parameters. Matomo will ignore such campaigns if the referring URL matches one of the hosts defined below.
+                configIgnoreCampaignsForReferrers = [ 'chatgpt.com', 'chat.openai.com' ],
+
                 // First-party cookie name prefix
                 configCookieNamePrefix = '_pk_',
 
@@ -2492,7 +2496,9 @@ if (typeof window.Matomo !== 'object') {
 
                 configBrowserFeatureDetection = true,
 
-                configFileTracking = false;
+                configFileTracking = false,
+
+                configReferralUrlMaxLength = 1024;
 
             // Document title
             try {
@@ -2549,86 +2555,6 @@ if (typeof window.Matomo !== 'object') {
                     var msg = 'There was an error setting cookie `' + cookieName + '`. Please check domain and path.';
                     logConsoleError(msg);
                 }
-            }
-
-            /*
-             * Removes hash tag from the URL
-             * Removes ignore_referrer/ignore_referer
-             * Removes configVisitorIdUrlParameter
-             * Removes campaign parameters
-             *
-             * URLs are purified before being recorded in the cookie,
-             * or before being sent as GET parameters
-             */
-            function purify(url) {
-                var targetPattern, i;
-
-                // Remove campaign names/keywords from URL
-                if (configEnableCampaignParameters !== true && !configConsentRequired) {
-                    for (i = 0; i < configCampaignNameParameters.length; i++) {
-                      url = removeUrlParameter(url, configCampaignNameParameters[i]);
-                    }
-
-                    for (i = 0; i < configCampaignKeywordParameters.length; i++) {
-                      url = removeUrlParameter(url, configCampaignKeywordParameters[i]);
-                    }
-
-                    for (i = 0; i < configCampaignKnownParameters.length; i++) {
-                      url = removeUrlParameter(url, configCampaignKnownParameters[i]);
-                    }
-                }
-
-                // we need to remove this parameter here, they wouldn't be removed in Matomo tracker otherwise eg
-                // for outlinks or referrers
-                url = removeUrlParameter(url, configVisitorIdUrlParameter);
-
-                // remove ignore referrer parameter if present
-                url = removeUrlParameter(url, 'ignore_referrer');
-                url = removeUrlParameter(url, 'ignore_referer');
-
-                for (i = 0; i < configExcludedQueryParams.length; i++) {
-                    url = removeUrlParameter(url, configExcludedQueryParams[i]);
-                }
-
-                if (configDiscardHashTag) {
-                    targetPattern = new RegExp('#.*');
-
-                    return url.replace(targetPattern, '');
-                }
-
-                return url;
-            }
-
-            /*
-             * Resolve relative reference
-             *
-             * Note: not as described in rfc3986 section 5.2
-             */
-            function resolveRelativeReference(baseUrl, url) {
-                var protocol = getProtocolScheme(url),
-                    i;
-
-                if (protocol) {
-                    return url;
-                }
-
-                if (url.slice(0, 1) === '/') {
-                    return getProtocolScheme(baseUrl) + '://' + getHostName(baseUrl) + url;
-                }
-
-                baseUrl = purify(baseUrl);
-
-                i = baseUrl.indexOf('?');
-                if (i >= 0) {
-                    baseUrl = baseUrl.slice(0, i);
-                }
-
-                i = baseUrl.lastIndexOf('/');
-                if (i !== baseUrl.length - 1) {
-                    baseUrl = baseUrl.slice(0, i + 1);
-                }
-
-                return baseUrl + url;
             }
 
             function isSameHost (hostName, alias) {
@@ -2748,8 +2674,6 @@ if (typeof window.Matomo !== 'object') {
             function isSiteHostPath(host, path)
             {
                 var i,
-                    alias,
-                    configAlias,
                     aliasHost,
                     aliasPath;
 
@@ -2838,6 +2762,122 @@ if (typeof window.Matomo !== 'object') {
                 }
 
                 return false;
+            }
+
+            /**
+             * Returns if the given referrer is on the list of referrers to ignore campaign parameters from
+             * @param referrerUrl
+             * @returns {boolean}
+             */
+            function shouldIgnoreCampaignForReferrer(referrerUrl) {
+                var i,
+                  aliasHost,
+                  aliasPath,
+                  currentReferrerHostName = getHostName(referrerUrl),
+                  currentReferrerPath = getPathName(referrerUrl);
+
+                // ignore www subdomain
+                if (currentReferrerHostName.indexOf('www.') === 0) {
+                    currentReferrerHostName = currentReferrerHostName.substr(4);
+                }
+
+                if (configIgnoreCampaignsForReferrers && configIgnoreCampaignsForReferrers.length) {
+                    for (i = 0; i < configIgnoreCampaignsForReferrers.length; i++) {
+                        aliasHost = domainFixup(configIgnoreCampaignsForReferrers[i]);
+                        aliasPath = getPathName(configIgnoreCampaignsForReferrers[i]);
+
+                        // ignore www subdomain
+                        if (aliasHost.indexOf('www.') === 0) {
+                            aliasHost = aliasHost.substr(4);
+                        }
+
+                        if (isSameHost(currentReferrerHostName, aliasHost) && isSitePath(currentReferrerPath, aliasPath)) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+
+            /*
+             * Removes hash tag from the URL
+             * Removes ignore_referrer/ignore_referer
+             * Removes configVisitorIdUrlParameter
+             * Removes campaign parameters
+             *
+             * URLs are purified before being recorded in the cookie,
+             * or before being sent as GET parameters
+             */
+            function purify(url) {
+                var targetPattern, i;
+
+                // Remove campaign names/keywords from URL
+                if (shouldIgnoreCampaignForReferrer(configReferrerUrl)
+                  || (configEnableCampaignParameters !== true && !configConsentRequired)) {
+                    for (i = 0; i < configCampaignNameParameters.length; i++) {
+                      url = removeUrlParameter(url, configCampaignNameParameters[i]);
+                    }
+
+                    for (i = 0; i < configCampaignKeywordParameters.length; i++) {
+                      url = removeUrlParameter(url, configCampaignKeywordParameters[i]);
+                    }
+
+                    for (i = 0; i < configCampaignKnownParameters.length; i++) {
+                      url = removeUrlParameter(url, configCampaignKnownParameters[i]);
+                    }
+                }
+
+                // we need to remove this parameter here, they wouldn't be removed in Matomo tracker otherwise eg
+                // for outlinks or referrers
+                url = removeUrlParameter(url, configVisitorIdUrlParameter);
+
+                // remove ignore referrer parameter if present
+                url = removeUrlParameter(url, 'ignore_referrer');
+                url = removeUrlParameter(url, 'ignore_referer');
+
+                for (i = 0; i < configExcludedQueryParams.length; i++) {
+                    url = removeUrlParameter(url, configExcludedQueryParams[i]);
+                }
+
+                if (configDiscardHashTag) {
+                    targetPattern = new RegExp('#.*');
+
+                    return url.replace(targetPattern, '');
+                }
+
+                return url;
+            }
+
+            /*
+             * Resolve relative reference
+             *
+             * Note: not as described in rfc3986 section 5.2
+             */
+            function resolveRelativeReference(baseUrl, url) {
+                var protocol = getProtocolScheme(url),
+                    i;
+
+                if (protocol) {
+                    return url;
+                }
+
+                if (url.slice(0, 1) === '/') {
+                    return getProtocolScheme(baseUrl) + '://' + getHostName(baseUrl) + url;
+                }
+
+                baseUrl = purify(baseUrl);
+
+                i = baseUrl.indexOf('?');
+                if (i >= 0) {
+                    baseUrl = baseUrl.slice(0, i);
+                }
+
+                i = baseUrl.lastIndexOf('/');
+                if (i !== baseUrl.length - 1) {
+                    baseUrl = baseUrl.slice(0, i + 1);
+                }
+
+                return baseUrl + url;
             }
 
             /*
@@ -3418,11 +3458,15 @@ if (typeof window.Matomo !== 'object') {
                     // Safari and Opera
                     // IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
                     // on Edge navigator.javaEnabled() always returns `true`, so ignore it
-                    if (!((new RegExp('Edge[ /](\\d+[\\.\\d]+)')).test(navigatorAlias.userAgent)) &&
-                        typeof navigator.javaEnabled !== 'unknown' &&
-                        isDefined(navigatorAlias.javaEnabled) &&
-                        navigatorAlias.javaEnabled()) {
-                        browserFeatures.java = '1';
+                    try {
+                        if (!((new RegExp('Edge[ /](\\d+[\\.\\d]+)')).test(navigatorAlias.userAgent)) &&
+                            typeof navigator.javaEnabled !== 'unknown' &&
+                            isDefined(navigatorAlias.javaEnabled) &&
+                            navigatorAlias.javaEnabled()) {
+                            browserFeatures.java = '1';
+                        }
+                    } catch (ignore) {
+                       // suppress error
                     }
 
                     if (!isDefined(windowAlias.showModalDialog) && isDefined(navigatorAlias.cookieEnabled)) {
@@ -3893,7 +3937,7 @@ if (typeof window.Matomo !== 'object') {
                     nowTs = Math.round(now.getTime() / 1000),
                     referralTs,
                     referralUrl,
-                    referralUrlMaxLength = 1024,
+                    referralUrlMaxLength = configReferralUrlMaxLength,
                     currentReferrerHostName,
                     originalReferrerHostName,
                     cookieSessionName = getCookieName('ses'),
@@ -3920,7 +3964,8 @@ if (typeof window.Matomo !== 'object') {
                     // Note: we are working on the currentUrl before purify() since we can parse the campaign parameters in the hash tag
                     if ((!configConversionAttributionFirstReferrer
                         || !campaignNameDetected.length)
-                        && (configEnableCampaignParameters || configConsentRequired)) {
+                        && (configEnableCampaignParameters || configConsentRequired)
+                        && !shouldIgnoreCampaignForReferrer(configReferrerUrl)) {
                           for (i in configCampaignNameParameters) {
                               if (Object.prototype.hasOwnProperty.call(configCampaignNameParameters, i)) {
                                   campaignNameDetected = getUrlParameter(currentUrl, configCampaignNameParameters[i]);
@@ -5241,6 +5286,9 @@ if (typeof window.Matomo !== 'object') {
             this.getExcludedReferrers = function () {
                 return configExcludedReferrers;
             };
+            this.getIgnoreCampaignsForReferrers = function () {
+                return configIgnoreCampaignsForReferrers;
+            };
             this.getConfigIdPageView = function () {
                 return configIdPageView;
             };
@@ -6094,6 +6142,15 @@ if (typeof window.Matomo !== 'object') {
              */
             this.setLinkClasses = function (linkClasses) {
                 configLinkClasses = isString(linkClasses) ? [linkClasses] : linkClasses;
+            };
+
+          /**
+           * Set array of referrers where campaign parameters should be ignored
+           *
+           * @param {string|Array} referrers
+           */
+            this.setIgnoreCampaignsForReferrers = function (referrers) {
+                configIgnoreCampaignsForReferrers = isString(referrers) ? [referrers] : referrers;
             };
 
             /**
@@ -7431,6 +7488,15 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
+             * Set referral URL max length
+             *
+             * @param {int} length
+             */
+            this.setReferrerUrlMaxLength = function (length) {
+                configReferralUrlMaxLength = length;
+            };
+
+            /**
              * Mark performance metrics as available, once onload event has finished
              */
             trackCallbackOnLoad(function(){
@@ -7508,7 +7574,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'enableFileTracking', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableBrowserFeatureDetection', 'disableCampaignParameters', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
+        var applyFirst = ['addTracker', 'enableFileTracking', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableBrowserFeatureDetection', 'disableCampaignParameters', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setReferrerUrlMaxLength', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
 
         function createFirstTracker(matomoUrl, siteId)
         {

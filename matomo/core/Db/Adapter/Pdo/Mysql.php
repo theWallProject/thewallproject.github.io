@@ -15,6 +15,7 @@ use PDOException;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\AdapterInterface;
+use Piwik\Db\Schema;
 use Piwik\Piwik;
 use Zend_Config;
 use Zend_Db_Adapter_Pdo_Mysql;
@@ -78,11 +79,11 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         /**
          * Before MySQL 5.1.17, server-side prepared statements
          * do not use the query cache.
-         * @see http://dev.mysql.com/doc/refman/5.1/en/query-cache-operation.html
+         * @see https://dev.mysql.com/doc/refman/5.1/en/query-cache-operation.html
          *
          * MySQL also does not support preparing certain DDL and SHOW
          * statements.
-         * @see http://framework.zend.com/issues/browse/ZF-1398
+         * @see https://framework.zend.com/issues/browse/ZF-1398
          */
         $this->_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
 
@@ -140,8 +141,8 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      */
     public function checkServerVersion()
     {
+        $requiredVersion = Schema::getInstance()->getMinimumSupportedVersion();
         $serverVersion   = $this->getServerVersion();
-        $requiredVersion = Config::getInstance()->General['minimum_mysql_version'];
 
         if (version_compare($serverVersion, $requiredVersion) === -1) {
             throw new Exception(Piwik::translate('General_ExceptionDatabaseVersion', array('MySQL', $serverVersion, $requiredVersion)));
@@ -296,7 +297,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Override _dsn() to ensure host and port to not be passed along
      * if unix_socket is set since setting both causes unexpected behaviour
-     * @see http://php.net/manual/en/ref.pdo-mysql.connection.php
+     * @see https://php.net/manual/en/ref.pdo-mysql.connection.php
      */
     protected function _dsn() // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
     {

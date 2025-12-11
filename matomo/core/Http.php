@@ -62,7 +62,7 @@ class Http
      * @param string|null $destinationPath If supplied, the HTTP response will be saved to the file specified by
      *                                     this path.
      * @param int|null $followDepth Internal redirect count. Should always pass `null` for this parameter.
-     * @param bool $acceptLanguage The value to use for the `'Accept-Language'` HTTP request header.
+     * @param bool|string $acceptLanguage The value to use for the `'Accept-Language'` HTTP request header.
      * @param array|bool $byteRange For `Range:` header. Should be two element array of bytes, eg, `array(0, 1024)`
      *                              Doesn't work w/ `fopen` transport method.
      * @param bool $getExtendedInfo If true returns the status code, headers & response, if false just the response.
@@ -260,6 +260,12 @@ class Http
             }
         }
 
+        // When sending an insecure request, but https is forced, and we would care about valid certificates, log a warning
+        // Note: accepting invalid ssl certificates should only be used when requesting data from a configured website
+        if ($parsedUrl['scheme'] === 'http' && SettingsPiwik::isHttpsForced() && $acceptInvalidSslCertificate === false) {
+            Log::warning('Matomo is configured to force HTTPS, but is sending an insecure request to ' . $aUrl);
+        }
+
         $contentLength = 0;
         $fileLength = 0;
 
@@ -306,10 +312,10 @@ class Http
             'userAgent' => $userAgent,
             'timeout' => $timeout,
             'headers' => array_map('trim', array_filter(array_merge([
-                $rangeHeader, $via, $httpAuth, $acceptLanguage
+                $rangeHeader, $via, $httpAuth, $acceptLanguage,
             ], $additionalHeaders))),
             'verifySsl' => !$acceptInvalidSslCertificate,
-            'destinationPath' => $destinationPath
+            'destinationPath' => $destinationPath,
         );
 
         /**
@@ -346,7 +352,7 @@ class Http
                 return array(
                     'status'  => $status,
                     'headers' => $headers,
-                    'data'    => $response
+                    'data'    => $response,
                 );
             } else {
                 return trim($response);
@@ -399,7 +405,7 @@ class Http
                 $requestHeader = "$httpMethod $path HTTP/$httpVer\r\n";
 
                 if ('https' == $url['scheme']) {
-                    $connectHost = 'ssl://' . $connectHost;
+                    $connectHost = 'tls://' . $connectHost;
                 }
             }
 
@@ -585,7 +591,7 @@ class Http
                             . $rangeHeader,
                         'max_redirects' => 5, // PHP 5.1.0
                         'timeout'       => $timeout, // PHP 5.2.1
-                    )
+                    ),
                 );
 
                 if (!empty($proxyHost) && !empty($proxyPort)) {
@@ -618,11 +624,19 @@ class Http
                     fwrite($file, $response);
                 }
                 fclose($handle);
+
+                if (function_exists('http_get_last_response_headers')) {
+                    $http_response_header = http_get_last_response_headers();
+                }
             } else {
                 $response = @file_get_contents($aUrl, 0, $ctx);
 
+                if (function_exists('http_get_last_response_headers')) {
+                    $http_response_header = http_get_last_response_headers();
+                }
+
                 // try to get http status code from response headers
-                if (isset($http_response_header) && preg_match('~^HTTP/(\d\.\d)\s+(\d+)(\s*.*)?~', implode("\n", $http_response_header), $m)) {
+                if (!empty($http_response_header) && preg_match('~^HTTP/(\d\.\d)\s+(\d+)(\s*.*)?~', implode("\n", $http_response_header), $m)) {
                     $status = (int)$m[2];
                 }
 
@@ -663,7 +677,7 @@ class Http
                 CURLOPT_USERAGENT      => $userAgent,
                 CURLOPT_HTTPHEADER     => array_merge(array(
                     $via,
-                    $acceptLanguage
+                    $acceptLanguage,
                 ), $additionalHeaders),
                 // only get header info if not saving directly to file
                 CURLOPT_HEADER         => is_resource($file) ? false : true,
@@ -692,7 +706,7 @@ class Http
                 @curl_setopt($ch, CURLOPT_NOBODY, true);
             }
 
-            if (strtolower($httpMethod) === 'post' && !empty($requestBodyQuery)) {
+            if (in_array(strtolower($httpMethod), ['post', 'put']) && !empty($requestBodyQuery)) {
                 curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $requestBodyQuery);
             }
@@ -821,7 +835,7 @@ class Http
             return array(
                 'status'  => $status,
                 'headers' => $headers,
-                'data'    => $response
+                'data'    => $response,
             );
         }
     }
@@ -882,7 +896,7 @@ class Http
      * {
      *     $outputPath = PIWIK_INCLUDE_PATH . '/tmp/averybigfile.zip';
      *     $isStart = Common::getRequestVar('isStart', 1, 'int');
-     *     Http::downloadChunk("http://bigfiles.com/averybigfile.zip", $outputPath, $isStart == 1);
+     *     Http::downloadChunk("https://bigfiles.com/averybigfile.zip", $outputPath, $isStart == 1);
      * }
      * ```
      *

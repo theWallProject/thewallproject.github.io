@@ -405,7 +405,7 @@ class ArchiveProcessor
             $blobTable = DataTable::fromSerializedArray($archiveDataRow['value']);
 
             // see https://github.com/piwik/piwik/issues/4377
-            $blobTable->filter(function ($table) use ($columnsToRenameAfterAggregation, $name) {
+            $blobTable->filter(function ($table) use ($columnsToRenameAfterAggregation) {
                 if ($this->areColumnsNotAlreadyRenamed($table)) {
                     /**
                      * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
@@ -552,7 +552,7 @@ class ArchiveProcessor
 
         $metrics = array(
             Metrics::INDEX_NB_USERS,
-            $uniqueVisitorsMetric
+            $uniqueVisitorsMetric,
         );
 
         $uniques = $this->computeNbUniques($metrics, $sites);
@@ -703,6 +703,10 @@ class ArchiveProcessor
         $operationForColumn = $this->getOperationForColumns($columns, $operationsToApply);
 
         $dataTable = $this->getArchive()->getDataTableFromNumeric($columns);
+
+        if ($dataTable->wasBuiltWithoutArchives()) {
+            return (new Row())->getColumns();
+        }
 
         $results = $this->getAggregatedDataTableMap($dataTable, $operationForColumn);
         if ($results->getRowsCount() > 1) {

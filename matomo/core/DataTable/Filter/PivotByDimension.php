@@ -455,16 +455,16 @@ class PivotByDimension extends BaseFilter
             'disable_queued_filters' => 1,
             'disable_generic_filters' => 1,
             'showColumns' => '',
-            'hideColumns' => ''
+            'hideColumns' => '',
         );
 
-        /** @var Site $site */
+        /** @var Site|false $site */
         $site = $table->getMetadata('site');
         if (!empty($site)) {
             $params['idSite'] = $site->getId();
         }
 
-        /** @var Period $period */
+        /** @var Period|false $period */
         $period = $table->getMetadata('period');
         if (!empty($period)) {
             $params['period'] = $period->getLabel();

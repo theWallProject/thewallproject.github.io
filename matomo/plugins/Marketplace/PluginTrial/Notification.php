@@ -4,7 +4,7 @@
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\Marketplace\PluginTrial;
@@ -62,7 +62,7 @@ class Notification
 
         $marketplaceUrl = Url::getCurrentQueryStringWithParametersModified([
             'module' => 'Marketplace',
-            'action' => 'overview'
+            'action' => 'overview',
         ]);
         $link = sprintf('<a href="%s#?showPlugin=%s">', $marketplaceUrl, $this->pluginName);
         $message = '<b>' . Piwik::translate(

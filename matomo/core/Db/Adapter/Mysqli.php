@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\AdapterInterface;
+use Piwik\Db\Schema;
 use Piwik\Piwik;
 use Zend_Config;
 use Zend_Db_Adapter_Mysqli;
@@ -99,8 +100,8 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      */
     public function checkServerVersion()
     {
+        $requiredVersion = Schema::getInstance()->getMinimumSupportedVersion();
         $serverVersion   = $this->getServerVersion();
-        $requiredVersion = Config::getInstance()->General['minimum_mysql_version'];
 
         if (version_compare($serverVersion, $requiredVersion) === -1) {
             throw new Exception(Piwik::translate('General_ExceptionDatabaseVersion', array('MySQL', $serverVersion, $requiredVersion)));
@@ -221,7 +222,7 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      * Execute unprepared SQL query and throw away the result
      *
      * Workaround some SQL statements not compatible with prepare().
-     * See http://framework.zend.com/issues/browse/ZF-1398
+     * See https://framework.zend.com/issues/browse/ZF-1398
      *
      * @param string $sqlQuery
      * @return int  Number of rows affected (SELECT/INSERT/UPDATE/DELETE)

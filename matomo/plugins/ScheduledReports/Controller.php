@@ -119,11 +119,11 @@ class Controller extends \Piwik\Plugin\Controller
         $view->segmentEditorActivated = false;
         if (API::isSegmentEditorActivated()) {
             $savedSegmentsById = array(
-                '' => Piwik::translate('SegmentEditor_DefaultAllVisits')
+                '' => Piwik::translate('SegmentEditor_DefaultAllVisits'),
             );
             $allSegments = SegmentEditor::getAllSegmentsForSite($this->idSite);
             foreach ($allSegments as $savedSegment) {
-                $savedSegmentsById[$savedSegment['idsegment']] = $savedSegment['name'];
+                $savedSegmentsById[$savedSegment['idsegment']] = Common::unsanitizeInputValue($savedSegment['name']);
             }
             $view->savedSegmentsById = $savedSegmentsById;
             $view->segmentEditorActivated = true;
@@ -167,10 +167,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->reportName = $report['description'];
 
-        $nonce = Common::getRequestVar('nonce', '', 'string');
-
-        if (!empty($confirm) && Nonce::verifyNonce('Report.Unsubscribe', $nonce)) {
-            Nonce::discardNonce('Report.Unsubscribe');
+        if (!empty($confirm)) {
+            Nonce::checkNonce('Report.Unsubscribe');
             $subscriptionModel->unsubscribe($token);
             $view->success = true;
         } else {

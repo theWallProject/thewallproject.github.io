@@ -113,8 +113,8 @@ class ArchivingHelper
 
             // Here we do ensure that, the Metadata URL set for a given row, is the one from the Pageview with the most hits.
             // This is to ensure that when, different URLs are loaded with the same page name.
-            // For example http://piwik.org and http://id.piwik.org are reported in Piwik > Actions > Pages with /index
-            // But, we must make sure http://piwik.org is used to link & for transitions
+            // For example https://piwik.org and https://id.piwik.org are reported in Piwik > Actions > Pages with /index
+            // But, we must make sure https://piwik.org is used to link & for transitions
             // Note: this code is partly duplicated from Row->sumRowMetadata()
             if (
                 !is_null($url)
@@ -353,7 +353,7 @@ class ArchivingHelper
         $dataTable->filter('ColumnDelete', array(
                                                 $columnsToRemove = array(PiwikMetrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS),
                                                 $columnsToKeep = array(),
-                                                $deleteIfZeroOnly = true
+                                                $deleteIfZeroOnly = true,
                                            ));
     }
 
@@ -594,13 +594,13 @@ class ArchivingHelper
      * NOTE: before calling this function make sure ArchivingHelper::reloadConfig(); is called
      *
      * for downloads:
-     *  we explode link http://piwik.org/some/path/piwik.zip into an array( 'piwik.org', '/some/path/piwik.zip' );
+     *  we explode link https://piwik.org/some/path/piwik.zip into an array( 'piwik.org', '/some/path/piwik.zip' );
      *
      * for outlinks:
-     *  we explode link http://dev.piwik.org/some/path into an array( 'dev.piwik.org', '/some/path' );
+     *  we explode link https://dev.piwik.org/some/path into an array( 'dev.piwik.org', '/some/path' );
      *
      * for action urls:
-     *  we explode link http://piwik.org/some/path into an array( 'some', 'path' );
+     *  we explode link https://piwik.org/some/path into an array( 'some', 'path' );
      *
      * for action names:
      *   we explode name 'Piwik / Category 1 / Category 2' into an array('Matomo', 'Category 1', 'Category 2');
@@ -734,7 +734,7 @@ class ArchivingHelper
     {
         $summaryRow = new Row(array(
                             Row::COLUMNS =>
-                                array('label' => DataTable::LABEL_SUMMARY_ROW) + self::getDefaultRowColumns()
+                                array('label' => DataTable::LABEL_SUMMARY_ROW) + self::getDefaultRowColumns(),
                        ));
         $summaryRow->setIsSummaryRow(); // this should be set in DataTable::addSummaryRow(), but we set it here as well to be safe
         return $summaryRow;

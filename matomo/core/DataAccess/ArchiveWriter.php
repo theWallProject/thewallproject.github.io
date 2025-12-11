@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Archive\Chunk;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\ArchiveProcessor;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
@@ -83,7 +84,7 @@ class ArchiveWriter
 
     private $recordsToWriteSpool = [
         'numeric' => [],
-        'blob' => []
+        'blob' => [],
     ];
 
     public const MAX_SPOOL_SIZE = 50;
@@ -237,8 +238,12 @@ class ArchiveWriter
 
     protected function compress($data)
     {
+        $compressionLevel = (int) Config::getInstance()->General['archive_blob_compression_level'];
+        // ensure value is between -1 and 9
+        $compressionLevel = min(max(-1, $compressionLevel), 9);
+
         if (Db::get()->hasBlobDataType()) {
-            return gzcompress($data);
+            return gzcompress($data, $compressionLevel);
         }
 
         return $data;
@@ -271,11 +276,6 @@ class ArchiveWriter
 
         $valueSeen = false;
         foreach ($records as $record) {
-            // don't record zero
-            if (empty($record[1])) {
-                continue;
-            }
-
             $bind     = $bindSql;
             $bind[]   = $record[0]; // name
             $bind[]   = $record[1]; // value
@@ -311,14 +311,10 @@ class ArchiveWriter
      */
     public function insertRecord($name, $value)
     {
-        if ($this->isRecordZero($value)) {
-            return false;
-        }
-
         $valueType = $this->isRecordNumeric($value) ? 'numeric' : 'blob';
         $this->recordsToWriteSpool[$valueType][] = [
             0 => $name,
-            1 => $value
+            1 => $value,
         ];
 
         if (count($this->recordsToWriteSpool[$valueType]) >= self::MAX_SPOOL_SIZE) {
@@ -389,11 +385,6 @@ class ArchiveWriter
     protected function getInsertFields()
     {
         return $this->fields;
-    }
-
-    protected function isRecordZero($value)
-    {
-        return ($value === '0' || $value === false || $value === 0 || $value === 0.0);
     }
 
     private function isRecordNumeric($value)

@@ -214,8 +214,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             "log_link_visit_action",
             array(
                 "table"  => "log_action",
-                "joinOn" => "log_link_visit_action.%s = log_action.idaction"
-            )
+                "joinOn" => "log_link_visit_action.%s = log_action.idaction",
+            ),
         );
 
         $where  = $logAggregator->getWhereStatement('log_link_visit_action', 'server_time');
@@ -281,8 +281,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
                 "log_visit",
                 array(
                     "table"  => "log_action",
-                    "joinOn" => "log_visit.%s = log_action.idaction"
-                )
+                    "joinOn" => "log_visit.%s = log_action.idaction",
+                ),
             );
             $orderBy = "`" . PiwikMetrics::INDEX_PAGE_ENTRY_NB_ACTIONS . "` DESC, log_action.name ASC";
         } else {
@@ -346,8 +346,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
                 "log_visit",
                 array(
                     "table"  => "log_action",
-                    "joinOn" => "log_visit.%s = log_action.idaction"
-                )
+                    "joinOn" => "log_visit.%s = log_action.idaction",
+                ),
             );
             $orderBy = "`" . PiwikMetrics::INDEX_PAGE_EXIT_NB_VISITS . "` DESC, log_action.name ASC";
         } else {
@@ -409,8 +409,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
                 "log_link_visit_action",
                 array(
                     "table"  => "log_action",
-                    "joinOn" => "log_link_visit_action.%s = log_action.idaction"
-                )
+                    "joinOn" => "log_link_visit_action.%s = log_action.idaction",
+                ),
             );
             $orderBy = "`" . PiwikMetrics::INDEX_PAGE_NB_HITS . "` DESC, log_action.name ASC";
         } else {
@@ -487,15 +487,13 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     protected function updateQuerySelectFromForSiteSearch(string &$select, array &$from): void
     {
         $selectFlagNoResultKeywords = ",
-                CASE WHEN (MAX(log_link_visit_action.search_count) = 0)
-                THEN 1 ELSE 0 END
-                    AS `" . PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
+                MAX(log_link_visit_action.search_count) = 0 AS `" . PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
 
-        //we need an extra JOIN to know whether the referrer "idaction_name_ref" was a Site Search request
+        // we need an extra JOIN to know whether the referrer "idaction_name_ref" was a Site Search request
         $from[] = array(
             "table"      => "log_action",
             "tableAlias" => "log_action_name_ref",
-            "joinOn"     => "log_link_visit_action.idaction_name_ref = log_action_name_ref.idaction"
+            "joinOn"     => "log_link_visit_action.idaction_name_ref = log_action_name_ref.idaction",
         );
 
         $selectPageIsFollowingSiteSearch = ",

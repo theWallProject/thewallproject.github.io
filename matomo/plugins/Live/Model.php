@@ -151,7 +151,7 @@ class Model
         }
 
         $dateTime = $readerDb->fetchOne(sprintf(
-            'SELECT visit_last_action_time from %s WHERE %s ORDER BY visit_last_action_time DESC LIMIT 1',
+            'SELECT visit_last_action_time FROM `%s` WHERE %s ORDER BY visit_last_action_time DESC LIMIT 1',
             Common::prefixTable('log_visit'),
             $where
         ), $bind);
@@ -219,7 +219,7 @@ class Model
         $message = Piwik::translate('Live_QueryMaxExecutionTimeExceeded') . ' ' . $message;
 
         $params = array_merge($parameters, [
-            'segment' => $segment, 'limit' => $limit
+            'segment' => $segment, 'limit' => $limit,
         ]);
 
         /**
@@ -536,7 +536,7 @@ class Model
             $visitLastActionTimeCondition = 'SLEEP(1)';
         }
 
-        $segment = new Segment($segment, $idSite, $dateOneDayAgo, $dateOneDayInFuture);
+        $segment = new Segment($segment, [$idSite], $dateOneDayAgo, $dateOneDayInFuture);
         $queryInfo = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy, $groupBy);
 
         $sql = "SELECT /* Live.queryAdjacentVisitorId */ sub.idvisitor, sub.visit_last_action_time FROM ({$queryInfo['sql']}) as sub
@@ -555,7 +555,7 @@ class Model
             $visitorId = $readerDb->fetchOne($sql, $bind);
         } catch (Exception $e) {
             $this->handleMaxExecutionTimeError($readerDb, $e, $segment->getOriginalString(), Date::now(), Date::now(), null, 1, [
-                'sql' => $sql, 'bind' => $bind
+                'sql' => $sql, 'bind' => $bind,
             ]);
             throw $e;
         }
@@ -645,11 +645,11 @@ class Model
      * @param $idSite
      * @param $period
      * @param $date
-     * @return Date[]
+     * @return array{0: Date|null, 1: Date|null}
      * @throws Exception
      * @internal
      */
-    public function getStartAndEndDate($idSite, $period, $date)
+    public function getStartAndEndDate($idSite, $period, $date): array
     {
         $dateStart = null;
         $dateEnd = null;
@@ -709,8 +709,8 @@ class Model
     /**
      * @param string $whereClause
      * @param array $bindIdSites
-     * @param Date $startDate
-     * @param Date $endDate
+     * @param Date|null $startDate
+     * @param Date|null $endDate
      * @param $visitorId
      * @param $minTimestamp
      * @return array
@@ -718,7 +718,7 @@ class Model
      */
     private function getWhereClauseAndBind($whereClause, $bindIdSites, $startDate, $endDate, $visitorId, $minTimestamp)
     {
-        $where = array();
+        $where = [];
         if (!empty($whereClause)) {
             $where[] = $whereClause;
         }

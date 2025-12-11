@@ -85,7 +85,7 @@ require_once PIWIK_INCLUDE_PATH . "/core/DataTable/Bridges.php";
  *
  * All predefined filters exist in the **Piwik\DataTable\BaseFilter** namespace.
  *
- * _Note: For convenience, [anonymous functions](http://www.php.net/manual/en/functions.anonymous.php)
+ * _Note: For convenience, [anonymous functions](https://www.php.net/manual/en/functions.anonymous.php)
  * can be used as DataTable filters._
  *
  * ### Applying Filters
@@ -343,6 +343,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @var int
      */
     protected $maximumAllowedRows = 0;
+
+    protected $isBuiltWithoutArchives = true;
 
     /**
      * Constructor. Creates an empty DataTable.
@@ -955,7 +957,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * Returns an array containing all column values for the requested column.
      *
-     * @param string $name The column name.
+     * @param string|int $name The column name.
      * @return array The array of column values.
      */
     public function getColumn($name)
@@ -1468,7 +1470,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $rows = Common::safe_unserialize($serialized, [
             Row::class,
             DataTableSummaryRow::class,
-            \Piwik_DataTable_SerializedRow::class
+            \Piwik_DataTable_SerializedRow::class,
         ]);
 
         if ($rows === false) {
@@ -1826,7 +1828,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * a subtable is encountered w/o the required label, a new row is created
      * with the label, and a new subtable is added to the row.
      *
-     * Read [http://en.wikipedia.org/wiki/Tree_(data_structure)#Traversal_methods](http://en.wikipedia.org/wiki/Tree_(data_structure)#Traversal_methods)
+     * Read [https://en.wikipedia.org/wiki/Tree_(data_structure)#Traversal_methods](https://en.wikipedia.org/wiki/Tree_(data_structure)#Traversal_methods)
      * for more information about tree walking.
      *
      * @param array $path The path to walk. An array of label values. The first element
@@ -2132,5 +2134,15 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $existingRow->sumRow($tableRow, true, $aggregationOps);
         }
         return $existingRow;
+    }
+
+    public function setAsBuiltWithoutArchives(bool $flag): void
+    {
+        $this->isBuiltWithoutArchives = $flag;
+    }
+
+    public function wasBuiltWithoutArchives(): bool
+    {
+        return $this->isBuiltWithoutArchives;
     }
 }

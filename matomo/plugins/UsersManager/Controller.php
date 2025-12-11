@@ -12,6 +12,7 @@ namespace Piwik\Plugins\UsersManager;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
+use Piwik\Auth\PasswordStrength;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
@@ -63,11 +64,21 @@ class Controller extends ControllerAdmin
      */
     private $userModel;
 
-    public function __construct(Translator $translator, PasswordVerifier $passwordVerify, Model $userModel)
-    {
+    /**
+     * @var PasswordStrength
+     */
+    private $passwordStrength;
+
+    public function __construct(
+        Translator $translator,
+        PasswordVerifier $passwordVerify,
+        Model $userModel,
+        PasswordStrength $passwordStrength
+    ) {
         $this->translator = $translator;
         $this->passwordVerify = $passwordVerify;
         $this->userModel = $userModel;
+        $this->passwordStrength = $passwordStrength;
         $this->pluginManager = Plugin\Manager::getInstance();
 
         parent::__construct();
@@ -132,13 +143,25 @@ class Controller extends ControllerAdmin
             $capabilityEntry = [
                 'key' => $capability['id'],
                 'value' => $capability['category'] . ': ' . $capability['name'],
-                'type' => 'capability'
+                'type' => 'capability',
             ];
             $view->accessLevels[] = $capabilityEntry;
             $view->filterAccessLevels[] = $capabilityEntry;
         }
 
         $view->activatedPlugins = $this->pluginManager->getActivatedPlugins();
+
+        /** @var array{'inviteComponent': string, 'resendInviteComponent': string } $inviteVueComponents */
+        $inviteVueComponents = [
+            'inviteComponent' => 'UsersManager.UserInvite',
+            'resendInviteComponent' => 'UsersManager.ResendInviteModal',
+        ];
+        Piwik::postEvent('UsersManager.getInviteVueComponents', [&$inviteVueComponents]);
+
+        $view->inviteComponent = $inviteVueComponents['inviteComponent'];
+        $view->resendInviteComponent = $inviteVueComponents['resendInviteComponent'];
+
+        $view->passwordStrengthValidationRules = $this->passwordStrength->getRules();
 
         $this->setBasicVariablesView($view);
 
@@ -220,7 +243,7 @@ class Controller extends ControllerAdmin
 
         $userLogin = Piwik::getCurrentUserLogin();
         $user = Request::processRequest('UsersManager.getUser', array('userLogin' => $userLogin));
-        $view->userEmail = $user['email'];
+        $view->userEmail = $user['email'] ?? '';
         $view->userTokenAuth = Piwik::getCurrentUserTokenAuth();
         $view->setIgnoreCookieNonce = Nonce::getNonce(self::NONCE_SET_IGNORE_COOKIE);
         $view->isUsersAdminEnabled = UsersManager::isUsersAdminEnabled();
@@ -266,7 +289,7 @@ class Controller extends ControllerAdmin
         foreach ($languages as $language) {
             $languageOptions[] = array(
                 'key' => $language['code'],
-                'value' => $language['name']
+                'value' => $language['name'],
             );
         }
 
@@ -279,7 +302,7 @@ class Controller extends ControllerAdmin
 
         $view->timeFormats = array(
             '1' => Piwik::translate('General_12HourClock'),
-            '0' => Piwik::translate('General_24HourClock')
+            '0' => Piwik::translate('General_24HourClock'),
         );
 
         return $view->render();
@@ -304,14 +327,13 @@ class Controller extends ControllerAdmin
             unset($token['password']);
             return $token;
         }, $tokens);
-        $hasTokensWithExpireDate = !empty(array_filter(array_column($tokens, 'date_expired')));
 
         return $this->renderTemplate('userSecurity', [
             'isUsersAdminEnabled' => UsersManager::isUsersAdminEnabled(),
             'changePasswordNonce' => Nonce::getNonce(self::NONCE_CHANGE_PASSWORD),
             'deleteTokenNonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN),
-            'hasTokensWithExpireDate' => $hasTokensWithExpireDate,
-            'tokens' => $tokens
+            'tokens' => $tokens,
+            'passwordStrengthValidationRules' => $this->passwordStrength->getRules(),
         ]);
     }
 
@@ -329,7 +351,7 @@ class Controller extends ControllerAdmin
                 'module' => 'UsersManager',
                 'action' => 'deleteToken',
                 'idtokenauth' => $idTokenAuth,
-                'nonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN)
+                'nonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN),
             );
 
             if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
@@ -350,7 +372,7 @@ class Controller extends ControllerAdmin
                     'login' => Piwik::getCurrentUserLogin(),
                     'emailAddress' => Piwik::getCurrentUserEmail(),
                     'tokenDescription' => '',
-                    'all' => true
+                    'all' => true,
                 ));
                 $email->safeSend();
             } elseif (is_numeric($idTokenAuth)) {
@@ -365,7 +387,7 @@ class Controller extends ControllerAdmin
                 $email = $container->make(TokenAuthDeletedEmail::class, array(
                     'login' => Piwik::getCurrentUserLogin(),
                     'emailAddress' => Piwik::getCurrentUserEmail(),
-                    'tokenDescription' => $description
+                    'tokenDescription' => $description,
                 ));
                 $email->safeSend();
             }
@@ -387,37 +409,67 @@ class Controller extends ControllerAdmin
             throw new Exception('Not allowed');
         }
 
-        $noDescription = false;
+        $postRequest = \Piwik\Request::fromPost();
+        $postRequestHasData = count($postRequest->getParameters());
 
-        if (!empty($_POST['description'])) {
+        $today = Date::factory('now');
+
+        $tokenExpireDate = $postRequest->getStringParameter('token_expire_date', '');
+        $invalidExpireDate = true;
+        try {
+            if ($tokenExpireDate && preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $tokenExpireDate)) {
+                $expireDate = Date::factory($tokenExpireDate);
+                if ($expireDate->isLater($today)) {
+                    $invalidExpireDate = false;
+                }
+            }
+        } catch (Exception $e) {
+            // nop
+        }
+
+        $description = $postRequest->getStringParameter('description', '');
+        $noDescription = empty($description);
+
+        if (false === $noDescription && false === $invalidExpireDate) {
             Nonce::checkNonce(self::NONCE_ADD_AUTH_TOKEN);
-
-            $description = \Piwik\Request::fromRequest()->getStringParameter('description', '');
-            $secureOnly = \Piwik\Request::fromRequest()->getBoolParameter('secure_only', false);
+            $secureOnly = $postRequest->getBoolParameter('secure_only', false);
+            $hasTokenExpiry = $postRequest->getBoolParameter('has_expiration', false);
 
             $login = Piwik::getCurrentUserLogin();
 
             $generatedToken = $this->userModel->generateRandomTokenAuth();
 
-            $this->userModel->addTokenAuth($login, $generatedToken, $description, Date::now()->getDatetime(), null, false, $secureOnly);
+            $this->userModel->addTokenAuth(
+                $login,
+                $generatedToken,
+                $description,
+                $today->getDatetime(),
+                $hasTokenExpiry ? $tokenExpireDate : null,
+                false,
+                $secureOnly
+            );
 
             $container = StaticContainer::getContainer();
             $email = $container->make(TokenAuthCreatedEmail::class, [
                 'login' => Piwik::getCurrentUserLogin(),
                 'emailAddress' => Piwik::getCurrentUserEmail(),
-                'tokenDescription' => $description
+                'tokenDescription' => $description,
             ]);
             $email->safeSend();
 
             return $this->renderTemplate('addNewTokenSuccess', ['generatedToken' => $generatedToken]);
-        } elseif (isset($_POST['description'])) {
-            $noDescription = true;
         }
+
+        $defaultExpireDays = GeneralConfig::getConfigValue('auth_token_default_expiration_days');
 
         return $this->renderTemplate('addNewToken', [
             'nonce' => Nonce::getNonce(self::NONCE_ADD_AUTH_TOKEN),
-            'noDescription' => $noDescription,
-            'forceSecureOnly' => GeneralConfig::getConfigValue('only_allow_secure_auth_tokens')
+            'noDescription' => $postRequestHasData && $noDescription,
+            'invalidExpireDate' => $postRequestHasData && $invalidExpireDate,
+            'forceSecureOnly' => (bool) GeneralConfig::getConfigValue('only_allow_secure_auth_tokens'),
+            'initialExpireDate' => $today->addDay($defaultExpireDays)->toString(),
+            'defaultExpirationDays' => $defaultExpireDays,
+            'expirationReminderDays' => GeneralConfig::getConfigValue('auth_token_expiration_notification_days'),
         ]);
     }
 
@@ -644,7 +696,7 @@ class Controller extends ControllerAdmin
         Request::processRequest('UsersManager.updateUser', [
             'userLogin' => $userLogin,
             'email' => $email,
-            'passwordConfirmation' => $passwordCurrent
+            'passwordConfirmation' => $passwordCurrent,
         ], $default = []);
     }
 
@@ -668,10 +720,21 @@ class Controller extends ControllerAdmin
             throw new Exception($this->translator->translate('Login_PasswordsDoNotMatch'));
         }
 
+        if ($newPassword === $passwordCurrent) {
+            throw new Exception($this->translator->translate('UsersManager_PasswordAlreadyInUse'));
+        }
+
+        // check password is sufficiently strong
+        $brokenRules = $this->passwordStrength->validatePasswordStrength($newPassword);
+        if (!empty($brokenRules)) {
+            $errorMsg = $this->passwordStrength->formatValidationFailedMessage($brokenRules);
+            throw new Exception($errorMsg);
+        }
+
         Request::processRequest('UsersManager.updateUser', [
             'userLogin' => $userLogin,
             'password' => $newPassword,
-            'passwordConfirmation' => $passwordCurrent
+            'passwordConfirmation' => $passwordCurrent,
         ], $default = []);
 
         // logs the user in with the new password

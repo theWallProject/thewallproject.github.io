@@ -19,7 +19,7 @@ use Exception;
 /**
  * This example dimension only defines a name and does not track any data. It's supposed to be only used in reports.
  *
- * See {@link http://developer.piwik.org/api-reference/Piwik/Columns\Dimension} for more information.
+ * See {@link https://developer.matomo.org/api-reference/Piwik/Columns\Dimension} for more information.
  */
 class ActionType extends ActionDimension
 {
@@ -31,9 +31,9 @@ class ActionType extends ActionDimension
     protected $namePlural = 'Actions_ActionTypes';
     protected $category = 'General_Actions';
 
-    public function __construct()
+    public function getAcceptValues()
     {
-        $this->acceptValues = 'A type of action, such as: pageviews, contents, sitesearches, events, outlinks, downloads';
+        return Piwik::translate('Actions_ActionTypeSegmentHelp', 'pageviews, contents, sitesearches, events, outlinks, downloads');
     }
 
     public function getEnumColumnValues()

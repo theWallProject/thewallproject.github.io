@@ -23,10 +23,7 @@ class GetCountry extends Base
         $this->dimension      = new Country();
         $this->name           = Piwik::translate('UserCountry_Country');
         $this->documentation  = Piwik::translate('UserCountry_getCountryDocumentation');
-        $this->metrics        = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
-        $this->hasGoalMetrics = true;
         $this->order = 5;
-        $this->subcategoryId = 'UserCountry_SubmenuLocations';
     }
 
     public function configureView(ViewDataTable $view)
@@ -41,7 +38,7 @@ class GetCountry extends Base
             $footerMessage = Piwik::translate("General_Note") . ': '
                 . Piwik::translate(
                     'UserCountry_DefaultLocationProviderExplanation',
-                    ['<a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/geo-locate/') . '">', '</a>']
+                    [Url::getExternalLinkTag('https://matomo.org/docs/geo-locate/'), '</a>']
                 );
 
             $view->config->show_footer_message = $footerMessage;

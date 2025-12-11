@@ -1,5 +1,6 @@
 {
     "General": {
+        "12HourClock": "12 tíma klukka",
         "API": "API",
         "AboutPiwikX": "Um Matomo %s",
         "Action": "Aðgerð",
@@ -79,6 +80,7 @@
         "LoadingData": "Sækir gögn…",
         "Locale": "is_IS.UTF-8",
         "Logout": "Útskrá",
+        "ManagePlugins": "Íbótastjórnun",
         "MediumToHighTrafficItIsRecommendedTo": "Á vefsvæðum með umferð yfir meðallagi, er mælt með að úrvinnsla skýrslna sé ekki framkvæmd tíðar en á hálftíma fresti (%1$s sekúndur) eða á klukkustundar fresti (%2$s seconds).",
         "MinutesSeconds": "%1$s mín %2$ss",
         "Monthly": "Mánaðalega",

@@ -242,7 +242,7 @@ class LogAggregator
     {
         try {
             // using DROP TABLE IF EXISTS would not work on a DB reader if the table doesn't exist...
-            $this->getDb()->fetchOne('SELECT /* WP IGNORE ERROR */ 1 FROM ' . $segmentTablePrefixed . ' LIMIT 1');
+            $this->getDb()->fetchOne('SELECT /* WP IGNORE ERROR */ 1 FROM `' . $segmentTablePrefixed . '` LIMIT 1');
             $tableExists = true;
         } catch (\Exception $e) {
             $tableExists = false;
@@ -339,12 +339,13 @@ class LogAggregator
      * @param             $orderBy
      * @param int         $limit
      * @param int         $offset
+     * @param bool        $withRollup
      *
      * @return array|mixed|string
      * @throws \Piwik\Exception\DI\DependencyException
      * @throws \Piwik\Exception\DI\NotFoundException
      */
-    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0)
+    public function generateQuery($select, $from, $where, $groupBy, $orderBy, $limit = 0, $offset = 0, bool $withRollup = false)
     {
         $segment = $this->segment;
         $bind = $this->getGeneralQueryBindParams();
@@ -393,7 +394,7 @@ class LogAggregator
             }
         }
 
-        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset);
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit, $offset, $forceGroupBy = false, $withRollup);
 
         if (is_array($query) && array_key_exists('sql', $query)) {
             $query['sql'] = DbHelper::addOriginHintToQuery($query['sql'], $this->queryOriginHint, $this->dateStart, $this->dateEnd, $this->sites, $this->segment);
@@ -453,19 +454,49 @@ class LogAggregator
         return $segmentSql;
     }
 
-    protected function getVisitsMetricFields()
+    /**
+     * @return array<int, array{aggregation: string, query: string}>
+     */
+    public function getVisitsMetricFields(): array
     {
-        return array(
-            Metrics::INDEX_NB_UNIQ_VISITORS               => "count(distinct " . self::LOG_VISIT_TABLE . ".idvisitor)",
-            Metrics::INDEX_NB_UNIQ_FINGERPRINTS           => "count(distinct " . self::LOG_VISIT_TABLE . ".config_id)",
-            Metrics::INDEX_NB_VISITS                      => "count(*)",
-            Metrics::INDEX_NB_ACTIONS                     => "sum(" . self::LOG_VISIT_TABLE . ".visit_total_actions)",
-            Metrics::INDEX_MAX_ACTIONS                    => "max(" . self::LOG_VISIT_TABLE . ".visit_total_actions)",
-            Metrics::INDEX_SUM_VISIT_LENGTH               => "sum(" . self::LOG_VISIT_TABLE . ".visit_total_time)",
-            Metrics::INDEX_BOUNCE_COUNT                   => "sum(case " . self::LOG_VISIT_TABLE . ".visit_total_actions when 1 then 1 when 0 then 1 else 0 end)",
-            Metrics::INDEX_NB_VISITS_CONVERTED            => "sum(case " . self::LOG_VISIT_TABLE . ".visit_goal_converted when 1 then 1 else 0 end)",
-            Metrics::INDEX_NB_USERS                       => "count(distinct " . self::LOG_VISIT_TABLE . ".user_id)",
-        );
+        return [
+            Metrics::INDEX_NB_UNIQ_VISITORS     => [
+                'aggregation' => 'sum',
+                'query'       => "count(distinct " . self::LOG_VISIT_TABLE . ".idvisitor)",
+            ],
+            Metrics::INDEX_NB_UNIQ_FINGERPRINTS => [
+                'aggregation' => 'sum',
+                'query'       => "count(distinct " . self::LOG_VISIT_TABLE . ".config_id)",
+            ],
+            Metrics::INDEX_NB_VISITS            => [
+                'aggregation' => 'sum',
+                'query'       => "count(*)",
+            ],
+            Metrics::INDEX_NB_ACTIONS           => [
+                'aggregation' => 'sum',
+                'query'       => "sum(" . self::LOG_VISIT_TABLE . ".visit_total_actions)",
+            ],
+            Metrics::INDEX_MAX_ACTIONS          => [
+                'aggregation' => 'max',
+                'query'       => "max(" . self::LOG_VISIT_TABLE . ".visit_total_actions)",
+            ],
+            Metrics::INDEX_SUM_VISIT_LENGTH     => [
+                'aggregation' => 'sum',
+                'query'       => "sum(" . self::LOG_VISIT_TABLE . ".visit_total_time)",
+            ],
+            Metrics::INDEX_BOUNCE_COUNT         => [
+                'aggregation' => 'sum',
+                'query'       => "sum(case " . self::LOG_VISIT_TABLE . ".visit_total_actions when 1 then 1 when 0 then 1 else 0 end)",
+            ],
+            Metrics::INDEX_NB_VISITS_CONVERTED  => [
+                'aggregation' => 'sum',
+                'query'       => "sum(case " . self::LOG_VISIT_TABLE . ".visit_goal_converted when 1 then 1 else 0 end)",
+            ],
+            Metrics::INDEX_NB_USERS             => [
+                'aggregation' => 'sum',
+                'query'       => "count(distinct " . self::LOG_VISIT_TABLE . ".user_id)",
+            ],
+        ];
     }
 
     public static function getConversionsMetricFields()
@@ -662,22 +693,15 @@ class LogAggregator
         $query = $this->generateQuery($select, $from, $where, $groupBy, implode(', ', $orderBys));
 
         if ($rankingQuery) {
-            unset($availableMetrics[Metrics::INDEX_MAX_ACTIONS]);
-
             // INDEX_NB_UNIQ_FINGERPRINTS is only processed if specifically asked for
             if (!$this->isMetricRequested(Metrics::INDEX_NB_UNIQ_FINGERPRINTS, $metrics)) {
                 unset($availableMetrics[Metrics::INDEX_NB_UNIQ_FINGERPRINTS]);
             }
 
-            $sumColumns = array_keys($availableMetrics);
-
-            if ($metrics) {
-                $sumColumns = array_intersect($sumColumns, $metrics);
-            }
-
-            $rankingQuery->addColumn($sumColumns, 'sum');
-            if ($this->isMetricRequested(Metrics::INDEX_MAX_ACTIONS, $metrics)) {
-                $rankingQuery->addColumn(Metrics::INDEX_MAX_ACTIONS, 'max');
+            foreach ($availableMetrics as $metricId => $config) {
+                if ($this->isMetricRequested($metricId, $metrics)) {
+                    $rankingQuery->addColumn($metricId, $config['aggregation']);
+                }
             }
 
             if ($rankingQueryGenerate) {
@@ -692,14 +716,14 @@ class LogAggregator
         return $query;
     }
 
-    protected function getSelectsMetrics($metricsAvailable, $metricsRequested = false)
+    protected function getSelectsMetrics($metricsAvailable, $metricsRequested = false): array
     {
-        $selects = array();
+        $selects = [];
 
-        foreach ($metricsAvailable as $metricId => $statement) {
+        foreach ($metricsAvailable as $metricId => $config) {
             if ($this->isMetricRequested($metricId, $metricsRequested)) {
                 $aliasAs   = $this->getSelectAliasAs($metricId);
-                $selects[] = $statement . $aliasAs;
+                $selects[] = (is_array($config) ? $config['query'] : $config) . $aliasAs;
             }
         }
 
@@ -888,7 +912,7 @@ class LogAggregator
     {
         $bind = [
             $this->dateStart->toString(Date::DATE_TIME_FORMAT),
-            $this->dateEnd->toString(Date::DATE_TIME_FORMAT)
+            $this->dateEnd->toString(Date::DATE_TIME_FORMAT),
         ];
         return array_merge($bind, $this->sites);
     }
@@ -961,7 +985,7 @@ class LogAggregator
                         'CASE log_conversion_item.idorder WHEN \'0\' THEN %d ELSE %d END AS ecommerceType',
                         GoalManager::IDGOAL_CART,
                         GoalManager::IDGOAL_ORDER
-                    )
+                    ),
                 )
             ),
             // FROM ...
@@ -969,8 +993,8 @@ class LogAggregator
                 "log_conversion_item",
                 array(
                     "table" => "log_action",
-                    "joinOn" => sprintf("log_conversion_item.%s = log_action.idaction", $dimension)
-                )
+                    "joinOn" => sprintf("log_conversion_item.%s = log_action.idaction", $dimension),
+                ),
             ),
             // WHERE ... AND ...
             implode(
@@ -979,7 +1003,7 @@ class LogAggregator
                     'log_conversion_item.server_time >= ?',
                     'log_conversion_item.server_time <= ?',
                     'log_conversion_item.idsite IN (' . Common::getSqlStringFieldsArray($this->sites) . ')',
-                    'log_conversion_item.deleted = 0'
+                    'log_conversion_item.deleted = 0',
                 )
             ),
             // GROUP BY ...
@@ -1081,7 +1105,7 @@ class LogAggregator
                 $from[] = array(
                     'table'      => 'log_action',
                     'tableAlias' => $tableAlias,
-                    'joinOn'     => $joinOn
+                    'joinOn'     => $joinOn,
                 );
             }
         }
@@ -1253,7 +1277,7 @@ class LogAggregator
                 ['table' => 'log_link_visit_action', 'tableAlias' => 'logva', 'join' => 'RIGHT JOIN',
                             'joinOn' => 'log_conversion.idvisit = logva.idvisit'],
                 ['table' => 'log_action', 'tableAlias' => 'lac',
-                            'joinOn' => 'logva.' . $linkField . ' = lac.idaction']
+                            'joinOn' => 'logva.' . $linkField . ' = lac.idaction'],
         ];
 
         $where = $this->getWhereStatement('log_conversion', 'server_time');
@@ -1297,7 +1321,7 @@ class LogAggregator
                     sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_shipping)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING),
                     sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_discount)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT),
                     sprintf('SUM(log_conversion.items) AS `%d`', Metrics::INDEX_GOAL_ECOMMERCE_ITEMS),
-                    sprintf('COUNT(*) AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY)
+                    sprintf('COUNT(*) AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY),
                 ]
         );
 
@@ -1305,12 +1329,12 @@ class LogAggregator
             $tableName,
                 [
                     "table"  => "log_visit",
-                    "joinOn" => "log_visit.idvisit = log_conversion.idvisit"
+                    "joinOn" => "log_visit.idvisit = log_conversion.idvisit",
                 ],
                 [
                     "table" => "log_action",
-                    "joinOn" => "log_action.idaction = log_visit." . $linkField
-                ]
+                    "joinOn" => "log_action.idaction = log_visit." . $linkField,
+                ],
         ];
 
         $where   = $linkField . ' IS NOT NULL AND log_conversion.idgoal >= 0';

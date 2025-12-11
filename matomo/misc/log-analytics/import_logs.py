@@ -424,7 +424,11 @@ class W3cExtendedFormat(RegexFormat):
         # if we're reading from stdin, we can't seek, so don't read any more than the Fields line
         header_lines = []
         while fields_line is None:
-            line = file.readline().strip()
+            line = file.readline()
+            if not line:
+                break
+
+            line = line.strip()
 
             if not line:
                 continue
@@ -620,7 +624,12 @@ _HAPROXY_FORMAT = (
 )
 
 _GANDI_SIMPLE_HOSTING_FORMAT = (
-    r'(?P<host>[0-9a-zA-Z-_.]+)\s+(?P<ip>[a-zA-Z0-9.]+)\s+\S+\s+(?P<userid>\S+)\s+\[(?P<date>.+?)\s+(?P<timezone>.+?)\]\s+\((?P<generation_time_secs>[0-9a-zA-Z\s]*)\)\s+"(?P<method>[A-Z]+)\s+(?P<path>\S+)\s+(\S+)"\s+(?P<status>[0-9]+)\s+(?P<length>\S+)\s+"(?P<referrer>\S+)"\s+"(?P<user_agent>[^"]+)"'
+    r'(?P<host>[0-9a-zA-Z-_.]+)\s+(?P<ip>[\w*.:-]+)\s+\S+\s+(?P<userid>\S+)\s+\[(?P<date>.+?)\s+(?P<timezone>.+?)\]\s+\((?P<generation_time_secs>[0-9a-zA-Z\s]*)\)\s+"(?P<method>[A-Z]+)\s+(?P<path>\S+)\s+(\S+)"\s+(?P<status>[0-9]+)\s+(?P<length>\S+)\s+"(?P<referrer>\S+)"\s+"(?P<user_agent>[^"]+)"'
+)
+
+# https://doc.traefik.io/traefik/observability/access-logs/
+_TRAEFIK_FORMAT = ( _NCSA_EXTENDED_LOG_FORMAT +
+    r'\s+(?P<request_count>\d+)\s+"(?P<host>\S+?)"\s+"(?P<server_url>\S+?)"\s+(?P<generation_time_milli>[.\d]+)ms'
 )
 
 FORMATS = {
@@ -641,7 +650,8 @@ FORMATS = {
     'caddy_json': CaddyJsonFormat('caddy_json'),
     'ovh': RegexFormat('ovh', _OVH_FORMAT),
     'haproxy': RegexFormat('haproxy', _HAPROXY_FORMAT, '%d/%b/%Y:%H:%M:%S.%f'),
-    'gandi': RegexFormat('gandi', _GANDI_SIMPLE_HOSTING_FORMAT, '%d/%b/%Y:%H:%M:%S')
+    'gandi': RegexFormat('gandi', _GANDI_SIMPLE_HOSTING_FORMAT, '%d/%b/%Y:%H:%M:%S'),
+    'traefik': RegexFormat('traefik', _TRAEFIK_FORMAT)
 }
 
 ##
@@ -2631,6 +2641,8 @@ class Parser:
             try:
                 hit.user_agent = format.get('user_agent')
 
+                if hit.user_agent is None:
+                    hit.user_agent = ''
                 # in case a format parser included enclosing quotes, remove them so they are not
                 # sent to Matomo
                 if hit.user_agent.startswith('"'):

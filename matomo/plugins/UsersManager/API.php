@@ -48,7 +48,7 @@ use Piwik\Validators\BaseValidator;
  * Existing Permissions are listed given a login via "getSitesAccessFromUser", or a website ID via "getUsersAccessFromSite",
  * or you can list all users and websites for a given permission via "getUsersSitesFromAccess". Permissions are set and updated
  * via the method "setUserAccess".
- * See also the documentation about <a href='http://matomo.org/docs/manage-users/' rel='noreferrer' target='_blank'>Managing Users</a> in Matomo.
+ * See also the documentation about <a href='https://matomo.org/docs/manage-users/' rel='noreferrer' target='_blank'>Managing Users</a> in Matomo.
  */
 class API extends \Piwik\Plugin\API
 {
@@ -107,6 +107,7 @@ class API extends \Piwik\Plugin\API
     public function __construct(
         Model $model,
         UserAccessFilter $filter,
+        #[\SensitiveParameter]
         Password $password,
         ?Access $access = null,
         ?Access\RolesProvider $roleProvider = null,
@@ -410,7 +411,7 @@ class API extends \Piwik\Plugin\API
                     } else {
                         [
                           $user['role'],
-                          $user['capabilities']
+                          $user['capabilities'],
                         ] = $this->getRoleAndCapabilitiesFromAccess($user['access']);
                         $user['role'] = empty($user['role']) ? 'noaccess' : reset($user['role']);
                     }
@@ -421,7 +422,6 @@ class API extends \Piwik\Plugin\API
         }
 
         $users = $this->userRepository->enrichUsers($users);
-        $users = $this->userRepository->enrichUsersWithLastSeen($users);
 
         foreach ($users as &$user) {
             unset($user['password']);
@@ -605,7 +605,7 @@ class API extends \Piwik\Plugin\API
             foreach ($sites as $site) {
                 $return[] = [
                   'site'   => $site['idsite'],
-                  'access' => 'admin'
+                  'access' => 'admin',
                 ];
             }
             return $return;
@@ -666,7 +666,7 @@ class API extends \Piwik\Plugin\API
         foreach ($sites as &$siteAccess) {
             [
               $siteAccess['role'],
-              $siteAccess['capabilities']
+              $siteAccess['capabilities'],
             ] = $this->getRoleAndCapabilitiesFromAccess($siteAccess['access']);
             $siteAccess['role'] = empty($siteAccess['role']) ? 'noaccess' : reset($siteAccess['role']);
             unset($siteAccess['access']);
@@ -739,8 +739,16 @@ class API extends \Piwik\Plugin\API
      *
      * @see userExists()
      */
-    public function addUser($userLogin, $password, $email, $_isPasswordHashed = false, $initialIdSite = null, $passwordConfirmation = null)
-    {
+    public function addUser(
+        $userLogin,
+        #[\SensitiveParameter]
+        $password,
+        $email,
+        $_isPasswordHashed = false,
+        $initialIdSite = null,
+        #[\SensitiveParameter]
+        $passwordConfirmation = null
+    ) {
         Piwik::checkUserHasSomeAdminAccess();
         UsersManager::dieIfUsersAdminIsDisabled();
 
@@ -782,8 +790,14 @@ class API extends \Piwik\Plugin\API
     /**
      * @throws Exception
      */
-    public function inviteUser($userLogin, $email, $initialIdSite = null, $expiryInDays = null, $passwordConfirmation = null)
-    {
+    public function inviteUser(
+        $userLogin,
+        $email,
+        $initialIdSite = null,
+        $expiryInDays = null,
+        #[\SensitiveParameter]
+        $passwordConfirmation = null
+    ) {
         Piwik::checkUserHasSomeAdminAccess();
         UsersManager::dieIfUsersAdminIsDisabled();
 
@@ -825,8 +839,12 @@ class API extends \Piwik\Plugin\API
      *                                     sent as a POST parameter.
      * @throws \Exception
      */
-    public function setSuperUserAccess($userLogin, $hasSuperUserAccess, $passwordConfirmation = null)
-    {
+    public function setSuperUserAccess(
+        $userLogin,
+        $hasSuperUserAccess,
+        #[\SensitiveParameter]
+        $passwordConfirmation = null
+    ) {
         $this->executeConcurrencySafe($userLogin, function () use ($userLogin, $hasSuperUserAccess, $passwordConfirmation) {
             Piwik::checkUserHasSuperUserAccess();
             $this->checkUserIsNotAnonymous($userLogin);
@@ -896,9 +914,11 @@ class API extends \Piwik\Plugin\API
      */
     public function updateUser(
         $userLogin,
+        #[\SensitiveParameter]
         $password = false,
         $email = false,
         $_isPasswordHashed = false,
+        #[\SensitiveParameter]
         $passwordConfirmation = false
     ) {
         $email = Common::unsanitizeInputValue($email);
@@ -992,8 +1012,11 @@ class API extends \Piwik\Plugin\API
      * @throws Exception if the user doesn't exist or if deleting the users would leave no superusers.
      *
      */
-    public function deleteUser($userLogin, $passwordConfirmation = null)
-    {
+    public function deleteUser(
+        $userLogin,
+        #[\SensitiveParameter]
+        $passwordConfirmation = null
+    ) {
         Piwik::checkUserHasSomeAdminAccess();
         UsersManager::dieIfUsersAdminIsDisabled();
         $this->checkUserIsNotAnonymous($userLogin);
@@ -1026,7 +1049,7 @@ class API extends \Piwik\Plugin\API
         $email = $container->make(UserDeletedEmail::class, [
           'login'        => Piwik::getCurrentUserLogin(),
           'emailAddress' => Piwik::getCurrentUserEmail(),
-          'userLogin'    => $userLogin
+          'userLogin'    => $userLogin,
         ]);
         $email->safeSend();
 
@@ -1106,8 +1129,13 @@ class API extends \Piwik\Plugin\API
      * @throws Exception if the access parameter doesn't have a correct value
      * @throws Exception if any of the given website ID doesn't exist
      */
-    public function setUserAccess($userLogin, $access, $idSites, $passwordConfirmation = null)
-    {
+    public function setUserAccess(
+        $userLogin,
+        $access,
+        $idSites,
+        #[\SensitiveParameter]
+        $passwordConfirmation = null
+    ) {
         UsersManager::dieIfUsersAdminIsDisabled();
 
         if ($access != 'noaccess') {
@@ -1191,7 +1219,7 @@ class API extends \Piwik\Plugin\API
                     $email = $container->make(AnonymousAccessEnabledEmail::class, array(
                         'login' => $login,
                         'emailAddress' => $email,
-                        'siteName' => implode(', ', $siteNames)
+                        'siteName' => implode(', ', $siteNames),
                     ));
                     $email->safeSend();
                 }
@@ -1443,14 +1471,17 @@ class API extends \Piwik\Plugin\API
      * @param string $expireHours Optionally number of hours for how long the token should be valid before it expires.
      *                            If expireDate is set and expireHours, then expireDate will be used.
      *                            If expireDate is set and expireHours, then expireDate will be used.
+     * @param bool $secureOnly Defines if the token can be used securely only (if true, token can't be provided as param in GET requests)
      * @return string
      */
     public function createAppSpecificTokenAuth(
-        $userLogin,
-        $passwordConfirmation,
-        $description,
+        string $userLogin,
+        #[\SensitiveParameter]
+        string $passwordConfirmation,
+        string $description,
         $expireDate = null,
-        $expireHours = 0
+        $expireHours = 0,
+        bool $secureOnly = false
     ) {
         $user = $this->model->getUser($userLogin);
         if (empty($user) && Piwik::isValidEmailString($userLogin)) {
@@ -1479,7 +1510,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $generatedToken = $this->model->generateRandomTokenAuth();
-        $this->model->addTokenAuth($userLogin, $generatedToken, $description, Date::now()->getDatetime(), $expireDate);
+        $this->model->addTokenAuth($userLogin, $generatedToken, $description, Date::now()->getDatetime(), $expireDate, false, $secureOnly);
 
         return $generatedToken;
     }
@@ -1602,8 +1633,12 @@ class API extends \Piwik\Plugin\API
      * @param string | null $passwordConfirmation
      * @throws NoAccessException
      */
-    public function resendInvite($userLogin, $expiryInDays = 7, $passwordConfirmation = null)
-    {
+    public function resendInvite(
+        $userLogin,
+        $expiryInDays = 7,
+        #[\SensitiveParameter]
+        $passwordConfirmation = null
+    ) {
         Piwik::checkUserHasSomeAdminAccess();
 
         // check password confirmation only when using session auth
@@ -1643,8 +1678,12 @@ class API extends \Piwik\Plugin\API
      * @return string
      * @throws NoAccessException
      */
-    public function generateInviteLink($userLogin, $expiryInDays = 7, $passwordConfirmation = null)
-    {
+    public function generateInviteLink(
+        $userLogin,
+        $expiryInDays = 7,
+        #[\SensitiveParameter]
+        $passwordConfirmation = null
+    ) {
         Piwik::checkUserHasSomeAdminAccess();
 
         // check password confirmation only when using session auth
@@ -1681,7 +1720,7 @@ class API extends \Piwik\Plugin\API
             ]);
     }
 
-    private function executeConcurrencySafe(string $userLogin, callable $callback = null)
+    private function executeConcurrencySafe(string $userLogin, callable $callback): void
     {
         $lock = new Lock(StaticContainer::get(LockBackend::class), 'UsersManager.changePermissions');
         $lock->execute($userLogin, $callback);

@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreAdminHome\Controller;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
@@ -26,7 +27,7 @@ if (!defined('PIWIK_USER_PATH')) {
 }
 
 /**
- * Encapsulates and manages a [Twig](http://twig.sensiolabs.org/) template.
+ * Encapsulates and manages a [Twig](https://twig.sensiolabs.org/) template.
  *
  * View lets you set properties that will be passed on to a Twig template.
  * View will also set several properties that will be available in all Twig
@@ -495,8 +496,8 @@ class View implements ViewInterface
      */
     private function validTokenAuthInUrl()
     {
-        $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $_GET);
-        return ($tokenAuth && $tokenAuth === Piwik::getCurrentUserTokenAuth());
+        $token = StaticContainer::get(AuthenticationToken::class);
+        return (!$token->wasTokenAuthProvidedSecurely() && $token->getAuthToken() === Piwik::getCurrentUserTokenAuth());
     }
 
     /**

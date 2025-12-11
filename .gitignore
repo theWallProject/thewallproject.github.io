@@ -25,3 +25,5 @@ playwright-report/
 
 # Deploy script (contains sensitive server information)
 scripts/deploy.js
+matomo/misc/DBIP-City.mmdb
+matomo/tmp/

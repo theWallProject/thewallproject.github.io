@@ -520,7 +520,7 @@ class API extends \Piwik\Plugin\API
         $description = '',
         $status = ''
     ) {
-        $name = $this->decodeQuotes($name);
+        $name = trim($this->decodeQuotes($name));
         $this->accessValidator->checkWriteCapability($idSite);
         $this->containers->checkContainerVersionExists($idSite, $idContainer, $idContainerVersion);
 
@@ -571,7 +571,7 @@ class API extends \Piwik\Plugin\API
         $endDate = null,
         $description = ''
     ) {
-        $name = $this->decodeQuotes($name);
+        $name = trim($this->decodeQuotes($name));
         $this->accessValidator->checkWriteCapability($idSite);
         $this->containers->checkContainerVersionExists($idSite, $idContainer, $idContainerVersion);
 
@@ -755,7 +755,7 @@ class API extends \Piwik\Plugin\API
      */
     public function addContainerTrigger($idSite, $idContainer, $idContainerVersion, $type, $name, $parameters = [], $conditions = [], $description = '')
     {
-        $name = $this->decodeQuotes($name);
+        $name = trim($this->decodeQuotes($name));
         $this->accessValidator->checkWriteCapability($idSite);
         $this->containers->checkContainerVersionExists($idSite, $idContainer, $idContainerVersion);
 
@@ -789,7 +789,7 @@ class API extends \Piwik\Plugin\API
      */
     public function updateContainerTrigger($idSite, $idContainer, $idContainerVersion, $idTrigger, $name, $parameters = [], $conditions = [], $description = '')
     {
-        $name = $this->decodeQuotes($name);
+        $name = trim($this->decodeQuotes($name));
         $this->accessValidator->checkWriteCapability($idSite);
         $this->containers->checkContainerVersionExists($idSite, $idContainer, $idContainerVersion);
 
@@ -963,7 +963,7 @@ class API extends \Piwik\Plugin\API
      */
     public function addContainerVariable($idSite, $idContainer, $idContainerVersion, $type, $name, $parameters = [], $defaultValue = false, $lookupTable = [], $description = '')
     {
-        $name = $this->decodeQuotes($name);
+        $name = trim($this->decodeQuotes($name));
         $this->accessValidator->checkWriteCapability($idSite);
         $this->containers->checkContainerVersionExists($idSite, $idContainer, $idContainerVersion);
 
@@ -1015,7 +1015,7 @@ class API extends \Piwik\Plugin\API
      */
     public function updateContainerVariable($idSite, $idContainer, $idContainerVersion, $idVariable, $name, $parameters = [], $defaultValue = null, $lookupTable = [], $description = '')
     {
-        $name = $this->decodeQuotes($name);
+        $name = trim($this->decodeQuotes($name));
         $this->accessValidator->checkWriteCapability($idSite);
         $this->containers->checkContainerVersionExists($idSite, $idContainer, $idContainerVersion);
 
@@ -1446,9 +1446,10 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite The id of the site the given container belongs to
      * @param string $idContainer  The id of a container, for example "6OMh6taM"
      * @param string $backupName   If specified, a backup of the current draft will be created under this version name.
+     * @param bool $_isDraftRestoreCall A boolean parameter to specify, if its a backup restore call to avoid nesting exception if backup version has errors
      * @return array
      */
-    public function importContainerVersion($exportedContainerVersion, $idSite, $idContainer, $backupName = '')
+    public function importContainerVersion($exportedContainerVersion, $idSite, $idContainer, $backupName = '', bool $_isDraftRestoreCall = false)
     {
         $this->accessValidator->checkWriteCapability($idSite);
         if (!Piwik::isUserHasCapability($idSite, PublishLiveContainer::ID)) {
@@ -1461,7 +1462,10 @@ class API extends \Piwik\Plugin\API
             throw new Exception(Piwik::translate('TagManager_ErrorContainerVersionDoesNotExist'));
         }
 
-        $exportedContainerVersion = Common::unsanitizeInputValue($exportedContainerVersion);
+        if (!$_isDraftRestoreCall) {
+            $draft = $this->exportContainerVersion($idSite, $idContainer);
+            $exportedContainerVersion = Common::unsanitizeInputValue($exportedContainerVersion);
+        }
         $exportedContainerVersion = @json_decode($exportedContainerVersion, true);
 
         if (empty($exportedContainerVersion) || !is_array($exportedContainerVersion)) {
@@ -1472,12 +1476,24 @@ class API extends \Piwik\Plugin\API
         $this->import->checkImportContainerIsPossible($exportedContainerVersion, $idSite, $idContainer);
 
         if (!empty($backupName)) {
-            $this->createContainerVersion($idSite, $idContainer, $backupName);
+            $backupVersionId = $this->createContainerVersion($idSite, $idContainer, $backupName);
         }
 
         $this->containers->checkContainerVersionExists($idSite, $idContainer, $idContainerVersion);
         $this->enableGeneratePreview = false;
-        $this->import->importContainerVersion($exportedContainerVersion, $idSite, $idContainer, $idContainerVersion);
+        try {
+            $this->import->importContainerVersion($exportedContainerVersion, $idSite, $idContainer, $idContainerVersion);
+        } catch (Exception $e) {
+            if (!$_isDraftRestoreCall && !empty($draft)) {
+                if (!empty($backupVersionId)) {
+                    // Delete the backup container if created
+                    $this->deleteContainerVersion($idSite, $idContainer, $backupVersionId);
+                }
+                // rollback to old working draft
+                $this->importContainerVersion(json_encode($draft, JSON_HEX_APOS), $idSite, $idContainer, '', true);
+            }
+            throw $e;
+        }
         $this->enableGeneratePreview = true;
         $this->updateContainerPreviewRelease($idSite, $idContainer);
     }
