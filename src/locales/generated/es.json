@@ -48,11 +48,17 @@
       "trustedData": {
         "title": "Datos confiables",
         "description": "La principal fuente de datos es la última lista de Crunchbase de empresas con sede en Israel. También empresas con un fundador o inversor de Israel. Más datos como la lista BDS próximamente. La extensión mostrará la razón."
+      },
+      "donate": {
+        "title": "Apoya The Wall",
+        "description": "Ayúdanos a mantener y mejorar The Wall Addon. Tu apoyo nos permite mantener la extensión gratuita, actualizar la base de datos regularmente y agregar nuevas funciones. ¡Cada contribución marca la diferencia!",
+        "button": "Haz clic para donar"
       }
     },
     "footer": {
       "github": "GitHub",
-      "email": "Email"
+      "email": "Email",
+      "donate": "Donar"
     },
     "language": {
       "switcher": {

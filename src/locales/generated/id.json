@@ -48,11 +48,17 @@
       "trustedData": {
         "title": "Data terpercaya",
         "description": "Sumber utama data adalah daftar Crunchbase terbaru dari perusahaan yang berkantor pusat di Israel. Juga perusahaan dengan pendiri atau investor dari Israel. Lebih banyak data seperti daftar BDS segera hadir. Addon akan menunjukkan alasannya."
+      },
+      "donate": {
+        "title": "Dukung The Wall",
+        "description": "Bantu kami memelihara dan meningkatkan The Wall Addon. Dukungan Anda memungkinkan kami menjaga addon tetap gratis, memperbarui database secara teratur, dan menambahkan fitur baru. Setiap kontribusi membuat perbedaan!",
+        "button": "Klik untuk donasi"
       }
     },
     "footer": {
       "github": "GitHub",
-      "email": "Email"
+      "email": "Email",
+      "donate": "Donasi"
     },
     "language": {
       "switcher": {

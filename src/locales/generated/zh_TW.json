@@ -48,11 +48,17 @@
       "trustedData": {
         "title": "可信數據",
         "description": "數據的主要來源是 Crunchbase 最新的以色列總部公司名單。還包括有以色列創始人或投資者的公司。更多數據如 BDS 名單即將推出。插件將顯示原因。"
+      },
+      "donate": {
+        "title": "支持 The Wall",
+        "description": "幫助我們維護和改進 The Wall 插件。您的支持使我們能夠保持插件免費，定期更新數據庫，並添加新功能。每一份貢獻都很重要！",
+        "button": "點擊捐贈"
       }
     },
     "footer": {
       "github": "GitHub",
-      "email": "郵箱"
+      "email": "郵箱",
+      "donate": "捐贈"
     },
     "language": {
       "switcher": {

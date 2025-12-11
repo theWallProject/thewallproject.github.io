@@ -34,7 +34,7 @@ test.describe("Footer", () => {
     const githubLink = socialLinks.filter({ hasText: /github/i });
     await expect(githubLink).toHaveAttribute(
       "href",
-      "https://github.com/theWallProject/theWallAddon"
+      "https://github.com/theWallProject/mono"
     );
 
     // Check Email link

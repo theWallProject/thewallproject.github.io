@@ -48,11 +48,17 @@
       "trustedData": {
         "title": "Betrouwbare gegevens",
         "description": "De belangrijkste bron van gegevens is de nieuwste Crunchbase-lijst van bedrijven met hoofdkantoor in Israël. Ook bedrijven met een oprichter of investeerder uit Israël. Meer gegevens zoals de BDS-lijst komen binnenkort. De addon zal de reden tonen."
+      },
+      "donate": {
+        "title": "Steun The Wall",
+        "description": "Help ons The Wall Addon te onderhouden en te verbeteren. Uw steun stelt ons in staat de addon gratis te houden, de database regelmatig bij te werken en nieuwe functies toe te voegen. Elke bijdrage maakt het verschil!",
+        "button": "Klik om te doneren"
       }
     },
     "footer": {
       "github": "GitHub",
-      "email": "E-mail"
+      "email": "E-mail",
+      "donate": "Doneren"
     },
     "language": {
       "switcher": {

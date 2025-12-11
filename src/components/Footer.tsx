@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
   const socialLinks = [
     {
       id: "github",
-      href: "https://github.com/theWallProject/theWallAddon",
+      href: "https://github.com/theWallProject/mono",
       icon: (
         <svg viewBox="0 0 40 40" aria-labelledby="github-icon">
           <title id="github-icon">GitHub</title>

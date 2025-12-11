@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npx kill-port 3000 && vite --port 3000",
+    "dev": "npm run generate-i18n && npx kill-port 3000 && vite --port 3000",
     "build": "npm run lint && npm run generate-i18n && tsc -b && vite build",
     "generate-i18n": "node scripts/generate-i18n.js",
     "lint": "eslint .",
@@ -19,7 +19,8 @@
     "test:performance": "npm run build && playwright test tests/performance/",
     "test:lighthouse": "npm run build && playwright test tests/performance/lighthouse.spec.ts",
     "test:bundle": "npm run build && playwright test tests/performance/bundle-analysis.spec.ts",
-    "test:comprehensive": "npm run build && playwright test tests/performance/comprehensive-performance.spec.ts"
+    "test:comprehensive": "npm run build && playwright test tests/performance/comprehensive-performance.spec.ts",
+    "deploy": "node scripts/deploy.js"
   },
   "dependencies": {
     "bowser": "^2.11.0",

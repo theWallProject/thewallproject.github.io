@@ -7,6 +7,7 @@ interface FeatureProps {
   title: string;
   description: string;
   imageAlt: string;
+  donateLink?: string;
 }
 
 const Feature: React.FC<FeatureProps> = ({
@@ -14,7 +15,10 @@ const Feature: React.FC<FeatureProps> = ({
   title,
   description,
   imageAlt,
+  donateLink,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.feature}>
       <div className={styles.imageContainer}>
@@ -26,6 +30,23 @@ const Feature: React.FC<FeatureProps> = ({
         <h3 className={styles.title}>{title}</h3>
         <hr className={styles.divider} />
         <p className={styles.description}>{description}</p>
+        {donateLink && (
+          <a
+            href={donateLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.donateButton}
+          >
+            <img
+              src="./files/common/kofi-logo.png"
+              alt={t("footer.donate")}
+              className={styles.kofiLogo}
+            />
+            <span className={styles.donateText}>
+              {t("features.donate.button")}
+            </span>
+          </a>
+        )}
       </div>
     </div>
   );
@@ -63,6 +84,14 @@ const Features: React.FC = () => {
       description: t("features.trustedData.description"),
       imageAlt: "Trusted data sources",
     },
+    {
+      id: "donate",
+      image: "./files/common/wall-building.jpg",
+      title: t("features.donate.title"),
+      description: t("features.donate.description"),
+      imageAlt: "Support The Wall",
+      donateLink: "https://ko-fi.com/thewalladdon",
+    },
   ];
 
   return (
@@ -76,6 +105,7 @@ const Features: React.FC = () => {
               title={feature.title}
               description={feature.description}
               imageAlt={feature.imageAlt}
+              donateLink={feature.donateLink}
             />
           ))}
         </div>

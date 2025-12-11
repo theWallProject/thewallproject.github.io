@@ -48,11 +48,17 @@
       "trustedData": {
         "title": "Trusted data",
         "description": "The main source of the data is the latest Crunchbase list of companies with headquarters in Israel. Also companies with a founder or investor from Israel. More data like BDS list coming soon. The addon will show the reason."
+      },
+      "donate": {
+        "title": "Support The Wall",
+        "description": "Help us maintain and improve The Wall Addon. Your support enables us to keep the addon free, update the database regularly, and add new features. Every contribution makes a difference!",
+        "button": "Click to donate"
       }
     },
     "footer": {
       "github": "GitHub",
-      "email": "Email"
+      "email": "Email",
+      "donate": "Donate"
     },
     "language": {
       "switcher": {
