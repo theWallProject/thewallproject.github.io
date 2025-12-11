@@ -5,6 +5,11 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+
+# Telegram bot webhook to Docker on port 3333
+RewriteRule ^webhook(/.*)?$ http://127.0.0.1:3333/webhook$1 [P,L]
+
+
 # Matomo tracking configuration - ALL MATOMO RULES TOGETHER
 # Matomo tracking pixel redirect (/bg.gif to local Matomo installation)
 # Handle requests with query parameters
