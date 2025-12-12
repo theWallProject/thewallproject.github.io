@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  background: #e8d5d3;
+  background: #b72b00;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   padding: 1.5rem 0;
   text-align: center;
@@ -68,7 +68,7 @@
 }
 
 .logo {
-  width: 4rem;
+  width: 7rem;
   height: auto;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
 import styles from "./Header.module.css";
 
 const Header: React.FC = () => {
-  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -28,13 +26,13 @@ const Header: React.FC = () => {
                 alt="The Wall Logo"
                 className={styles.logo}
               />
-              <img
+              {/* <img
                 src="./files/common/the-wall-black.png"
                 alt="The Wall"
                 className={styles.logo}
-              />
+              /> */}
             </div>
-            <h1 className={styles.title}>{t("header.title")}</h1>
+            {/* <h1 className={styles.title}>{t("header.title")}</h1> */}
           </div>
           <div className={styles.languageSwitcherContainer}>
             <LanguageSwitcher />
