@@ -7,7 +7,7 @@ import styles from "./Hero.module.css";
 
 const Hero: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const { downloadLinks, detectedBrowser, otherBrowsers, browserDisplayName } =
+  const { downloadLinks, otherBrowsers, browserDisplayName } =
     useDownloadLinks();
   const [isScrolled, setIsScrolled] = useState(false);
 

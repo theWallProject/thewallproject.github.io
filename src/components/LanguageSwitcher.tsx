@@ -44,10 +44,6 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
     return flagMap[code] || "./files/common/flags/flag-us.svg";
   };
 
-  // Check if current language is different from detected language
-  const hasDetectedLanguage =
-    detectedLanguage && detectedLanguage !== currentLanguage;
-
   const handleLanguageSelect = useCallback(
     (languageCode: keyof typeof availableLanguages) => {
       changeLanguage(languageCode);
