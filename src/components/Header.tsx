@@ -22,7 +22,7 @@ const Header: React.FC = () => {
           <div className={styles.logoContainer}>
             <div className={styles.logos}>
               <img
-                src="./files/common/logo-red.svg"
+                src="./files/common/logo-white.svg"
                 alt="The Wall Logo"
                 className={styles.logo}
               />
