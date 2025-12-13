@@ -376,6 +376,10 @@
 
   /* InstallButton responsive styles moved to InstallButton.module.css */
 
+  .availabilityText {
+    font-size: 0.75rem;
+  }
+
   .heroImageContainer {
     width: 100%;
     max-width: 400px;
@@ -490,7 +494,7 @@
   /* InstallButton responsive styles moved to InstallButton.module.css */
 
   .availabilityText {
-    font-size: 0.8125rem;
+    font-size: 0.65rem;
   }
 
   .heroImageContainer {
