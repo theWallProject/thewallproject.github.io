@@ -21,7 +21,7 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 6rem;
 }
 
 /* Hero Banner Section - Text Left, Image Right */
@@ -99,12 +99,12 @@
   max-width: 500px;
 }
 
-.heroImage {
+.installOverlay {
+  max-width: 800px;
   width: 100%;
   height: auto;
-  max-width: 100%;
-  object-fit: contain;
-  border-radius: 8px;
+  border-radius: 10px;
+  box-shadow: -30px -30px 0 0 #932300;
 }
 
 /* Testimonial Section */
@@ -349,7 +349,7 @@
   }
 
   .content {
-    gap: 2.5rem;
+    gap: 4.5rem;
   }
 
   .heroBanner {
@@ -379,6 +379,11 @@
   .heroImageContainer {
     width: 100%;
     max-width: 400px;
+  }
+
+  .installOverlay {
+    max-width: 600px;
+    box-shadow: -20px -20px 0 0 #932300;
   }
 
   [dir="rtl"] .heroTextSection {
@@ -463,7 +468,7 @@
   }
 
   .content {
-    gap: 2rem;
+    gap: 3.5rem;
   }
 
   .heroBanner {
@@ -490,6 +495,11 @@
 
   .heroImageContainer {
     max-width: 100%;
+  }
+
+  .installOverlay {
+    max-width: 480px;
+    box-shadow: -15px -15px 0 0 #932300;
   }
 
   .testimonialSection {

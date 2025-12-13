@@ -164,9 +164,9 @@ const Hero: React.FC = () => {
 
             <div className={styles.heroImageContainer}>
               <img
-                src="./files/common/hero.png"
-                alt={t("alt.browserExtension")}
-                className={styles.heroImage}
+                src="./files/common/install.gif"
+                alt="Step 1: Install"
+                className={styles.installOverlay}
               />
             </div>
           </div>

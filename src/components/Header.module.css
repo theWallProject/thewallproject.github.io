@@ -70,13 +70,13 @@
 }
 
 .logo {
-  width: 7rem;
+  width: 10rem;
   height: auto;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .scrolled .logo {
-  width: 3rem;
+  width: 6rem;
 }
 
 .logo:hover {
@@ -145,7 +145,11 @@
   }
 
   .logo {
-    width: 4.5rem;
+    width: 10rem;
+  }
+
+  .scrolled .logo {
+    width: 6rem;
   }
 }
 
