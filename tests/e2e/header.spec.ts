@@ -5,41 +5,31 @@ test.describe("Header", () => {
     await page.goto("/");
   });
 
-  test("should display header with logos, title and language switcher", async ({
+  test("should display header with logo and language switcher", async ({
     page,
   }) => {
     const header = page.locator("header");
     await expect(header).toBeVisible();
 
-    // Check for logo images
-    const logos = page.locator('img[alt="The Wall Logo"], img[alt="The Wall"]');
-    await expect(logos).toHaveCount(2);
-
-    // Check for title
-    const title = page.locator("h1");
-    await expect(title).toBeVisible();
+    // Check for logo image
+    const logo = page.locator('img[alt="The Wall Logo"]');
+    await expect(logo).toBeVisible();
 
     // Check for language switcher button
     const languageSwitcher = page.locator('button[aria-haspopup="listbox"]');
     await expect(languageSwitcher).toBeVisible();
   });
 
-  test("should display correct logo images", async ({ page }) => {
-    // Check for both logo images
-    const logoRed = page.locator('img[alt="The Wall Logo"]');
-    const logoBlack = page.locator('img[alt="The Wall"]');
+  test("should display correct logo image", async ({ page }) => {
+    // Check for logo image
+    const logo = page.locator('img[alt="The Wall Logo"]');
 
-    await expect(logoRed).toBeVisible();
-    await expect(logoBlack).toBeVisible();
+    await expect(logo).toBeVisible();
 
-    // Check that logos have src attributes
-    await expect(logoRed).toHaveAttribute(
+    // Check that logo has src attribute
+    await expect(logo).toHaveAttribute(
       "src",
       expect.stringContaining("logo-red.svg")
-    );
-    await expect(logoBlack).toHaveAttribute(
-      "src",
-      expect.stringContaining("the-wall-black.png")
     );
   });
 
