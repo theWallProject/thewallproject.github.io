@@ -110,10 +110,6 @@
 }
 
 /* MailerLite Default Form Styles */
-.newsletterForm :global(@import url("https://assets.mlcdn.com/fonts.css?version=1765458"))
-{
-}
-
 .newsletterForm :global(#mlb2-24951471.ml-form-embedContainer) {
   direction: ltr;
 }

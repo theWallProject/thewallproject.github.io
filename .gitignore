@@ -27,3 +27,4 @@ playwright-report/
 scripts/deploy.js
 matomo/misc/DBIP-City.mmdb
 matomo/tmp/
+dist/.htaccess
