@@ -13,8 +13,12 @@
     },
     "downloads": {
       "recommended": "Voor uw browser",
-      "installNow": "Nu installeren (Voor {{browser}})",
+      "installNow": "Nu installeren",
+      "for": "Voor",
       "alsoAvailable": "Ook beschikbaar voor Safari en Firefox",
+      "alsoAvailablePrefix": "Ook beschikbaar voor",
+      "and": "en",
+      "comma": ",",
       "chrome": {
         "title": "Klik om te downloaden voor Chrome",
         "subtitle": "Ook voor Brave, Edge en Kiwi voor Android!"

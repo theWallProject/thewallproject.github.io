@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
+import DownloadSnippet from "./components/DownloadSnippet";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Features from "./components/Features";
@@ -16,6 +17,7 @@ const HomePage: React.FC = () => {
       <Header />
       <Hero />
       <Features />
+      <DownloadSnippet />
       <Footer />
     </div>
   );

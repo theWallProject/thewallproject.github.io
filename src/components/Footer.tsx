@@ -39,28 +39,34 @@ const Footer: React.FC = () => {
 
   const socialLinks = [
     {
-      id: "linkedin",
-      href: "https://www.linkedin.com/company/the-wall-addon",
-      icon: "https://via.placeholder.com/48x48/C24233/FFFFFF?text=in",
-      label: "LinkedIn",
-    },
-    {
-      id: "facebook",
-      href: "https://www.facebook.com/theWallAddon",
-      icon: "https://via.placeholder.com/48x48/C24233/FFFFFF?text=f",
-      label: "Facebook",
-    },
-    {
-      id: "instagram",
-      href: "https://www.instagram.com/theWallAddon",
-      icon: "https://via.placeholder.com/48x48/C24233/FFFFFF?text=IG",
-      label: "Instagram",
+      id: "telegram",
+      href: "https://t.me/theWallAddon",
+      icon: "./files/common/icon-telegram-white.svg",
+      label: "Telegram",
     },
     {
       id: "youtube",
       href: "https://www.youtube.com/@theWallAddon",
-      icon: "https://via.placeholder.com/48x48/C24233/FFFFFF?text=YT",
+      icon: "./files/common/icon-youtube.svg",
       label: "YouTube",
+    },
+    {
+      id: "twitter",
+      href: "https://twitter.com/theWallAddon",
+      icon: "./files/common/icon-twitter.svg",
+      label: "Twitter",
+    },
+    {
+      id: "github",
+      href: "https://github.com/theWallProject/mono",
+      icon: "./files/common/icon-github.svg",
+      label: t("footer.github"),
+    },
+    {
+      id: "email",
+      href: "mailto:the.wall.addon@proton.me",
+      icon: "./files/common/icon-email.svg",
+      label: t("footer.emailUs"),
     },
   ];
 
@@ -69,18 +75,6 @@ const Footer: React.FC = () => {
       id: "privacy",
       href: "/privacy",
       label: t("privacy.title"),
-    },
-    {
-      id: "github",
-      href: "https://github.com/theWallProject/mono",
-      label: t("footer.github"),
-      external: true,
-    },
-    {
-      id: "email",
-      href: "mailto:the.wall.addon@proton.me",
-      label: t("footer.emailUs"),
-      external: true,
     },
   ];
 
@@ -92,17 +86,15 @@ const Footer: React.FC = () => {
           <div className={styles.brandingSection}>
             <div className={styles.logoContainer}>
               <img
-                src="./files/common/logo-red.svg"
+                src="./files/common/logo-light.svg"
                 alt={t("alt.theWallLogo")}
                 className={styles.logo}
                 onError={(e) => {
                   e.currentTarget.src =
-                    "https://via.placeholder.com/120x60/C24233/FFFFFF?text=THE+WALL";
+                    "https://via.placeholder.com/230x78/C24233/FFFFFF?text=THE+WALL";
                 }}
               />
-              <h2 className={styles.logoText}>THE WALL</h2>
             </div>
-            <p className={styles.tagline}>{t("footer.tagline")}</p>
             <div className={styles.socialLinks}>
               {socialLinks.map((link) => (
                 <a
@@ -121,12 +113,6 @@ const Footer: React.FC = () => {
 
           {/* Right Column - Newsletter */}
           <div className={styles.newsletterSection}>
-            <h3 className={styles.newsletterTitle}>
-              {t("newsletter.subscribeTitle")}
-            </h3>
-            <p className={styles.newsletterDescription}>
-              {t("newsletter.subscribeDescription")}
-            </p>
             <div className={styles.newsletterForm}>
               <div className="ml-embedded" data-form="QTf4uM"></div>
             </div>

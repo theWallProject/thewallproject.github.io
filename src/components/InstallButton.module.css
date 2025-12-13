@@ -1,0 +1,44 @@
+.installButton {
+  display: inline-block;
+  text-decoration: none;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+}
+
+.installButton:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.installButton:hover .installButtonImage {
+  filter: brightness(1.1);
+}
+
+.installButton:active {
+  transform: translateY(0);
+}
+
+.installButtonImage {
+  width: 380px;
+  height: auto;
+  display: block;
+  max-width: 100%;
+}
+
+/* RTL support */
+[dir="rtl"] .installButton {
+  direction: ltr;
+}
+
+/* Responsive design - same size everywhere */
+@media (max-width: 768px) {
+  .installButtonImage {
+    width: 380px;
+  }
+}
+
+@media (max-width: 480px) {
+  .installButtonImage {
+    width: 380px;
+  }
+}

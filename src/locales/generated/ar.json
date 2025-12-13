@@ -13,8 +13,12 @@
     },
     "downloads": {
       "recommended": "لمتصفحك",
-      "installNow": "ثبت الآن (لـ {{browser}})",
+      "installNow": "ثبت الآن",
+      "for": "لـ",
       "alsoAvailable": "متوفر أيضاً لسفاري وفايرفوكس",
+      "alsoAvailablePrefix": "متوفر أيضاً لـ",
+      "and": "و",
+      "comma": "،",
       "chrome": {
         "title": "إضغط هنا للتحميل على كروم",
         "subtitle": "للأندرويد Brave, Edge و Kiwi أيضاً على!"

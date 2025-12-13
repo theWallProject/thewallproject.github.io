@@ -10,6 +10,7 @@ i18n
   .init({
     resources,
     fallbackLng: "en",
+    defaultNS: "translation",
     debug: process.env.NODE_ENV === "development",
 
     interpolation: {

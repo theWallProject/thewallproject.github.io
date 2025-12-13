@@ -1,8 +1,15 @@
-.downloads {
-  background-color: #c24233;
+.downloadSnippet {
+  --darckerOrange: #932300;
+  background-color: var(--darckerOrange);
   padding: 4rem 2rem;
   margin: 0;
-  width: 100%;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  box-sizing: border-box;
 }
 
 .container {
@@ -23,9 +30,10 @@
 /* InstallButton styles moved to InstallButton.module.css - using InstallButton component */
 
 .availabilityText {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
   margin: 0;
+  margin-bottom: 0;
   text-align: center;
 }
 
@@ -34,17 +42,23 @@
   gap: 1.5rem;
   align-items: center;
   justify-content: center;
-  margin-top: 0.5rem;
+  margin-top: -1rem;
 }
 
-.browserIcon {
-  width: 3.5rem;
-  height: 3.5rem;
+.browserIconLink {
+  display: inline-block;
+  text-decoration: none;
   transition: transform 0.3s ease;
 }
 
-.browserIcon:hover {
+.browserIconLink:hover {
   transform: scale(1.1);
+}
+
+.browserIcon {
+  width: 64px;
+  height: 64px;
+  display: block;
 }
 
 /* RTL support */
@@ -56,14 +70,14 @@
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .downloads {
+  .downloadSnippet {
     padding: 3rem 1.5rem;
   }
 
   /* InstallButton responsive styles moved to InstallButton.module.css */
 
   .availabilityText {
-    font-size: 0.9rem;
+    font-size: 0.7rem;
   }
 
   .browserIcons {
@@ -71,20 +85,20 @@
   }
 
   .browserIcon {
-    width: 3rem;
-    height: 3rem;
+    width: 3.5rem;
+    height: 3.5rem;
   }
 }
 
 @media (max-width: 480px) {
-  .downloads {
+  .downloadSnippet {
     padding: 2.5rem 1rem;
   }
 
   /* InstallButton responsive styles moved to InstallButton.module.css */
 
   .availabilityText {
-    font-size: 0.85rem;
+    font-size: 0.65rem;
   }
 
   .browserIcons {
@@ -93,7 +107,7 @@
   }
 
   .browserIcon {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 3rem;
+    height: 3rem;
   }
 }

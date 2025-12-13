@@ -1,12 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useBrowserDetection } from "./BrowserDetector";
+import { useDownloadLinks } from "./useDownloadLinks";
+import DownloadSnippet from "./DownloadSnippet";
+import InstallButton from "./InstallButton";
 import styles from "./Hero.module.css";
 
 const Hero: React.FC = () => {
-  const { t } = useTranslation();
-  const { recommendedDownload, name } = useBrowserDetection();
+  const { t, i18n } = useTranslation();
+  const { downloadLinks, detectedBrowser, otherBrowsers, browserDisplayName } =
+    useDownloadLinks();
   const [isScrolled, setIsScrolled] = useState(false);
+
+  // Get video URL based on language
+  const getVideoUrl = (): string => {
+    const currentLanguage = i18n.language;
+    if (currentLanguage === "ar") {
+      // Arabic video
+      return "https://www.youtube-nocookie.com/embed/8ksFYucC6u0";
+    }
+    // Default video
+    return "https://www.youtube-nocookie.com/embed/bEbK3Uy6fyo?si=7LlMjTM84Vwvb84G";
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,91 +34,45 @@ const Hero: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const downloadLinks = {
-    chrome: {
-      id: "chrome",
-      href: "https://chromewebstore.google.com/detail/the-wall-boycott-assistan/kocebhffdnlgdahkbfeopdokcoikipam",
-      icon: "./files/common/icon-chrome.svg",
-      displayName: "Chrome",
-    },
-    firefox: {
-      id: "firefox",
-      href: "https://addons.mozilla.org/en-US/firefox/addon/the-wall-boycott-assistant/",
-      icon: "./files/common/icon-firefox.svg",
-      displayName: "Firefox",
-    },
-    safari: {
-      id: "safari",
-      href: "https://apps.apple.com/us/app/the-wall-boycott-assistant/id6743708305",
-      icon: "./files/common/icon-safari.svg",
-      displayName: "Safari",
-    },
-  };
-
-  // Determine which browser to show in the button
-  const detectedBrowser = name !== "unknown" ? name : "chrome";
-  const primaryDownload =
-    downloadLinks[detectedBrowser as keyof typeof downloadLinks] ||
-    downloadLinks.chrome;
-
-  const getBrowserDisplayName = (browserId: string): string => {
-    if (browserId === "chrome") return "Chrome";
-    if (browserId === "firefox") return "Firefox";
-    if (browserId === "safari") return "Safari";
-    return "Chrome";
-  };
-
-  const browserDisplayName = getBrowserDisplayName(detectedBrowser);
-
-  // Get the other browsers (not the primary one) to show inline
-  const otherBrowsers = Object.values(downloadLinks).filter(
-    (browser) => browser.id !== detectedBrowser
-  );
-
   // Helper to render availability text with inline icons after browser names
   const renderAvailabilityText = () => {
-    const text = t("downloads.alsoAvailable");
+    // Generate dynamic text based on otherBrowsers using translations
+    // Browser names are kept in English, only translate the connecting words
+    let text: string;
+    if (otherBrowsers.length === 0) {
+      text = t("downloads.alsoAvailable");
+    } else {
+      const browserNames = otherBrowsers.map((b) => b.displayName);
+      const prefix = t("downloads.alsoAvailablePrefix");
+      const andWord = t("downloads.and");
+      const comma = t("downloads.comma");
 
-    // Browser name mappings (English and Arabic) - only for browsers that are not primary
+      if (browserNames.length === 1) {
+        text = `${prefix} ${browserNames[0]}`;
+      } else if (browserNames.length === 2) {
+        text = `${prefix} ${browserNames[0]} ${andWord} ${browserNames[1]}`;
+      } else {
+        const last = browserNames.pop();
+        text = `${prefix} ${browserNames.join(
+          comma + " "
+        )}${comma} ${andWord} ${last}`;
+      }
+    }
+
+    // Browser name mappings - only English names since we keep browser names in English
+    // Only for browsers that are in otherBrowsers (not the primary/detected one)
     const browserNameMap: Array<{ name: string; id: string; icon: string }> =
       [];
 
-    if (detectedBrowser !== "safari") {
+    // Only add browsers that are in otherBrowsers (not the primary/detected one)
+    // Browser names are kept in English
+    otherBrowsers.forEach((browser) => {
       browserNameMap.push({
-        name: "سفاري",
-        id: "safari",
-        icon: downloadLinks.safari.icon,
+        name: browser.displayName, // English name only
+        id: browser.id,
+        icon: browser.icon,
       });
-      browserNameMap.push({
-        name: "Safari",
-        id: "safari",
-        icon: downloadLinks.safari.icon,
-      });
-    }
-    if (detectedBrowser !== "firefox") {
-      browserNameMap.push({
-        name: "فايرفوكس",
-        id: "firefox",
-        icon: downloadLinks.firefox.icon,
-      });
-      browserNameMap.push({
-        name: "Firefox",
-        id: "firefox",
-        icon: downloadLinks.firefox.icon,
-      });
-    }
-    if (detectedBrowser !== "chrome") {
-      browserNameMap.push({
-        name: "كروم",
-        id: "chrome",
-        icon: downloadLinks.chrome.icon,
-      });
-      browserNameMap.push({
-        name: "Chrome",
-        id: "chrome",
-        icon: downloadLinks.chrome.icon,
-      });
-    }
+    });
 
     // Find all browser name occurrences with their positions
     const matches: Array<{
@@ -186,21 +154,7 @@ const Hero: React.FC = () => {
 
               {/* Download Buttons Below Text */}
               <div className={styles.downloadSection}>
-                <a
-                  href={primaryDownload.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.installButton}
-                >
-                  <img
-                    src={primaryDownload.icon}
-                    alt={`${primaryDownload.displayName} icon`}
-                    className={styles.buttonIcon}
-                  />
-                  <span className={styles.buttonText}>
-                    {t("downloads.installNow", { browser: browserDisplayName })}
-                  </span>
-                </a>
+                <InstallButton />
 
                 <p className={styles.availabilityText}>
                   {renderAvailabilityText()}
@@ -265,7 +219,7 @@ const Hero: React.FC = () => {
             <div className={styles.videoContainer}>
               <div className={styles.video}>
                 <iframe
-                  src="https://www.youtube-nocookie.com/embed/bEbK3Uy6fyo?si=7LlMjTM84Vwvb84G"
+                  src={getVideoUrl()}
                   title="YouTube video player"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -287,6 +241,9 @@ const Hero: React.FC = () => {
               </h3>
             </div>
           </div>
+
+          {/* Download Snippet Section */}
+          <DownloadSnippet />
         </div>
       </div>
     </section>

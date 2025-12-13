@@ -13,8 +13,12 @@
     },
     "downloads": {
       "recommended": "For your browser",
-      "installNow": "Install Now (For {{browser}})",
+      "installNow": "Install Now",
+      "for": "For",
       "alsoAvailable": "Also available for Safari and Firefox",
+      "alsoAvailablePrefix": "Also available for",
+      "and": "and",
+      "comma": ",",
       "chrome": {
         "title": "Click to download for Chrome",
         "subtitle": "Also for Brave, Edge and Kiwi for Android!"

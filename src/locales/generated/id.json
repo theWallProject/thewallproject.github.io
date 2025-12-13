@@ -13,8 +13,12 @@
     },
     "downloads": {
       "recommended": "Untuk browser Anda",
-      "installNow": "Instal Sekarang (Untuk {{browser}})",
+      "installNow": "Instal Sekarang",
+      "for": "Untuk",
       "alsoAvailable": "Juga tersedia untuk Safari dan Firefox",
+      "alsoAvailablePrefix": "Juga tersedia untuk",
+      "and": "dan",
+      "comma": ",",
       "chrome": {
         "title": "Klik untuk mengunduh untuk Chrome",
         "subtitle": "Juga untuk Brave, Edge dan Kiwi untuk Android!"

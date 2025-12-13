@@ -13,8 +13,12 @@
     },
     "downloads": {
       "recommended": "適用於您的瀏覽器",
-      "installNow": "立即安裝（適用於 {{browser}}）",
+      "installNow": "立即安裝",
+      "for": "適用於",
       "alsoAvailable": "也適用於 Safari 和 Firefox",
+      "alsoAvailablePrefix": "也適用於",
+      "and": "和",
+      "comma": "、",
       "chrome": {
         "title": "點擊下載 Chrome 版本",
         "subtitle": "也適用於 Brave、Edge 和 Android 版 Kiwi！"

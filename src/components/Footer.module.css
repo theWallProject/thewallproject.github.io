@@ -3,6 +3,7 @@
   padding: 3rem 2rem 1.5rem;
   margin: 0;
   width: 100%;
+  direction: ltr;
 }
 
 .container {
@@ -14,11 +15,12 @@
 
 .footerMain {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   gap: 4rem;
   margin-bottom: 2rem;
   padding-bottom: 2rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  direction: ltr;
 }
 
 /* Left Column - Branding */
@@ -35,22 +37,18 @@
 }
 
 .logo {
-  width: 3rem;
+  width: 230px;
   height: auto;
   object-fit: contain;
 }
 
-.logoText {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #000000;
-  margin: 0;
-  letter-spacing: 0.05em;
+.tagline {
+  display: none;
 }
 
 .tagline {
   font-size: 1rem;
-  color: var(--color-dark-gray);
+  color: #cd4626;
   margin: 0;
   font-weight: 400;
 }
@@ -59,16 +57,17 @@
   display: flex;
   gap: 0.75rem;
   margin-top: 0.5rem;
+  direction: ltr;
 }
 
 .socialIcon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 6px;
-  background-color: #c24233;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #cd4626;
   transition: transform 0.3s ease, opacity 0.3s ease;
   text-decoration: none;
 }
@@ -79,10 +78,9 @@
 }
 
 .socialIcon img {
-  width: 100%;
-  height: 100%;
+  width: 60%;
+  height: 60%;
   object-fit: contain;
-  padding: 0.5rem;
 }
 
 /* Right Column - Newsletter */
@@ -95,67 +93,1413 @@
 .newsletterTitle {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-dark-gray);
+  color: #333333;
   margin: 0;
 }
 
 .newsletterDescription {
   font-size: 0.95rem;
-  color: #666666;
+  color: #cd4626;
   margin: 0;
   line-height: 1.5;
 }
 
 .newsletterForm {
   margin-top: 0.5rem;
+  direction: ltr;
 }
 
-/* MailerLite form styling */
-.newsletterForm :global(.ml-embedded) {
-  width: 100%;
-  max-width: 500px;
+/* MailerLite Default Form Styles */
+.newsletterForm :global(@import url("https://assets.mlcdn.com/fonts.css?version=1765458"))
+{
+}
+
+.newsletterForm :global(#mlb2-24951471.ml-form-embedContainer) {
+  direction: ltr;
 }
 
 .newsletterForm :global(.ml-form-embedWrapper) {
-  display: flex;
-  gap: 0.5rem;
+  direction: ltr;
 }
 
-.newsletterForm :global(.ml-form-embedWrapper input[type="email"]) {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  background-color: #fff5f3;
-  font-size: 1rem;
-  color: var(--color-dark-gray);
+.newsletterForm :global(.ml-form-embedBody) {
+  direction: ltr;
+}
+
+.newsletterForm :global(.ml-form-embedContent) {
+  direction: ltr;
+  text-align: left;
+}
+
+.newsletterForm :global(.ml-form-formContent) {
+  direction: ltr;
+}
+
+.newsletterForm :global(.ml-form-horizontalRow) {
+  direction: ltr;
+}
+
+.newsletterForm :global(.ml-form-embedPermissions) {
+  direction: ltr;
+  text-align: left;
+}
+
+.newsletterForm :global(.ml-form-embedSubmitLoad) {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+.newsletterForm :global(.g-recaptcha) {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+}
+
+.newsletterForm :global(.sr-only) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.newsletterForm :global(.ml-form-embedSubmitLoad:after) {
+  content: " ";
+  display: block;
+  width: 11px;
+  height: 11px;
+  margin: 1px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  border-color: #ffffff #ffffff #ffffff transparent;
+  animation: ml-form-embedSubmitLoad 1.2s linear infinite;
+}
+
+@keyframes ml-form-embedSubmitLoad {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.newsletterForm :global(#mlb2-24951471.ml-form-embedContainer) {
+  box-sizing: border-box;
+  display: table;
+  margin: 0 auto;
+  position: static;
+  width: 100%;
+}
+
+.newsletterForm :global(#mlb2-24951471.ml-form-embedContainer h4),
+.newsletterForm :global(#mlb2-24951471.ml-form-embedContainer p),
+.newsletterForm :global(#mlb2-24951471.ml-form-embedContainer span),
+.newsletterForm :global(#mlb2-24951471.ml-form-embedContainer button) {
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 .newsletterForm
-  :global(.ml-form-embedWrapper input[type="email"]::placeholder) {
-  color: #999999;
+  :global(#mlb2-24951471.ml-form-embedContainer .ml-form-embedWrapper) {
+  background-color: #ffffff;
+  border-width: 0px;
+  border-color: transparent;
+  border-radius: 4px;
+  border-style: solid;
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  position: relative;
 }
 
-.newsletterForm :global(.ml-form-embedWrapper button),
-.newsletterForm :global(.ml-form-embedWrapper input[type="submit"]) {
-  padding: 0.75rem 1.5rem;
-  background-color: #c24233;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer .ml-form-embedWrapper.embedPopup
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer .ml-form-embedWrapper.embedDefault
+  ) {
+  width: 400px;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer .ml-form-embedWrapper.embedForm
+  ) {
+  max-width: 400px;
+  width: 100%;
+}
+
+.newsletterForm
+  :global(#mlb2-24951471.ml-form-embedContainer .ml-form-align-left) {
+  text-align: left;
+}
+
+.newsletterForm
+  :global(#mlb2-24951471.ml-form-embedContainer .ml-form-align-center) {
+  text-align: center;
+}
+
+.newsletterForm
+  :global(#mlb2-24951471.ml-form-embedContainer .ml-form-align-default) {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.newsletterForm
+  :global(#mlb2-24951471.ml-form-embedContainer .ml-form-align-right) {
+  text-align: right;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedHeader
+      img
+  ) {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  height: auto;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-successBody
+  ) {
+  padding: 20px 20px 0 20px;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody.ml-form-embedBodyHorizontal
+  ) {
+  padding-bottom: 0;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedContent
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-successBody
+      .ml-form-successContent
+  ) {
+  text-align: left;
+  margin: 0 0 20px 0;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedContent
+      h4
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-successBody
+      .ml-form-successContent
+      h4
+  ) {
+  color: #b72b00;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+  margin: 0 0 10px 0;
+  text-align: left;
+  word-break: break-word;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedContent
+      p
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-successBody
+      .ml-form-successContent
+      p
+  ) {
+  color: #b72b00;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0 0 10px 0;
+  text-align: left;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedContent
+      ul
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedContent
+      ol
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-successBody
+      .ml-form-successContent
+      ul
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-successBody
+      .ml-form-successContent
+      ol
+  ) {
+  color: #b72b00;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedContent
+      ol
+      ol
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-successBody
+      .ml-form-successContent
+      ol
+      ol
+  ) {
+  list-style-type: lower-alpha;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedContent
+      ol
+      ol
+      ol
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-successBody
+      .ml-form-successContent
+      ol
+      ol
+      ol
+  ) {
+  list-style-type: lower-roman;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedContent
+      p
+      a
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-successBody
+      .ml-form-successContent
+      p
+      a
+  ) {
+  color: #000000;
+  text-decoration: underline;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-block-form
+      .ml-field-group
+  ) {
+  text-align: left;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-block-form
+      .ml-field-group
+      label
+  ) {
+  margin-bottom: 5px;
+  color: #333333;
+  font-size: 14px;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-style: normal;
+  text-decoration: none;
+  display: inline-block;
+  line-height: 20px;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedContent
+      p:last-child
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-successBody
+      .ml-form-successContent
+      p:last-child
+  ) {
+  margin: 0;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      form
+  ) {
+  margin: 0;
+  width: 100%;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-formContent
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-checkboxRow
+  ) {
+  margin: 0 0 20px 0;
+  width: 100%;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-checkboxRow
+  ) {
+  float: left;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-formContent.horozintalForm
+  ) {
+  margin: 0;
+  padding: 0 0 20px 0;
+  width: 100%;
+  height: auto;
+  float: left;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow
+  ) {
+  margin: 0 0 10px 0;
+  width: 100%;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow.ml-last-item
+  ) {
+  margin: 0;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow.ml-formfieldHorizintal
+  ) {
+  margin: 0;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow
+      input
+  ) {
+  background-color: #ffffff;
+  color: #333333;
+  border-color: #cccccc;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  height: auto;
+  line-height: 21px;
+  margin-bottom: 0;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 10px 10px;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow
+      input::-webkit-input-placeholder
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-horizontalRow
+      input::-webkit-input-placeholder
+  ) {
+  color: #333333;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow
+      input::-moz-placeholder
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-horizontalRow
+      input::-moz-placeholder
+  ) {
+  color: #333333;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow
+      input:-ms-input-placeholder
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-horizontalRow
+      input:-ms-input-placeholder
+  ) {
+  color: #333333;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow
+      input:-moz-placeholder
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-horizontalRow
+      input:-moz-placeholder
+  ) {
+  color: #333333;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow
+      textarea
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-horizontalRow
+      textarea
+  ) {
+  background-color: #ffffff;
+  color: #333333;
+  border-color: #cccccc;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  height: auto;
+  line-height: 21px;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 10px 10px;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-horizontalRow
+  ) {
+  height: auto;
+  width: 100%;
+  float: left;
+}
+
+.newsletterForm
+  :global(
+    .ml-form-formContent.horozintalForm
+      .ml-form-horizontalRow
+      .ml-input-horizontal
+  ) {
+  width: 70%;
+  float: left;
+}
+
+.newsletterForm
+  :global(
+    .ml-form-formContent.horozintalForm
+      .ml-form-horizontalRow
+      .ml-button-horizontal
+  ) {
+  width: 30%;
+  float: left;
+}
+
+.newsletterForm
+  :global(
+    .ml-form-formContent.horozintalForm
+      .ml-form-horizontalRow
+      .ml-button-horizontal.labelsOn
+  ) {
+  padding-top: 25px;
+}
+
+.newsletterForm
+  :global(
+    .ml-form-formContent.horozintalForm
+      .ml-form-horizontalRow
+      .horizontal-fields
+  ) {
+  box-sizing: border-box;
+  float: left;
+  padding-right: 10px;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-horizontalRow
+      input
+  ) {
+  background-color: #ffffff;
+  color: #333333;
+  border-color: #cccccc;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 10px 10px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: initial;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-horizontalRow
+      button
+  ) {
+  background-color: #b72b00;
+  border-color: #b72b00;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 23px;
+  box-shadow: none;
+  color: #ffffff;
   cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.3s ease;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0;
+  padding: 10px;
+  width: 100%;
+  height: auto;
 }
 
-.newsletterForm :global(.ml-form-embedWrapper button:hover),
-.newsletterForm :global(.ml-form-embedWrapper input[type="submit"]:hover) {
-  background-color: #a83528;
-  transform: translateY(-1px);
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-horizontalRow
+      button:hover
+  ) {
+  background-color: #bd341c;
+  border-color: #bd341c;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedSubmit
+  ) {
+  margin: 0 0 20px 0;
+  float: left;
+  width: 100%;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedSubmit
+      button
+  ) {
+  background-color: #b72b00;
+  border: none;
+  border-radius: 23px;
+  box-shadow: none;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  height: auto;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedSubmit
+      button.loading
+  ) {
+  display: none;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedSubmit
+      button:hover
+  ) {
+  background-color: #bd341c;
+}
+
+.newsletterForm :global(.ml-subscribe-close) {
+  width: 30px;
+  height: 30px;
+  background: url("https://assets.mlcdn.com/ml/images/default/modal_close.png")
+    no-repeat;
+  background-size: 30px;
+  cursor: pointer;
+  margin-top: -10px;
+  margin-right: -10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.newsletterForm :global(.ml-error input),
+.newsletterForm :global(.ml-error textarea),
+.newsletterForm :global(.ml-error select) {
+  border-color: red;
+}
+
+.newsletterForm :global(.ml-error .custom-checkbox-radio-list) {
+  border: 1px solid red;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.newsletterForm :global(.ml-error .label-description),
+.newsletterForm :global(.ml-error .label-description p),
+.newsletterForm :global(.ml-error .label-description p a),
+.newsletterForm :global(.ml-error label:first-child) {
+  color: #ff0000;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow
+      .custom-radio
+      .custom-control-label::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-horizontalRow
+      .custom-radio
+      .custom-control-label::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow
+      .custom-checkbox
+      .custom-control-label::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-horizontalRow
+      .custom-checkbox
+      .custom-control-label::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedPermissions
+      .ml-form-embedPermissionsOptionsCheckbox
+      .label-description::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-interestGroupsRow
+      .ml-form-interestGroupsRowCheckbox
+      .label-description::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-checkboxRow
+      .label-description::before
+  ) {
+  border-color: #cccccc;
+  background-color: #ffffff;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow
+      input.custom-control-input[type="checkbox"]
+  ) {
+  box-sizing: border-box;
+  padding: 0;
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  margin-top: 5px;
+  margin-left: -1.5rem;
+  overflow: visible;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow
+      .custom-checkbox
+      .custom-control-label::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-horizontalRow
+      .custom-checkbox
+      .custom-control-label::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedPermissions
+      .ml-form-embedPermissionsOptionsCheckbox
+      .label-description::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-interestGroupsRow
+      .ml-form-interestGroupsRowCheckbox
+      .label-description::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-checkboxRow
+      .label-description::before
+  ) {
+  border-radius: 4px;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-checkboxRow
+      input[type="checkbox"]:checked
+      ~ .label-description::after
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedPermissions
+      .ml-form-embedPermissionsOptionsCheckbox
+      input[type="checkbox"]:checked
+      ~ .label-description::after
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow
+      .custom-checkbox
+      .custom-control-input:checked
+      ~ .custom-control-label::after
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-horizontalRow
+      .custom-checkbox
+      .custom-control-input:checked
+      ~ .custom-control-label::after
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-interestGroupsRow
+      .ml-form-interestGroupsRowCheckbox
+      input[type="checkbox"]:checked
+      ~ .label-description::after
+  ) {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow
+      .custom-radio
+      .custom-control-input:checked
+      ~ .custom-control-label::after
+  ) {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow
+      .custom-radio
+      .custom-control-input:checked
+      ~ .custom-control-label::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-horizontalRow
+      .custom-radio
+      .custom-control-input:checked
+      ~ .custom-control-label::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-fieldRow
+      .custom-checkbox
+      .custom-control-input:checked
+      ~ .custom-control-label::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-horizontalRow
+      .custom-checkbox
+      .custom-control-input:checked
+      ~ .custom-control-label::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedPermissions
+      .ml-form-embedPermissionsOptionsCheckbox
+      input[type="checkbox"]:checked
+      ~ .label-description::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-interestGroupsRow
+      .ml-form-interestGroupsRowCheckbox
+      input[type="checkbox"]:checked
+      ~ .label-description::before
+  ),
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-checkboxRow
+      input[type="checkbox"]:checked
+      ~ .label-description::before
+  ) {
+  border-color: #000000;
+  background-color: #000000;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-checkboxRow
+      input[type="checkbox"]
+  ) {
+  box-sizing: border-box;
+  padding: 0;
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  margin-top: 5px;
+  margin-left: -1.5rem;
+  overflow: visible;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-checkboxRow
+      .label-description
+  ) {
+  color: #b72b00;
+  display: block;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  text-align: left;
+  margin-bottom: 0;
+  position: relative;
+  vertical-align: top;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-checkboxRow
+      label
+  ) {
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  display: block;
+  min-height: 24px;
+  padding-left: 24px;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-checkboxRow
+      label
+      a
+  ) {
+  color: #b72b00;
+  text-decoration: underline;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-checkboxRow
+      label
+      p
+  ) {
+  color: #b72b00;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 18px;
+  padding: 0;
+  margin: 0 5px 0 0;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-checkboxRow
+      label
+      p:last-child
+  ) {
+  margin: 0;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedPermissions
+  ) {
+  text-align: left;
+  float: left;
+  width: 100%;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedPermissions
+      .ml-form-embedPermissionsContent
+  ) {
+  margin: 0 0 15px 0;
+  text-align: left;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedPermissions
+      .ml-form-embedPermissionsContent.horizontal
+  ) {
+  margin: 0 0 15px 0;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedPermissions
+      .ml-form-embedPermissionsContent.privacy-policy
+      p
+  ) {
+  color: #b72b00;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 22px;
+  margin: 0 0 10px 0;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedPermissions
+      .ml-form-embedPermissionsContent.privacy-policy
+      p
+      a
+  ) {
+  color: #b72b00;
+}
+
+.newsletterForm
+  :global(
+    #mlb2-24951471.ml-form-embedContainer
+      .ml-form-embedWrapper
+      .ml-form-embedBody
+      .ml-form-embedPermissions
+      .ml-form-embedPermissionsContent.privacy-policy
+      p:last-child
+  ) {
+  margin: 0;
+}
+
+.newsletterForm :global(.ml-mobileButton-horizontal) {
+  display: none;
+}
+
+.newsletterForm :global(#mlb2-24951471 .ml-mobileButton-horizontal button) {
+  background-color: #b72b00;
+  border-color: #b72b00;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 23px;
+  box-shadow: none;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  padding: 10px;
+  width: 100%;
+}
+
+@media only screen and (max-width: 400px) {
+  .newsletterForm :global(.ml-form-embedWrapper.embedDefault),
+  .newsletterForm :global(.ml-form-embedWrapper.embedPopup) {
+    width: 100%;
+  }
+
+  .newsletterForm :global(.ml-form-formContent.horozintalForm) {
+    float: left;
+  }
+
+  .newsletterForm
+    :global(.ml-form-formContent.horozintalForm .ml-form-horizontalRow) {
+    height: auto;
+    width: 100%;
+    float: left;
+  }
+
+  .newsletterForm
+    :global(
+      .ml-form-formContent.horozintalForm
+        .ml-form-horizontalRow
+        .ml-input-horizontal
+    ) {
+    width: 100%;
+  }
+
+  .newsletterForm
+    :global(
+      .ml-form-formContent.horozintalForm
+        .ml-form-horizontalRow
+        .ml-input-horizontal
+        > div
+    ) {
+    padding-right: 0px;
+    padding-bottom: 10px;
+  }
+
+  .newsletterForm
+    :global(.ml-form-formContent.horozintalForm .ml-button-horizontal) {
+    width: 100%;
+  }
+
+  .newsletterForm
+    :global(
+      .ml-form-formContent.horozintalForm .ml-button-horizontal.labelsOn
+    ) {
+    padding-top: 0px;
+  }
+
+  .newsletterForm
+    :global(
+      #mlb2-24951471.ml-form-embedContainer
+        .ml-form-embedWrapper
+        .ml-form-embedBody
+        .ml-form-formContent.horozintalForm
+    ) {
+    padding: 0 0 10px 0;
+  }
+
+  .newsletterForm :global(.ml-hide-horizontal) {
+    display: none;
+  }
+
+  .newsletterForm
+    :global(.ml-form-formContent.horozintalForm .ml-button-horizontal) {
+    display: none;
+  }
+
+  .newsletterForm :global(.ml-mobileButton-horizontal) {
+    display: inline-block;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  .newsletterForm
+    :global(
+      .ml-form-formContent.horozintalForm
+        .ml-form-horizontalRow
+        .ml-input-horizontal
+        > div
+    ) {
+    padding-bottom: 0px;
+  }
+
+  .newsletterForm
+    :global(
+      .ml-form-formContent.horozintalForm
+        .ml-form-horizontalRow
+        .horizontal-fields
+    ) {
+    margin-bottom: 10px;
+    width: 100%;
+  }
 }
 
 /* Footer Bottom */
@@ -165,11 +1509,12 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
+  direction: ltr;
 }
 
 .copyright {
   font-size: 0.875rem;
-  color: #999999;
+  color: #cd4626;
   margin: 0;
 }
 
@@ -177,47 +1522,18 @@
   display: flex;
   gap: 1.5rem;
   flex-wrap: wrap;
+  direction: ltr;
 }
 
 .footerLink {
   font-size: 0.875rem;
-  color: #c24233;
-  text-decoration: none;
+  color: #cd4626;
+  text-decoration: underline;
   transition: color 0.3s ease;
 }
 
 .footerLink:hover {
-  color: #a83528;
-  text-decoration: underline;
-}
-
-/* RTL support */
-[dir="rtl"] .footerMain {
-  direction: rtl;
-}
-
-[dir="rtl"] .brandingSection {
-  text-align: right;
-}
-
-[dir="rtl"] .logoContainer {
-  flex-direction: row-reverse;
-}
-
-[dir="rtl"] .socialLinks {
-  flex-direction: row-reverse;
-}
-
-[dir="rtl"] .newsletterSection {
-  text-align: right;
-}
-
-[dir="rtl"] .footerBottom {
-  flex-direction: row-reverse;
-}
-
-[dir="rtl"] .footerLinks {
-  flex-direction: row-reverse;
+  color: #b53a1b;
 }
 
 /* Responsive design */
@@ -256,20 +1572,6 @@
     align-items: center;
   }
 
-  .newsletterForm :global(.ml-embedded) {
-    max-width: 100%;
-  }
-
-  .newsletterForm :global(.ml-form-embedWrapper) {
-    flex-direction: column;
-  }
-
-  .newsletterForm :global(.ml-form-embedWrapper button),
-  .newsletterForm :global(.ml-form-embedWrapper input[type="submit"]) {
-    width: 100%;
-    justify-content: center;
-  }
-
   .footerBottom {
     flex-direction: column;
     text-align: center;
@@ -292,11 +1594,7 @@
   }
 
   .logo {
-    width: 2.5rem;
-  }
-
-  .logoText {
-    font-size: 1.75rem;
+    width: 180px;
   }
 
   .tagline {
@@ -304,8 +1602,13 @@
   }
 
   .socialIcon {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 40px;
+    height: 40px;
+  }
+
+  .socialIcon img {
+    width: 60%;
+    height: 60%;
   }
 
   .newsletterTitle {
