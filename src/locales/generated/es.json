@@ -13,6 +13,8 @@
     },
     "downloads": {
       "recommended": "Para tu navegador",
+      "installNow": "Instalar ahora (Para {{browser}})",
+      "alsoAvailable": "También disponible para Safari y Firefox",
       "chrome": {
         "title": "Haz clic para descargar para Chrome",
         "subtitle": "¡También para Brave, Edge y Kiwi para Android!"
@@ -55,10 +57,34 @@
         "button": "Haz clic para donar"
       }
     },
+    "testimonial": {
+      "quote": "¡El plugin más fluido e increíble que he usado! Me ha informado sobre muchas empresas que dejé de usar.",
+      "author": "Abdo Wahba",
+      "role": "Usuario de {{browser}}"
+    },
+    "video": {
+      "watchHowItWorks": "Mira cómo funciona"
+    },
     "footer": {
       "github": "GitHub",
       "email": "Email",
-      "donate": "Donar"
+      "emailUs": "Contáctanos",
+      "donate": "Donar",
+      "tagline": "Bloqueador de sitios israelíes",
+      "copyright": "© 2025 The Wall. Todos los derechos reservados."
+    },
+    "newsletter": {
+      "subscribeTitle": "Suscríbete a las noticias",
+      "subscribeDescription": "Regístrate para recibir noticias y ofertas especiales. ¡Cancela la suscripción en cualquier momento!"
+    },
+    "alt": {
+      "theWallLogo": "Logo THE WALL",
+      "browserExtension": "Extensión de navegador The Wall",
+      "testimonialIcon": "Icono de testimonio",
+      "supportIcon": "Icono de apoyo"
+    },
+    "aria": {
+      "nextTestimonial": "Siguiente testimonio"
     },
     "language": {
       "switcher": {

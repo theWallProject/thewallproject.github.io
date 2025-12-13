@@ -13,6 +13,8 @@
     },
     "downloads": {
       "recommended": "適用於您的瀏覽器",
+      "installNow": "立即安裝（適用於 {{browser}}）",
+      "alsoAvailable": "也適用於 Safari 和 Firefox",
       "chrome": {
         "title": "點擊下載 Chrome 版本",
         "subtitle": "也適用於 Brave、Edge 和 Android 版 Kiwi！"
@@ -55,10 +57,34 @@
         "button": "點擊捐贈"
       }
     },
+    "testimonial": {
+      "quote": "我使用過的最流暢、最棒的插件！它讓我了解了很多我已經停止使用的公司。",
+      "author": "Abdo Wahba",
+      "role": "{{browser}} 用戶"
+    },
+    "video": {
+      "watchHowItWorks": "觀看工作原理"
+    },
     "footer": {
       "github": "GitHub",
       "email": "郵箱",
-      "donate": "捐贈"
+      "emailUs": "聯繫我們",
+      "donate": "捐贈",
+      "tagline": "以色列網站攔截器",
+      "copyright": "© 2025 The Wall. 保留所有權利。"
+    },
+    "newsletter": {
+      "subscribeTitle": "訂閱新聞",
+      "subscribeDescription": "註冊以獲取新聞和特別優惠。隨時可以取消訂閱！"
+    },
+    "alt": {
+      "theWallLogo": "THE WALL 標誌",
+      "browserExtension": "The Wall 瀏覽器擴展",
+      "testimonialIcon": "推薦圖標",
+      "supportIcon": "支持圖標"
+    },
+    "aria": {
+      "nextTestimonial": "下一個推薦"
     },
     "language": {
       "switcher": {

@@ -7,97 +7,84 @@ const Downloads: React.FC = () => {
   const { t } = useTranslation();
   const { recommendedDownload, name } = useBrowserDetection();
 
-  const downloadLinks = [
-    {
+  const downloadLinks = {
+    chrome: {
       id: "chrome",
       href: "https://chromewebstore.google.com/detail/the-wall-boycott-assistan/kocebhffdnlgdahkbfeopdokcoikipam",
       icon: "./files/common/icon-chrome.svg",
-      title: t("downloads.chrome.title"),
-      subtitle: t("downloads.chrome.subtitle"),
+      displayName: "Chrome",
     },
-    {
+    firefox: {
       id: "firefox",
       href: "https://addons.mozilla.org/en-US/firefox/addon/the-wall-boycott-assistant/",
       icon: "./files/common/icon-firefox.svg",
-      title: t("downloads.firefox.title"),
-      subtitle: t("downloads.firefox.subtitle"),
+      displayName: "Firefox",
     },
-    {
+    safari: {
       id: "safari",
       href: "https://apps.apple.com/us/app/the-wall-boycott-assistant/id6743708305",
       icon: "./files/common/icon-safari.svg",
-      title: t("downloads.safari.title"),
-      subtitle: "",
+      displayName: "Safari",
     },
-    {
-      id: "ios",
-      href: "https://apps.apple.com/us/app/the-wall-boycott-helper/id6744613506",
-      icon: "./files/common/icon-safari.svg",
-      title: t("downloads.ios.title"),
-      subtitle: t("downloads.ios.subtitle"),
-    },
-    {
-      id: "telegram",
-      href: "https://t.me/theWallAddon",
-      icon: "./files/common/icon-telegram.svg",
-      title: t("downloads.telegram.title"),
-      subtitle: "",
-    },
-  ];
+  };
 
-  // Reorder downloads to put recommended first, but only if browser is detected with certainty
-  const reorderedDownloads = [...downloadLinks].sort((a, b) => {
-    // If browser is unknown, don't reorder (no highlighting)
-    if (name === "unknown") return 0;
+  // Determine which browser to show in the button
+  // Default to Chrome if browser is unknown
+  const detectedBrowser = name !== "unknown" ? name : "chrome";
+  const primaryDownload =
+    downloadLinks[detectedBrowser as keyof typeof downloadLinks] ||
+    downloadLinks.chrome;
 
-    if (a.id === recommendedDownload) return -1;
-    if (b.id === recommendedDownload) return 1;
-    return 0;
-  });
+  // Get browser name for button text
+  const getBrowserDisplayName = (browserId: string): string => {
+    if (browserId === "chrome") return "Chrome";
+    if (browserId === "firefox") return "Firefox";
+    if (browserId === "safari") return "Safari";
+    return "Chrome";
+  };
+
+  const browserDisplayName = getBrowserDisplayName(detectedBrowser);
 
   return (
     <section className={styles.downloads}>
       <div className={styles.container}>
         <div className={styles.downloadsContent}>
-          <hr className={styles.divider} />
-          <div className={styles.wrapper}>
-            {reorderedDownloads.map((link) => {
-              // Only highlight if browser is detected with certainty and this is the recommended download
-              const isRecommended =
-                name !== "unknown" && link.id === recommendedDownload;
-              return (
-                <a
-                  key={link.id}
-                  className={`${styles.downloadContainer} ${
-                    isRecommended ? styles.recommended : ""
-                  }`}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span className={styles.iconContainer}>
-                    <img
-                      className={styles.downloadIcon}
-                      src={link.icon}
-                      alt={`${link.id} icon`}
-                    />
-                  </span>
-                  <div className={styles.downloadText}>
-                    <span className={styles.downloadDesc}>{link.title}</span>
-                    {link.subtitle && (
-                      <span className={styles.downloadSubtitle}>
-                        {link.subtitle}
-                      </span>
-                    )}
-                  </div>
-                  {isRecommended && (
-                    <span className={styles.recommendedBadge}>
-                      {t("downloads.recommended")}
-                    </span>
-                  )}
-                </a>
-              );
-            })}
+          <a
+            href={primaryDownload.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.installButton}
+          >
+            <img
+              src={primaryDownload.icon}
+              alt={`${primaryDownload.displayName} icon`}
+              className={styles.buttonIcon}
+            />
+            <span className={styles.buttonText}>
+              {t("downloads.installNow", { browser: browserDisplayName })}
+            </span>
+          </a>
+
+          <p className={styles.availabilityText}>
+            {t("downloads.alsoAvailable")}
+          </p>
+
+          <div className={styles.browserIcons}>
+            <img
+              src={downloadLinks.chrome.icon}
+              alt="Chrome"
+              className={styles.browserIcon}
+            />
+            <img
+              src={downloadLinks.safari.icon}
+              alt="Safari"
+              className={styles.browserIcon}
+            />
+            <img
+              src={downloadLinks.firefox.icon}
+              alt="Firefox"
+              className={styles.browserIcon}
+            />
           </div>
         </div>
       </div>

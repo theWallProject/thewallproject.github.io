@@ -13,6 +13,8 @@
     },
     "downloads": {
       "recommended": "لمتصفحك",
+      "installNow": "ثبت الآن (لـ {{browser}})",
+      "alsoAvailable": "متوفر أيضاً لسفاري وفايرفوكس",
       "chrome": {
         "title": "إضغط هنا للتحميل على كروم",
         "subtitle": "للأندرويد Brave, Edge و Kiwi أيضاً على!"
@@ -55,10 +57,34 @@
         "button": "انقر للتبرع"
       }
     },
+    "testimonial": {
+      "quote": "أفضل إضافة استخدمتها على الإطلاق! لقد أبلغتني عن الكثير من الشركات التي توقفت عن استخدامها.",
+      "author": "عبده وهبة",
+      "role": "مستخدم {{browser}}"
+    },
+    "video": {
+      "watchHowItWorks": "شاهد كيف يعمل"
+    },
     "footer": {
       "github": "جيت هب",
       "email": "البريد الإلكتروني",
-      "donate": "تبرع"
+      "emailUs": "راسلنا",
+      "donate": "تبرع",
+      "tagline": "حاجز المواقع الإسرائيلية",
+      "copyright": "© 2025 الجدار. جميع الحقوق محفوظة."
+    },
+    "newsletter": {
+      "subscribeTitle": "اشترك في الأخبار",
+      "subscribeDescription": "اشترك للحصول على الأخبار والعروض الخاصة. يمكنك إلغاء الاشتراك في أي وقت!"
+    },
+    "alt": {
+      "theWallLogo": "شعار الجدار",
+      "browserExtension": "إضافة الجدار للمتصفح",
+      "testimonialIcon": "أيقونة الشهادة",
+      "supportIcon": "أيقونة الدعم"
+    },
+    "aria": {
+      "nextTestimonial": "الشهادة التالية"
     },
     "language": {
       "switcher": {

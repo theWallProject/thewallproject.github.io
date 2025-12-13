@@ -1,437 +1,164 @@
 .downloads {
-  margin-bottom: 3rem;
+  background-color: #c24233;
+  padding: 4rem 2rem;
+  margin: 0;
+  width: 100%;
 }
 
 .container {
   width: 100%;
-  padding: 0 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
 }
 
 .downloadsContent {
-  max-width: 100%;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.divider {
-  width: 100px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #333, transparent);
-  border: none;
-  margin: 0 auto 2rem;
-}
-
-.wrapper {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-
-.downloadContainer {
-  display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 8px;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.installButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(180deg, #4caf50 0%, #45a049 100%);
+  color: white;
+  font-weight: 700;
+  font-size: 1.25rem;
   text-decoration: none;
-  color: inherit;
+  border-radius: 12px;
   transition: all 0.3s ease;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: visible;
-  width: 100%;
-  max-width: 450px;
-  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border: none;
+  cursor: pointer;
 }
 
-.downloadContainer.recommended {
-  background: rgba(255, 255, 255, 0.95);
-  border: 2px solid #d46679;
-  box-shadow: 0 4px 20px rgba(212, 102, 121, 0.2);
+.installButton:hover {
   transform: translateY(-2px);
-  padding: 1.2rem;
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto 2rem auto;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(180deg, #5cbf60 0%, #4caf50 100%);
 }
 
-.downloadContainer:hover {
-  background: rgba(255, 255, 255, 0.95);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+.installButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.downloadContainer.recommended:hover {
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 0 6px 25px rgba(212, 102, 121, 0.3);
-  transform: translateY(-3px);
-}
-
-.iconContainer {
+.buttonIcon {
+  width: 2rem;
+  height: 2rem;
   flex-shrink: 0;
 }
 
-.downloadIcon {
-  width: 2.5rem;
-  height: 2.5rem;
-  transform: scale(1) rotate(0deg); /* Initial state */
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth and snappy */
+.buttonText {
+  white-space: nowrap;
 }
 
-.downloadContainer.recommended .downloadIcon {
-  width: 3rem;
-  height: 3rem;
-}
-
-.downloadContainer:hover .downloadIcon {
-  transform: scale(1.1) rotate(360deg); /* Scale up and full rotation */
-}
-
-.downloadText {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  flex: 1;
-  align-items: flex-start;
-}
-
-.downloadDesc {
-  font-weight: 600;
+.availabilityText {
+  color: rgba(255, 255, 255, 0.9);
   font-size: 1rem;
-  color: #333;
+  margin: 0;
+  text-align: center;
+}
+
+.browserIcons {
   display: flex;
+  gap: 1.5rem;
   align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  text-align: left;
+  justify-content: center;
+  margin-top: 0.5rem;
 }
 
-.downloadContainer.recommended .downloadDesc {
-  font-size: 1.1rem;
+.browserIcon {
+  width: 3.5rem;
+  height: 3.5rem;
+  transition: transform 0.3s ease;
 }
 
-.recommendedBadge {
-  background: linear-gradient(135deg, #d46679, #de7386);
-  color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 2px 8px rgba(212, 102, 121, 0.3);
-  animation: pulse 2s infinite;
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  transform: rotate(15deg);
-  z-index: 10;
-}
-
-.downloadContainer.recommended .recommendedBadge {
-  font-size: 0.65rem;
-  padding: 0.2rem 0.4rem;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.05);
-  }
-}
-
-.downloadSubtitle {
-  font-size: 0.875rem;
-  color: #666;
-  font-style: italic;
-  text-align: left;
+.browserIcon:hover {
+  transform: scale(1.1);
 }
 
 /* RTL support */
-[dir="rtl"] .downloadContainer {
-  flex-direction: row-reverse;
+[dir="rtl"] .downloadsContent {
+  direction: ltr; /* Keep button text LTR */
 }
 
-[dir="rtl"] .downloadText {
-  text-align: right;
-  align-items: flex-end;
-}
-
-[dir="rtl"] .downloadDesc {
-  flex-direction: row-reverse;
-  text-align: right;
-  justify-content: flex-end;
-}
-
-[dir="rtl"] .downloadSubtitle {
-  text-align: right;
-  direction: rtl;
-}
-
-/* More specific RTL selectors */
-html[dir="rtl"] .downloadText {
-  text-align: right;
-  align-items: flex-start;
-  direction: rtl;
-  unicode-bidi: plaintext;
-}
-
-html[dir="rtl"] .downloadDesc {
-  text-align: right;
-  justify-content: flex-start;
-  direction: rtl;
-  unicode-bidi: plaintext;
-}
-
-html[dir="rtl"] .downloadSubtitle {
-  text-align: right;
-  direction: rtl;
-  unicode-bidi: plaintext;
-}
-
-[dir="rtl"] .recommendedBadge {
-  left: -8px;
-  right: auto;
-  transform: rotate(-15deg);
-  text-align: center;
+[dir="rtl"] .installButton {
   direction: ltr;
-}
-
-[dir="rtl"] .downloadContainer.recommended .recommendedBadge {
-  left: -6px;
-  right: auto;
-  transform: rotate(-12deg);
-}
-
-@media (max-width: 480px) {
-  [dir="rtl"] .recommendedBadge {
-    left: -5px;
-    right: auto;
-    transform: rotate(-10deg);
-  }
-}
-
-@media (max-width: 360px) {
-  [dir="rtl"] .recommendedBadge {
-    left: -4px;
-    right: auto;
-    transform: rotate(-8deg);
-  }
-}
-
-@media (max-width: 320px) {
-  [dir="rtl"] .recommendedBadge {
-    left: -3px;
-    right: auto;
-    transform: rotate(-6deg);
-  }
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .container {
-    padding: 0 1rem;
+  .downloads {
+    padding: 3rem 1.5rem;
   }
 
-  .downloadsContent {
-    max-width: 100%;
+  .installButton {
+    padding: 0.875rem 1.5rem;
+    font-size: 1.1rem;
+    gap: 0.625rem;
   }
 
-  .downloadContainer {
-    padding: 0.75rem;
-    width: 100%;
-    max-width: 100%;
+  .buttonIcon {
+    width: 1.75rem;
+    height: 1.75rem;
   }
 
-  .downloadContainer.recommended {
-    padding: 0.75rem;
-    scale: 1.02;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto 1.5rem auto;
-  }
-
-  .downloadIcon {
-    width: 2rem;
-    height: 2rem;
-  }
-
-  .downloadContainer.recommended .downloadIcon {
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-
-  .downloadDesc {
+  .availabilityText {
     font-size: 0.9rem;
   }
 
-  .downloadContainer.recommended .downloadDesc {
-    font-size: 1.05rem;
+  .browserIcons {
+    gap: 1rem;
   }
 
-  .downloadSubtitle {
-    font-size: 0.8rem;
-  }
-
-  .recommendedBadge {
-    font-size: 0.7rem;
-    padding: 0.2rem 0.4rem;
-    top: -6px;
-    right: -6px;
-    transform: rotate(12deg);
+  .browserIcon {
+    width: 3rem;
+    height: 3rem;
   }
 }
 
 @media (max-width: 480px) {
-  .container {
-    padding: 0 0.5rem;
+  .downloads {
+    padding: 2.5rem 1rem;
   }
 
-  .downloadsContent {
-    max-width: 100%;
-  }
-
-  .downloadContainer {
-    padding: 0.5rem;
-    gap: 0.75rem;
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .downloadContainer.recommended {
-    padding: 0.5rem;
-    scale: 1.02;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto 1rem auto;
-  }
-
-  .downloadIcon {
-    width: 1.75rem;
-    height: 1.75rem;
-  }
-
-  .downloadDesc {
-    font-size: 0.85rem;
-  }
-
-  .downloadSubtitle {
-    font-size: 0.75rem;
-  }
-
-  .recommendedBadge {
-    font-size: 0.65rem;
-    padding: 0.15rem 0.35rem;
-    top: -5px;
-    right: -5px;
-    transform: rotate(10deg);
-  }
-}
-
-@media (max-width: 360px) {
-  .container {
-    padding: 0 0.25rem;
-  }
-
-  .downloadsContent {
-    max-width: 100%;
-  }
-
-  .downloadContainer {
-    padding: 0.4rem;
+  .installButton {
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    flex-direction: column;
     gap: 0.5rem;
     width: 100%;
-    max-width: 100%;
+    max-width: 300px;
   }
 
-  .downloadContainer.recommended {
-    padding: 0.4rem;
-    scale: 1.01;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto 0.75rem auto;
-  }
-
-  .downloadIcon {
+  .buttonIcon {
     width: 1.5rem;
     height: 1.5rem;
   }
 
-  .downloadContainer.recommended .downloadIcon {
-    width: 1.75rem;
-    height: 1.75rem;
+  .buttonText {
+    white-space: normal;
+    text-align: center;
   }
 
-  .downloadDesc {
-    font-size: 0.8rem;
-  }
-
-  .downloadContainer.recommended .downloadDesc {
-    font-size: 0.9rem;
-  }
-
-  .downloadSubtitle {
-    font-size: 0.7rem;
-  }
-
-  .recommendedBadge {
-    font-size: 0.6rem;
-    padding: 0.1rem 0.3rem;
-    top: -4px;
-    right: -4px;
-    transform: rotate(8deg);
-  }
-}
-
-@media (max-width: 320px) {
-  .container {
-    padding: 0 0.2rem;
-  }
-
-  .downloadContainer {
-    padding: 0.3rem;
-    gap: 0.4rem;
-  }
-
-  .downloadContainer.recommended {
-    padding: 0.3rem;
-    scale: 1;
-    margin: 0 auto 0.5rem auto;
-  }
-
-  .downloadIcon {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-
-  .downloadContainer.recommended .downloadIcon {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-
-  .downloadDesc {
-    font-size: 0.75rem;
-  }
-
-  .downloadContainer.recommended .downloadDesc {
+  .availabilityText {
     font-size: 0.85rem;
   }
 
-  .downloadSubtitle {
-    font-size: 0.65rem;
+  .browserIcons {
+    gap: 0.75rem;
+    flex-wrap: wrap;
   }
 
-  .recommendedBadge {
-    font-size: 0.55rem;
-    padding: 0.1rem 0.25rem;
-    top: -3px;
-    right: -3px;
-    transform: rotate(6deg);
+  .browserIcon {
+    width: 2.5rem;
+    height: 2.5rem;
   }
 }

@@ -1,102 +1,609 @@
 .hero {
-  margin-top: 140px;
-  margin-bottom: 3rem;
+  background-color: var(--color-dark-orange); /* Hero section background */
+  padding: 4rem 2rem;
+  margin: 0;
+  width: 100%;
+  /* Account for fixed header: logo (7rem) + header padding (1.5rem top + 1.5rem bottom) + extra spacing */
+  padding-top: calc(7rem + 3rem + 2rem);
+}
+
+.hero.scrolled {
+  /* Scroll detection kept but no margin/padding changes */
 }
 
 .container {
   width: 100%;
-  padding: 0 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 .content {
   display: flex;
   flex-direction: column;
+  gap: 3rem;
+}
+
+/* Hero Banner Section - Text Left, Image Right */
+.heroBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 3rem;
+  width: 100%;
+}
+
+.heroTextSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
-  align-items: center;
 }
 
-.textSection {
-  text-align: center;
-  max-width: 800px;
-}
-
-.divider {
-  width: 100px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #333, transparent);
-  border: none;
-  margin: 0 auto 1.5rem;
-}
-
-.introText {
+.heroText {
   font-size: 1.25rem;
   line-height: 1.6;
   color: #ffffff;
   margin: 0;
+  font-weight: 400;
 }
 
-.introText strong {
-  color: #d32f2f;
+/* Download Section Below Text */
+.downloadSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.installButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: linear-gradient(180deg, #4caf50 0%, #45a049 100%);
+  color: white;
   font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border: none;
+  cursor: pointer;
 }
 
-.videoSection {
+.installButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(180deg, #5cbf60 0%, #4caf50 100%);
+}
+
+.installButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.buttonIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+.buttonText {
+  white-space: nowrap;
+}
+
+.availabilityText {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.browserLink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15em;
+}
+
+.browserLink:hover {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.inlineBrowserIcon {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.heroImageContainer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 40%;
+  max-width: 500px;
+}
+
+.heroImage {
   width: 100%;
+  height: auto;
   max-width: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* Testimonial Section */
+.testimonialSection {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  padding-right: 2rem;
+  padding-left: 0;
+  box-sizing: border-box;
+  max-width: 1200px;
+}
+
+.testimonialCard {
+  flex: 1;
+  background-color: var(--color-light-peach); /* Light peach background */
+  border-radius: 0 12px 12px 0; /* Rounded right, sharp left */
+  padding: 2rem;
+  padding-left: 2rem; /* Preserve left padding for icon */
+  display: flex;
+  gap: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-left: 0; /* Ensure it touches left edge */
+}
+
+.testimonialIconContainer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.testimonialIcon {
+  width: 4rem;
+  height: 4rem;
+  object-fit: contain;
+  /* Icon should be dark reddish-orange #B04431 - placeholder will show this color */
+}
+
+.testimonialContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.testimonialQuote {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: var(--color-dark-orange); /* Font color */
+  margin: 0;
+  font-weight: 400;
+}
+
+.testimonialAuthor {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-dark-orange); /* Font color */
+  margin: 0;
+}
+
+.testimonialRole {
+  font-size: 0.875rem;
+  color: var(--color-dark-orange); /* Font color */
+  margin: 0;
+  font-weight: 400;
+}
+
+.testimonialArrow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.testimonialArrow:hover {
+  transform: translateX(4px);
+}
+
+.arrowIcon {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+}
+
+/* Video Section */
+.videoSection {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  width: 100%;
+}
+
+.videoContainer {
+  flex: 1;
+  position: relative;
+  transform: rotate(-2deg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .video {
   width: 100%;
-  max-width: 800px;
-  height: 450px;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  position: relative;
   display: block;
 }
 
+.video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.videoCTA {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: 200px;
+}
+
+.videoCTAIconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.videoCTAIcon {
+  width: 4rem;
+  height: 4rem;
+  object-fit: contain;
+}
+
+.videoCTAText {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-dark-gray);
+  margin: 0;
+  text-align: center;
+  line-height: 1.3;
+}
+
 /* RTL support */
-[dir="rtl"] .introText {
+[dir="rtl"] .heroBanner {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .heroTextSection {
+  text-align: right;
+}
+
+[dir="rtl"] .downloadSection {
+  align-items: flex-end;
+}
+
+[dir="rtl"] .browserLink {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .testimonialSection {
+  flex-direction: row-reverse;
+  padding-right: 0;
+  padding-left: 2rem;
+}
+
+[dir="rtl"] .testimonialCard {
+  flex-direction: row-reverse;
+  border-radius: 12px 0 0 12px; /* Rounded left, sharp right for RTL */
+  margin-right: 0; /* Ensure it touches right edge */
+}
+
+[dir="rtl"] .testimonialContent {
+  text-align: right;
+}
+
+[dir="rtl"] .testimonialArrow {
+  order: -1; /* Place arrow before the card in RTL (flex-direction: row-reverse already does this, but this makes it explicit) */
+}
+
+[dir="rtl"] .testimonialArrow .arrowIcon {
+  transform: scaleX(-1); /* Flip arrow to point left */
+}
+
+[dir="rtl"] .testimonialArrow:hover {
+  transform: translateX(-4px);
+}
+
+[dir="rtl"] .testimonialArrow:hover .arrowIcon {
+  transform: scaleX(-1); /* Maintain flip on hover */
+}
+
+[dir="rtl"] .videoSection {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .videoContainer {
+  transform: rotate(2deg);
+}
+
+[dir="rtl"] .videoCTAText {
   text-align: center;
 }
 
 /* Responsive design */
+@media (max-width: 1024px) {
+  .videoSection {
+    gap: 2rem;
+  }
+
+  .videoCTA {
+    max-width: 180px;
+  }
+
+  .videoCTAText {
+    font-size: 1.1rem;
+  }
+}
+
 @media (max-width: 768px) {
   .hero {
-    margin-top: 120px;
+    padding: 3rem 1.5rem;
+    /* Tablet: logo (3.5rem) + header padding (1.5rem top + 1.5rem bottom) + extra spacing */
+    padding-top: calc(3.5rem + 3rem + 1.5rem);
   }
 
-  .container {
-    padding: 0 1rem;
+  .hero.scrolled {
+    /* Scroll detection kept but no margin/padding changes */
   }
 
-  .introText {
+  .content {
+    gap: 2.5rem;
+  }
+
+  .heroBanner {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .heroTextSection {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+
+  .heroText {
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
+  .downloadSection {
+    align-items: center;
+    width: 100%;
+  }
+
+  .installButton {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.5625rem 1.125rem;
+    font-size: 0.9375rem;
+    gap: 0.4375rem;
+  }
+
+  .buttonIcon {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .heroImageContainer {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  [dir="rtl"] .heroTextSection {
+    text-align: center;
+  }
+
+  [dir="rtl"] .downloadSection {
+    align-items: center;
+  }
+
+  .testimonialSection {
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding-right: 1.5rem;
+    padding-left: 0;
+    max-width: none;
+  }
+
+  [dir="rtl"] .testimonialSection {
+    padding-right: 0;
+    padding-left: 1.5rem;
+  }
+
+  .testimonialCard {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+    padding-left: 1.5rem; /* Preserve left padding for icon */
+    border-radius: 0 12px 12px 0; /* Keep left edge sharp on mobile */
+  }
+
+  .testimonialIconContainer {
+    justify-content: center;
+  }
+
+  .testimonialContent {
+    text-align: center;
+  }
+
+  .testimonialQuote {
     font-size: 1.1rem;
   }
 
-  .video {
-    height: 300px;
+  .testimonialArrow {
+    display: none; /* Hide arrow on mobile */
+  }
+
+  .videoSection {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .videoContainer {
+    transform: none;
+    width: 100%;
+  }
+
+  .videoCTA {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .videoCTAText {
+    font-size: 1.1rem;
   }
 }
 
 @media (max-width: 480px) {
   .hero {
-    margin-top: 100px;
+    padding: 2.5rem 1rem;
+    /* Mobile: logo (3rem) + header padding (1rem top + 1rem bottom) + extra spacing */
+    padding-top: calc(3rem + 2rem + 1.5rem);
   }
 
-  .container {
-    padding: 0 0.5rem;
+  .hero.scrolled {
+    /* Scroll detection kept but no margin/padding changes */
   }
 
-  .introText {
+  .content {
+    gap: 2rem;
+  }
+
+  .heroBanner {
+    gap: 1.5rem;
+  }
+
+  .heroTextSection {
+    gap: 1.5rem;
+  }
+
+  .heroText {
     font-size: 1rem;
   }
 
-  .video {
-    height: 250px;
+  .downloadSection {
+    gap: 1.25rem;
   }
 
-  .divider {
-    width: 60px;
+  .installButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .buttonIcon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .buttonText {
+    white-space: normal;
+    text-align: center;
+  }
+
+  .availabilityText {
+    font-size: 0.8125rem;
+  }
+
+  .heroImageContainer {
+    max-width: 100%;
+  }
+
+  .testimonialSection {
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding-right: 1rem;
+    padding-left: 0;
+  }
+
+  [dir="rtl"] .testimonialSection {
+    padding-right: 0;
+    padding-left: 1rem;
+  }
+
+  .testimonialCard {
+    padding: 1.25rem;
+    padding-left: 1.25rem; /* Preserve left padding for icon */
+    gap: 1rem;
+    border-radius: 0 12px 12px 0; /* Keep left edge sharp */
+  }
+
+  .testimonialIcon {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .testimonialQuote {
+    font-size: 1rem;
+  }
+
+  .testimonialAuthor {
+    font-size: 0.95rem;
+  }
+
+  .testimonialRole {
+    font-size: 0.8rem;
+  }
+
+  .videoSection {
+    gap: 1.5rem;
+  }
+
+  .videoCTAIcon {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .videoCTAText {
+    font-size: 1rem;
   }
 }

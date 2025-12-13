@@ -1,6 +1,6 @@
 .App {
   min-height: 100vh;
-  background-color: #b72b00;
+  background-color: #ffffff;
   font-family: "Tinos", serif;
   font-weight: 400;
   font-style: normal;
@@ -50,6 +50,20 @@ body {
 html {
   width: 100%;
   overflow-x: hidden;
+}
+
+/* Color Variables */
+:root {
+  --color-dark-orange: #b72b00;
+  --color-dark-orange-darker: #a83528;
+  --color-reddish-orange: #d95333;
+  --color-vibrant-orange: #ff6120;
+  --color-vibrant-orange-hover: #ff7a4a;
+  --color-light-peach: #ffe1cd;
+  --color-dark-gray: #333333;
+  --color-white: #ffffff;
+  --color-white-90-opacity: #f8eae6; /* 90% opacity white on #b72b00 */
+  --color-white-80-opacity: #f1d5cc; /* 80% opacity white on #b72b00 */
 }
 
 /* Typography */

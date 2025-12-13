@@ -13,6 +13,8 @@
     },
     "downloads": {
       "recommended": "Voor uw browser",
+      "installNow": "Nu installeren (Voor {{browser}})",
+      "alsoAvailable": "Ook beschikbaar voor Safari en Firefox",
       "chrome": {
         "title": "Klik om te downloaden voor Chrome",
         "subtitle": "Ook voor Brave, Edge en Kiwi voor Android!"
@@ -55,10 +57,34 @@
         "button": "Klik om te doneren"
       }
     },
+    "testimonial": {
+      "quote": "De meest naadloze en geweldige plugin die ik ooit heb gebruikt! Het heeft me geïnformeerd over veel bedrijven die ik niet meer gebruik.",
+      "author": "Abdo Wahba",
+      "role": "{{browser}} gebruiker"
+    },
+    "video": {
+      "watchHowItWorks": "Bekijk hoe het werkt"
+    },
     "footer": {
       "github": "GitHub",
       "email": "E-mail",
-      "donate": "Doneren"
+      "emailUs": "Neem contact op",
+      "donate": "Doneren",
+      "tagline": "Israëlische website-blokker",
+      "copyright": "© 2025 The Wall. Alle rechten voorbehouden."
+    },
+    "newsletter": {
+      "subscribeTitle": "Abonneer op nieuws",
+      "subscribeDescription": "Meld je aan voor nieuws en speciale aanbiedingen. Op elk moment uitschrijven!"
+    },
+    "alt": {
+      "theWallLogo": "THE WALL Logo",
+      "browserExtension": "The Wall browser-extensie",
+      "testimonialIcon": "Testimonial icoon",
+      "supportIcon": "Ondersteuning icoon"
+    },
+    "aria": {
+      "nextTestimonial": "Volgende testimonial"
     },
     "language": {
       "switcher": {

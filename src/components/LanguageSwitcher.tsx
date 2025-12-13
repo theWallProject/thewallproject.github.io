@@ -3,7 +3,13 @@ import { useLanguage } from "../hooks/useLanguage";
 import { useTranslation } from "react-i18next";
 import styles from "./LanguageSwitcher.module.css";
 
-const LanguageSwitcher: React.FC = () => {
+interface LanguageSwitcherProps {
+  isScrolled?: boolean;
+}
+
+const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
+  isScrolled = false,
+}) => {
   const {
     currentLanguage,
     changeLanguage,
@@ -21,6 +27,22 @@ const LanguageSwitcher: React.FC = () => {
   const languageCodes = Object.keys(availableLanguages) as Array<
     keyof typeof availableLanguages
   >;
+
+  // Get flag image path for language code
+  const getFlagPath = (code: string): string => {
+    const flagMap: Record<string, string> = {
+      en: "./files/common/flags/flag-us.svg",
+      ar: "./files/common/flags/flag-sa.svg",
+      fr: "./files/common/flags/flag-fr.svg",
+      es: "./files/common/flags/flag-es.svg",
+      de: "./files/common/flags/flag-de.svg",
+      id: "./files/common/flags/flag-id.svg",
+      nl: "./files/common/flags/flag-nl.svg",
+      zh_CN: "./files/common/flags/flag-cn.svg",
+      zh_TW: "./files/common/flags/flag-tw.svg",
+    };
+    return flagMap[code] || "./files/common/flags/flag-us.svg";
+  };
 
   // Check if current language is different from detected language
   const hasDetectedLanguage =
@@ -137,7 +159,9 @@ const LanguageSwitcher: React.FC = () => {
     <div className={styles.languageSwitcherContainer} ref={dropdownRef}>
       <button
         ref={buttonRef}
-        className={styles.languageSwitcher}
+        className={`${styles.languageSwitcher} ${
+          isScrolled ? styles.scrolled : ""
+        }`}
         onClick={handleToggle}
         aria-label={t("language.switcher.aria.label", {
           language: currentLanguageConfig.name,
@@ -152,15 +176,11 @@ const LanguageSwitcher: React.FC = () => {
         }}
       >
         <span className={styles.languageInfo}>
-          {currentLanguageConfig.nativeName}
-          {hasDetectedLanguage && (
-            <span
-              className={styles.detectedIndicator}
-              title="Detected from browser"
-            >
-              🌐
-            </span>
-          )}
+          <img
+            src={getFlagPath(currentLanguage)}
+            alt={currentLanguageConfig.name}
+            className={styles.flagIcon}
+          />
         </span>
         <span
           className={`${styles.dropdownArrow} ${isOpen ? styles.rotated : ""}`}
@@ -179,7 +199,8 @@ const LanguageSwitcher: React.FC = () => {
             const languageConfig = availableLanguages[languageCode];
             const isSelected = languageCode === currentLanguage;
             const isFocused = index === focusedIndex;
-            const isDetected = languageCode === detectedLanguage;
+            const isDetected =
+              languageCode === detectedLanguage && languageCode !== "en";
 
             return (
               <button
@@ -188,7 +209,7 @@ const LanguageSwitcher: React.FC = () => {
                   if (el) optionsRef.current[index] = el;
                 }}
                 className={`${styles.languageOption} ${
-                  isSelected ? styles.selected : ""
+                  isSelected && languageCode !== "en" ? styles.selected : ""
                 } ${isFocused ? styles.focused : ""} ${
                   isDetected ? styles.detected : ""
                 }`}
@@ -208,8 +229,13 @@ const LanguageSwitcher: React.FC = () => {
                 }
               >
                 <span className={styles.languageInfo}>
-                  {languageConfig.nativeName}
-                  {isDetected && (
+                  <img
+                    src={getFlagPath(languageCode)}
+                    alt={languageConfig.name}
+                    className={styles.flagIcon}
+                  />
+                  <span>{languageConfig.nativeName}</span>
+                  {isDetected && languageCode !== "en" && (
                     <span
                       className={styles.detectedBadge}
                       title="Detected from browser"

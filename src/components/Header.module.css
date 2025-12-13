@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  background: #b72b00;
+  background: var(--color-dark-orange);
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   padding: 1.5rem 0;
   text-align: center;
@@ -12,9 +12,11 @@
 }
 
 .header.scrolled {
-  padding: 0.375rem 0;
+  padding: 0.625rem 0;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-  background: rgba(232, 213, 211, 0.9);
+  background: var(
+    --color-dark-orange-darker
+  ); /* Slightly darker than normal #b72b00 */
   backdrop-filter: blur(10px);
 }
 
@@ -195,7 +197,7 @@
   }
 
   .header.scrolled {
-    padding: 0.25rem 0;
+    padding: 0.5rem 0;
   }
 
   .logoContainer {

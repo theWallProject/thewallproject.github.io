@@ -13,6 +13,8 @@
     },
     "downloads": {
       "recommended": "Untuk browser Anda",
+      "installNow": "Instal Sekarang (Untuk {{browser}})",
+      "alsoAvailable": "Juga tersedia untuk Safari dan Firefox",
       "chrome": {
         "title": "Klik untuk mengunduh untuk Chrome",
         "subtitle": "Juga untuk Brave, Edge dan Kiwi untuk Android!"
@@ -55,10 +57,34 @@
         "button": "Klik untuk donasi"
       }
     },
+    "testimonial": {
+      "quote": "Plugin yang paling mulus dan luar biasa yang pernah saya gunakan! Ini telah memberi tahu saya tentang banyak perusahaan yang saya berhenti gunakan.",
+      "author": "Abdo Wahba",
+      "role": "Pengguna {{browser}}"
+    },
+    "video": {
+      "watchHowItWorks": "Tonton cara kerjanya"
+    },
     "footer": {
       "github": "GitHub",
       "email": "Email",
-      "donate": "Donasi"
+      "emailUs": "Hubungi Kami",
+      "donate": "Donasi",
+      "tagline": "Pemblokir Situs Web Israel",
+      "copyright": "© 2025 The Wall. Hak Cipta Dilindungi."
+    },
+    "newsletter": {
+      "subscribeTitle": "Berlangganan berita",
+      "subscribeDescription": "Daftar untuk berita dan penawaran khusus. Berhenti berlangganan kapan saja!"
+    },
+    "alt": {
+      "theWallLogo": "Logo THE WALL",
+      "browserExtension": "Ekstensi browser The Wall",
+      "testimonialIcon": "Ikon testimoni",
+      "supportIcon": "Ikon dukungan"
+    },
+    "aria": {
+      "nextTestimonial": "Testimoni berikutnya"
     },
     "language": {
       "switcher": {

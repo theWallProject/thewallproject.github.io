@@ -35,7 +35,7 @@ const Header: React.FC = () => {
             {/* <h1 className={styles.title}>{t("header.title")}</h1> */}
           </div>
           <div className={styles.languageSwitcherContainer}>
-            <LanguageSwitcher />
+            <LanguageSwitcher isScrolled={isScrolled} />
           </div>
         </div>
       </div>

@@ -13,6 +13,8 @@
     },
     "downloads": {
       "recommended": "适用于您的浏览器",
+      "installNow": "立即安装（适用于 {{browser}}）",
+      "alsoAvailable": "也适用于 Safari 和 Firefox",
       "chrome": {
         "title": "点击下载 Chrome 版本",
         "subtitle": "也适用于 Brave、Edge 和 Android 版 Kiwi！"
@@ -55,10 +57,34 @@
         "button": "点击捐赠"
       }
     },
+    "testimonial": {
+      "quote": "我使用过的最流畅、最棒的插件！它让我了解了很多我已经停止使用的公司。",
+      "author": "Abdo Wahba",
+      "role": "{{browser}} 用户"
+    },
+    "video": {
+      "watchHowItWorks": "观看工作原理"
+    },
     "footer": {
       "github": "GitHub",
       "email": "邮箱",
-      "donate": "捐赠"
+      "emailUs": "联系我们",
+      "donate": "捐赠",
+      "tagline": "以色列网站拦截器",
+      "copyright": "© 2025 The Wall. 保留所有权利。"
+    },
+    "newsletter": {
+      "subscribeTitle": "订阅新闻",
+      "subscribeDescription": "注册以获取新闻和特别优惠。随时可以取消订阅！"
+    },
+    "alt": {
+      "theWallLogo": "THE WALL 标志",
+      "browserExtension": "The Wall 浏览器扩展",
+      "testimonialIcon": "推荐图标",
+      "supportIcon": "支持图标"
+    },
+    "aria": {
+      "nextTestimonial": "下一个推荐"
     },
     "language": {
       "switcher": {
