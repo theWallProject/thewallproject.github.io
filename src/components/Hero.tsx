@@ -96,7 +96,7 @@ const Hero: React.FC = () => {
     matches.sort((a, b) => a.index - b.index);
 
     // Build the result with icons inserted after browser names
-    const parts: (string | JSX.Element)[] = [];
+    const parts: (string | React.ReactElement)[] = [];
     let lastIndex = 0;
     let iconKey = 0;
 

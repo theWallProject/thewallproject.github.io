@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useLanguage } from "../hooks/useLanguage";
 import { useTranslation } from "react-i18next";
+import type { SupportedLanguages } from "../types/translations";
 import styles from "./LanguageSwitcher.module.css";
 
 interface LanguageSwitcherProps {
@@ -24,9 +25,9 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   const optionsRef = useRef<HTMLButtonElement[]>([]);
 
   const currentLanguageConfig = availableLanguages[currentLanguage];
-  const languageCodes = Object.keys(availableLanguages) as Array<
-    keyof typeof availableLanguages
-  >;
+  const languageCodes = (
+    Object.keys(availableLanguages) as SupportedLanguages[]
+  ).filter((code): code is SupportedLanguages => code in availableLanguages);
 
   // Get flag image path for language code
   const getFlagPath = (code: string): string => {
@@ -45,7 +46,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   };
 
   const handleLanguageSelect = useCallback(
-    (languageCode: keyof typeof availableLanguages) => {
+    (languageCode: SupportedLanguages) => {
       changeLanguage(languageCode);
       setIsOpen(false);
       setFocusedIndex(-1);
@@ -196,7 +197,9 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
             const isSelected = languageCode === currentLanguage;
             const isFocused = index === focusedIndex;
             const isDetected =
-              languageCode === detectedLanguage && languageCode !== "en";
+              languageCode === detectedLanguage &&
+              detectedLanguage !== null &&
+              detectedLanguage !== "en";
 
             return (
               <button
@@ -231,7 +234,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
                     className={styles.flagIcon}
                   />
                   <span>{languageConfig.nativeName}</span>
-                  {isDetected && languageCode !== "en" && (
+                  {isDetected && (
                     <span
                       className={styles.detectedBadge}
                       title="Detected from browser"

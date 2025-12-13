@@ -123,26 +123,11 @@ const Footer: React.FC = () => {
         <div className={styles.footerBottom}>
           <p className={styles.copyright}>{t("footer.copyright")}</p>
           <div className={styles.footerLinks}>
-            {footerLinks.map((link) => {
-              const LinkComponent = link.external ? "a" : Link;
-              const linkProps = link.external
-                ? {
-                    href: link.href,
-                    target: "_blank",
-                    rel: "noopener noreferrer",
-                  }
-                : { to: link.href };
-
-              return (
-                <LinkComponent
-                  key={link.id}
-                  {...linkProps}
-                  className={styles.footerLink}
-                >
-                  {link.label}
-                </LinkComponent>
-              );
-            })}
+            {footerLinks.map((link) => (
+              <Link key={link.id} to={link.href} className={styles.footerLink}>
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
