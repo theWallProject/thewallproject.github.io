@@ -20,7 +20,7 @@
     "test:lighthouse": "npm run build && playwright test tests/performance/lighthouse.spec.ts",
     "test:bundle": "npm run build && playwright test tests/performance/bundle-analysis.spec.ts",
     "test:comprehensive": "npm run build && playwright test tests/performance/comprehensive-performance.spec.ts",
-    "deploy": "npm run build && node scripts/deploy.js"
+    "deploy": "npm run build && git push && node scripts/deploy.js"
   },
   "dependencies": {
     "bowser": "^2.11.0",
