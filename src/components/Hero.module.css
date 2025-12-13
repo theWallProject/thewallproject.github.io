@@ -348,6 +348,10 @@
     /* Scroll detection kept but no margin/padding changes */
   }
 
+  .container {
+    padding: 0 1.5rem;
+  }
+
   .content {
     gap: 4.5rem;
   }
@@ -390,12 +394,21 @@
     box-shadow: -20px -20px 0 0 #932300;
   }
 
+  [dir="rtl"] .heroBanner {
+    flex-direction: column;
+  }
+
   [dir="rtl"] .heroTextSection {
     text-align: center;
+    align-items: center;
   }
 
   [dir="rtl"] .downloadSection {
     align-items: center;
+  }
+
+  [dir="rtl"] .heroText {
+    text-align: center;
   }
 
   .testimonialSection {
@@ -471,39 +484,80 @@
     /* Scroll detection kept but no margin/padding changes */
   }
 
+  .container {
+    padding: 0 1rem;
+  }
+
   .content {
     gap: 3.5rem;
   }
 
   .heroBanner {
     gap: 1.5rem;
+    flex-direction: column;
+    align-items: center;
   }
 
   .heroTextSection {
     gap: 1.5rem;
+    width: 100%;
+    align-items: center;
+    text-align: center;
   }
 
   .heroText {
     font-size: 1rem;
+    text-align: center;
   }
 
   .downloadSection {
     gap: 1.25rem;
+    align-items: center;
+    width: 100%;
   }
 
   /* InstallButton responsive styles moved to InstallButton.module.css */
 
   .availabilityText {
     font-size: 0.65rem;
+    text-align: center;
   }
 
   .heroImageContainer {
     max-width: 100%;
+    width: 100%;
   }
 
   .installOverlay {
-    max-width: 480px;
+    max-width: 100%;
+    width: 100%;
     box-shadow: -15px -15px 0 0 #932300;
+  }
+
+  [dir="rtl"] .heroBanner {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  [dir="rtl"] .heroTextSection {
+    text-align: center;
+    align-items: center;
+  }
+
+  [dir="rtl"] .downloadSection {
+    align-items: center;
+  }
+
+  [dir="rtl"] .heroText {
+    text-align: center;
+  }
+
+  [dir="rtl"] .availabilityText {
+    text-align: center;
+  }
+
+  [dir="rtl"] .installOverlay {
+    box-shadow: 15px -15px 0 0 #932300;
   }
 
   .testimonialSection {
