@@ -19,7 +19,6 @@
 }
 
 .installButtonImage {
-  width: 380px;
   height: auto;
   display: block;
   max-width: 100%;
@@ -30,15 +29,15 @@
   direction: ltr;
 }
 
-/* Responsive design - same size everywhere */
+/* Responsive design */
 @media (max-width: 768px) {
   .installButtonImage {
-    width: 380px;
+    /* Width is dynamic based on text */
   }
 }
 
 @media (max-width: 480px) {
   .installButtonImage {
-    width: 380px;
+    /* Width is dynamic based on text */
   }
 }
