@@ -1,24 +1,18 @@
 {
   "translation": {
     "meta": {
-      "title": "The Wall Addon",
-      "description": "The Wall Addon - A powerful browser extension that helps you detect and block over 19,000 Israeli-connected websites and their social media accounts automatically.",
-      "keywords": "The Wall, browser addon, website blocker, boycott assistant, Israeli websites, social media blocking, Chrome extension, Firefox addon"
+      "title": "The Wall Project",
+      "description": "The Wall Project - Browser addon and Android app to detect and block over 19,000 Israeli-connected websites and their social media accounts. Same database, works offline.",
+      "keywords": "The Wall, browser addon, Android app, website blocker, boycott assistant, Israeli websites, social media blocking, Chrome extension, Firefox addon, Google Play"
     },
     "header": {
-      "title": "The Wall Addon"
+      "title": "The Wall Project"
     },
     "intro": {
-      "text": "A browser plugin to detect and block more than {{count}} Israeli-related websites and their social accounts."
+      "text": "Detect and block more than {{count}} Israeli-related websites and their social accounts. Available as a browser addon and an Android app."
     },
     "downloads": {
       "recommended": "For your browser",
-      "installNow": "Install Now",
-      "for": "For",
-      "alsoAvailable": "Also available for Safari and Firefox",
-      "alsoAvailablePrefix": "Also available for",
-      "and": "and",
-      "comma": ",",
       "chrome": {
         "title": "Click to download for Chrome",
         "subtitle": "Also for Brave, Edge and Kiwi for Android!"
@@ -36,30 +30,13 @@
       },
       "telegram": {
         "title": "Join our Telegram channel for updates"
-      }
-    },
-    "features": {
-      "installOnce": {
-        "title": "Install once, works forever",
-        "description": "All you have to do is Install the Addon. And anytime you open a website of an Israeli-connected company you will see \"the wall\" instead."
       },
-      "worksEverywhere": {
-        "title": "Works everywhere!",
-        "description": "Works on Chrome, Firefox, Edge, Brave, Opera and soon Safari. It also works on mobile browsers like Firefox mobile and Kiwi browser!"
-      },
-      "smartDetection": {
-        "title": "Smart detection",
-        "description": "Detects websites and also their related LinkedIn, Twitter and Facebook accounts. More platforms coming soon."
-      },
-      "trustedData": {
-        "title": "Trusted data",
-        "description": "The main source of the data is the latest Crunchbase list of companies with headquarters in Israel. Also companies with a founder or investor from Israel. More data like BDS list coming soon. The addon will show the reason."
-      },
-      "donate": {
-        "title": "Support The Wall",
-        "description": "Help us maintain and improve The Wall Addon. Your support enables us to keep the addon free, update the database regularly, and add new features. Every contribution makes a difference!",
-        "button": "Click to donate"
-      }
+      "installNow": "Install Now",
+      "for": "For",
+      "alsoAvailable": "Also available for Safari and Firefox",
+      "alsoAvailablePrefix": "Also available for",
+      "and": "and",
+      "comma": ","
     },
     "testimonial": {
       "quote": "The most seamless and awesome plugin I've ever used! It has informed me about a lot of companies that I stopped using.",
@@ -70,12 +47,12 @@
       "watchHowItWorks": "Watch how it works"
     },
     "footer": {
+      "tagline": "Israeli Website Blocker",
+      "copyright": "© 2025 The Wall. All Rights Reserved.",
+      "emailUs": "Email Us",
       "github": "GitHub",
       "email": "Email",
-      "emailUs": "Email Us",
-      "donate": "Donate",
-      "tagline": "Israeli Website Blocker",
-      "copyright": "© 2025 The Wall. All Rights Reserved."
+      "donate": "Donate"
     },
     "newsletter": {
       "subscribeTitle": "Subscribe to news",
@@ -89,6 +66,29 @@
     },
     "aria": {
       "nextTestimonial": "Next testimonial"
+    },
+    "features": {
+      "installOnce": {
+        "title": "Install once, works forever",
+        "description": "Install the browser addon or the Android app. Anytime you encounter an Israeli-connected company, you will see \"the wall\" instead."
+      },
+      "worksEverywhere": {
+        "title": "Works everywhere!",
+        "description": "Browser addon for Chrome, Firefox, Edge, Brave, Opera and Safari. Android app for full phone protection. Same database everywhere!"
+      },
+      "smartDetection": {
+        "title": "Smart detection",
+        "description": "Detects websites and also their related LinkedIn, Twitter and Facebook accounts. More platforms coming soon."
+      },
+      "trustedData": {
+        "title": "Trusted data",
+        "description": "The main source of the data is the latest Crunchbase list of companies with headquarters in Israel. Also companies with a founder or investor from Israel. More data like BDS list coming soon. The addon will show the reason."
+      },
+      "donate": {
+        "title": "Support The Wall",
+        "description": "Help us maintain and improve The Wall. Your support enables us to keep everything free, update the database regularly, and add new features. Every contribution makes a difference!",
+        "button": "Click to Donate!"
+      }
     },
     "language": {
       "switcher": {
@@ -108,6 +108,21 @@
       "eventsTracked": "Those are the events we track:",
       "event1": "When the Wall appears (to ensure the addon works as expected, and to count the number for encouraging others in the future)",
       "event2": "When the Wall's share, continue, or report buttons are clicked (to study the performance of design changes etc.)"
+    },
+    "sections": {
+      "browserAddon": {
+        "title": "Browser Addon",
+        "subtitle": "Install in your browser for instant protection while you browse"
+      },
+      "androidApp": {
+        "title": "Android App",
+        "subtitle": "Full protection on your Android device",
+        "description": "Get The Wall app on your Android phone for full protection. Same trusted database, works offline. Always up to date.",
+        "getOnPlayStore": "Get it on Google Play"
+      },
+      "alsoGetAddon": "Also get our browser addon",
+      "alsoGetApp": "Also available as an Android app",
+      "newBadge": "NEW"
     }
   }
 }

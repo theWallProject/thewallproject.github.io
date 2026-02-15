@@ -21,10 +21,109 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 6rem;
+  gap: 4rem;
 }
 
-/* Hero Banner Section - Text Left, Image Right */
+/* Product-neutral intro text at the top */
+.heroText {
+  font-size: 1.35rem;
+  line-height: 1.6;
+  color: #ffffff;
+  margin: 0;
+  font-weight: 400;
+  text-align: center;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Product Section Wrapper (addon or app) */
+.productSection {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.secondarySection {
+  opacity: 0.95;
+}
+
+/* Section Header */
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sectionTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.sectionSubtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.newBadge {
+  display: inline-block;
+  background: linear-gradient(135deg, #00b445, #006f2a);
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Section Divider */
+.sectionDivider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.sectionDivider::before,
+.sectionDivider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.dividerText {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+/* Android section header/title row - separate classes for RTL scoping */
+.androidSectionHeader {
+  /* Base styles inherited from .sectionHeader */
+}
+
+.androidTitleRow {
+  /* Base styles inherited from .sectionTitleRow */
+}
+
+/* Hero Banner Section - Browser Addon: Text Left, Image Right */
 .heroBanner {
   display: flex;
   align-items: flex-start;
@@ -39,14 +138,6 @@
   gap: 2rem;
 }
 
-.heroText {
-  font-size: 1.25rem;
-  line-height: 1.6;
-  color: #ffffff;
-  margin: 0;
-  font-weight: 400;
-}
-
 /* Download Section Below Text */
 .downloadSection {
   display: flex;
@@ -54,8 +145,6 @@
   gap: 1.5rem;
   align-items: flex-start;
 }
-
-/* InstallButton styles moved to InstallButton.module.css - using InstallButton component */
 
 .availabilityText {
   color: rgba(255, 255, 255, 0.9);
@@ -107,6 +196,107 @@
   box-shadow: -30px -30px 0 0 #932300;
 }
 
+/* Android App Section */
+.androidSection {
+  /* Subtle visual distinction */
+}
+
+.appBanner {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  width: 100%;
+}
+
+.appTextSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.appDescription {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+  font-weight: 400;
+}
+
+.sameDatabaseBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.8rem;
+  font-weight: 500;
+  width: fit-content;
+}
+
+.playStoreBadgeLink {
+  display: inline-block;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.playStoreBadgeLink:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.playStoreBadge {
+  height: 60px;
+  width: auto;
+  display: block;
+}
+
+.playStoreBadgeSmall {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
+.appImageContainer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35%;
+  max-width: 400px;
+}
+
+.appFeaturedImage {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* iOS-specific Android app callout */
+.appCallout {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+}
+
+.appCalloutContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.appCalloutText {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  margin: 0;
+  font-weight: 500;
+}
+
 /* Testimonial Section */
 .testimonialSection {
   display: flex;
@@ -146,7 +336,6 @@
   width: 4rem;
   height: 4rem;
   object-fit: contain;
-  /* Icon should be dark reddish-orange #B04431 - placeholder will show this color */
 }
 
 .testimonialContent {
@@ -262,6 +451,10 @@
 }
 
 /* RTL support */
+[dir="rtl"] .heroText {
+  text-align: center;
+}
+
 [dir="rtl"] .heroBanner {
   flex-direction: row-reverse;
 }
@@ -275,6 +468,32 @@
 }
 
 [dir="rtl"] .browserLink {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .appBanner {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .appTextSection {
+  text-align: right;
+  align-items: flex-end;
+}
+
+[dir="rtl"] .androidSectionHeader {
+  text-align: right;
+}
+
+[dir="rtl"] .androidTitleRow {
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+[dir="rtl"] .sectionTitleRow {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .appCalloutContent {
   flex-direction: row-reverse;
 }
 
@@ -295,7 +514,7 @@
 }
 
 [dir="rtl"] .testimonialArrow {
-  order: -1; /* Place arrow before the card in RTL (flex-direction: row-reverse already does this, but this makes it explicit) */
+  order: -1;
 }
 
 [dir="rtl"] .testimonialArrow .arrowIcon {
@@ -335,6 +554,14 @@
   .videoCTAText {
     font-size: 1.1rem;
   }
+
+  .appBanner {
+    gap: 2rem;
+  }
+
+  .appImageContainer {
+    width: 40%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -353,7 +580,25 @@
   }
 
   .content {
-    gap: 4.5rem;
+    gap: 3rem;
+  }
+
+  .heroText {
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
+  .sectionTitle {
+    font-size: 1.3rem;
+  }
+
+  .sectionHeader {
+    text-align: center;
+    align-items: center;
+  }
+
+  .sectionTitleRow {
+    justify-content: center;
   }
 
   .heroBanner {
@@ -368,17 +613,10 @@
     text-align: center;
   }
 
-  .heroText {
-    font-size: 1.1rem;
-    text-align: center;
-  }
-
   .downloadSection {
     align-items: center;
     width: 100%;
   }
-
-  /* InstallButton responsive styles moved to InstallButton.module.css */
 
   .availabilityText {
     font-size: 0.75rem;
@@ -394,6 +632,30 @@
     box-shadow: -20px -20px 0 0 #932300;
   }
 
+  /* App section mobile */
+  .appBanner {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .appTextSection {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+
+  .appImageContainer {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .appCalloutContent {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
   [dir="rtl"] .heroBanner {
     flex-direction: column;
   }
@@ -407,8 +669,27 @@
     align-items: center;
   }
 
-  [dir="rtl"] .heroText {
+  [dir="rtl"] .appBanner {
+    flex-direction: column;
+  }
+
+  [dir="rtl"] .appTextSection {
     text-align: center;
+    align-items: center;
+  }
+
+  [dir="rtl"] .sectionTitleRow {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  [dir="rtl"] .androidSectionHeader {
+    text-align: center;
+  }
+
+  [dir="rtl"] .androidTitleRow {
+    flex-direction: row;
+    justify-content: center;
   }
 
   .testimonialSection {
@@ -433,8 +714,8 @@
     flex-direction: column;
     text-align: center;
     padding: 1.5rem;
-    padding-left: 1.5rem; /* Preserve left padding for icon */
-    border-radius: 0 12px 12px 0; /* Keep left edge sharp on mobile */
+    padding-left: 1.5rem;
+    border-radius: 0 12px 12px 0;
   }
 
   .testimonialIconContainer {
@@ -489,7 +770,20 @@
   }
 
   .content {
-    gap: 3.5rem;
+    gap: 2.5rem;
+  }
+
+  .heroText {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .sectionTitle {
+    font-size: 1.2rem;
+  }
+
+  .sectionSubtitle {
+    font-size: 0.9rem;
   }
 
   .heroBanner {
@@ -505,18 +799,11 @@
     text-align: center;
   }
 
-  .heroText {
-    font-size: 1rem;
-    text-align: center;
-  }
-
   .downloadSection {
     gap: 1.25rem;
     align-items: center;
     width: 100%;
   }
-
-  /* InstallButton responsive styles moved to InstallButton.module.css */
 
   .availabilityText {
     font-size: 0.65rem;
@@ -534,6 +821,40 @@
     box-shadow: -15px -15px 0 0 #932300;
   }
 
+  /* App section small mobile */
+  .appBanner {
+    gap: 1.5rem;
+  }
+
+  .appDescription {
+    font-size: 0.95rem;
+  }
+
+  .sameDatabaseBadge {
+    font-size: 0.75rem;
+  }
+
+  .playStoreBadge {
+    height: 50px;
+  }
+
+  .playStoreBadgeSmall {
+    height: 40px;
+  }
+
+  .appImageContainer {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .appCallout {
+    padding: 1rem;
+  }
+
+  .appCalloutText {
+    font-size: 0.85rem;
+  }
+
   [dir="rtl"] .heroBanner {
     flex-direction: column;
     align-items: center;
@@ -546,10 +867,6 @@
 
   [dir="rtl"] .downloadSection {
     align-items: center;
-  }
-
-  [dir="rtl"] .heroText {
-    text-align: center;
   }
 
   [dir="rtl"] .availabilityText {
@@ -577,9 +894,9 @@
 
   .testimonialCard {
     padding: 1.25rem;
-    padding-left: 1.25rem; /* Preserve left padding for icon */
+    padding-left: 1.25rem;
     gap: 1rem;
-    border-radius: 0 12px 12px 0; /* Keep left edge sharp */
+    border-radius: 0 12px 12px 0;
   }
 
   .testimonialIcon {

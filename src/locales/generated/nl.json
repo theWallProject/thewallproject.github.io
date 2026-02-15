@@ -1,24 +1,18 @@
 {
   "translation": {
     "meta": {
-      "title": "The Wall Addon",
-      "description": "The Wall Addon - Een krachtige browser-extensie die u helpt meer dan 19.000 Israëlische websites en hun sociale media-accounts automatisch te detecteren en blokkeren.",
-      "keywords": "The Wall, browser-addon, website-blokker, boycot-assistent, Israëlische websites, sociale media-blokkering, Chrome-extensie, Firefox-addon"
+      "title": "The Wall Project",
+      "description": "The Wall Project - Browser-addon en Android-app om meer dan 19.000 Israëlische websites en hun sociale media-accounts te detecteren en blokkeren. Dezelfde database, werkt offline.",
+      "keywords": "The Wall, browser-addon, Android-app, website-blokker, boycot-assistent, Israëlische websites, sociale media-blokkering, Chrome-extensie, Firefox-addon"
     },
     "header": {
-      "title": "The Wall Addon"
+      "title": "The Wall Project"
     },
     "intro": {
-      "text": "Een browser-plugin om meer dan {{count}} Israëlische websites en hun sociale accounts te detecteren en blokkeren."
+      "text": "Detecteer en blokkeer meer dan {{count}} Israëlische websites en hun sociale accounts. Beschikbaar als browser-addon en Android-app."
     },
     "downloads": {
       "recommended": "Voor uw browser",
-      "installNow": "Nu installeren",
-      "for": "Voor",
-      "alsoAvailable": "Ook beschikbaar voor Safari en Firefox",
-      "alsoAvailablePrefix": "Ook beschikbaar voor",
-      "and": "en",
-      "comma": ",",
       "chrome": {
         "title": "Klik om te downloaden voor Chrome",
         "subtitle": "Ook voor Brave, Edge en Kiwi voor Android!"
@@ -36,30 +30,13 @@
       },
       "telegram": {
         "title": "Word lid van ons Telegram-kanaal voor updates"
-      }
-    },
-    "features": {
-      "installOnce": {
-        "title": "Installeer eenmaal, werkt voor altijd",
-        "description": "Alles wat u hoeft te doen is de Addon te installeren. En elke keer dat u een website van een Israëlisch bedrijf opent, ziet u in plaats daarvan \"de muur\"."
       },
-      "worksEverywhere": {
-        "title": "Werkt overal!",
-        "description": "Werkt op Chrome, Firefox, Edge, Brave, Opera en binnenkort Safari. Het werkt ook op mobiele browsers zoals Firefox mobile en Kiwi browser!"
-      },
-      "smartDetection": {
-        "title": "Slimme detectie",
-        "description": "Detecteert websites en ook hun gerelateerde LinkedIn, Twitter en Facebook accounts. Meer platforms komen binnenkort."
-      },
-      "trustedData": {
-        "title": "Betrouwbare gegevens",
-        "description": "De belangrijkste bron van gegevens is de nieuwste Crunchbase-lijst van bedrijven met hoofdkantoor in Israël. Ook bedrijven met een oprichter of investeerder uit Israël. Meer gegevens zoals de BDS-lijst komen binnenkort. De addon zal de reden tonen."
-      },
-      "donate": {
-        "title": "Steun The Wall",
-        "description": "Help ons The Wall Addon te onderhouden en te verbeteren. Uw steun stelt ons in staat de addon gratis te houden, de database regelmatig bij te werken en nieuwe functies toe te voegen. Elke bijdrage maakt het verschil!",
-        "button": "Klik om te doneren"
-      }
+      "installNow": "Nu installeren",
+      "for": "Voor",
+      "alsoAvailable": "Ook beschikbaar voor Safari en Firefox",
+      "alsoAvailablePrefix": "Ook beschikbaar voor",
+      "and": "en",
+      "comma": ","
     },
     "testimonial": {
       "quote": "De meest naadloze en geweldige plugin die ik ooit heb gebruikt! Het heeft me geïnformeerd over veel bedrijven die ik niet meer gebruik.",
@@ -70,12 +47,12 @@
       "watchHowItWorks": "Bekijk hoe het werkt"
     },
     "footer": {
+      "tagline": "Israëlische website-blokker",
+      "copyright": "© 2025 The Wall. Alle rechten voorbehouden.",
+      "emailUs": "Neem contact op",
       "github": "GitHub",
       "email": "E-mail",
-      "emailUs": "Neem contact op",
-      "donate": "Doneren",
-      "tagline": "Israëlische website-blokker",
-      "copyright": "© 2025 The Wall. Alle rechten voorbehouden."
+      "donate": "Doneren"
     },
     "newsletter": {
       "subscribeTitle": "Abonneer op nieuws",
@@ -89,6 +66,29 @@
     },
     "aria": {
       "nextTestimonial": "Volgende testimonial"
+    },
+    "features": {
+      "installOnce": {
+        "title": "Installeer eenmaal, werkt voor altijd",
+        "description": "Installeer de browser-addon of de Android-app. Elke keer dat u een Israëlisch bedrijf tegenkomt, ziet u in plaats daarvan \"de muur\"."
+      },
+      "worksEverywhere": {
+        "title": "Werkt overal!",
+        "description": "Browser-addon voor Chrome, Firefox, Edge, Brave, Opera en Safari. Android-app voor volledige telefoonbescherming. Overal dezelfde database!"
+      },
+      "smartDetection": {
+        "title": "Slimme detectie",
+        "description": "Detecteert websites en ook hun gerelateerde LinkedIn, Twitter en Facebook accounts. Meer platforms komen binnenkort."
+      },
+      "trustedData": {
+        "title": "Betrouwbare gegevens",
+        "description": "De belangrijkste bron van gegevens is de nieuwste Crunchbase-lijst van bedrijven met hoofdkantoor in Israël. Ook bedrijven met een oprichter of investeerder uit Israël. Meer gegevens zoals de BDS-lijst komen binnenkort. De addon zal de reden tonen."
+      },
+      "donate": {
+        "title": "Steun The Wall",
+        "description": "Help ons The Wall te onderhouden en te verbeteren. Uw steun stelt ons in staat alles gratis te houden, de database regelmatig bij te werken en nieuwe functies toe te voegen. Elke bijdrage maakt het verschil!",
+        "button": "Klik om te doneren"
+      }
     },
     "language": {
       "switcher": {
@@ -108,6 +108,21 @@
       "eventsTracked": "Dit zijn de gebeurtenissen die we volgen:",
       "event1": "Wanneer de Muur verschijnt (om ervoor te zorgen dat de addon werkt zoals verwacht, en om het aantal te tellen voor het aanmoedigen van anderen in de toekomst)",
       "event2": "Wanneer de deel-, doorgaan- of rapportageknoppen van de Muur worden geklikt (om de prestaties van ontwerpwijzigingen etc. te bestuderen)"
+    },
+    "sections": {
+      "browserAddon": {
+        "title": "Browser-addon",
+        "subtitle": "Installeer in uw browser voor directe bescherming tijdens het surfen"
+      },
+      "androidApp": {
+        "title": "Android-app",
+        "subtitle": "Volledige bescherming op uw Android-apparaat",
+        "description": "Download de The Wall app op uw Android-telefoon voor volledige bescherming. Dezelfde betrouwbare database, werkt offline. Altijd up-to-date.",
+        "getOnPlayStore": "Verkrijgbaar op Google Play"
+      },
+      "alsoGetAddon": "Download ook onze browser-addon",
+      "alsoGetApp": "Ook beschikbaar als Android-app",
+      "newBadge": "NIEUW"
     }
   }
 }

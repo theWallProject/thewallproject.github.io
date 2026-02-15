@@ -1,24 +1,18 @@
 {
   "translation": {
     "meta": {
-      "title": "The Wall 插件",
-      "description": "The Wall 插件 - 一个强大的浏览器扩展，帮助您自动检测和阻止超过19,000个与以色列相关的网站及其社交媒体账户。",
-      "keywords": "The Wall, 浏览器插件, 网站拦截器, 抵制助手, 以色列网站, 社交媒体拦截, Chrome扩展, Firefox插件"
+      "title": "The Wall 项目",
+      "description": "The Wall 项目 - 浏览器插件和安卓应用，用于检测和阻止超过19,000个与以色列相关的网站及其社交媒体账户。相同数据库，离线可用。",
+      "keywords": "The Wall, 浏览器插件, 安卓应用, 网站拦截器, 抵制助手, 以色列网站, 社交媒体拦截, Chrome扩展, Firefox插件"
     },
     "header": {
-      "title": "The Wall 插件"
+      "title": "The Wall 项目"
     },
     "intro": {
-      "text": "一个浏览器插件，用于检测和阻止超过{{count}}个与以色列相关的网站及其社交账户。"
+      "text": "检测和阻止超过{{count}}个与以色列相关的网站及其社交账户。提供浏览器插件和安卓应用。"
     },
     "downloads": {
       "recommended": "适用于您的浏览器",
-      "installNow": "立即安装",
-      "for": "适用于",
-      "alsoAvailable": "也适用于 Safari 和 Firefox",
-      "alsoAvailablePrefix": "也适用于",
-      "and": "和",
-      "comma": "、",
       "chrome": {
         "title": "点击下载 Chrome 版本",
         "subtitle": "也适用于 Brave、Edge 和 Android 版 Kiwi！"
@@ -36,30 +30,13 @@
       },
       "telegram": {
         "title": "加入我们的 Telegram 频道获取更新"
-      }
-    },
-    "features": {
-      "installOnce": {
-        "title": "安装一次，永久有效",
-        "description": "您只需要安装插件即可。每当您打开与以色列相关的公司网站时，您会看到\"墙\"来代替。"
       },
-      "worksEverywhere": {
-        "title": "随处可用！",
-        "description": "适用于 Chrome、Firefox、Edge、Brave、Opera，很快也将支持 Safari。也适用于移动浏览器如 Firefox mobile 和 Kiwi browser！"
-      },
-      "smartDetection": {
-        "title": "智能检测",
-        "description": "检测网站及其相关的 LinkedIn、Twitter 和 Facebook 账户。更多平台即将推出。"
-      },
-      "trustedData": {
-        "title": "可信数据",
-        "description": "数据的主要来源是 Crunchbase 最新的以色列总部公司名单。还包括有以色列创始人或投资者的公司。更多数据如 BDS 名单即将推出。插件将显示原因。"
-      },
-      "donate": {
-        "title": "支持 The Wall",
-        "description": "帮助我们维护和改进 The Wall 插件。您的支持使我们能够保持插件免费，定期更新数据库，并添加新功能。每一份贡献都很重要！",
-        "button": "点击捐赠"
-      }
+      "installNow": "立即安装",
+      "for": "适用于",
+      "alsoAvailable": "也适用于 Safari 和 Firefox",
+      "alsoAvailablePrefix": "也适用于",
+      "and": "和",
+      "comma": "、"
     },
     "testimonial": {
       "quote": "我使用过的最流畅、最棒的插件！它让我了解了很多我已经停止使用的公司。",
@@ -70,12 +47,12 @@
       "watchHowItWorks": "观看工作原理"
     },
     "footer": {
+      "tagline": "以色列网站拦截器",
+      "copyright": "© 2025 The Wall. 保留所有权利。",
+      "emailUs": "联系我们",
       "github": "GitHub",
       "email": "邮箱",
-      "emailUs": "联系我们",
-      "donate": "捐赠",
-      "tagline": "以色列网站拦截器",
-      "copyright": "© 2025 The Wall. 保留所有权利。"
+      "donate": "捐赠"
     },
     "newsletter": {
       "subscribeTitle": "订阅新闻",
@@ -89,6 +66,29 @@
     },
     "aria": {
       "nextTestimonial": "下一个推荐"
+    },
+    "features": {
+      "installOnce": {
+        "title": "安装一次，永久有效",
+        "description": "安装浏览器插件或安卓应用。每当您遇到与以色列相关的公司时，您会看到\"墙\"来代替。"
+      },
+      "worksEverywhere": {
+        "title": "随处可用！",
+        "description": "浏览器插件支持 Chrome、Firefox、Edge、Brave、Opera 和 Safari。安卓应用提供完整手机保护。所有平台使用相同数据库！"
+      },
+      "smartDetection": {
+        "title": "智能检测",
+        "description": "检测网站及其相关的 LinkedIn、Twitter 和 Facebook 账户。更多平台即将推出。"
+      },
+      "trustedData": {
+        "title": "可信数据",
+        "description": "数据的主要来源是 Crunchbase 最新的以色列总部公司名单。还包括有以色列创始人或投资者的公司。更多数据如 BDS 名单即将推出。插件将显示原因。"
+      },
+      "donate": {
+        "title": "支持 The Wall",
+        "description": "帮助我们维护和改进 The Wall。您的支持使我们能够保持一切免费，定期更新数据库，并添加新功能。每一份贡献都很重要！",
+        "button": "点击捐赠"
+      }
     },
     "language": {
       "switcher": {
@@ -108,6 +108,21 @@
       "eventsTracked": "这些是我们跟踪的事件：",
       "event1": "当墙出现时（确保插件按预期工作，并计算数量以在未来鼓励他人）",
       "event2": "当点击墙的分享、继续或报告按钮时（研究设计变更等的性能）"
+    },
+    "sections": {
+      "browserAddon": {
+        "title": "浏览器插件",
+        "subtitle": "安装到浏览器中，在浏览时获得即时保护"
+      },
+      "androidApp": {
+        "title": "安卓应用",
+        "subtitle": "在您的安卓设备上获得完整保护",
+        "description": "在您的安卓手机上获取 The Wall 应用以获得完整保护。相同的可信数据库，离线可用。始终保持最新。",
+        "getOnPlayStore": "在 Google Play 上获取"
+      },
+      "alsoGetAddon": "还可以获取我们的浏览器插件",
+      "alsoGetApp": "也提供安卓应用",
+      "newBadge": "全新"
     }
   }
 }

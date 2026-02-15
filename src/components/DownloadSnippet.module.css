@@ -27,8 +27,6 @@
   gap: 1.5rem;
 }
 
-/* InstallButton styles moved to InstallButton.module.css - using InstallButton component */
-
 .availabilityText {
   color: rgba(255, 255, 255, 0.7);
   font-size: 0.75rem;
@@ -61,20 +59,53 @@
   display: block;
 }
 
+/* Play Store row in download snippet */
+.playStoreRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  width: 100%;
+  max-width: 400px;
+}
+
+.playStoreText {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  margin: 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+.playStoreBadgeLink {
+  display: inline-block;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.playStoreBadgeLink:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.playStoreBadge {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
 /* RTL support */
 [dir="rtl"] .downloadsContent {
   direction: ltr; /* Keep button text LTR */
 }
-
-/* InstallButton RTL styles moved to InstallButton.module.css */
 
 /* Responsive design */
 @media (max-width: 768px) {
   .downloadSnippet {
     padding: 3rem 1.5rem;
   }
-
-  /* InstallButton responsive styles moved to InstallButton.module.css */
 
   .availabilityText {
     font-size: 0.7rem;
@@ -88,14 +119,16 @@
     width: 3.5rem;
     height: 3.5rem;
   }
+
+  .playStoreBadge {
+    height: 42px;
+  }
 }
 
 @media (max-width: 480px) {
   .downloadSnippet {
     padding: 2.5rem 1rem;
   }
-
-  /* InstallButton responsive styles moved to InstallButton.module.css */
 
   .availabilityText {
     font-size: 0.65rem;
@@ -109,5 +142,17 @@
   .browserIcon {
     width: 3rem;
     height: 3rem;
+  }
+
+  .playStoreRow {
+    padding-top: 1rem;
+  }
+
+  .playStoreBadge {
+    height: 38px;
+  }
+
+  .playStoreText {
+    font-size: 0.7rem;
   }
 }

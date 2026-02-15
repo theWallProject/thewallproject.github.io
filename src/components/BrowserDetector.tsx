@@ -6,7 +6,7 @@ export interface BrowserInfo {
   isMobile: boolean;
   isIOS: boolean;
   isAndroid: boolean;
-  recommendedDownload: "chrome" | "firefox" | "safari" | "ios" | "telegram";
+  recommendedDownload: "chrome" | "firefox" | "safari" | "ios" | "android" | "telegram";
 }
 
 export const useBrowserDetection = (): BrowserInfo => {
@@ -101,20 +101,17 @@ export const useBrowserDetection = (): BrowserInfo => {
           }
           recommendedDownload = "ios";
         } else if (isAndroid) {
-          // Android browsers - only recommend when we're certain
+          // Android devices - recommend the Android app as primary
           const browserNameLower = browserData.name?.toLowerCase() || "";
           if (browserNameLower === "firefox") {
             browserName = "firefox";
-            recommendedDownload = "firefox";
           } else if (supportsChromeExtensions()) {
-            // Any browser that supports Chrome extensions is treated as Chrome
             browserName = "chrome";
-            recommendedDownload = "chrome";
           } else {
-            // If we can't determine with certainty, don't recommend anything
             browserName = "unknown";
-            recommendedDownload = "chrome"; // Default fallback, but won't be highlighted
           }
+          // Always recommend the Android app for Android users
+          recommendedDownload = "android";
         } else {
           // Desktop browsers - only recommend when we're certain
           const browserNameLower = browserData.name?.toLowerCase() || "";

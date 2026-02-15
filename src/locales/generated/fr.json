@@ -1,24 +1,18 @@
 {
   "translation": {
     "meta": {
-      "title": "The Wall Addon",
-      "description": "The Wall Addon - Une puissante extension de navigateur qui vous aide à détecter et bloquer automatiquement plus de 19 000 sites web israéliens et leurs comptes de réseaux sociaux.",
-      "keywords": "The Wall, extension navigateur, bloqueur de sites, assistant boycott, sites israéliens, blocage réseaux sociaux, extension Chrome, extension Firefox"
+      "title": "The Wall Project",
+      "description": "The Wall Project - Extension de navigateur et application Android pour détecter et bloquer plus de 19 000 sites web israéliens et leurs comptes de réseaux sociaux. Même base de données, fonctionne hors ligne.",
+      "keywords": "The Wall, extension navigateur, application Android, bloqueur de sites, assistant boycott, sites israéliens, blocage réseaux sociaux, extension Chrome, extension Firefox"
     },
     "header": {
-      "title": "The Wall Addon"
+      "title": "The Wall Project"
     },
     "intro": {
-      "text": "Un plugin de navigateur pour détecter et bloquer plus de {{count}} sites web israéliens et leurs comptes sociaux."
+      "text": "Détectez et bloquez plus de {{count}} sites web israéliens et leurs comptes sociaux. Disponible comme extension de navigateur et application Android."
     },
     "downloads": {
       "recommended": "Pour votre navigateur",
-      "installNow": "Installer maintenant",
-      "for": "Pour",
-      "alsoAvailable": "Également disponible pour Safari et Firefox",
-      "alsoAvailablePrefix": "Également disponible pour",
-      "and": "et",
-      "comma": ",",
       "chrome": {
         "title": "Cliquez pour télécharger pour Chrome",
         "subtitle": "Aussi pour Brave, Edge et Kiwi pour Android !"
@@ -36,30 +30,13 @@
       },
       "telegram": {
         "title": "Rejoignez notre canal Telegram pour les mises à jour"
-      }
-    },
-    "features": {
-      "installOnce": {
-        "title": "Installez une fois, fonctionne pour toujours",
-        "description": "Tout ce que vous avez à faire est d'installer l'extension. Et chaque fois que vous ouvrez un site web d'une entreprise connectée à Israël, vous verrez \"le mur\" à la place."
       },
-      "worksEverywhere": {
-        "title": "Fonctionne partout !",
-        "description": "Fonctionne sur Chrome, Firefox, Edge, Brave, Opera et bientôt Safari. Il fonctionne aussi sur les navigateurs mobiles comme Firefox mobile et Kiwi browser !"
-      },
-      "smartDetection": {
-        "title": "Détection intelligente",
-        "description": "Détecte les sites web et aussi leurs comptes LinkedIn, Twitter et Facebook associés. Plus de plateformes à venir."
-      },
-      "trustedData": {
-        "title": "Données fiables",
-        "description": "La principale source de données est la dernière liste Crunchbase des entreprises ayant leur siège en Israël. Aussi les entreprises avec un fondateur ou investisseur d'Israël. Plus de données comme la liste BDS à venir. L'extension montrera la raison."
-      },
-      "donate": {
-        "title": "Soutenez The Wall",
-        "description": "Aidez-nous à maintenir et améliorer The Wall Addon. Votre soutien nous permet de garder l'extension gratuite, de mettre à jour la base de données régulièrement et d'ajouter de nouvelles fonctionnalités. Chaque contribution fait la différence !",
-        "button": "Cliquez pour faire un don"
-      }
+      "installNow": "Installer maintenant",
+      "for": "Pour",
+      "alsoAvailable": "Également disponible pour Safari et Firefox",
+      "alsoAvailablePrefix": "Également disponible pour",
+      "and": "et",
+      "comma": ","
     },
     "testimonial": {
       "quote": "Le plugin le plus fluide et génial que j'aie jamais utilisé ! Il m'a informé sur beaucoup d'entreprises que j'ai arrêté d'utiliser.",
@@ -70,12 +47,12 @@
       "watchHowItWorks": "Regardez comment ça fonctionne"
     },
     "footer": {
+      "tagline": "Bloqueur de sites israéliens",
+      "copyright": "© 2025 The Wall. Tous droits réservés.",
+      "emailUs": "Nous contacter",
       "github": "GitHub",
       "email": "Email",
-      "emailUs": "Nous contacter",
-      "donate": "Faire un don",
-      "tagline": "Bloqueur de sites israéliens",
-      "copyright": "© 2025 The Wall. Tous droits réservés."
+      "donate": "Faire un don"
     },
     "newsletter": {
       "subscribeTitle": "S'abonner aux actualités",
@@ -89,6 +66,29 @@
     },
     "aria": {
       "nextTestimonial": "Témoignage suivant"
+    },
+    "features": {
+      "installOnce": {
+        "title": "Installez une fois, fonctionne pour toujours",
+        "description": "Installez l'extension de navigateur ou l'application Android. Chaque fois que vous rencontrez une entreprise connectée à Israël, vous verrez \"le mur\" à la place."
+      },
+      "worksEverywhere": {
+        "title": "Fonctionne partout !",
+        "description": "Extension de navigateur pour Chrome, Firefox, Edge, Brave, Opera et Safari. Application Android pour une protection complète du téléphone. Même base de données partout !"
+      },
+      "smartDetection": {
+        "title": "Détection intelligente",
+        "description": "Détecte les sites web et aussi leurs comptes LinkedIn, Twitter et Facebook associés. Plus de plateformes à venir."
+      },
+      "trustedData": {
+        "title": "Données fiables",
+        "description": "La principale source de données est la dernière liste Crunchbase des entreprises ayant leur siège en Israël. Aussi les entreprises avec un fondateur ou investisseur d'Israël. Plus de données comme la liste BDS à venir. L'extension montrera la raison."
+      },
+      "donate": {
+        "title": "Soutenez The Wall",
+        "description": "Aidez-nous à maintenir et améliorer The Wall. Votre soutien nous permet de garder tout gratuit, de mettre à jour la base de données régulièrement et d'ajouter de nouvelles fonctionnalités. Chaque contribution fait la différence !",
+        "button": "Cliquez pour faire un don"
+      }
     },
     "language": {
       "switcher": {
@@ -108,6 +108,21 @@
       "eventsTracked": "Voici les événements que nous suivons :",
       "event1": "Quand le Mur apparaît (pour s'assurer que l'extension fonctionne comme prévu, et pour compter le nombre pour encourager les autres à l'avenir)",
       "event2": "Quand les boutons partager, continuer ou signaler du Mur sont cliqués (pour étudier les performances des changements de conception etc.)"
+    },
+    "sections": {
+      "browserAddon": {
+        "title": "Extension de navigateur",
+        "subtitle": "Installez dans votre navigateur pour une protection instantanée"
+      },
+      "androidApp": {
+        "title": "Application Android",
+        "subtitle": "Protection complète sur votre appareil Android",
+        "description": "Obtenez l'application The Wall sur votre téléphone Android pour une protection complète. Même base de données fiable, fonctionne hors ligne. Toujours à jour.",
+        "getOnPlayStore": "Disponible sur Google Play"
+      },
+      "alsoGetAddon": "Obtenez aussi notre extension de navigateur",
+      "alsoGetApp": "Également disponible en application Android",
+      "newBadge": "NOUVEAU"
     }
   }
 }

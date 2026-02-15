@@ -1,24 +1,18 @@
 {
   "translation": {
     "meta": {
-      "title": "The Wall Addon",
-      "description": "The Wall Addon - Ekstensi browser yang kuat yang membantu Anda mendeteksi dan memblokir lebih dari 19.000 situs web yang terhubung dengan Israel dan akun media sosial mereka secara otomatis.",
-      "keywords": "The Wall, ekstensi browser, pemblokir situs web, asisten boikot, situs web Israel, pemblokiran media sosial, ekstensi Chrome, addon Firefox"
+      "title": "The Wall Project",
+      "description": "The Wall Project - Addon browser dan aplikasi Android untuk mendeteksi dan memblokir lebih dari 19.000 situs web Israel dan akun media sosial mereka. Database yang sama, bekerja offline.",
+      "keywords": "The Wall, ekstensi browser, aplikasi Android, pemblokir situs web, asisten boikot, situs web Israel, pemblokiran media sosial, ekstensi Chrome, addon Firefox"
     },
     "header": {
-      "title": "The Wall Addon"
+      "title": "The Wall Project"
     },
     "intro": {
-      "text": "Plugin browser untuk mendeteksi dan memblokir lebih dari {{count}} situs web yang terkait dengan Israel dan akun sosial mereka."
+      "text": "Deteksi dan blokir lebih dari {{count}} situs web Israel dan akun sosial mereka. Tersedia sebagai addon browser dan aplikasi Android."
     },
     "downloads": {
       "recommended": "Untuk browser Anda",
-      "installNow": "Instal Sekarang",
-      "for": "Untuk",
-      "alsoAvailable": "Juga tersedia untuk Safari dan Firefox",
-      "alsoAvailablePrefix": "Juga tersedia untuk",
-      "and": "dan",
-      "comma": ",",
       "chrome": {
         "title": "Klik untuk mengunduh untuk Chrome",
         "subtitle": "Juga untuk Brave, Edge dan Kiwi untuk Android!"
@@ -36,30 +30,13 @@
       },
       "telegram": {
         "title": "Bergabunglah dengan saluran Telegram kami untuk pembaruan"
-      }
-    },
-    "features": {
-      "installOnce": {
-        "title": "Instal sekali, bekerja selamanya",
-        "description": "Yang perlu Anda lakukan hanyalah menginstal Addon. Dan setiap kali Anda membuka situs web perusahaan yang terhubung dengan Israel, Anda akan melihat \"tembok\" sebagai gantinya."
       },
-      "worksEverywhere": {
-        "title": "Bekerja di mana saja!",
-        "description": "Bekerja di Chrome, Firefox, Edge, Brave, Opera dan segera Safari. Juga bekerja di browser mobile seperti Firefox mobile dan Kiwi browser!"
-      },
-      "smartDetection": {
-        "title": "Deteksi cerdas",
-        "description": "Mendeteksi situs web dan juga akun LinkedIn, Twitter, dan Facebook yang terkait. Lebih banyak platform segera hadir."
-      },
-      "trustedData": {
-        "title": "Data terpercaya",
-        "description": "Sumber utama data adalah daftar Crunchbase terbaru dari perusahaan yang berkantor pusat di Israel. Juga perusahaan dengan pendiri atau investor dari Israel. Lebih banyak data seperti daftar BDS segera hadir. Addon akan menunjukkan alasannya."
-      },
-      "donate": {
-        "title": "Dukung The Wall",
-        "description": "Bantu kami memelihara dan meningkatkan The Wall Addon. Dukungan Anda memungkinkan kami menjaga addon tetap gratis, memperbarui database secara teratur, dan menambahkan fitur baru. Setiap kontribusi membuat perbedaan!",
-        "button": "Klik untuk donasi"
-      }
+      "installNow": "Instal Sekarang",
+      "for": "Untuk",
+      "alsoAvailable": "Juga tersedia untuk Safari dan Firefox",
+      "alsoAvailablePrefix": "Juga tersedia untuk",
+      "and": "dan",
+      "comma": ","
     },
     "testimonial": {
       "quote": "Plugin yang paling mulus dan luar biasa yang pernah saya gunakan! Ini telah memberi tahu saya tentang banyak perusahaan yang saya berhenti gunakan.",
@@ -70,12 +47,12 @@
       "watchHowItWorks": "Tonton cara kerjanya"
     },
     "footer": {
+      "tagline": "Pemblokir Situs Web Israel",
+      "copyright": "© 2025 The Wall. Hak Cipta Dilindungi.",
+      "emailUs": "Hubungi Kami",
       "github": "GitHub",
       "email": "Email",
-      "emailUs": "Hubungi Kami",
-      "donate": "Donasi",
-      "tagline": "Pemblokir Situs Web Israel",
-      "copyright": "© 2025 The Wall. Hak Cipta Dilindungi."
+      "donate": "Donasi"
     },
     "newsletter": {
       "subscribeTitle": "Berlangganan berita",
@@ -89,6 +66,29 @@
     },
     "aria": {
       "nextTestimonial": "Testimoni berikutnya"
+    },
+    "features": {
+      "installOnce": {
+        "title": "Instal sekali, bekerja selamanya",
+        "description": "Instal addon browser atau aplikasi Android. Setiap kali Anda menemukan perusahaan yang terhubung dengan Israel, Anda akan melihat \"tembok\" sebagai gantinya."
+      },
+      "worksEverywhere": {
+        "title": "Bekerja di mana saja!",
+        "description": "Addon browser untuk Chrome, Firefox, Edge, Brave, Opera dan Safari. Aplikasi Android untuk perlindungan ponsel penuh. Database yang sama di mana saja!"
+      },
+      "smartDetection": {
+        "title": "Deteksi cerdas",
+        "description": "Mendeteksi situs web dan juga akun LinkedIn, Twitter, dan Facebook yang terkait. Lebih banyak platform segera hadir."
+      },
+      "trustedData": {
+        "title": "Data terpercaya",
+        "description": "Sumber utama data adalah daftar Crunchbase terbaru dari perusahaan yang berkantor pusat di Israel. Juga perusahaan dengan pendiri atau investor dari Israel. Lebih banyak data seperti daftar BDS segera hadir. Addon akan menunjukkan alasannya."
+      },
+      "donate": {
+        "title": "Dukung The Wall",
+        "description": "Bantu kami memelihara dan meningkatkan The Wall. Dukungan Anda memungkinkan kami menjaga semuanya tetap gratis, memperbarui database secara teratur, dan menambahkan fitur baru. Setiap kontribusi membuat perbedaan!",
+        "button": "Klik untuk donasi"
+      }
     },
     "language": {
       "switcher": {
@@ -108,6 +108,21 @@
       "eventsTracked": "Berikut adalah peristiwa yang kami lacak:",
       "event1": "Ketika Tembok muncul (untuk memastikan addon bekerja seperti yang diharapkan, dan untuk menghitung jumlah untuk mendorong orang lain di masa depan)",
       "event2": "Ketika tombol berbagi, lanjutkan, atau laporkan Tembok diklik (untuk mempelajari kinerja perubahan desain dll)"
+    },
+    "sections": {
+      "browserAddon": {
+        "title": "Addon Browser",
+        "subtitle": "Instal di browser Anda untuk perlindungan instan saat menjelajah"
+      },
+      "androidApp": {
+        "title": "Aplikasi Android",
+        "subtitle": "Perlindungan penuh di perangkat Android Anda",
+        "description": "Dapatkan aplikasi The Wall di ponsel Android Anda untuk perlindungan penuh. Database terpercaya yang sama, bekerja offline. Selalu terbaru.",
+        "getOnPlayStore": "Dapatkan di Google Play"
+      },
+      "alsoGetAddon": "Dapatkan juga addon browser kami",
+      "alsoGetApp": "Juga tersedia sebagai aplikasi Android",
+      "newBadge": "BARU"
     }
   }
 }

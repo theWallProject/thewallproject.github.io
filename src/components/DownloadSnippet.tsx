@@ -6,7 +6,8 @@ import styles from "./DownloadSnippet.module.css";
 
 const DownloadSnippet: React.FC = () => {
   const { t } = useTranslation();
-  const { otherBrowsers } = useDownloadLinks();
+  const { otherBrowsers, downloadLinks, isAndroid, isIOS } =
+    useDownloadLinks();
 
   // Build dynamic "Also available for..." text based on otherBrowsers
   // This ensures the text matches the icons shown
@@ -25,9 +26,6 @@ const DownloadSnippet: React.FC = () => {
     if (browserNames.length === 1) {
       return `${prefix} ${browserNames[0]}`;
     } else if (browserNames.length === 2) {
-      // When Firefox detected: "Also available for Chrome and Safari"
-      // When Chrome detected: "Also available for Firefox and Safari"
-      // When Safari detected: "Also available for Chrome and Firefox"
       return `${prefix} ${browserNames[0]} ${andWord} ${browserNames[1]}`;
     } else {
       const last = browserNames.pop();
@@ -41,6 +39,7 @@ const DownloadSnippet: React.FC = () => {
     <section className={styles.downloadSnippet}>
       <div className={styles.container}>
         <div className={styles.downloadsContent}>
+          {/* Always show addon install button */}
           <InstallButton />
 
           <p className={styles.availabilityText}>{getAvailabilityText()}</p>
@@ -62,6 +61,30 @@ const DownloadSnippet: React.FC = () => {
               </a>
             ))}
           </div>
+
+          {/* Show Play Store badge on Android or as secondary on desktop/iOS */}
+          {(isAndroid || !isIOS) && (
+            <div className={styles.playStoreRow}>
+              <p className={styles.playStoreText}>
+                {isAndroid
+                  ? t("sections.androidApp.subtitle")
+                  : t("sections.alsoGetApp")}
+              </p>
+              <a
+                href={downloadLinks.android.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.playStoreBadgeLink}
+                aria-label={t("sections.androidApp.getOnPlayStore")}
+              >
+                <img
+                  src="./files/common/playstore/GetItOnGooglePlay_Badge_Web_color_English.svg"
+                  alt={t("sections.androidApp.getOnPlayStore")}
+                  className={styles.playStoreBadge}
+                />
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </section>

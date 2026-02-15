@@ -7,8 +7,13 @@ import styles from "./Hero.module.css";
 
 const Hero: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const { downloadLinks, otherBrowsers, browserDisplayName } =
-    useDownloadLinks();
+  const {
+    downloadLinks,
+    otherBrowsers,
+    browserDisplayName,
+    isAndroid,
+    isIOS,
+  } = useDownloadLinks();
   const [isScrolled, setIsScrolled] = useState(false);
 
   // Get video URL based on language
@@ -141,35 +146,152 @@ const Hero: React.FC = () => {
     return <>{parts}</>;
   };
 
+  // Render the Browser Addon section
+  const renderBrowserAddonSection = (isSecondary: boolean = false) => (
+    <div
+      className={`${styles.productSection} ${
+        isSecondary ? styles.secondarySection : ""
+      }`}
+    >
+      <div className={styles.sectionHeader}>
+        <h2 className={styles.sectionTitle}>
+          {t("sections.browserAddon.title")}
+        </h2>
+        <p className={styles.sectionSubtitle}>
+          {t("sections.browserAddon.subtitle")}
+        </p>
+      </div>
+
+      <div className={styles.heroBanner}>
+        <div className={styles.heroTextSection}>
+          {/* Download Buttons */}
+          <div className={styles.downloadSection}>
+            <InstallButton />
+
+            <p className={styles.availabilityText}>
+              {renderAvailabilityText()}
+            </p>
+          </div>
+        </div>
+
+        {/* GIF only in browser addon section */}
+        <div className={styles.heroImageContainer}>
+          <img
+            src="./files/common/install.gif"
+            alt="Step 1: Install"
+            className={styles.installOverlay}
+          />
+        </div>
+      </div>
+    </div>
+  );
+
+  // Render the Android App section
+  const renderAndroidAppSection = (isSecondary: boolean = false) => (
+    <div
+      className={`${styles.productSection} ${styles.androidSection} ${
+        isSecondary ? styles.secondarySection : ""
+      }`}
+    >
+      <div className={`${styles.sectionHeader} ${styles.androidSectionHeader}`}>
+        <div className={`${styles.sectionTitleRow} ${styles.androidTitleRow}`}>
+          <h2 className={styles.sectionTitle}>
+            {t("sections.androidApp.title")}
+          </h2>
+          <span className={styles.newBadge}>{t("sections.newBadge")}</span>
+        </div>
+        <p className={styles.sectionSubtitle}>
+          {t("sections.androidApp.subtitle")}
+        </p>
+      </div>
+
+      <div className={styles.appBanner}>
+        <div className={styles.appTextSection}>
+          <p className={styles.appDescription}>
+            {t("sections.androidApp.description")}
+          </p>
+          <a
+            href={downloadLinks.android.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.playStoreBadgeLink}
+            aria-label={t("sections.androidApp.getOnPlayStore")}
+          >
+            <img
+              src="./files/common/playstore/GetItOnGooglePlay_Badge_Web_color_English.svg"
+              alt={t("sections.androidApp.getOnPlayStore")}
+              className={styles.playStoreBadge}
+            />
+          </a>
+        </div>
+
+        <div className={styles.appImageContainer}>
+          <img
+            src="./files/common/android_featured.png"
+            alt={t("sections.androidApp.title")}
+            className={styles.appFeaturedImage}
+          />
+        </div>
+      </div>
+    </div>
+  );
+
+  // Render a compact "Also available" callout for the Android app (used on iOS)
+  const renderAndroidAppCallout = () => (
+    <div className={styles.appCallout}>
+      <div className={styles.appCalloutContent}>
+        <p className={styles.appCalloutText}>{t("sections.alsoGetApp")}</p>
+        <a
+          href={downloadLinks.android.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.playStoreBadgeLink}
+          aria-label={t("sections.androidApp.getOnPlayStore")}
+        >
+          <img
+            src="./files/common/playstore/GetItOnGooglePlay_Badge_Web_color_English.svg"
+            alt={t("sections.androidApp.getOnPlayStore")}
+            className={styles.playStoreBadgeSmall}
+          />
+        </a>
+      </div>
+    </div>
+  );
+
   return (
     <section className={`${styles.hero} ${isScrolled ? styles.scrolled : ""}`}>
       <div className={styles.container}>
         <div className={styles.content}>
-          {/* Hero Banner Section - Text Left, Image Right */}
-          <div className={styles.heroBanner}>
-            <div className={styles.heroTextSection}>
-              <p className={styles.heroText}>
-                {t("intro.text", { count: 19000 })}
-              </p>
+          {/* Product-neutral intro text */}
+          <p className={styles.heroText}>
+            {t("intro.text", { count: 19000 })}
+          </p>
 
-              {/* Download Buttons Below Text */}
-              <div className={styles.downloadSection}>
-                <InstallButton />
-
-                <p className={styles.availabilityText}>
-                  {renderAvailabilityText()}
-                </p>
+          {/* Platform-aware product sections */}
+          {isAndroid ? (
+            <>
+              {/* Android: App primary, Addon secondary */}
+              {renderAndroidAppSection(false)}
+              <div className={styles.sectionDivider}>
+                <span className={styles.dividerText}>
+                  {t("sections.alsoGetAddon")}
+                </span>
               </div>
-            </div>
-
-            <div className={styles.heroImageContainer}>
-              <img
-                src="./files/common/install.gif"
-                alt="Step 1: Install"
-                className={styles.installOverlay}
-              />
-            </div>
-          </div>
+              {renderBrowserAddonSection(true)}
+            </>
+          ) : isIOS ? (
+            <>
+              {/* iOS: Safari addon primary, Android app callout */}
+              {renderBrowserAddonSection(false)}
+              {renderAndroidAppCallout()}
+            </>
+          ) : (
+            <>
+              {/* Desktop: Browser addon primary, Android app below */}
+              {renderBrowserAddonSection(false)}
+              {renderAndroidAppSection(false)}
+            </>
+          )}
 
           {/* Testimonial Section */}
           <div className={styles.testimonialSection}>
