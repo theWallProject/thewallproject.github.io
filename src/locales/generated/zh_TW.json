@@ -6,7 +6,9 @@
       "keywords": "The Wall, 瀏覽器插件, 安卓應用, 網站攔截器, 抵制助手, 以色列網站, 社交媒體攔截, Chrome擴展, Firefox插件"
     },
     "header": {
-      "title": "The Wall 項目"
+      "title": "The Wall 項目",
+      "platforms": "平台",
+      "testimonials": "推薦"
     },
     "intro": {
       "text": "檢測和阻止超過{{count}}個與以色列相關的網站及其社交帳戶。提供瀏覽器插件和安卓應用。"

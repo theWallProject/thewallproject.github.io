@@ -6,7 +6,9 @@
       "keywords": "The Wall, إضافة الجدار, تطبيق أندرويد, browser addon, website blocker, boycott assistant, Israeli websites, social media blocking, Chrome extension, Firefox addon"
     },
     "header": {
-      "title": "مشروع الجدار"
+      "title": "مشروع الجدار",
+      "platforms": "المنصات",
+      "testimonials": "قالوا عنا"
     },
     "hero": {
       "detectAndBlock": "اكتشف واحجب أكثر من",

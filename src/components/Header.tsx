@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 const Header: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -33,12 +35,22 @@ const Header: React.FC = () => {
 
         {/* Global Navigation - Minimal and Ultra-Compact */}
         <div className="flex items-center gap-10">
-          <nav className="hidden sm:flex items-center gap-8">
-            <a href="#work" className="text-white/60 font-serif text-[0.8rem] hover:text-white transition-colors uppercase tracking-[0.2em]">Work</a>
-            <a href="#about" className="text-white/60 font-serif text-[0.8rem] hover:text-white transition-colors uppercase tracking-[0.2em]">About</a>
+          <nav className="hidden sm:flex items-center gap-10">
+            <a 
+              href="#build-section" 
+              className={`text-white text-[0.9rem] font-semibold hover:text-brand-orange transition-all uppercase tracking-[0.15em] drop-shadow-sm ${i18n.language === 'ar' ? 'font-arabic' : 'font-sans'}`}
+            >
+              {t("header.platforms")}
+            </a>
+            <a 
+              href="#testimonials" 
+              className={`text-white text-[0.9rem] font-semibold hover:text-brand-orange transition-all uppercase tracking-[0.15em] drop-shadow-sm ${i18n.language === 'ar' ? 'font-arabic' : 'font-sans'}`}
+            >
+              {t("header.testimonials")}
+            </a>
           </nav>
           
-          <div className="flex items-center gap-6 border-l border-white/10 pl-6 h-4">
+          <div className="flex items-center gap-8 border-l border-white/10 pl-8 h-4">
              <LanguageSwitcher isScrolled={isScrolled} />
           </div>
         </div>

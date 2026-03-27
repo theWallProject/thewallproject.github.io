@@ -6,7 +6,9 @@
       "keywords": "The Wall, ekstensi browser, aplikasi Android, pemblokir situs web, asisten boikot, situs web Israel, pemblokiran media sosial, ekstensi Chrome, addon Firefox"
     },
     "header": {
-      "title": "The Wall Project"
+      "title": "The Wall Project",
+      "platforms": "Platform",
+      "testimonials": "Testimoni"
     },
     "intro": {
       "text": "Deteksi dan blokir lebih dari {{count}} situs web Israel dan akun sosial mereka. Tersedia sebagai addon browser dan aplikasi Android."

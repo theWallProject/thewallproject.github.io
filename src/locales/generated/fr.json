@@ -6,7 +6,9 @@
       "keywords": "The Wall, extension navigateur, application Android, bloqueur de sites, assistant boycott, sites israéliens, blocage réseaux sociaux, extension Chrome, extension Firefox"
     },
     "header": {
-      "title": "The Wall Project"
+      "title": "The Wall Project",
+      "platforms": "Plateformes",
+      "testimonials": "Témoignages"
     },
     "intro": {
       "text": "Détectez et bloquez plus de {{count}} sites web israéliens et leurs comptes sociaux. Disponible comme extension de navigateur et application Android."
