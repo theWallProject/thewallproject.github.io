@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState, useMemo } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { useTranslation, Trans } from "react-i18next";
 import InstallButton from "./InstallButton";
 import { useDownloadLinks } from "./useDownloadLinks";
@@ -64,23 +64,13 @@ const Hero: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
-  const sharedSplitProps = useMemo(
-    () => ({
-      tag: "span" as const,
-      animationType: "assemble" as const,
-      duration: 1.5,
-      delay: 20,
-    }),
-    [],
-  );
-
   return (
     <section
       className={`relative min-h-screen h-auto md:h-screen w-full flex flex-col justify-between items-center bg-brand-orange bg-center bg-no-repeat overflow-hidden px-6 sm:px-10 pt-20 pb-24 md:pb-16 text-[#f5f5f3] ${i18n.language === "ar" ? "font-arabic" : ""}`}
       style={{ backgroundImage: 'url("/bg.png")', backgroundSize: "cover" }}
     >
       {/* 1. Seamless Shader Background Bridge (Bottom transition only) */}
-      <div className="absolute  bottom-[-13rem] lg:bottom-0 left-0 w-full h-[100%] z-0 pointer-events-none">
+      <div className="absolute  bottom-[-43vh] lg:bottom-0 left-0 w-full h-[100%] z-0 pointer-events-none">
         <MorphingBackground color="#b72b00" edgeSoftness={0.2} />
       </div>
 
@@ -102,19 +92,21 @@ const Hero: React.FC = () => {
             className={`text-[1.3rem] sm:text-[2.3rem] md:text-[3rem] lg:text-[2.8rem] 
               leading-[1.25] md:leading-[1.15] font-bold tracking-tight max-w-full mx-auto drop-shadow-2xl text-center px-4 flex flex-wrap justify-center items-center ${i18n.language === "ar" ? "font-arabic font-black leading-tight" : "font-serif"}`}
           >
-            {/* LINE 1 - Only forced on desktop */}
+            {/* LINE 1 */}
             <div className="basis-full h-0 hidden md:block" />
             <SplitText
               text={t("hero.detectAndBlock")}
-              {...sharedSplitProps}
               splitType="words"
-              delay={20}
-              className="inline-block mx-0"
+              animationType="assemble"
+              delay={30}
+              className="inline-block"
             />
             <div className="basis-full h-0 hidden md:block" />
 
             {/* LINE 2 - Flexible cluster */}
-            <div className={`flex flex-wrap justify-center items-center gap-1 sm:gap-2 ${i18n.language === "ar" ? "flex-row-reverse" : "flex-row"}`}>
+            <div
+              className={`flex flex-wrap justify-center items-center gap-1 sm:gap-2 ${i18n.language === "ar" ? "flex-row-reverse" : "flex-row"}`}
+            >
               <div className="flex items-center justify-center gap-1 whitespace-nowrap">
                 <span className="relative inline-block px-1 shrink-0">
                   <span className="text-brand-red italic pb-1 md:pb-2 inline-block w-[95px] sm:w-[240px] text-center tabular-nums hero-bottom-anim shrink-0 overflow-visible">
@@ -137,21 +129,19 @@ const Hero: React.FC = () => {
                 </span>{" "}
                 <SplitText
                   text={t("hero.israeli")}
-                  {...sharedSplitProps}
                   splitType="words"
                   animationType="assemble"
                   className="text-brand-red inline-block"
-                  delay={45}
+                  delay={50}
                 />
               </div>
 
               <SplitText
                 text={t("hero.relatedWebsites")}
-                {...sharedSplitProps}
                 splitType="words"
                 animationType="assemble"
                 className="inline-block mx-1"
-                delay={55}
+                delay={70}
               />
             </div>
             <div className="basis-full h-0 hidden md:block" />
@@ -159,11 +149,10 @@ const Hero: React.FC = () => {
             {/* LINE 3 */}
             <SplitText
               text={t("hero.andSocialAccounts")}
-              {...sharedSplitProps}
               splitType="words"
               animationType="assemble"
               className="inline-block mx-1"
-              delay={65}
+              delay={90}
             />
             <div className="basis-full h-0 hidden md:block" />
           </div>
@@ -181,14 +170,16 @@ const Hero: React.FC = () => {
                     ? "hero.availableAsMobile"
                     : "hero.availableAsDesktop"
                 }
-                components={[
-                  <span className="text-white border-b border-white/20 pb-1" />,
-                ]}
+                components={{
+                  span: <span className="text-white border-b border-white/20 pb-1" />,
+                }}
               />
             </p>
             <div className="flex flex-col sm:flex-row items-center gap-8 md:gap-10">
               <InstallButton />
-              <div className={`flex flex-col gap-2 items-center sm:items-start ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}>
+              <div
+                className={`flex flex-col gap-2 items-center sm:items-start ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+              >
                 <p className="text-[0.65rem] md:text-[0.75rem] text-white/40 leading-tight uppercase tracking-[0.2em] font-bold">
                   {t("downloads.alsoAvailablePrefix")}
                 </p>

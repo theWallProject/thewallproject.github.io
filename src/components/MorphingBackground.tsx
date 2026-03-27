@@ -96,7 +96,7 @@ const fragmentShader = `
 `;
 
 interface MorphingBackgroundProps {
-  color?: string; // Hex color like #b72b00
+  color?: string;
   edgeSoftness?: number;
 }
 

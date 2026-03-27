@@ -15,7 +15,7 @@ const BRICK_ASSETS = [
 const DonationSection: React.FC = () => {
   const { t, i18n } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
-  
+
   // نحتفظ بـ Reference لكل صف طوب منفصل
   const row1Ref = useRef<(HTMLDivElement | null)[]>([]);
   const row2Ref = useRef<(HTMLDivElement | null)[]>([]);
@@ -38,7 +38,7 @@ const DonationSection: React.FC = () => {
     if (builtRows >= 4) return;
 
     let targetRowRef;
-    
+
     // تحديد أي صف هيتبني دلوقتي
     if (builtRows === 0) targetRowRef = row1Ref.current;
     else if (builtRows === 1) targetRowRef = row2Ref.current;
@@ -55,7 +55,7 @@ const DonationSection: React.FC = () => {
     });
 
     // زيادة العداد
-    setBuiltRows(prev => prev + 1);
+    setBuiltRows((prev) => prev + 1);
   };
 
   return (
@@ -68,41 +68,51 @@ const DonationSection: React.FC = () => {
       <div className="absolute inset-0 pointer-events-none hidden md:block select-none overflow-hidden">
         {/* Left Image */}
         <div className="absolute left-10 top-0 bottom-0 w-[350px] opacity-20">
-          <img 
-            src="/5e82d90473d74e395f8a00f9ec540cb5.jpg" 
-            alt="" 
+          <img
+            src="/5e82d90473d74e395f8a00f9ec540cb5.jpg"
+            alt=""
             className="w-full h-full object-cover"
-            style={{ 
-              maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)' 
+            style={{
+              maskImage:
+                "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
             }}
           />
         </div>
         {/* Right Image */}
         <div className="absolute right-10 top-0 bottom-0 w-[350px] opacity-20 transform scale-x-[-1]">
-          <img 
-            src="/5e82d90473d74e395f8a00f9ec540cb5.jpg" 
-            alt="" 
+          <img
+            src="/5e82d90473d74e395f8a00f9ec540cb5.jpg"
+            alt=""
             className="w-full h-full object-cover"
-            style={{ 
-              maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)' 
+            style={{
+              maskImage:
+                "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
             }}
           />
         </div>
       </div>
       {/* ── CONTENT ── */}
       <div className="relative z-10 text-center max-w-2xl flex flex-col items-center mb-16">
-        <span className={`block text-[10px] font-bold tracking-[0.4em] uppercase text-white/40 mb-5 px-5 py-1.5 border border-white/10 rounded-full ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}>
+        <span
+          className={`block text-[10px] font-bold tracking-[0.4em] uppercase text-white/40 mb-5 px-5 py-1.5 border border-white/10 rounded-full ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+        >
           {t("donate.sectionLabel")}
         </span>
-        <h2 className={`text-3xl md:text-5xl font-black text-white uppercase leading-tight mb-6 tracking-tight ${i18n.language === "ar" ? "font-arabic leading-[1.3]" : "font-sans"}`}>
+        <h2
+          className={`text-3xl md:text-5xl font-black text-white uppercase leading-tight mb-6 tracking-tight ${i18n.language === "ar" ? "font-arabic leading-[1.3]" : "font-sans"}`}
+        >
           <Trans
             i18nKey="donate.title"
             components={{ span: <span className="text-[#b72b00]" /> }}
           />
         </h2>
-        <p className={`text-sm md:text-lg text-gray-400 leading-relaxed max-w-xl font-light ${i18n.language === "ar" ? "font-arabic text-xl text-center" : "font-sans"}`}>
+        <p
+          className={`text-sm md:text-lg text-gray-400 leading-relaxed max-w-xl font-light ${i18n.language === "ar" ? "font-arabic text-xl text-center" : "font-sans"}`}
+        >
           {t("donate.description")}
         </p>
 
@@ -119,7 +129,9 @@ const DonationSection: React.FC = () => {
             alt="Ko-fi"
             className="h-5 w-auto opacity-70 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-110"
           />
-          <span className={`text-[11px] font-bold uppercase tracking-widest mt-0.5 ${i18n.language === "ar" ? "font-arabic text-sm" : "font-sans"}`}>
+          <span
+            className={`text-[11px] font-bold uppercase tracking-widest mt-0.5 ${i18n.language === "ar" ? "font-arabic text-sm" : "font-sans"}`}
+          >
             {t("donate.button")}
           </span>
         </a>
@@ -129,7 +141,6 @@ const DonationSection: React.FC = () => {
       <div className="absolute bottom-[-5px] left-1/2 -translate-x-1/2 w-full flex justify-center pointer-events-none z-1 overflow-visible">
         {/* Scale للموبايل عشان ميبوظش التعشيق */}
         <div className="relative transform scale-[0.55] sm:scale-[0.7] md:scale-100 origin-bottom">
-          
           {/* Foundation (الصف الثابت الباهت تحت خالص) - 7 طوبات */}
           <div className="flex justify-center gap-[4px] opacity-100">
             {[4, 1, 6, 2, 5, 0, 3].map((idx, i) => (
@@ -143,70 +154,93 @@ const DonationSection: React.FC = () => {
           </div>
 
           {/* ROW 1 (يُبنى مع أول Hover) - 6 طوبات */}
-          <div 
-            className="absolute left-1/2 -translate-x-1/2 w-max flex justify-center gap-[4px]" 
-            style={{ bottom: `${DROP_DISTANCE}px` }} 
+          <div
+            className="absolute left-1/2 -translate-x-1/2 w-max flex justify-center gap-[4px]"
+            style={{ bottom: `${DROP_DISTANCE}px` }}
           >
             {[0, 2, 4, 1, 3, 5].map((idx, i) => (
-              <div 
+              <div
                 key={`r1-${i}`}
-                ref={(el) => { row1Ref.current[i] = el; }}
+                ref={(el) => {
+                  row1Ref.current[i] = el;
+                }}
                 // الطوب بيبدأ من فوق شوية ومخفي (على الديسكتوب بس)
-                className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0" 
+                className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
               >
-                <img src={BRICK_ASSETS[idx]} alt="" className="w-full h-full object-cover rounded-sm" />
+                <img
+                  src={BRICK_ASSETS[idx]}
+                  alt=""
+                  className="w-full h-full object-cover rounded-sm"
+                />
               </div>
             ))}
           </div>
 
           {/* ROW 2 (يُبنى مع ثاني Hover) - 7 طوبات */}
-          <div 
-            className="absolute left-1/2 -translate-x-1/2 w-max flex justify-center gap-[4px]" 
-            style={{ bottom: `${DROP_DISTANCE * 2}px` }} 
+          <div
+            className="absolute left-1/2 -translate-x-1/2 w-max flex justify-center gap-[4px]"
+            style={{ bottom: `${DROP_DISTANCE * 2}px` }}
           >
             {[6, 1, 5, 0, 3, 2, 4].map((idx, i) => (
-              <div 
+              <div
                 key={`r2-${i}`}
-                ref={(el) => { row2Ref.current[i] = el; }}
-                className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0" 
+                ref={(el) => {
+                  row2Ref.current[i] = el;
+                }}
+                className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
               >
-                <img src={BRICK_ASSETS[idx]} alt="" className="w-full h-full object-cover rounded-sm" />
+                <img
+                  src={BRICK_ASSETS[idx]}
+                  alt=""
+                  className="w-full h-full object-cover rounded-sm"
+                />
               </div>
             ))}
           </div>
 
           {/* ROW 3 (يُبنى مع ثالث Hover) - 6 طوبات */}
-          <div 
-            className="absolute left-1/2 -translate-x-1/2 w-max flex justify-center gap-[4px]" 
-            style={{ bottom: `${DROP_DISTANCE * 3}px` }} 
+          <div
+            className="absolute left-1/2 -translate-x-1/2 w-max flex justify-center gap-[4px]"
+            style={{ bottom: `${DROP_DISTANCE * 3}px` }}
           >
             {[2, 4, 0, 5, 1, 6].map((idx, i) => (
-              <div 
+              <div
                 key={`r3-${i}`}
-                ref={(el) => { row3Ref.current[i] = el; }}
-                className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0" 
+                ref={(el) => {
+                  row3Ref.current[i] = el;
+                }}
+                className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
               >
-                <img src={BRICK_ASSETS[idx]} alt="" className="w-full h-full object-cover rounded-sm" />
+                <img
+                  src={BRICK_ASSETS[idx]}
+                  alt=""
+                  className="w-full h-full object-cover rounded-sm"
+                />
               </div>
             ))}
           </div>
 
           {/* ROW 4 (يُبنى مع رابع Hover - الماكس الجديد) - 7 طوبات */}
-          <div 
-            className="absolute left-1/2 -translate-x-1/2 w-max flex justify-center gap-[4px]" 
-            style={{ bottom: `${DROP_DISTANCE * 4}px` }} 
+          <div
+            className="absolute left-1/2 -translate-x-1/2 w-max flex justify-center gap-[4px]"
+            style={{ bottom: `${DROP_DISTANCE * 4}px` }}
           >
             {[1, 3, 6, 2, 4, 0, 5].map((idx, i) => (
-              <div 
+              <div
                 key={`r4-${i}`}
-                ref={(el) => { row4Ref.current[i] = el; }}
-                className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0" 
+                ref={(el) => {
+                  row4Ref.current[i] = el;
+                }}
+                className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
               >
-                <img src={BRICK_ASSETS[idx]} alt="" className="w-full h-full object-cover rounded-sm" />
+                <img
+                  src={BRICK_ASSETS[idx]}
+                  alt=""
+                  className="w-full h-full object-cover rounded-sm"
+                />
               </div>
             ))}
           </div>
-
         </div>
       </div>
     </section>

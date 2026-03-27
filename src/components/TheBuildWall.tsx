@@ -459,7 +459,6 @@ const TheBuildWall: React.FC = () => {
               "radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,1) 100%)",
           }}
         />
-
       </div>
     </section>
   );

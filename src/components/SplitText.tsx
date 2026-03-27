@@ -131,7 +131,7 @@ const SplitText: React.FC<SplitTextProps> = ({
         }
       }
 
-      const targets = splitInstance.chars || splitInstance.words;
+      const targets = splitType.includes("chars") ? splitInstance.chars : splitInstance.words;
 
       gsap.fromTo(targets, animationFrom, {
         ...animationTo,
@@ -141,6 +141,10 @@ const SplitText: React.FC<SplitTextProps> = ({
           trigger: el,
           start: `top 90%`,
           once: true,
+          onEnter: () => {
+             // Ensure anything hidden (like original text nodes) stays hidden
+             gsap.set(el, { opacity: 1, visibility: "visible" });
+          }
         },
         onComplete: () => {
           animationCompletedRef.current = true;

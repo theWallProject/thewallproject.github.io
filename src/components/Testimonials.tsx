@@ -1,6 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { LogoLoop } from "./LogoLoop";
+import { useDownloadLinks } from "./useDownloadLinks";
+import MorphingBackground from "./MorphingBackground";
 
 const TestimonialCard: React.FC<{
   quote: string;
@@ -58,6 +60,7 @@ const TestimonialCard: React.FC<{
 
 const Testimonials: React.FC = () => {
   const { t } = useTranslation();
+  const { browserDisplayName } = useDownloadLinks();
 
   const testimonialList = [1, 2, 3, 4, 5, 6].map((idx) => {
     const quoteKey =
@@ -69,7 +72,7 @@ const Testimonials: React.FC = () => {
     return {
       quote: t(quoteKey),
       author: t(authorKey),
-      role: t(roleKey),
+      role: t(roleKey, { browser: browserDisplayName }),
     };
   });
 
@@ -88,35 +91,35 @@ const Testimonials: React.FC = () => {
   return (
     <section
       id="testimonials"
-      className="relative w-full py-12 overflow-hidden"
+      className="relative w-full py-24 md:py-32 overflow-hidden"
     >
       {/* Background with Fixed Image and Gradient Overlay */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div 
-          className="absolute inset-0 bg-fixed bg-cover bg-center opacity-40"
+          className="absolute inset-0 bg-fixed bg-cover bg-center opacity-90"
           style={{ backgroundImage: 'url("/palestine-flag-over-sunrise-75yqzvkpketv5cob.jpg")' }}
         />
-        <div className="absolute inset-0 bg-linear-to-b from-[#050505] via-black/80 to-transparent" />
-        <div className="absolute inset-0 bg-linear-to-t from-[#050505] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-b from-[#050505] via-black/60 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-[#050505] via-transparent to-[#050505]" />
       </div>
 
-      <div className="relative z-10 text-center mb-10 px-4">
+      <div className="relative z-10 text-center mb-16 px-4">
         <span className="inline-block text-[10px] font-bold tracking-[0.3em] text-white/40 uppercase mb-3 px-4 py-1 border border-white/5 rounded-full">
           {t("testimonials.community")}
         </span>
-        <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter mb-4">
+        <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-4">
           {t("testimonials.title")}
         </h2>
-        <div className="w-16 h-0.5 bg-linear-to-r from-transparent via-brand-orange to-transparent mx-auto opacity-30" />
+        <div className="w-24 h-1 bg-linear-to-r from-transparent via-brand-orange to-transparent mx-auto opacity-30" />
       </div>
 
-      <div dir="ltr" className="space-y-4">
+      <div dir="ltr" className="space-y-8">
         {/* Row 1 - Left */}
         <LogoLoop
           logos={row1 as any[]}
           direction="left"
           speed={40}
-          gap={window.innerWidth < 768 ? 20 : 40}
+          gap={window.innerWidth < 768 ? 20 : 60}
           logoHeight={0} // Not used with custom render
           renderItem={renderTestimonial as any}
           pauseOnHover={true}
@@ -125,7 +128,7 @@ const Testimonials: React.FC = () => {
         <LogoLoop
           logos={row2 as any[]}
           speed={-25}
-          gap={window.innerWidth < 768 ? 20 : 40}
+          gap={window.innerWidth < 768 ? 20 : 60}
           logoHeight={0} // Not used with custom render
           renderItem={renderTestimonial as any}
           direction="right"
@@ -134,13 +137,20 @@ const Testimonials: React.FC = () => {
       </div>
 
       {/* Trust Seal */}
-      <div className="mt-20 flex justify-center items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500">
-        <div className="h-px w-12 bg-white/20" />
-        <p className="text-white text-xs font-bold tracking-[0.2em] uppercase">
+      <div className="mt-28 flex justify-center items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500">
+        <div className="h-px w-16 bg-white/20" />
+        <p className="text-white text-[10px] md:text-sm font-bold tracking-[0.2em] uppercase">
           Trusted by over 100k+ global users
         </p>
-        <div className="h-px w-12 bg-white/20" />
+        <div className="h-px w-16 bg-white/20" />
       </div>
+
+      {/* Transition Effect - Positioned at the TRUE bottom - Hidden on mobile */}
+      {typeof window !== "undefined" && window.innerWidth >= 768 && (
+        <div className="absolute bottom-[-15%] left-0 w-full h-[60%] z-0 pointer-events-none opacity-60">
+          <MorphingBackground color="#050505" edgeSoftness={0.4} />
+        </div>
+      )}
     </section>
   );
 };

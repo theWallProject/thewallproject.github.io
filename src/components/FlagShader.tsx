@@ -70,12 +70,28 @@ const fragmentShader = `
   }
 
   void main() {
-    float noise = fbm(vec3(vUv * 2.0, 0.0)) * 0.5 + 0.5;
+    vec2 resolution = uResolution;
+    float screenAspect = resolution.x / resolution.y;
+    float textureAspect = 2.0; // Palestinian flag aspect ratio roughly 2:1
+    
+    vec2 uv = vUv;
+    if (screenAspect > textureAspect) {
+      float scale = screenAspect / textureAspect;
+      uv.y = (uv.y - 0.5) * scale + 0.5;
+    } else {
+      float scale = textureAspect / screenAspect;
+      uv.x = (uv.x - 0.5) * scale + 0.5;
+    }
+
+    float noise = fbm(vec3(uv * 2.0, 0.0)) * 0.5 + 0.5;
     // Map uProgress (0.0-1.0) to exactly fill the -0.5 to 1.0 range
     float p = uProgress * 1.5 - 0.5;
-    float reveal = smoothstep(p, p - uEdgeSoftness, vUv.y - noise * 0.4);
-    vec4 tex = texture2D(uTexture, vUv);
-    gl_FragColor = vec4(tex.rgb, tex.a * reveal);
+    float reveal = smoothstep(p, p - uEdgeSoftness, uv.y - noise * 0.4);
+    vec4 tex = texture2D(uTexture, uv);
+    
+    // Fade out edges slightly to prevent hard cutoff if container is slightly off
+    float alpha = tex.a * reveal;
+    gl_FragColor = vec4(tex.rgb, alpha);
   }
 `;
 
@@ -108,6 +124,7 @@ export const FlagShader: React.FC<FlagShaderProps> = ({ progress = 0 }) => {
     const material = new THREE.ShaderMaterial({
       vertexShader,
       fragmentShader,
+      side: THREE.DoubleSide,
       uniforms: {
         uProgress: { value: progress },
         uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
@@ -131,8 +148,10 @@ export const FlagShader: React.FC<FlagShaderProps> = ({ progress = 0 }) => {
     const reqId = requestAnimationFrame(renderLoop);
 
     const onResize = () => {
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      material.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      renderer.setSize(w, h);
+      material.uniforms.uResolution.value.set(w, h);
     };
     window.addEventListener("resize", onResize);
 
