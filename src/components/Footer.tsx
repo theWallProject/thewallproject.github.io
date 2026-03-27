@@ -121,7 +121,17 @@ const Footer: React.FC = () => {
 
         {/* Bottom Row - Copyright and Links */}
         <div className={styles.footerBottom}>
-          <p className={styles.copyright}>{t("footer.copyright")}</p>
+          <p className={styles.copyright}>
+            {t("footer.copyright")} | 
+            <a 
+              href="https://noorhesham.com/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="ml-1 font-semibold text-[#cd4626] hover:underline"
+            >
+              By Noor Hesham
+            </a>
+          </p>
           <div className={styles.footerLinks}>
             {footerLinks.map((link) => (
               <Link key={link.id} to={link.href} className={styles.footerLink}>
