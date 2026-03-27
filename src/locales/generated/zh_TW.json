@@ -68,6 +68,7 @@
       "nextTestimonial": "下一個推薦"
     },
     "features": {
+      "systemModule": "系統模組",
       "installOnce": {
         "title": "安裝一次，永久有效",
         "description": "安裝瀏覽器插件或安卓應用。每當您遇到與以色列相關的公司時，您會看到\"牆\"來代替。"

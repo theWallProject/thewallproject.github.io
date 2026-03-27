@@ -1,371 +1,244 @@
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useDownloadLinks } from "./useDownloadLinks";
-import DownloadSnippet from "./DownloadSnippet";
+import React, { useLayoutEffect, useRef, useState, useMemo } from "react";
+import { useTranslation, Trans } from "react-i18next";
 import InstallButton from "./InstallButton";
-import styles from "./Hero.module.css";
+import { useDownloadLinks } from "./useDownloadLinks";
+import SplitText from "./SplitText";
+import MorphingBackground from "./MorphingBackground";
+import gsap from "gsap";
 
 const Hero: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const {
-    downloadLinks,
-    otherBrowsers,
-    browserDisplayName,
-    isAndroid,
-    isIOS,
-  } = useDownloadLinks();
-  const [isScrolled, setIsScrolled] = useState(false);
+  const { downloadLinks } = useDownloadLinks();
+  const lineRef = useRef<SVGPathElement>(null);
+  const textContainerRef = useRef<HTMLDivElement>(null);
+  const [count, setCount] = useState(0);
 
   // Get video URL based on language
   const getVideoUrl = (): string => {
     const currentLanguage = i18n.language;
     if (currentLanguage === "ar") {
-      // Arabic video
       return "https://www.youtube-nocookie.com/embed/8ksFYucC6u0";
     }
-    // Default video
     return "https://www.youtube-nocookie.com/embed/bEbK3Uy6fyo?si=7LlMjTM84Vwvb84G";
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 50);
-    };
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // 1. Counter Animation for '19,000'
+      const obj = { value: 0 };
+      gsap.to(obj, {
+        value: 19000,
+        duration: 3,
+        ease: "power2.out",
+        delay: 0.8, // Wait for assemble to start
+        onUpdate: () => {
+          setCount(Math.floor(obj.value));
+        },
+      });
 
-    window.addEventListener("scroll", handleScroll);
-    // Check initial scroll position
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+      // 2. Underline draw animation
+      if (lineRef.current) {
+        gsap.fromTo(
+          lineRef.current,
+          { strokeDasharray: 200, strokeDashoffset: 200 },
+          {
+            strokeDashoffset: 0,
+            duration: 1.5,
+            ease: "power3.out",
+            delay: 2.5,
+          },
+        );
+      }
+
+      // 3. Entrance sequence for bottom content
+      gsap.from(".hero-bottom-anim", {
+        y: 20,
+        opacity: 0,
+        stagger: 0.2,
+        duration: 1,
+        ease: "power3.out",
+        delay: 1.5,
+      });
+    }, textContainerRef);
+
+    return () => ctx.revert();
   }, []);
 
-  // Helper to render availability text with inline icons after browser names
-  const renderAvailabilityText = () => {
-    // Generate dynamic text based on otherBrowsers using translations
-    // Browser names are kept in English, only translate the connecting words
-    let text: string;
-    if (otherBrowsers.length === 0) {
-      text = t("downloads.alsoAvailable");
-    } else {
-      const browserNames = otherBrowsers.map((b) => b.displayName);
-      const prefix = t("downloads.alsoAvailablePrefix");
-      const andWord = t("downloads.and");
-      const comma = t("downloads.comma");
-
-      if (browserNames.length === 1) {
-        text = `${prefix} ${browserNames[0]}`;
-      } else if (browserNames.length === 2) {
-        text = `${prefix} ${browserNames[0]} ${andWord} ${browserNames[1]}`;
-      } else {
-        const last = browserNames.pop();
-        text = `${prefix} ${browserNames.join(
-          comma + " "
-        )}${comma} ${andWord} ${last}`;
-      }
-    }
-
-    // Browser name mappings - only English names since we keep browser names in English
-    // Only for browsers that are in otherBrowsers (not the primary/detected one)
-    const browserNameMap: Array<{ name: string; id: string; icon: string }> =
-      [];
-
-    // Only add browsers that are in otherBrowsers (not the primary/detected one)
-    // Browser names are kept in English
-    otherBrowsers.forEach((browser) => {
-      browserNameMap.push({
-        name: browser.displayName, // English name only
-        id: browser.id,
-        icon: browser.icon,
-      });
-    });
-
-    // Find all browser name occurrences with their positions
-    const matches: Array<{
-      index: number;
-      length: number;
-      id: string;
-      icon: string;
-    }> = [];
-
-    browserNameMap.forEach(({ name, id, icon }) => {
-      let searchIndex = 0;
-      while (true) {
-        const index = text.indexOf(name, searchIndex);
-        if (index === -1) break;
-        matches.push({ index, length: name.length, id, icon });
-        searchIndex = index + 1;
-      }
-    });
-
-    // Sort matches by position in text
-    matches.sort((a, b) => a.index - b.index);
-
-    // Build the result with icons inserted after browser names
-    const parts: (string | React.ReactElement)[] = [];
-    let lastIndex = 0;
-    let iconKey = 0;
-
-    matches.forEach((match) => {
-      // Add text before the browser name
-      if (match.index > lastIndex) {
-        parts.push(text.substring(lastIndex, match.index));
-      }
-      // Get the browser link
-      const browserLink = downloadLinks[match.id as keyof typeof downloadLinks];
-      // Add browser name and icon wrapped in a link
-      parts.push(
-        <a
-          key={`${match.id}-link-${iconKey}`}
-          href={browserLink.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.browserLink}
-        >
-          {text.substring(match.index, match.index + match.length)}
-          <img
-            src={match.icon}
-            alt={match.id}
-            className={styles.inlineBrowserIcon}
-          />
-        </a>
-      );
-      iconKey++;
-      lastIndex = match.index + match.length;
-    });
-
-    // Add remaining text
-    if (lastIndex < text.length) {
-      parts.push(text.substring(lastIndex));
-    }
-
-    // If no matches found, return original text
-    if (parts.length === 0) {
-      return text;
-    }
-
-    return <>{parts}</>;
-  };
-
-  // Render the Browser Addon section
-  const renderBrowserAddonSection = (isSecondary: boolean = false) => (
-    <div
-      className={`${styles.productSection} ${
-        isSecondary ? styles.secondarySection : ""
-      }`}
-    >
-      <div className={styles.sectionHeader}>
-        <h2 className={styles.sectionTitle}>
-          {t("sections.browserAddon.title")}
-        </h2>
-        <p className={styles.sectionSubtitle}>
-          {t("sections.browserAddon.subtitle")}
-        </p>
-      </div>
-
-      <div className={styles.heroBanner}>
-        <div className={styles.heroTextSection}>
-          {/* Download Buttons */}
-          <div className={styles.downloadSection}>
-            <InstallButton />
-
-            <p className={styles.availabilityText}>
-              {renderAvailabilityText()}
-            </p>
-          </div>
-        </div>
-
-        {/* GIF only in browser addon section */}
-        <div className={styles.heroImageContainer}>
-          <img
-            src="./files/common/install.gif"
-            alt="Step 1: Install"
-            className={styles.installOverlay}
-          />
-        </div>
-      </div>
-    </div>
-  );
-
-  // Render the Android App section
-  const renderAndroidAppSection = (isSecondary: boolean = false) => (
-    <div
-      className={`${styles.productSection} ${styles.androidSection} ${
-        isSecondary ? styles.secondarySection : ""
-      }`}
-    >
-      <div className={`${styles.sectionHeader} ${styles.androidSectionHeader}`}>
-        <div className={`${styles.sectionTitleRow} ${styles.androidTitleRow}`}>
-          <h2 className={styles.sectionTitle}>
-            {t("sections.androidApp.title")}
-          </h2>
-          <span className={styles.newBadge}>{t("sections.newBadge")}</span>
-        </div>
-        <p className={styles.sectionSubtitle}>
-          {t("sections.androidApp.subtitle")}
-        </p>
-      </div>
-
-      <div className={styles.appBanner}>
-        <div className={styles.appTextSection}>
-          <p className={styles.appDescription}>
-            {t("sections.androidApp.description")}
-          </p>
-          <a
-            href={downloadLinks.android.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.playStoreBadgeLink}
-            aria-label={t("sections.androidApp.getOnPlayStore")}
-          >
-            <img
-              src="./files/common/playstore/GetItOnGooglePlay_Badge_Web_color_English.svg"
-              alt={t("sections.androidApp.getOnPlayStore")}
-              className={styles.playStoreBadge}
-            />
-          </a>
-        </div>
-
-        <div className={styles.appImageContainer}>
-          <img
-            src="./files/common/android_featured.png"
-            alt={t("sections.androidApp.title")}
-            className={styles.appFeaturedImage}
-          />
-        </div>
-      </div>
-    </div>
-  );
-
-  // Render a compact "Also available" callout for the Android app (used on iOS)
-  const renderAndroidAppCallout = () => (
-    <div className={styles.appCallout}>
-      <div className={styles.appCalloutContent}>
-        <p className={styles.appCalloutText}>{t("sections.alsoGetApp")}</p>
-        <a
-          href={downloadLinks.android.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.playStoreBadgeLink}
-          aria-label={t("sections.androidApp.getOnPlayStore")}
-        >
-          <img
-            src="./files/common/playstore/GetItOnGooglePlay_Badge_Web_color_English.svg"
-            alt={t("sections.androidApp.getOnPlayStore")}
-            className={styles.playStoreBadgeSmall}
-          />
-        </a>
-      </div>
-    </div>
+  const sharedSplitProps = useMemo(
+    () => ({
+      tag: "span" as const,
+      animationType: "assemble" as const,
+      duration: 1.5,
+      delay: 20,
+    }),
+    [],
   );
 
   return (
-    <section className={`${styles.hero} ${isScrolled ? styles.scrolled : ""}`}>
-      <div className={styles.container}>
-        <div className={styles.content}>
-          {/* Product-neutral intro text */}
-          <p className={styles.heroText}>
-            {t("intro.text", { count: 19000 })}
-          </p>
+    <section
+      className={`relative min-h-screen h-auto md:h-screen w-full flex flex-col justify-between items-center bg-brand-orange bg-center bg-no-repeat overflow-hidden px-6 sm:px-10 pt-20 pb-24 md:pb-16 text-[#f5f5f3] ${i18n.language === "ar" ? "font-arabic" : ""}`}
+      style={{ backgroundImage: 'url("/bg.png")', backgroundSize: "cover" }}
+    >
+      {/* 1. Seamless Shader Background Bridge (Bottom transition only) */}
+      <div className="absolute  bottom-[-13rem] lg:bottom-0 left-0 w-full h-[100%] z-0 pointer-events-none">
+        <MorphingBackground color="#b72b00" edgeSoftness={0.2} />
+      </div>
 
-          {/* Platform-aware product sections */}
-          {isAndroid ? (
-            <>
-              {/* Android: App primary, Addon secondary */}
-              {renderAndroidAppSection(false)}
-              <div className={styles.sectionDivider}>
-                <span className={styles.dividerText}>
-                  {t("sections.alsoGetAddon")}
-                </span>
-              </div>
-              {renderBrowserAddonSection(true)}
-            </>
-          ) : isIOS ? (
-            <>
-              {/* iOS: Safari addon primary, Android app callout */}
-              {renderBrowserAddonSection(false)}
-              {renderAndroidAppCallout()}
-            </>
-          ) : (
-            <>
-              {/* Desktop: Browser addon primary, Android app below */}
-              {renderBrowserAddonSection(false)}
-              {renderAndroidAppSection(false)}
-            </>
-          )}
+      {/* 2. Hero Content */}
+      <div
+        ref={textContainerRef}
+        className="relative z-10 w-full flex flex-col justify-between h-full items-center gap-12"
+      >
+        {/* Top Section: Identity */}
+        <div className="w-full text-center flex flex-col gap-0 md:gap-8">
+          <h2
+            className={`text-[0.55rem] md:text-[0.9rem] tracking-[0.4em] md:tracking-[0.8em] font-medium uppercase opacity-50 border-b border-white/5 pb-1 max-w-fit mx-auto hero-bottom-anim ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+          >
+            {t("header.title")}
+          </h2>
 
-          {/* Testimonial Section */}
-          <div className={styles.testimonialSection}>
-            <div className={styles.testimonialCard}>
-              <div className={styles.testimonialIconContainer}>
-                <img
-                  src="./files/common/testimonial-icon.svg"
-                  alt={t("alt.testimonialIcon")}
-                  className={styles.testimonialIcon}
+          <div
+            style={{ perspective: "1500px" }}
+            className={`text-[1.3rem] sm:text-[2.3rem] md:text-[3rem] lg:text-[2.8rem] 
+              leading-[1.25] md:leading-[1.15] font-bold tracking-tight max-w-full mx-auto drop-shadow-2xl text-center px-4 flex flex-wrap justify-center items-center ${i18n.language === "ar" ? "font-arabic font-black leading-tight" : "font-serif"}`}
+          >
+            {/* LINE 1 - Only forced on desktop */}
+            <div className="basis-full h-0 hidden md:block" />
+            <SplitText
+              text={t("hero.detectAndBlock")}
+              {...sharedSplitProps}
+              splitType="words"
+              delay={20}
+              className="inline-block mx-0"
+            />
+            <div className="basis-full h-0 hidden md:block" />
+
+            {/* LINE 2 - Flexible cluster */}
+            <div className={`flex flex-wrap justify-center items-center gap-1 sm:gap-2 ${i18n.language === "ar" ? "flex-row-reverse" : "flex-row"}`}>
+              <div className="flex items-center justify-center gap-1 whitespace-nowrap">
+                <span className="relative inline-block px-1 shrink-0">
+                  <span className="text-brand-red italic pb-1 md:pb-2 inline-block w-[95px] sm:w-[240px] text-center tabular-nums hero-bottom-anim shrink-0 overflow-visible">
+                    {count.toLocaleString()}
+                  </span>
+                  <svg
+                    className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-auto"
+                    viewBox="0 0 100 20"
+                    preserveAspectRatio="none"
+                  >
+                    <path
+                      ref={lineRef}
+                      d="M5,15 C25,10 45,5 95,15"
+                      stroke="#ff3e1a"
+                      strokeWidth="4"
+                      fill="transparent"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </span>{" "}
+                <SplitText
+                  text={t("hero.israeli")}
+                  {...sharedSplitProps}
+                  splitType="words"
+                  animationType="assemble"
+                  className="text-brand-red inline-block"
+                  delay={45}
                 />
               </div>
-              <div className={styles.testimonialContent}>
-                <p className={styles.testimonialQuote}>
-                  {t("testimonial.quote")}
-                </p>
-                <p className={styles.testimonialAuthor}>
-                  {t("testimonial.author")}
-                </p>
-                <p className={styles.testimonialRole}>
-                  {t("testimonial.role", { browser: browserDisplayName })}
-                </p>
-              </div>
+
+              <SplitText
+                text={t("hero.relatedWebsites")}
+                {...sharedSplitProps}
+                splitType="words"
+                animationType="assemble"
+                className="inline-block mx-1"
+                delay={55}
+              />
             </div>
-            <div className={styles.testimonialArrow}>
-              <svg
-                className={styles.arrowIcon}
-                width="32"
-                height="32"
-                viewBox="0 0 32 32"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-label={t("aria.nextTestimonial")}
-              >
-                <path
-                  d="M12 8L20 16L12 24"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+            <div className="basis-full h-0 hidden md:block" />
+
+            {/* LINE 3 */}
+            <SplitText
+              text={t("hero.andSocialAccounts")}
+              {...sharedSplitProps}
+              splitType="words"
+              animationType="assemble"
+              className="inline-block mx-1"
+              delay={65}
+            />
+            <div className="basis-full h-0 hidden md:block" />
+          </div>
+        </div>
+
+        {/* Bottom Section: Details & Play/Action */}
+        <div className="w-full max-w-[1600px] flex flex-col lg:flex-row justify-between items-end gap-10 md:gap-12 md:py-4 pb-12 hero-bottom-anim text-center md:text-left">
+          <div className="w-full lg:flex-1 max-w-[700px] flex flex-col gap-8 md:gap-10 items-center lg:items-start mx-auto lg:mx-0">
+            <p
+              className={`text-[1.3rem] md:text-[2.2rem] lg:text-[1.6rem] leading-[1.3] font-medium opacity-95 tracking-tight px-2 sm:px-0 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+            >
+              <Trans
+                i18nKey={
+                  window.innerWidth < 768
+                    ? "hero.availableAsMobile"
+                    : "hero.availableAsDesktop"
+                }
+                components={[
+                  <span className="text-white border-b border-white/20 pb-1" />,
+                ]}
+              />
+            </p>
+            <div className="flex flex-col sm:flex-row items-center gap-8 md:gap-10">
+              <InstallButton />
+              <div className={`flex flex-col gap-2 items-center sm:items-start ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}>
+                <p className="text-[0.65rem] md:text-[0.75rem] text-white/40 leading-tight uppercase tracking-[0.2em] font-bold">
+                  {t("downloads.alsoAvailablePrefix")}
+                </p>
+                <div className="flex items-center gap-6 md:gap-8">
+                  <a
+                    href={downloadLinks.firefox.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-2 transition-all hover:opacity-100 opacity-80"
+                  >
+                    <img
+                      src="/files/common/icon-firefox.svg"
+                      alt="Firefox"
+                      className="w-4 md:w-5 h-4 md:h-5"
+                    />
+                    <span className="text-[0.9rem] md:text-[1rem] border-b border-white/10 group-hover:border-white/40 transition-colors">
+                      Firefox
+                    </span>
+                  </a>
+                  <a
+                    href={downloadLinks.safari.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-2 transition-all hover:opacity-100 opacity-80"
+                  >
+                    <img
+                      src="/files/common/icon-safari.svg"
+                      alt="Safari"
+                      className="w-4 md:w-5 h-4 md:h-5"
+                    />
+                    <span className="text-[0.9rem] md:text-[1rem] border-b border-white/10 group-hover:border-white/40 transition-colors">
+                      Safari
+                    </span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Video Section */}
-          <div className={styles.videoSection}>
-            <div className={styles.videoContainer}>
-              <div className={styles.video}>
-                <iframe
-                  src={getVideoUrl()}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                />
-              </div>
-            </div>
-            <div className={styles.videoCTA}>
-              <div className={styles.videoCTAIconContainer}>
-                <img
-                  src="./files/common/section-icon-how-it-works.svg"
-                  alt={t("video.watchHowItWorks")}
-                  className={styles.videoCTAIcon}
-                />
-              </div>
-              <h3 className={styles.videoCTAText}>
-                {t("video.watchHowItWorks")}
-              </h3>
+          <div className="relative w-full lg:w-auto mt-6 lg:mt-0 flex justify-center">
+            <div className="w-full max-w-[480px] lg:w-[480px] aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.8)] relative translate-y-4">
+              <iframe
+                className="w-full h-full opacity-90"
+                src={getVideoUrl()}
+                title="How it works"
+                frameBorder="0"
+                allowFullScreen
+              />
             </div>
           </div>
-
-          {/* Download Snippet Section */}
-          <DownloadSnippet />
         </div>
       </div>
     </section>

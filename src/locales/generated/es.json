@@ -68,6 +68,7 @@
       "nextTestimonial": "Siguiente testimonio"
     },
     "features": {
+      "systemModule": "Módulo del Sistema",
       "installOnce": {
         "title": "Instala una vez, funciona para siempre",
         "description": "Instala la extensión de navegador o la aplicación Android. Cada vez que encuentres una empresa conectada a Israel, verás \"el muro\" en su lugar."

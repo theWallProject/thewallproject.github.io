@@ -79,7 +79,7 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className={styles.footer}>
+    <footer className={`${styles.footer} footer-overlap-fix`}>
       <div className={styles.container}>
         <div className={styles.footerMain}>
           {/* Left Column - Branding and Social */}

@@ -6,8 +6,7 @@ import styles from "./DownloadSnippet.module.css";
 
 const DownloadSnippet: React.FC = () => {
   const { t } = useTranslation();
-  const { otherBrowsers, downloadLinks, isAndroid, isIOS } =
-    useDownloadLinks();
+  const { otherBrowsers, downloadLinks, isAndroid, isIOS } = useDownloadLinks();
 
   // Build dynamic "Also available for..." text based on otherBrowsers
   // This ensures the text matches the icons shown
@@ -30,7 +29,7 @@ const DownloadSnippet: React.FC = () => {
     } else {
       const last = browserNames.pop();
       return `${prefix} ${browserNames.join(
-        comma + " "
+        comma + " ",
       )}${comma} ${andWord} ${last}`;
     }
   };

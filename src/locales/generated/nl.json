@@ -68,6 +68,7 @@
       "nextTestimonial": "Volgende testimonial"
     },
     "features": {
+      "systemModule": "Systeemmodule",
       "installOnce": {
         "title": "Installeer eenmaal, werkt voor altijd",
         "description": "Installeer de browser-addon of de Android-app. Elke keer dat u een Israëlisch bedrijf tegenkomt, ziet u in plaats daarvan \"de muur\"."

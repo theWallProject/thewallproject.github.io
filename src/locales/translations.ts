@@ -48,6 +48,46 @@ export const translations = {
     zh_CN: "The Wall 项目",
     zh_TW: "The Wall 項目",
   },
+  "hero.detectAndBlock": {
+    en: "Detect and Block",
+    ar: "اكتشف واحجب أكثر من",
+  },
+  "hero.israeli": {
+    en: "Israeli",
+    ar: "إسرائيلي",
+  },
+  "hero.relatedWebsites": {
+    en: "Related Websites",
+    ar: "موقع ذو صلة",
+  },
+  "hero.andSocialAccounts": {
+    en: "And Social Accounts.",
+    ar: "وحساباتهم الاجتماعية.",
+  },
+  "hero.availableAsDesktop": {
+    en: "Available as a <span>Browser Extension</span>",
+    ar: "متوفر كـ <span>إضافة للمتصفح</span>",
+  },
+  "hero.availableAsMobile": {
+    en: "Available as an <span>Android App</span> and <span>Extension</span>",
+    ar: "متوفر كـ <span>تطبيق أندرويد</span> و <span>إضافة متصفح</span>",
+  },
+  "donate.sectionLabel": {
+    en: "REBUILD THE DEFENSES",
+    ar: "أعد بناء الدفاعات",
+  },
+  "donate.title": {
+    en: "The Wall is only as <span>strong</span> as its builders.",
+    ar: "الجدار قوي فقط بقوة <span>بناته</span>.",
+  },
+  "donate.description": {
+    en: "We rely on your support to maintain database integrity and keep this tool free. Every contribution places a new stone.",
+    ar: "نحن نعتمد على دعمك للحفاظ على نزاهة قاعدة البيانات وإبقاء هذه الأداة مجانية. كل مساهمة تضع حجراً جديداً.",
+  },
+  "donate.button": {
+    en: "SUPPORT ON KO-FI",
+    ar: "ادعمنا على KO-FI",
+  },
   "intro.text": {
     en: "Detect and block more than {{count}} Israeli-related websites and their social accounts. Available as a browser addon and an Android app.",
     ar: "اكتشف واحجب أكثر من {{count}} موقع إسرائيلي وحساباتهم الاجتماعية. متوفر كإضافة للمتصفح وتطبيق أندرويد.",
@@ -261,6 +301,74 @@ export const translations = {
     zh_CN: "{{browser}} 用户",
     zh_TW: "{{browser}} 用戶",
   },
+  "testimonial.2.quote": {
+    en: "Incredible design and works perfectly offline. I use it on both my browser and Android phone. Essential for conscious consumers.",
+    ar: "تصميم مذهل ويعمل بشكل مثالي بدون إنترنت. أستخدمه على المتصفح وهاتف الأندرويد. ضروري لكل مستهلك واعي.",
+  },
+  "testimonial.2.author": {
+    en: "Sarah Ahmed",
+    ar: "سارة أحمد",
+  },
+  "testimonial.2.role": {
+    en: "Android user",
+    ar: "مستخدم أندرويد",
+  },
+  "testimonial.3.quote": {
+    en: "Finally a way to boycott effectively without manually searching every time. The visual feedback is powerful and clear.",
+    ar: "أخيراً وسيلة للمقاطعة بفعالية دون الحاجة للبحث يدوياً في كل مرة. الرد البصري قوي وواضح.",
+  },
+  "testimonial.3.author": {
+    en: "Omar Khaled",
+    ar: "عمر خالد",
+  },
+  "testimonial.3.role": {
+    en: "Firefox user",
+    ar: "مستخدم فايرفوكس",
+  },
+  "testimonial.4.quote": {
+    en: "Detailed reasons for each block. I love that it cites Crunchbase and founder data. Transparency build trust.",
+    ar: "أسباب مفصلة لكل حظر. يعجبني أنه يستشهد ببيانات كرانشبيس وبيانات المؤسسين. الشفافية تبني الثقة.",
+  },
+  "testimonial.4.author": {
+    en: "Layla Hassan",
+    ar: "ليلى حسن",
+  },
+  "testimonial.4.role": {
+    en: "Safari user",
+    ar: "مستخدم سفاري",
+  },
+  "testimonial.5.quote": {
+    en: "This project is a game changer for the BDS movement. Highly recommended for everyone who wants to make a difference.",
+    ar: "هذا المشروع مغير لقواعد اللعبة لحركة BDS. نوصي به بشدة لكل من يريد إحداث فرق.",
+  },
+  "testimonial.5.author": {
+    en: "Youssef Ibrahim",
+    ar: "يوسف إبراهيم",
+  },
+  "testimonial.5.role": {
+    en: "Brave user",
+    ar: "مستخدم برايف",
+  },
+  "testimonial.6.quote": {
+    en: "The Android app is so lightweight and doesn't drain battery. Works in the background silently keeping me informed.",
+    ar: "تطبيق الأندرويد خفيف جداً ولا يستهلك البطارية. يعمل في الخلفية بصمت ويبقيني على اطلاع.",
+  },
+  "testimonial.6.author": {
+    en: "Mariam Ali",
+    ar: "مريم علي",
+  },
+  "testimonial.6.role": {
+    en: "Android user",
+    ar: "مستخدم أندرويد",
+  },
+  "testimonials.title": {
+    en: "What people are saying",
+    ar: "ماذا يقول الناس",
+  },
+  "testimonials.subtitle": {
+    en: "Join thousands of conscious users worldwide.",
+    ar: "انضم إلى آلاف المستهلكين الواعين حول العالم.",
+  },
   "video.watchHowItWorks": {
     en: "Watch how it works",
     ar: "شاهد كيف يعمل",
@@ -381,6 +489,65 @@ export const translations = {
     nl: "Volgende testimonial",
     zh_CN: "下一个推荐",
     zh_TW: "下一個推薦",
+  },
+  "features.systemModule": {
+    en: "System Module",
+    ar: "وحدة النظام",
+    fr: "Module Système",
+    es: "Módulo del Sistema",
+    de: "Systemmodul",
+    id: "Modul Sistem",
+    nl: "Systeemmodule",
+    zh_CN: "系统模块",
+    zh_TW: "系統模組",
+  },
+  "platform.sectionTitle": {
+    en: "Platforms available",
+    ar: "المنصات المتوفرة",
+  },
+  "platform.desktop.subtitle": {
+    en: "[ BROWSER EXTENSION ]",
+    ar: "[ إضافة المتصفّح ]",
+  },
+  "platform.desktop.title": {
+    en: "Silent. Automatic. Unbreakable.",
+    ar: "صامتة. تلقائية. غير قابلة للكسر.",
+  },
+  "platform.desktop.description": {
+    en: "Install once and forget it. The extension runs in the background, instantly detecting and blocking complicit websites and their social accounts as you browse.",
+    ar: "قم بالتثبيت مرة واحدة واستمتع بالأمان، تعمل الإضافة في الخلفية لتقوم بالكشف وحظر المواقع والحسابات المتواطئة فور تصفحك لها.",
+  },
+  "platform.desktop.button": {
+    en: "Install for Chrome",
+    ar: "ثبّت لـ Chrome",
+  },
+  "platform.mobile.subtitle": {
+    en: "[ ANDROID APP ]",
+    ar: "[ تطبيق أندرويد ]",
+  },
+  "platform.mobile.title": {
+    en: "Scan. Uncover. Replace.",
+    ar: "امسح. اكتشف. استبدل.",
+  },
+  "platform.mobile.description": {
+    en: "Full device protection. Scan your installed apps to uncover hidden complicit connections and instantly find ethical alternatives with one tap.",
+    ar: "حماية شاملة لهاتفك، بضغطة زر يمكنك مسح التطبيقات المثبتة وكشف العلاقات المتواطئة الخفية، ليوفر لك الحلول البديلة الأكثر أخلاقية.",
+  },
+  "platform.mobile.button": {
+    en: "Get it on Google Play",
+    ar: "احصل عليه من Google Play",
+  },
+  "features.sectionLabel": {
+    en: "Core Features",
+    ar: "المميزات الأساسية",
+  },
+  "features.building": {
+    en: "Building",
+    ar: "نبني",
+  },
+  "features.theFuture": {
+    en: "The Future",
+    ar: "المستقبل",
   },
   "features.installOnce.title": {
     en: "Install once, works forever",
@@ -768,6 +935,22 @@ export const translations = {
     nl: "NIEUW",
     zh_CN: "全新",
     zh_TW: "全新",
+  },
+  "buildWall.phrase0": {
+    en: "WE BUILD THE WALL",
+    ar: "نحن نبني الجدار",
+  },
+  "buildWall.phrase1": {
+    en: "TO PROTECT OUR VALUES",
+    ar: "لنحمي قيمنا",
+  },
+  "buildWall.phrase2": {
+    en: "ONE BRICK AT A TIME",
+    ar: "لبنة تلو الأخرى",
+  },
+  "buildWall.phrase3": {
+    en: "UNTIL THE TRUTH PREVAILS",
+    ar: "حتى تشرق الحقيقة",
   },
 } as const;
 

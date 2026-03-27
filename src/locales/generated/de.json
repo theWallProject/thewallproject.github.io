@@ -68,6 +68,7 @@
       "nextTestimonial": "Nächstes Testimonial"
     },
     "features": {
+      "systemModule": "Systemmodul",
       "installOnce": {
         "title": "Einmal installieren, funktioniert für immer",
         "description": "Installieren Sie das Browser-Addon oder die Android-App. Jedes Mal, wenn Sie auf ein israelisches Unternehmen stoßen, sehen Sie stattdessen \"die Mauer\"."

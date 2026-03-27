@@ -8,6 +8,20 @@
     "header": {
       "title": "The Wall Project"
     },
+    "hero": {
+      "detectAndBlock": "Detect and Block",
+      "israeli": "Israeli",
+      "relatedWebsites": "Related Websites",
+      "andSocialAccounts": "And Social Accounts.",
+      "availableAsDesktop": "Available as a <span>Browser Extension</span>",
+      "availableAsMobile": "Available as an <span>Android App</span> and <span>Extension</span>"
+    },
+    "donate": {
+      "sectionLabel": "REBUILD THE DEFENSES",
+      "title": "The Wall is only as <span>strong</span> as its builders.",
+      "description": "We rely on your support to maintain database integrity and keep this tool free. Every contribution places a new stone.",
+      "button": "SUPPORT ON KO-FI"
+    },
     "intro": {
       "text": "Detect and block more than {{count}} Israeli-related websites and their social accounts. Available as a browser addon and an Android app."
     },
@@ -39,9 +53,38 @@
       "comma": ","
     },
     "testimonial": {
+      "2": {
+        "quote": "Incredible design and works perfectly offline. I use it on both my browser and Android phone. Essential for conscious consumers.",
+        "author": "Sarah Ahmed",
+        "role": "Android user"
+      },
+      "3": {
+        "quote": "Finally a way to boycott effectively without manually searching every time. The visual feedback is powerful and clear.",
+        "author": "Omar Khaled",
+        "role": "Firefox user"
+      },
+      "4": {
+        "quote": "Detailed reasons for each block. I love that it cites Crunchbase and founder data. Transparency build trust.",
+        "author": "Layla Hassan",
+        "role": "Safari user"
+      },
+      "5": {
+        "quote": "This project is a game changer for the BDS movement. Highly recommended for everyone who wants to make a difference.",
+        "author": "Youssef Ibrahim",
+        "role": "Brave user"
+      },
+      "6": {
+        "quote": "The Android app is so lightweight and doesn't drain battery. Works in the background silently keeping me informed.",
+        "author": "Mariam Ali",
+        "role": "Android user"
+      },
       "quote": "The most seamless and awesome plugin I've ever used! It has informed me about a lot of companies that I stopped using.",
       "author": "Abdo Wahba",
       "role": "{{browser}} user"
+    },
+    "testimonials": {
+      "title": "What people are saying",
+      "subtitle": "Join thousands of conscious users worldwide."
     },
     "video": {
       "watchHowItWorks": "Watch how it works"
@@ -68,6 +111,10 @@
       "nextTestimonial": "Next testimonial"
     },
     "features": {
+      "systemModule": "System Module",
+      "sectionLabel": "Core Features",
+      "building": "Building",
+      "theFuture": "The Future",
       "installOnce": {
         "title": "Install once, works forever",
         "description": "Install the browser addon or the Android app. Anytime you encounter an Israeli-connected company, you will see \"the wall\" instead."
@@ -88,6 +135,21 @@
         "title": "Support The Wall",
         "description": "Help us maintain and improve The Wall. Your support enables us to keep everything free, update the database regularly, and add new features. Every contribution makes a difference!",
         "button": "Click to Donate!"
+      }
+    },
+    "platform": {
+      "sectionTitle": "Platforms available",
+      "desktop": {
+        "subtitle": "[ BROWSER EXTENSION ]",
+        "title": "Silent. Automatic. Unbreakable.",
+        "description": "Install once and forget it. The extension runs in the background, instantly detecting and blocking complicit websites and their social accounts as you browse.",
+        "button": "Install for Chrome"
+      },
+      "mobile": {
+        "subtitle": "[ ANDROID APP ]",
+        "title": "Scan. Uncover. Replace.",
+        "description": "Full device protection. Scan your installed apps to uncover hidden complicit connections and instantly find ethical alternatives with one tap.",
+        "button": "Get it on Google Play"
       }
     },
     "language": {
@@ -123,6 +185,12 @@
       "alsoGetAddon": "Also get our browser addon",
       "alsoGetApp": "Also available as an Android app",
       "newBadge": "NEW"
+    },
+    "buildWall": {
+      "phrase0": "WE BUILD THE WALL",
+      "phrase1": "TO PROTECT OUR VALUES",
+      "phrase2": "ONE BRICK AT A TIME",
+      "phrase3": "UNTIL THE TRUTH PREVAILS"
     }
   }
 }

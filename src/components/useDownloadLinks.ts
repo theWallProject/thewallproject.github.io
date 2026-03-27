@@ -55,8 +55,7 @@ export const useDownloadLinks = (): DownloadLinksData => {
     },
   };
 
-  // Determine which browser addon to show in the button
-  // Only accept chrome, firefox, or safari - default to chrome for anything else
+  // Determine primary download: Android on mobile, Browser Addon on desktop
   let detectedBrowser: "chrome" | "firefox" | "safari";
   if (name === "chrome" || name === "firefox" || name === "safari") {
     detectedBrowser = name;
@@ -64,20 +63,13 @@ export const useDownloadLinks = (): DownloadLinksData => {
     detectedBrowser = "chrome";
   }
 
-  // Primary download is the detected browser's addon
-  const primaryDownload = downloadLinks[detectedBrowser];
+  const primaryDownload = isMobile 
+    ? downloadLinks.android 
+    : downloadLinks[detectedBrowser];
 
-  // Get browser name for button text
-  const getBrowserDisplayName = (
-    browserId: "chrome" | "firefox" | "safari"
-  ): string => {
-    if (browserId === "chrome") return "Chrome";
-    if (browserId === "firefox") return "Firefox";
-    if (browserId === "safari") return "Safari";
-    return "Chrome";
-  };
-
-  const browserDisplayName = getBrowserDisplayName(detectedBrowser);
+  const browserDisplayName = isMobile 
+    ? "Android" 
+    : (detectedBrowser.charAt(0).toUpperCase() + detectedBrowser.slice(1));
 
   // Get other browsers (exclude the primary/detected one) - only browser addons
   const otherBrowsers: DownloadLink[] = [];

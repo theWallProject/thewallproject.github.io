@@ -8,15 +8,20 @@ interface InstallButtonProps {
 }
 
 const InstallButton: React.FC<InstallButtonProps> = ({ className = "" }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { primaryDownload, browserDisplayName } = useDownloadLinks();
   const textRef = useRef<SVGTextElement>(null);
   const [svgWidth, setSvgWidth] = useState(380);
   const [rectWidth, setRectWidth] = useState(376);
 
-  const buttonText = `${t("downloads.installNow")} (${t(
-    "downloads.for"
-  )} ${browserDisplayName})`;
+  const buttonText = i18n.language === "ar"
+    ? `${t("downloads.installNow")} (${t("downloads.for")} ${browserDisplayName})`
+    : `${t("downloads.installNow")} (${t("downloads.for")} ${browserDisplayName})`;
+
+  // We add a LTR mark to the browser name if in AR to stop the parentheses from flipping weirdly
+  const renderText = i18n.language === "ar"
+    ? `${t("downloads.installNow")} (\u200E${browserDisplayName} \u200F${t("downloads.for")})`
+    : buttonText;
 
   useEffect(() => {
     if (textRef.current) {
@@ -107,10 +112,10 @@ const InstallButton: React.FC<InstallButtonProps> = ({ className = "" }) => {
           fontSize="18"
           textAnchor="start"
           dominantBaseline="middle"
-          fontFamily="Arial, sans-serif"
+          fontFamily={i18n.language === "ar" ? "Jimmy Collins, sans-serif" : "Arial, sans-serif"}
           style={{ visibility: "hidden" }}
         >
-          {buttonText}
+          {renderText}
         </text>
         <text
           x="74"
@@ -119,9 +124,9 @@ const InstallButton: React.FC<InstallButtonProps> = ({ className = "" }) => {
           fontSize="18"
           textAnchor="start"
           dominantBaseline="middle"
-          fontFamily="Arial, sans-serif"
+          fontFamily={i18n.language === "ar" ? "Jimmy Collins, sans-serif" : "Arial, sans-serif"}
         >
-          {buttonText}
+          {renderText}
         </text>
         <defs>
           <linearGradient

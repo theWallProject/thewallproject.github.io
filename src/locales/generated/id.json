@@ -68,6 +68,7 @@
       "nextTestimonial": "Testimoni berikutnya"
     },
     "features": {
+      "systemModule": "Modul Sistem",
       "installOnce": {
         "title": "Instal sekali, bekerja selamanya",
         "description": "Instal addon browser atau aplikasi Android. Setiap kali Anda menemukan perusahaan yang terhubung dengan Israel, Anda akan melihat \"tembok\" sebagai gantinya."

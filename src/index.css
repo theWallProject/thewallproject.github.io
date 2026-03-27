@@ -1,15 +1,35 @@
-/* Import Tinos font from Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import "tailwindcss";
 
+/* Import Modern Fonts from Google Fonts - High Contrast Serif & Clean Tech Sans */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@400;600;700;900&display=swap");
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", serif;
+  --font-arabic: "Cairo", sans-serif;
+
+  --color-brand-orange: #b72b00;
+  --color-brand-red: #ff3e1a;
+}
+.footer-overlap-fix {
+  position: relative;
+  background-color: #ffffff !important;
+  border-top-left-radius: 40px; /* تدوير الحواف من فوق */
+  border-top-right-radius: 40px;
+  margin-top: -40px; /* سحب الفوتر لفوق عشان يغطي على الضلمة */
+  padding-top: 40px; /* تعويض المساحة اللي اتسحبت */
+  z-index: 50; /* عشان يفضل فوق السكشن اللي قبله */
+  box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.4); /* ظل أسود ناعم بيدمج الكسرة */
+}
 :root {
-  font-family: "Tinos", serif;
+  font-family: var(--font-sans);
   line-height: 1.6;
   font-weight: 400;
-  font-size: 24px; /* Maximum base font size */
+  font-size: 24px;
 
-  color-scheme: light;
-  color: #333;
-  background-color: #f0e7e6;
+  color-scheme: dark;
+  color: #ffffff;
+  background-color: var(--color-brand-orange);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -17,189 +37,99 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #f0e7e6;
-  font-family: "Tinos", serif;
-  font-size: 24px;
-  line-height: 1.6;
+  background-color: var(--color-brand-orange);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  cursor: none;
 }
 
-h1 {
-  font-size: 4rem;
-  line-height: 1.2;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-h2 {
-  font-size: 3.4rem;
-  line-height: 1.3;
-  font-weight: 700;
-  margin-bottom: 0.8rem;
-}
-
-h3 {
-  font-size: 2.8rem;
-  line-height: 1.4;
-  font-weight: 700;
-  margin-bottom: 0.6rem;
-}
-
-p {
-  font-size: 1.7rem;
-  line-height: 1.7;
-  margin-bottom: 1rem;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1.3rem;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #f9f9f9;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-/* Responsive text sizing for better readability */
-@media (max-width: 1680px) {
-  :root {
-    font-size: 23px;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  h1 {
-    font-size: 3.8rem;
-  }
-  h2 {
-    font-size: 3.2rem;
-  }
-  h3 {
-    font-size: 2.6rem;
-  }
-  p {
-    font-size: 1.6rem;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (max-width: 1280px) {
-  :root {
-    font-size: 22px;
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* ======== Bloody Text Effect ======== */
+.bloody-text {
+  display: inline-block;
+  background: linear-gradient(
+    180deg,
+    #4a0000 0%,
+    /* dried clotted text */ #8b0000 40%,
+    /* dark blood */ #a00000 100% /* slightly fresher at bottom */
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* No more glowing neon - just raw clotted texture */
+  position: relative;
+  overflow: visible;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.8));
+}
+
+.bloody-text::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 20%;
+  width: 3px;
+  height: 0;
+  background: #8b0000;
+  border-radius: 0 0 50% 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 1);
+  animation: drip 5s ease-in infinite;
+}
+
+@keyframes drip {
+  0% {
+    height: 0;
+    opacity: 1;
+    transform: translateY(0);
   }
-  h1 {
-    font-size: 3.6rem;
+  30% {
+    height: 15px;
+    opacity: 1;
   }
-  h2 {
-    font-size: 3rem;
+  60% {
+    height: 20px;
+    opacity: 0;
+    transform: translateY(10px);
   }
-  h3 {
-    font-size: 2.4rem;
-  }
-  p {
-    font-size: 1.5rem;
+  100% {
+    height: 0;
+    opacity: 0;
   }
 }
 
-@media (max-width: 980px) {
-  :root {
-    font-size: 21px;
-  }
-  h1 {
-    font-size: 3.4rem;
-  }
-  h2 {
-    font-size: 2.8rem;
-  }
-  h3 {
-    font-size: 2.2rem;
-  }
-  p {
-    font-size: 1.4rem;
-  }
-}
-
-@media (max-width: 736px) {
-  :root {
-    font-size: 20px;
-  }
-  h1 {
-    font-size: 3.2rem;
-  }
-  h2 {
-    font-size: 2.6rem;
-  }
-  h3 {
-    font-size: 2rem;
-  }
-  p {
-    font-size: 1.3rem;
-  }
-}
-
-@media (max-width: 480px) {
-  :root {
-    font-size: 19px;
-  }
-  h1 {
-    font-size: 3rem;
-  }
-  h2 {
-    font-size: 2.4rem;
-  }
-  h3 {
-    font-size: 1.9rem;
-  }
-  p {
-    font-size: 1.25rem;
-  }
-}
-
-@media (max-width: 360px) {
-  :root {
-    font-size: 18px;
-  }
-  h1 {
-    font-size: 2.8rem;
-  }
-  h2 {
-    font-size: 2.2rem;
-  }
-  h3 {
-    font-size: 1.8rem;
-  }
-  p {
-    font-size: 1.2rem;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #f0e7e6;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+/* Custom Tailwind Utility for Pixel Clip as used in Hero */
+@layer utilities {
+  .clip-pixel-art {
+    clip-path: polygon(
+      100% 0%,
+      100% 100%,
+      0% 100%,
+      0% 80%,
+      20% 80%,
+      20% 60%,
+      40% 60%,
+      40% 40%,
+      60% 40%,
+      60% 20%,
+      80% 20%,
+      80% 0%
+    );
   }
 }
