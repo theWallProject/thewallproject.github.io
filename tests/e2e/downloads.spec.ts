@@ -5,19 +5,14 @@ test.describe("Downloads", () => {
     await page.goto("/");
   });
 
-  test("should display downloads section with all download options", async ({
-    page,
-  }) => {
+  test("should display downloads section with all download options", async ({ page }) => {
     // Check for downloads section (second section in the page)
     const downloadsSection = page.locator("section").nth(1);
     await expect(downloadsSection).toBeVisible();
 
     // Check for all download containers (5 total: Chrome, Firefox, Safari, iOS, Telegram)
     // Use more specific selector to target only download links, not social links
-    const downloadContainers = page
-      .locator("section")
-      .nth(1)
-      .locator("a[target='_blank']");
+    const downloadContainers = page.locator("section").nth(1).locator("a[target='_blank']");
     await expect(downloadContainers).toHaveCount(5);
 
     // Check for specific download options by their href attributes
@@ -36,14 +31,8 @@ test.describe("Downloads", () => {
 
   test("should display download icons and titles", async ({ page }) => {
     // Check for download icons and descriptions within the downloads section
-    const downloadIcons = page
-      .locator("section")
-      .nth(2)
-      .locator("img[alt*='icon']");
-    const downloadLinks = page
-      .locator("section")
-      .nth(2)
-      .locator("a[target='_blank']");
+    const downloadIcons = page.locator("section").nth(2).locator("img[alt*='icon']");
+    const downloadLinks = page.locator("section").nth(2).locator("a[target='_blank']");
 
     await expect(downloadIcons).toHaveCount(5);
     await expect(downloadLinks).toHaveCount(5);
@@ -64,34 +53,23 @@ test.describe("Downloads", () => {
     }
   });
 
-  test("should highlight recommended download when browser is detected", async ({
-    page,
-  }) => {
+  test("should highlight recommended download when browser is detected", async ({ page }) => {
     // Check for recommended badge (may or may not be present depending on browser)
-    const recommendedBadges = page
-      .locator("span")
-      .filter({ hasText: /recommended/i });
+    const recommendedBadges = page.locator("span").filter({ hasText: /recommended/i });
 
     // Either there should be a recommended download or none
     const hasRecommended = (await recommendedBadges.count()) > 0;
 
     if (hasRecommended) {
       // If there's a recommended download, it should be the first one
-      const firstDownload = page
-        .locator("section")
-        .nth(2)
-        .locator("a[target='_blank']")
-        .first();
+      const firstDownload = page.locator("section").nth(2).locator("a[target='_blank']").first();
       const firstDownloadText = await firstDownload.textContent();
       expect(firstDownloadText).toContain("recommended");
     }
   });
 
   test("should have correct download URLs", async ({ page }) => {
-    const downloadLinks = page
-      .locator("section")
-      .nth(2)
-      .locator("a[target='_blank']");
+    const downloadLinks = page.locator("section").nth(2).locator("a[target='_blank']");
 
     // Check that all download links have valid URLs
     for (let i = 0; i < 5; i++) {
@@ -106,25 +84,13 @@ test.describe("Downloads", () => {
     const firefoxDownload = page.locator('a[href*="addons.mozilla.org"]');
     const telegramDownload = page.locator('a[href*="t.me"]');
 
-    await expect(chromeDownload).toHaveAttribute(
-      "href",
-      expect.stringContaining("chromewebstore.google.com")
-    );
-    await expect(firefoxDownload).toHaveAttribute(
-      "href",
-      expect.stringContaining("addons.mozilla.org")
-    );
-    await expect(telegramDownload).toHaveAttribute(
-      "href",
-      expect.stringContaining("t.me")
-    );
+    await expect(chromeDownload).toHaveAttribute("href", expect.stringContaining("chromewebstore.google.com"));
+    await expect(firefoxDownload).toHaveAttribute("href", expect.stringContaining("addons.mozilla.org"));
+    await expect(telegramDownload).toHaveAttribute("href", expect.stringContaining("t.me"));
   });
 
   test("should open download links in new tab", async ({ page }) => {
-    const downloadLinks = page
-      .locator("section")
-      .nth(2)
-      .locator("a[target='_blank']");
+    const downloadLinks = page.locator("section").nth(2).locator("a[target='_blank']");
 
     // Check that all download links open in new tab
     for (let i = 0; i < 5; i++) {

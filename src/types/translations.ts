@@ -1,13 +1,4 @@
-export type SupportedLanguages =
-  | "en"
-  | "ar"
-  | "fr"
-  | "es"
-  | "de"
-  | "id"
-  | "nl"
-  | "zh_CN"
-  | "zh_TW";
+export type SupportedLanguages = "en" | "ar" | "fr" | "es" | "de" | "id" | "nl" | "zh_CN" | "zh_TW";
 
 export interface LanguageConfig {
   code: SupportedLanguages;

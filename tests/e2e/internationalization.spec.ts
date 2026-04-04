@@ -5,9 +5,7 @@ test.describe("Internationalization", () => {
     await page.goto("/");
   });
 
-  test("should display language switcher with available languages", async ({
-    page,
-  }) => {
+  test("should display language switcher with available languages", async ({ page }) => {
     const languageSwitcher = page.locator('button[aria-haspopup="listbox"]');
     await expect(languageSwitcher).toBeVisible();
 
@@ -15,15 +13,11 @@ test.describe("Internationalization", () => {
     await languageSwitcher.click();
 
     // Check for language options - use more specific selector
-    const languageOptions = page
-      .locator('button[role="option"]')
-      .filter({ hasText: /English|العربية/ });
+    const languageOptions = page.locator('button[role="option"]').filter({ hasText: /English|العربية/ });
     await expect(languageOptions).toHaveCount(2); // English and Arabic
 
     // Check that current language is selected
-    const selectedOption = page.locator(
-      'button[role="option"][aria-selected="true"]'
-    );
+    const selectedOption = page.locator('button[role="option"][aria-selected="true"]');
     await expect(selectedOption).toBeVisible();
   });
 
@@ -34,9 +28,7 @@ test.describe("Internationalization", () => {
     await languageSwitcher.click();
 
     // Click on the second language option (Arabic)
-    const languageOptions = page
-      .locator('button[role="option"]')
-      .filter({ hasText: /English|العربية/ });
+    const languageOptions = page.locator('button[role="option"]').filter({ hasText: /English|العربية/ });
     await languageOptions.nth(1).click();
 
     // Wait for language change
@@ -52,9 +44,7 @@ test.describe("Internationalization", () => {
 
     // Open dropdown and switch to Arabic
     await languageSwitcher.click();
-    const languageOptions = page
-      .locator('button[role="option"]')
-      .filter({ hasText: /English|العربية/ });
+    const languageOptions = page.locator('button[role="option"]').filter({ hasText: /English|العربية/ });
     await languageOptions.nth(1).click();
     await page.waitForTimeout(500);
 
@@ -71,9 +61,7 @@ test.describe("Internationalization", () => {
 
     // Switch to Arabic (RTL language)
     await languageSwitcher.click();
-    const languageOptions = page
-      .locator('button[role="option"]')
-      .filter({ hasText: /English|العربية/ });
+    const languageOptions = page.locator('button[role="option"]').filter({ hasText: /English|العربية/ });
     await languageOptions.nth(1).click();
     await page.waitForTimeout(500);
 

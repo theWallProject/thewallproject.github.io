@@ -5,9 +5,7 @@ test.describe("Footer", () => {
     await page.goto("/");
   });
 
-  test("should display footer with social links and footer links", async ({
-    page,
-  }) => {
+  test("should display footer with social links and footer links", async ({ page }) => {
     const footer = page.locator("footer");
     await expect(footer).toBeVisible();
 
@@ -32,17 +30,11 @@ test.describe("Footer", () => {
 
     // Check GitHub link
     const githubLink = socialLinks.filter({ hasText: /github/i });
-    await expect(githubLink).toHaveAttribute(
-      "href",
-      "https://github.com/theWallProject/mono"
-    );
+    await expect(githubLink).toHaveAttribute("href", "https://github.com/theWallProject/mono");
 
     // Check Email link
     const emailLink = socialLinks.filter({ hasText: /email/i });
-    await expect(emailLink).toHaveAttribute(
-      "href",
-      "mailto:the.wall.addon@proton.me"
-    );
+    await expect(emailLink).toHaveAttribute("href", "mailto:the.wall.addon@proton.me");
   });
 
   test("should have correct footer link navigation", async ({ page }) => {

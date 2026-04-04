@@ -5,9 +5,7 @@ test.describe("Header", () => {
     await page.goto("/");
   });
 
-  test("should display header with logo and language switcher", async ({
-    page,
-  }) => {
+  test("should display header with logo and language switcher", async ({ page }) => {
     const header = page.locator("header");
     await expect(header).toBeVisible();
 
@@ -27,10 +25,7 @@ test.describe("Header", () => {
     await expect(logo).toBeVisible();
 
     // Check that logo has src attribute
-    await expect(logo).toHaveAttribute(
-      "src",
-      expect.stringContaining("logo-red.svg")
-    );
+    await expect(logo).toHaveAttribute("src", expect.stringContaining("logo-red.svg"));
   });
 
   test("should have responsive header layout", async ({ page }) => {

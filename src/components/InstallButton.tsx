@@ -14,14 +14,16 @@ const InstallButton: React.FC<InstallButtonProps> = ({ className = "" }) => {
   const [svgWidth, setSvgWidth] = useState(380);
   const [rectWidth, setRectWidth] = useState(376);
 
-  const buttonText = i18n.language === "ar"
-    ? `${t("downloads.installNow")} (${t("downloads.for")} ${browserDisplayName})`
-    : `${t("downloads.installNow")} (${t("downloads.for")} ${browserDisplayName})`;
+  const buttonText =
+    i18n.language === "ar"
+      ? `${t("downloads.installNow")} (${t("downloads.for")} ${browserDisplayName})`
+      : `${t("downloads.installNow")} (${t("downloads.for")} ${browserDisplayName})`;
 
   // We add a LTR mark to the browser name if in AR to stop the parentheses from flipping weirdly
-  const renderText = i18n.language === "ar"
-    ? `${t("downloads.installNow")} (\u200E${browserDisplayName} \u200F${t("downloads.for")})`
-    : buttonText;
+  const renderText =
+    i18n.language === "ar"
+      ? `${t("downloads.installNow")} (\u200E${browserDisplayName} \u200F${t("downloads.for")})`
+      : buttonText;
 
   useEffect(() => {
     if (textRef.current) {
@@ -51,14 +53,7 @@ const InstallButton: React.FC<InstallButtonProps> = ({ className = "" }) => {
         xmlns="http://www.w3.org/2000/svg"
         className={styles.installButtonImage}
       >
-        <rect
-          x="2"
-          y="2"
-          width={rectWidth}
-          height="76"
-          rx="18"
-          fill="url(#paint0_linear_40_34)"
-        />
+        <rect x="2" y="2" width={rectWidth} height="76" rx="18" fill="url(#paint0_linear_40_34)" />
         <rect x="2" y="2" width={rectWidth} height="76" rx="18" />
         <g clipPath="url(#clip0_40_34)">
           <path
@@ -221,12 +216,7 @@ const InstallButton: React.FC<InstallButtonProps> = ({ className = "" }) => {
             <stop offset="1" stopOpacity="0.03" />
           </linearGradient>
           <clipPath id="clip0_40_34">
-            <rect
-              width="36"
-              height="36"
-              fill="white"
-              transform="translate(29 22)"
-            />
+            <rect width="36" height="36" fill="white" transform="translate(29 22)" />
           </clipPath>
         </defs>
       </svg>

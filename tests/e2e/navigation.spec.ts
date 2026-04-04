@@ -5,9 +5,7 @@ test.describe("Navigation", () => {
     await page.goto("/");
   });
 
-  test("should navigate to privacy policy page and display content", async ({
-    page,
-  }) => {
+  test("should navigate to privacy policy page and display content", async ({ page }) => {
     // Navigate to privacy page
     await page.goto("/privacy");
     await expect(page).toHaveURL("/privacy");

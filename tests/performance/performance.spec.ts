@@ -34,8 +34,7 @@ test.describe("Performance", () => {
           lcp = 0,
           cls = 0;
         new PerformanceObserver((list) => {
-          for (const e of list.getEntries())
-            if (e.name === "first-contentful-paint") fcp = e.startTime;
+          for (const e of list.getEntries()) if (e.name === "first-contentful-paint") fcp = e.startTime;
         }).observe({ entryTypes: ["paint"] });
         new PerformanceObserver((list) => {
           for (const e of list.getEntries()) lcp = e.startTime;

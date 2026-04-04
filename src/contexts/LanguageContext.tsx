@@ -1,10 +1,7 @@
 import React, { createContext, useState, useEffect, useCallback } from "react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  SUPPORTED_LANGUAGES,
-  type SupportedLanguages,
-} from "../types/translations";
+import { SUPPORTED_LANGUAGES, type SupportedLanguages } from "../types/translations";
 
 interface LanguageContextType {
   currentLanguage: SupportedLanguages;
@@ -14,9 +11,7 @@ interface LanguageContextType {
   detectedLanguage: SupportedLanguages | null;
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(
-  undefined
-);
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 interface LanguageProviderProps {
   children: ReactNode;
@@ -29,9 +24,9 @@ const detectBrowserLanguage = (): SupportedLanguages | null => {
     const browserLang = navigator.language.toLowerCase();
 
     // Check for exact matches first
-    const exactMatch = Object.keys(SUPPORTED_LANGUAGES).find(
-      (lang) => lang.toLowerCase() === browserLang
-    ) as SupportedLanguages | undefined;
+    const exactMatch = Object.keys(SUPPORTED_LANGUAGES).find((lang) => lang.toLowerCase() === browserLang) as
+      | SupportedLanguages
+      | undefined;
 
     if (exactMatch) {
       return exactMatch;
@@ -39,9 +34,9 @@ const detectBrowserLanguage = (): SupportedLanguages | null => {
 
     // Check for language code matches (e.g., "en-us" -> "en")
     const langCode = browserLang.split("-")[0];
-    const langMatch = Object.keys(SUPPORTED_LANGUAGES).find(
-      (lang) => lang.toLowerCase() === langCode
-    ) as SupportedLanguages | undefined;
+    const langMatch = Object.keys(SUPPORTED_LANGUAGES).find((lang) => lang.toLowerCase() === langCode) as
+      | SupportedLanguages
+      | undefined;
 
     if (langMatch) {
       return langMatch;
@@ -69,10 +64,7 @@ const getStoredLanguage = (): SupportedLanguages | null => {
       return stored as SupportedLanguages;
     }
   } catch (error) {
-    console.warn(
-      "Could not read language preference from localStorage:",
-      error
-    );
+    console.warn("Could not read language preference from localStorage:", error);
   }
   return null;
 };
@@ -86,15 +78,11 @@ const storeLanguage = (lang: SupportedLanguages) => {
   }
 };
 
-export const LanguageProvider: React.FC<LanguageProviderProps> = ({
-  children,
-}) => {
+export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const { i18n } = useTranslation();
 
   // Detect browser language
-  const [detectedLanguage] = useState<SupportedLanguages | null>(
-    detectBrowserLanguage()
-  );
+  const [detectedLanguage] = useState<SupportedLanguages | null>(detectBrowserLanguage());
 
   // Initialize language with priority order:
   // 1. User manually changed (stored in localStorage) - highest priority
@@ -110,10 +98,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
 
     // Second priority: Use detected browser language if available
     if (detectedLanguage) {
-      console.log(
-        "Language: Using detected browser language:",
-        detectedLanguage
-      );
+      console.log("Language: Using detected browser language:", detectedLanguage);
       return detectedLanguage;
     }
 
@@ -122,12 +107,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
     return "en";
   }, [detectedLanguage]);
 
-  const [currentLanguage, setCurrentLanguage] = useState<SupportedLanguages>(
-    getInitialLanguage()
-  );
-  const [isRTL, setIsRTL] = useState(
-    SUPPORTED_LANGUAGES[currentLanguage]?.isRTL || false
-  );
+  const [currentLanguage, setCurrentLanguage] = useState<SupportedLanguages>(getInitialLanguage());
+  const [isRTL, setIsRTL] = useState(SUPPORTED_LANGUAGES[currentLanguage]?.isRTL || false);
 
   const changeLanguage = (lang: SupportedLanguages) => {
     const languageConfig = SUPPORTED_LANGUAGES[lang];
@@ -170,11 +151,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
     detectedLanguage,
   };
 
-  return (
-    <LanguageContext.Provider value={value}>
-      {children}
-    </LanguageContext.Provider>
-  );
+  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 };
 
 // Export the context for the hook

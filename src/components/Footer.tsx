@@ -90,8 +90,7 @@ const Footer: React.FC = () => {
                 alt={t("alt.theWallLogo")}
                 className={styles.logo}
                 onError={(e) => {
-                  e.currentTarget.src =
-                    "https://via.placeholder.com/230x78/C24233/FFFFFF?text=THE+WALL";
+                  e.currentTarget.src = "https://via.placeholder.com/230x78/C24233/FFFFFF?text=THE+WALL";
                 }}
               />
             </div>
@@ -122,10 +121,10 @@ const Footer: React.FC = () => {
         {/* Bottom Row - Copyright and Links */}
         <div className={styles.footerBottom}>
           <p className={styles.copyright}>
-            {t("footer.copyright")} | 
-            <a 
-              href="https://noorhesham.com/" 
-              target="_blank" 
+            {t("footer.copyright")} |
+            <a
+              href="https://noorhesham.com/"
+              target="_blank"
               rel="noopener noreferrer"
               className="ml-1 font-semibold text-[#cd4626] hover:underline"
             >

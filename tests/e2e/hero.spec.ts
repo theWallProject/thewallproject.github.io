@@ -5,9 +5,7 @@ test.describe("Hero Section", () => {
     await page.goto("/");
   });
 
-  test("should display hero section with intro text and video", async ({
-    page,
-  }) => {
+  test("should display hero section with intro text and video", async ({ page }) => {
     // Check for hero section (first section in the page)
     const heroSection = page.locator("section").first();
     await expect(heroSection).toBeVisible();
@@ -24,10 +22,7 @@ test.describe("Hero Section", () => {
     // Check for video iframe within hero section
     const video = heroSection.locator("iframe");
     await expect(video).toBeVisible();
-    await expect(video).toHaveAttribute(
-      "src",
-      expect.stringContaining("youtube")
-    );
+    await expect(video).toHaveAttribute("src", expect.stringContaining("youtube"));
   });
 
   test("should be responsive on different screen sizes", async ({ page }) => {

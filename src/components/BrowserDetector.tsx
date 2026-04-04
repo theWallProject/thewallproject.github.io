@@ -57,20 +57,12 @@ export const useBrowserDetection = (): BrowserInfo => {
 
             // Check if browser name matches any Chrome-compatible browser
             const browserNameLower = browserData.name?.toLowerCase() || "";
-            if (
-              chromeCompatibleBrowsers.some((name) =>
-                browserNameLower.includes(name)
-              )
-            ) {
+            if (chromeCompatibleBrowsers.some((name) => browserNameLower.includes(name))) {
               return true;
             }
 
             // Additional checks for specific user agent patterns
-            if (
-              userAgent.includes("chrome") &&
-              !userAgent.includes("firefox") &&
-              !userAgent.includes("safari")
-            ) {
+            if (userAgent.includes("chrome") && !userAgent.includes("firefox") && !userAgent.includes("safari")) {
               return true;
             }
 

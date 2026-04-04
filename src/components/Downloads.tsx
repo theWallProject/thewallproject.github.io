@@ -14,26 +14,12 @@ const Downloads: React.FC = () => {
         <div className={styles.downloadsContent}>
           <InstallButton />
 
-          <p className={styles.availabilityText}>
-            {t("downloads.alsoAvailable")}
-          </p>
+          <p className={styles.availabilityText}>{t("downloads.alsoAvailable")}</p>
 
           <div className={styles.browserIcons}>
-            <img
-              src={downloadLinks.chrome.icon}
-              alt="Chrome"
-              className={styles.browserIcon}
-            />
-            <img
-              src={downloadLinks.safari.icon}
-              alt="Safari"
-              className={styles.browserIcon}
-            />
-            <img
-              src={downloadLinks.firefox.icon}
-              alt="Firefox"
-              className={styles.browserIcon}
-            />
+            <img src={downloadLinks.chrome.icon} alt="Chrome" className={styles.browserIcon} />
+            <img src={downloadLinks.safari.icon} alt="Safari" className={styles.browserIcon} />
+            <img src={downloadLinks.firefox.icon} alt="Firefox" className={styles.browserIcon} />
           </div>
         </div>
       </div>

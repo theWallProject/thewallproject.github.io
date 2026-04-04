@@ -5,9 +5,7 @@ test.describe("Features Section", () => {
     await page.goto("/");
   });
 
-  test("should display features section with all feature items", async ({
-    page,
-  }) => {
+  test("should display features section with all feature items", async ({ page }) => {
     // Check for features section (third section in the page)
     const featuresSection = page.locator("section").nth(2);
     await expect(featuresSection).toBeVisible();

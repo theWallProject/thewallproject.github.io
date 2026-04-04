@@ -46,7 +46,7 @@ const Hero: React.FC = () => {
             duration: 1.5,
             ease: "power3.out",
             delay: 2.5,
-          },
+          }
         );
       }
 
@@ -165,11 +165,7 @@ const Hero: React.FC = () => {
               className={`text-[1.3rem] md:text-[2.2rem] lg:text-[1.6rem] leading-[1.3] font-medium opacity-95 tracking-tight px-2 sm:px-0 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
             >
               <Trans
-                i18nKey={
-                  window.innerWidth < 768
-                    ? "hero.availableAsMobile"
-                    : "hero.availableAsDesktop"
-                }
+                i18nKey={window.innerWidth < 768 ? "hero.availableAsMobile" : "hero.availableAsDesktop"}
                 components={{
                   span: <span className="text-white border-b border-white/20 pb-1" />,
                 }}
@@ -190,11 +186,7 @@ const Hero: React.FC = () => {
                     rel="noopener noreferrer"
                     className="group flex items-center gap-2 transition-all hover:opacity-100 opacity-80"
                   >
-                    <img
-                      src="/files/common/icon-firefox.svg"
-                      alt="Firefox"
-                      className="w-4 md:w-5 h-4 md:h-5"
-                    />
+                    <img src="/files/common/icon-firefox.svg" alt="Firefox" className="w-4 md:w-5 h-4 md:h-5" />
                     <span className="text-[0.9rem] md:text-[1rem] border-b border-white/10 group-hover:border-white/40 transition-colors">
                       Firefox
                     </span>
@@ -205,11 +197,7 @@ const Hero: React.FC = () => {
                     rel="noopener noreferrer"
                     className="group flex items-center gap-2 transition-all hover:opacity-100 opacity-80"
                   >
-                    <img
-                      src="/files/common/icon-safari.svg"
-                      alt="Safari"
-                      className="w-4 md:w-5 h-4 md:h-5"
-                    />
+                    <img src="/files/common/icon-safari.svg" alt="Safari" className="w-4 md:w-5 h-4 md:h-5" />
                     <span className="text-[0.9rem] md:text-[1rem] border-b border-white/10 group-hover:border-white/40 transition-colors">
                       Safari
                     </span>

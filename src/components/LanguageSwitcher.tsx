@@ -8,15 +8,8 @@ interface LanguageSwitcherProps {
   isScrolled?: boolean;
 }
 
-const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
-  isScrolled = false,
-}) => {
-  const {
-    currentLanguage,
-    changeLanguage,
-    availableLanguages,
-    detectedLanguage,
-  } = useLanguage();
+const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ isScrolled = false }) => {
+  const { currentLanguage, changeLanguage, availableLanguages, detectedLanguage } = useLanguage();
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
@@ -25,9 +18,9 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   const optionsRef = useRef<HTMLButtonElement[]>([]);
 
   const currentLanguageConfig = availableLanguages[currentLanguage];
-  const languageCodes = (
-    Object.keys(availableLanguages) as SupportedLanguages[]
-  ).filter((code): code is SupportedLanguages => code in availableLanguages);
+  const languageCodes = (Object.keys(availableLanguages) as SupportedLanguages[]).filter(
+    (code): code is SupportedLanguages => code in availableLanguages
+  );
 
   // Get flag image path for language code
   const getFlagPath = (code: string): string => {
@@ -57,10 +50,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
         setFocusedIndex(-1);
       }
@@ -76,11 +66,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!isOpen) {
-        if (
-          event.key === "Enter" ||
-          event.key === " " ||
-          event.key === "ArrowDown"
-        ) {
+        if (event.key === "Enter" || event.key === " " || event.key === "ArrowDown") {
           event.preventDefault();
           setIsOpen(true);
           setFocusedIndex(0);
@@ -97,15 +83,11 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           break;
         case "ArrowDown":
           event.preventDefault();
-          setFocusedIndex((prev) =>
-            prev < languageCodes.length - 1 ? prev + 1 : 0
-          );
+          setFocusedIndex((prev) => (prev < languageCodes.length - 1 ? prev + 1 : 0));
           break;
         case "ArrowUp":
           event.preventDefault();
-          setFocusedIndex((prev) =>
-            prev > 0 ? prev - 1 : languageCodes.length - 1
-          );
+          setFocusedIndex((prev) => (prev > 0 ? prev - 1 : languageCodes.length - 1));
           break;
         case "Enter":
         case " ":
@@ -156,9 +138,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
     <div className={styles.languageSwitcherContainer} ref={dropdownRef}>
       <button
         ref={buttonRef}
-        className={`${styles.languageSwitcher} ${
-          isScrolled ? styles.scrolled : ""
-        }`}
+        className={`${styles.languageSwitcher} ${isScrolled ? styles.scrolled : ""}`}
         onClick={handleToggle}
         aria-label={t("language.switcher.aria.label", {
           language: currentLanguageConfig.name,
@@ -173,33 +153,19 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
         }}
       >
         <span className={styles.languageInfo}>
-          <img
-            src={getFlagPath(currentLanguage)}
-            alt={currentLanguageConfig.name}
-            className={styles.flagIcon}
-          />
+          <img src={getFlagPath(currentLanguage)} alt={currentLanguageConfig.name} className={styles.flagIcon} />
         </span>
-        <span
-          className={`${styles.dropdownArrow} ${isOpen ? styles.rotated : ""}`}
-        >
-          ▼
-        </span>
+        <span className={`${styles.dropdownArrow} ${isOpen ? styles.rotated : ""}`}>▼</span>
       </button>
 
       {isOpen && (
-        <div
-          className={styles.dropdownMenu}
-          role="listbox"
-          aria-label={t("language.switcher.aria.listbox")}
-        >
+        <div className={styles.dropdownMenu} role="listbox" aria-label={t("language.switcher.aria.listbox")}>
           {languageCodes.map((languageCode, index) => {
             const languageConfig = availableLanguages[languageCode];
             const isSelected = languageCode === currentLanguage;
             const isFocused = index === focusedIndex;
             const isDetected =
-              languageCode === detectedLanguage &&
-              detectedLanguage !== null &&
-              detectedLanguage !== "en";
+              languageCode === detectedLanguage && detectedLanguage !== null && detectedLanguage !== "en";
 
             return (
               <button
@@ -209,9 +175,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
                 }}
                 className={`${styles.languageOption} ${
                   isSelected && languageCode !== "en" ? styles.selected : ""
-                } ${isFocused ? styles.focused : ""} ${
-                  isDetected ? styles.detected : ""
-                }`}
+                } ${isFocused ? styles.focused : ""} ${isDetected ? styles.detected : ""}`}
                 onClick={() => handleLanguageSelect(languageCode)}
                 onFocus={() => handleOptionFocus(index)}
                 onBlur={handleOptionBlur}
@@ -228,17 +192,10 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
                 }
               >
                 <span className={styles.languageInfo}>
-                  <img
-                    src={getFlagPath(languageCode)}
-                    alt={languageConfig.name}
-                    className={styles.flagIcon}
-                  />
+                  <img src={getFlagPath(languageCode)} alt={languageConfig.name} className={styles.flagIcon} />
                   <span>{languageConfig.nativeName}</span>
                   {isDetected && (
-                    <span
-                      className={styles.detectedBadge}
-                      title="Detected from browser"
-                    >
+                    <span className={styles.detectedBadge} title="Detected from browser">
                       🌐
                     </span>
                   )}

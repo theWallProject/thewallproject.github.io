@@ -28,9 +28,7 @@ const DownloadSnippet: React.FC = () => {
       return `${prefix} ${browserNames[0]} ${andWord} ${browserNames[1]}`;
     } else {
       const last = browserNames.pop();
-      return `${prefix} ${browserNames.join(
-        comma + " ",
-      )}${comma} ${andWord} ${last}`;
+      return `${prefix} ${browserNames.join(comma + " ")}${comma} ${andWord} ${last}`;
     }
   };
 
@@ -52,11 +50,7 @@ const DownloadSnippet: React.FC = () => {
                 rel="noopener noreferrer"
                 className={styles.browserIconLink}
               >
-                <img
-                  src={browser.icon}
-                  alt={browser.displayName}
-                  className={styles.browserIcon}
-                />
+                <img src={browser.icon} alt={browser.displayName} className={styles.browserIcon} />
               </a>
             ))}
           </div>
@@ -65,9 +59,7 @@ const DownloadSnippet: React.FC = () => {
           {(isAndroid || !isIOS) && (
             <div className={styles.playStoreRow}>
               <p className={styles.playStoreText}>
-                {isAndroid
-                  ? t("sections.androidApp.subtitle")
-                  : t("sections.alsoGetApp")}
+                {isAndroid ? t("sections.androidApp.subtitle") : t("sections.alsoGetApp")}
               </p>
               <a
                 href={downloadLinks.android.href}

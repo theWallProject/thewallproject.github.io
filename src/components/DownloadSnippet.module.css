@@ -82,7 +82,9 @@
 
 .playStoreBadgeLink {
   display: inline-block;
-  transition: transform 0.3s ease, filter 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
 }
 
 .playStoreBadgeLink:hover {

@@ -16,9 +16,7 @@
 .header.scrolled {
   padding: 0.625rem 0;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-  background: var(
-    --color-dark-orange-darker
-  ); /* Slightly darker than normal #b72b00 */
+  background: var(--color-dark-orange-darker); /* Slightly darker than normal #b72b00 */
   backdrop-filter: blur(10px);
 }
 

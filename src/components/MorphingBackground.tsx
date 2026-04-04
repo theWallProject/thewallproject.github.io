@@ -100,10 +100,7 @@ interface MorphingBackgroundProps {
   edgeSoftness?: number;
 }
 
-const MorphingBackground: React.FC<MorphingBackgroundProps> = ({
-  color = "#b72b00",
-  edgeSoftness = 0.08,
-}) => {
+const MorphingBackground: React.FC<MorphingBackgroundProps> = ({ color = "#b72b00", edgeSoftness = 0.08 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -154,10 +151,7 @@ const MorphingBackground: React.FC<MorphingBackgroundProps> = ({
 
     const handleResize = () => {
       renderer.setSize(window.innerWidth, window.innerHeight);
-      material.uniforms.uResolution.value.set(
-        window.innerWidth,
-        window.innerHeight,
-      );
+      material.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
     };
     window.addEventListener("resize", handleResize);
 
@@ -190,10 +184,7 @@ const MorphingBackground: React.FC<MorphingBackgroundProps> = ({
   }, [color, edgeSoftness]);
 
   return (
-    <div
-      ref={containerRef}
-      className="absolute inset-0 pointer-events-none z-0"
-    >
+    <div ref={containerRef} className="absolute inset-0 pointer-events-none z-0">
       <canvas ref={canvasRef} className="w-full h-full" />
     </div>
   );

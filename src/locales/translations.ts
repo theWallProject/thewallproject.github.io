@@ -32,10 +32,8 @@ export const translations = {
     de: "The Wall, Browser-Addon, Android-App, Website-Blocker, Boykott-Assistent, israelische Websites, Social-Media-Blockierung, Chrome-Erweiterung, Firefox-Addon",
     id: "The Wall, ekstensi browser, aplikasi Android, pemblokir situs web, asisten boikot, situs web Israel, pemblokiran media sosial, ekstensi Chrome, addon Firefox",
     nl: "The Wall, browser-addon, Android-app, website-blokker, boycot-assistent, Israëlische websites, sociale media-blokkering, Chrome-extensie, Firefox-addon",
-    zh_CN:
-      "The Wall, 浏览器插件, 安卓应用, 网站拦截器, 抵制助手, 以色列网站, 社交媒体拦截, Chrome扩展, Firefox插件",
-    zh_TW:
-      "The Wall, 瀏覽器插件, 安卓應用, 網站攔截器, 抵制助手, 以色列網站, 社交媒體攔截, Chrome擴展, Firefox插件",
+    zh_CN: "The Wall, 浏览器插件, 安卓应用, 网站拦截器, 抵制助手, 以色列网站, 社交媒体拦截, Chrome扩展, Firefox插件",
+    zh_TW: "The Wall, 瀏覽器插件, 安卓應用, 網站攔截器, 抵制助手, 以色列網站, 社交媒體攔截, Chrome擴展, Firefox插件",
   },
   "header.title": {
     en: "The Wall Project",
@@ -118,10 +116,8 @@ export const translations = {
     de: "Erkennen und blockieren Sie mehr als {{count}} israelische Websites und ihre sozialen Konten. Verfügbar als Browser-Addon und Android-App.",
     id: "Deteksi dan blokir lebih dari {{count}} situs web Israel dan akun sosial mereka. Tersedia sebagai addon browser dan aplikasi Android.",
     nl: "Detecteer en blokkeer meer dan {{count}} Israëlische websites en hun sociale accounts. Beschikbaar als browser-addon en Android-app.",
-    zh_CN:
-      "检测和阻止超过{{count}}个与以色列相关的网站及其社交账户。提供浏览器插件和安卓应用。",
-    zh_TW:
-      "檢測和阻止超過{{count}}個與以色列相關的網站及其社交帳戶。提供瀏覽器插件和安卓應用。",
+    zh_CN: "检测和阻止超过{{count}}个与以色列相关的网站及其社交账户。提供浏览器插件和安卓应用。",
+    zh_TW: "檢測和阻止超過{{count}}個與以色列相關的網站及其社交帳戶。提供瀏覽器插件和安卓應用。",
   },
   "downloads.recommended": {
     en: "For your browser",
@@ -296,10 +292,8 @@ export const translations = {
     de: "Das nahtloseste und großartigste Plugin, das ich je verwendet habe! Es hat mich über viele Unternehmen informiert, die ich nicht mehr nutze.",
     id: "Plugin yang paling mulus dan luar biasa yang pernah saya gunakan! Ini telah memberi tahu saya tentang banyak perusahaan yang saya berhenti gunakan.",
     nl: "De meest naadloze en geweldige plugin die ik ooit heb gebruikt! Het heeft me geïnformeerd over veel bedrijven die ik niet meer gebruik.",
-    zh_CN:
-      "我使用过的最流畅、最棒的插件！它让我了解了很多我已经停止使用的公司。",
-    zh_TW:
-      "我使用過的最流暢、最棒的插件！它讓我了解了很多我已經停止使用的公司。",
+    zh_CN: "我使用过的最流畅、最棒的插件！它让我了解了很多我已经停止使用的公司。",
+    zh_TW: "我使用過的最流暢、最棒的插件！它讓我了解了很多我已經停止使用的公司。",
   },
   "testimonial.author": {
     en: "Abdo Wahba",
@@ -590,10 +584,8 @@ export const translations = {
     de: 'Installieren Sie das Browser-Addon oder die Android-App. Jedes Mal, wenn Sie auf ein israelisches Unternehmen stoßen, sehen Sie stattdessen "die Mauer".',
     id: 'Instal addon browser atau aplikasi Android. Setiap kali Anda menemukan perusahaan yang terhubung dengan Israel, Anda akan melihat "tembok" sebagai gantinya.',
     nl: 'Installeer de browser-addon of de Android-app. Elke keer dat u een Israëlisch bedrijf tegenkomt, ziet u in plaats daarvan "de muur".',
-    zh_CN:
-      '安装浏览器插件或安卓应用。每当您遇到与以色列相关的公司时，您会看到"墙"来代替。',
-    zh_TW:
-      '安裝瀏覽器插件或安卓應用。每當您遇到與以色列相關的公司時，您會看到"牆"來代替。',
+    zh_CN: '安装浏览器插件或安卓应用。每当您遇到与以色列相关的公司时，您会看到"墙"来代替。',
+    zh_TW: '安裝瀏覽器插件或安卓應用。每當您遇到與以色列相關的公司時，您會看到"牆"來代替。',
   },
   "features.worksEverywhere.title": {
     en: "Works everywhere!",
@@ -638,10 +630,8 @@ export const translations = {
     de: "Erkennt Websites und auch ihre zugehörigen LinkedIn-, Twitter- und Facebook-Konten. Weitere Plattformen kommen bald.",
     id: "Mendeteksi situs web dan juga akun LinkedIn, Twitter, dan Facebook yang terkait. Lebih banyak platform segera hadir.",
     nl: "Detecteert websites en ook hun gerelateerde LinkedIn, Twitter en Facebook accounts. Meer platforms komen binnenkort.",
-    zh_CN:
-      "检测网站及其相关的 LinkedIn、Twitter 和 Facebook 账户。更多平台即将推出。",
-    zh_TW:
-      "檢測網站及其相關的 LinkedIn、Twitter 和 Facebook 帳戶。更多平台即將推出。",
+    zh_CN: "检测网站及其相关的 LinkedIn、Twitter 和 Facebook 账户。更多平台即将推出。",
+    zh_TW: "檢測網站及其相關的 LinkedIn、Twitter 和 Facebook 帳戶。更多平台即將推出。",
   },
   "features.trustedData.title": {
     en: "Trusted data",
@@ -908,10 +898,8 @@ export const translations = {
     de: "Holen Sie sich die The Wall App auf Ihr Android-Telefon für vollständigen Schutz. Gleiche vertrauenswürdige Datenbank, funktioniert offline. Immer aktuell.",
     id: "Dapatkan aplikasi The Wall di ponsel Android Anda untuk perlindungan penuh. Database terpercaya yang sama, bekerja offline. Selalu terbaru.",
     nl: "Download de The Wall app op uw Android-telefoon voor volledige bescherming. Dezelfde betrouwbare database, werkt offline. Altijd up-to-date.",
-    zh_CN:
-      "在您的安卓手机上获取 The Wall 应用以获得完整保护。相同的可信数据库，离线可用。始终保持最新。",
-    zh_TW:
-      "在您的安卓手機上獲取 The Wall 應用以獲得完整保護。相同的可信數據庫，離線可用。始終保持最新。",
+    zh_CN: "在您的安卓手机上获取 The Wall 应用以获得完整保护。相同的可信数据库，离线可用。始终保持最新。",
+    zh_TW: "在您的安卓手機上獲取 The Wall 應用以獲得完整保護。相同的可信數據庫，離線可用。始終保持最新。",
   },
   "sections.androidApp.getOnPlayStore": {
     en: "Get it on Google Play",

@@ -96,7 +96,7 @@ const Features: React.FC = () => {
                 duration: 1,
                 ease: "power2.inOut",
               },
-              index - 1,
+              index - 1
             );
 
             tl.fromTo(
@@ -111,7 +111,7 @@ const Features: React.FC = () => {
                 duration: 1.2,
                 ease: "power3.out",
               },
-              index - 1,
+              index - 1
             );
           });
         } else {
@@ -131,11 +131,11 @@ const Features: React.FC = () => {
                   start: "top 85%",
                   end: "top 60%",
                 },
-              },
+              }
             );
           });
         }
-      },
+      }
     );
 
     return () => mm.revert();
@@ -158,7 +158,9 @@ const Features: React.FC = () => {
 
       {/* FIXED HEADING */}
       <div className="features-main-heading relative z-10 w-full text-center mb-10">
-        <span className={`block text-[10px] md:text-[11px] font-bold tracking-[0.4em] uppercase text-white/60 mb-4 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}>
+        <span
+          className={`block text-[10px] md:text-[11px] font-bold tracking-[0.4em] uppercase text-white/60 mb-4 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+        >
           {t("features.sectionLabel")}
         </span>
         <h2
@@ -166,9 +168,7 @@ const Features: React.FC = () => {
           style={{ textShadow: "0 10px 30px rgba(0,0,0,0.2)" }}
         >
           {t("features.building")}{" "}
-          <span className="text-white/40 block md:inline italic">
-            {t("features.theFuture")}
-          </span>
+          <span className="text-white/40 block md:inline italic">{t("features.theFuture")}</span>
         </h2>
       </div>
 
@@ -199,21 +199,13 @@ const Features: React.FC = () => {
 
               {feature.id === "worksEverywhere" && (
                 <div className="flex items-center gap-2 md:gap-4 bg-white/5 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-white/10 backdrop-blur-sm">
-                  <img
-                    src="./files/common/icon-chrome.svg"
-                    alt="Chrome"
-                    className="w-4 h-4 md:w-5 md:h-5 opacity-80"
-                  />
+                  <img src="./files/common/icon-chrome.svg" alt="Chrome" className="w-4 h-4 md:w-5 md:h-5 opacity-80" />
                   <img
                     src="./files/common/icon-firefox.svg"
                     alt="Firefox"
                     className="w-4 h-4 md:w-5 md:h-5 opacity-80"
                   />
-                  <img
-                    src="./files/common/icon-safari.svg"
-                    alt="Safari"
-                    className="w-4 h-4 md:w-5 md:h-5 opacity-80"
-                  />
+                  <img src="./files/common/icon-safari.svg" alt="Safari" className="w-4 h-4 md:w-5 md:h-5 opacity-80" />
                 </div>
               )}
 
@@ -225,13 +217,19 @@ const Features: React.FC = () => {
 
             {/* Content */}
             <div className="max-w-2xl mt-8 md:mt-auto relative z-10">
-              <span className={`text-[9px] md:text-[10px] font-bold tracking-[0.2em] md:tracking-[0.3em] text-brand-orange mb-3 md:mb-4 block uppercase opacity-90 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}>
+              <span
+                className={`text-[9px] md:text-[10px] font-bold tracking-[0.2em] md:tracking-[0.3em] text-brand-orange mb-3 md:mb-4 block uppercase opacity-90 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+              >
                 {t("features.systemModule")} {feature.number}
               </span>
-              <h3 className={`text-2xl md:text-5xl font-bold text-white leading-tight mb-4 md:mb-8 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}>
+              <h3
+                className={`text-2xl md:text-5xl font-bold text-white leading-tight mb-4 md:mb-8 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+              >
                 {feature.title}
               </h3>
-              <p className={`text-sm md:text-[1.2rem] text-gray-400 md:text-gray-300 leading-relaxed font-light opacity-90 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}>
+              <p
+                className={`text-sm md:text-[1.2rem] text-gray-400 md:text-gray-300 leading-relaxed font-light opacity-90 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+              >
                 {feature.description}
               </p>
             </div>
@@ -239,8 +237,7 @@ const Features: React.FC = () => {
             <div
               className="absolute top-0 left-0 w-full h-1/2 pointer-events-none rounded-t-[2rem] mix-blend-overlay"
               style={{
-                background:
-                  "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%)",
+                background: "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%)",
               }}
             />
           </div>

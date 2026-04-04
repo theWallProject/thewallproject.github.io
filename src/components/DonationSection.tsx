@@ -73,10 +73,8 @@ const DonationSection: React.FC = () => {
             alt=""
             className="w-full h-full object-cover"
             style={{
-              maskImage:
-                "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-              WebkitMaskImage:
-                "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+              maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+              WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
             }}
           />
         </div>
@@ -87,10 +85,8 @@ const DonationSection: React.FC = () => {
             alt=""
             className="w-full h-full object-cover"
             style={{
-              maskImage:
-                "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-              WebkitMaskImage:
-                "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+              maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+              WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
             }}
           />
         </div>
@@ -105,10 +101,7 @@ const DonationSection: React.FC = () => {
         <h2
           className={`text-3xl md:text-5xl font-black text-white uppercase leading-tight mb-6 tracking-tight ${i18n.language === "ar" ? "font-arabic leading-[1.3]" : "font-sans"}`}
         >
-          <Trans
-            i18nKey="donate.title"
-            components={{ span: <span className="text-[#b72b00]" /> }}
-          />
+          <Trans i18nKey="donate.title" components={{ span: <span className="text-[#b72b00]" /> }} />
         </h2>
         <p
           className={`text-sm md:text-lg text-gray-400 leading-relaxed max-w-xl font-light ${i18n.language === "ar" ? "font-arabic text-xl text-center" : "font-sans"}`}
@@ -167,11 +160,7 @@ const DonationSection: React.FC = () => {
                 // الطوب بيبدأ من فوق شوية ومخفي (على الديسكتوب بس)
                 className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
               >
-                <img
-                  src={BRICK_ASSETS[idx]}
-                  alt=""
-                  className="w-full h-full object-cover rounded-sm"
-                />
+                <img src={BRICK_ASSETS[idx]} alt="" className="w-full h-full object-cover rounded-sm" />
               </div>
             ))}
           </div>
@@ -189,11 +178,7 @@ const DonationSection: React.FC = () => {
                 }}
                 className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
               >
-                <img
-                  src={BRICK_ASSETS[idx]}
-                  alt=""
-                  className="w-full h-full object-cover rounded-sm"
-                />
+                <img src={BRICK_ASSETS[idx]} alt="" className="w-full h-full object-cover rounded-sm" />
               </div>
             ))}
           </div>
@@ -211,11 +196,7 @@ const DonationSection: React.FC = () => {
                 }}
                 className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
               >
-                <img
-                  src={BRICK_ASSETS[idx]}
-                  alt=""
-                  className="w-full h-full object-cover rounded-sm"
-                />
+                <img src={BRICK_ASSETS[idx]} alt="" className="w-full h-full object-cover rounded-sm" />
               </div>
             ))}
           </div>
@@ -233,11 +214,7 @@ const DonationSection: React.FC = () => {
                 }}
                 className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
               >
-                <img
-                  src={BRICK_ASSETS[idx]}
-                  alt=""
-                  className="w-full h-full object-cover rounded-sm"
-                />
+                <img src={BRICK_ASSETS[idx]} alt="" className="w-full h-full object-cover rounded-sm" />
               </div>
             ))}
           </div>

@@ -5,9 +5,7 @@ test.describe("Newsletter", () => {
     await page.goto("/");
   });
 
-  test("should display newsletter section with MailerLite form", async ({
-    page,
-  }) => {
+  test("should display newsletter section with MailerLite form", async ({ page }) => {
     // Check for newsletter section (fourth section in the page)
     const newsletterSection = page.locator("section").nth(3);
     await expect(newsletterSection).toBeVisible();
@@ -21,16 +19,12 @@ test.describe("Newsletter", () => {
     await expect(formContainer).toHaveAttribute("data-form", "QTf4uM");
   });
 
-  test("should load MailerLite script with correct configuration", async ({
-    page,
-  }) => {
+  test("should load MailerLite script with correct configuration", async ({ page }) => {
     // Wait for MailerLite script to load
     await page.waitForTimeout(2000);
 
     // Check that MailerLite script is loaded - use first script
-    const mailerLiteScript = page
-      .locator('script[src*="mailerlite.com"]')
-      .first();
+    const mailerLiteScript = page.locator('script[src*="mailerlite.com"]').first();
     await expect(mailerLiteScript).toBeAttached();
 
     // Check for MailerLite form container
@@ -55,9 +49,7 @@ test.describe("Newsletter", () => {
     });
 
     // Filter out MailerLite related errors
-    const mailerLiteErrors = consoleErrors.filter(
-      (error) => error.includes("mailerlite") || error.includes("ML_")
-    );
+    const mailerLiteErrors = consoleErrors.filter((error) => error.includes("mailerlite") || error.includes("ML_"));
     expect(mailerLiteErrors.length).toBe(0);
   });
 });

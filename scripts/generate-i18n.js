@@ -26,17 +26,7 @@ let jsContent = content
 const fn = new Function(jsContent + "\nreturn translations;");
 const translations = fn();
 
-const requiredLanguages = [
-  "en",
-  "ar",
-  "fr",
-  "es",
-  "de",
-  "id",
-  "nl",
-  "zh_CN",
-  "zh_TW",
-];
+const requiredLanguages = ["en", "ar", "fr", "es", "de", "id", "nl", "zh_CN", "zh_TW"];
 
 // Convert flat keys like "meta.title" to nested objects like { meta: { title: "..." } }
 function setNestedValue(obj, flatKey, value) {
@@ -71,11 +61,7 @@ for (const lang of requiredLanguages) {
 const indexContent = `// Auto-generated from JSON files
 // Do not edit manually - run 'npm run generate-i18n' to regenerate
 
-${requiredLanguages
-  .map(
-    (lang) => `import ${lang} from './${lang}.json' assert { type: 'json' };`
-  )
-  .join("\n")}
+${requiredLanguages.map((lang) => `import ${lang} from './${lang}.json' assert { type: 'json' };`).join("\n")}
 
 export const resources = {
 ${requiredLanguages.map((lang) => `  ${lang}`).join(",\n")}
@@ -87,7 +73,5 @@ export default resources;
 fs.writeFileSync(path.join(outputDir, "index.ts"), indexContent);
 console.log(`Generated: ${path.join(outputDir, "index.ts")}`);
 
-console.log(
-  `\n✅ i18n resources generated successfully from translations.ts!`
-);
+console.log(`\n✅ i18n resources generated successfully from translations.ts!`);
 console.log(`📁 Generated ${requiredLanguages.length} language files`);

@@ -1,0 +1,7 @@
+dist/
+matomo/
+node_modules/
+.vite/
+playwright-report/
+test-results/
+Gif.tscproj/

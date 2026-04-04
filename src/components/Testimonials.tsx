@@ -16,8 +16,7 @@ const TestimonialCard: React.FC<{
         i18n.language === "ar" ? "text-right" : "text-left"
       }`}
       style={{
-        background:
-          "linear-gradient(165deg, rgba(30, 30, 30, 0.4) 0%, rgba(10, 10, 10, 0.9) 100%)",
+        background: "linear-gradient(165deg, rgba(30, 30, 30, 0.4) 0%, rgba(10, 10, 10, 0.9) 100%)",
         backdropFilter: "blur(25px)",
       }}
     >
@@ -63,10 +62,8 @@ const Testimonials: React.FC = () => {
   const { browserDisplayName } = useDownloadLinks();
 
   const testimonialList = [1, 2, 3, 4, 5, 6].map((idx) => {
-    const quoteKey =
-      idx === 1 ? "testimonial.quote" : `testimonial.${idx}.quote`;
-    const authorKey =
-      idx === 1 ? "testimonial.author" : `testimonial.${idx}.author`;
+    const quoteKey = idx === 1 ? "testimonial.quote" : `testimonial.${idx}.quote`;
+    const authorKey = idx === 1 ? "testimonial.author" : `testimonial.${idx}.author`;
     const roleKey = idx === 1 ? "testimonial.role" : `testimonial.${idx}.role`;
 
     return {
@@ -80,24 +77,18 @@ const Testimonials: React.FC = () => {
   const row2 = testimonialList.slice(3, 6);
 
   const renderTestimonial = (item: any, key: React.Key) => (
-    <TestimonialCard
-      key={key}
-      quote={item.quote}
-      author={item.author}
-      role={item.role}
-    />
+    <TestimonialCard key={key} quote={item.quote} author={item.author} role={item.role} />
   );
 
   return (
-    <section
-      id="testimonials"
-      className="relative w-full py-24 md:py-32 overflow-hidden"
-    >
+    <section id="testimonials" className="relative w-full py-24 md:py-32 overflow-hidden">
       {/* Background with Fixed Image and Gradient Overlay */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0 bg-fixed bg-cover bg-center opacity-90"
-          style={{ backgroundImage: 'url("/palestine-flag-over-sunrise-75yqzvkpketv5cob.jpg")' }}
+          style={{
+            backgroundImage: 'url("/palestine-flag-over-sunrise-75yqzvkpketv5cob.jpg")',
+          }}
         />
         <div className="absolute inset-0 bg-linear-to-b from-[#050505] via-black/60 to-transparent" />
         <div className="absolute inset-0 bg-linear-to-t from-[#050505] via-transparent to-[#050505]" />

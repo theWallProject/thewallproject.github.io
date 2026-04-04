@@ -152,10 +152,7 @@ test.describe("Bundle Analysis", () => {
         });
 
         // Total image size should be reasonable
-        const totalImageSize = imageFiles.reduce(
-          (sum, file) => sum + file.size,
-          0
-        );
+        const totalImageSize = imageFiles.reduce((sum, file) => sum + file.size, 0);
         expect(totalImageSize).toBeLessThan(2 * 1024 * 1024); // 2MB total
 
         console.log(`  Total images: ${(totalImageSize / 1024).toFixed(1)}KB`);
@@ -168,9 +165,7 @@ test.describe("Bundle Analysis", () => {
     const assetsPath = path.join(distPath, "assets");
 
     // Check for source maps (should be present in development builds)
-    const sourceMapFiles = fs
-      .readdirSync(assetsPath)
-      .filter((file) => file.endsWith(".map"));
+    const sourceMapFiles = fs.readdirSync(assetsPath).filter((file) => file.endsWith(".map"));
 
     // Should have source maps for debugging
     expect(sourceMapFiles.length).toBeGreaterThan(0);
@@ -185,18 +180,11 @@ test.describe("Bundle Analysis", () => {
       }));
 
     // Estimate gzipped size (roughly 30% of original size)
-    const estimatedGzippedSize = jsFiles.reduce(
-      (sum, file) => sum + file.size * 0.3,
-      0
-    );
+    const estimatedGzippedSize = jsFiles.reduce((sum, file) => sum + file.size * 0.3, 0);
 
     // Estimated gzipped size should be under 150KB
     expect(estimatedGzippedSize).toBeLessThan(150 * 1024);
 
-    console.log(
-      `Estimated gzipped JavaScript size: ${(
-        estimatedGzippedSize / 1024
-      ).toFixed(1)}KB`
-    );
+    console.log(`Estimated gzipped JavaScript size: ${(estimatedGzippedSize / 1024).toFixed(1)}KB`);
   });
 });

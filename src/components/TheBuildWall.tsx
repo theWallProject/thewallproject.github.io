@@ -53,13 +53,8 @@ const TheBuildWall: React.FC = () => {
   const brickAspect = 360 / 154;
 
   const TEXT_PHASES = useMemo(
-    () => [
-      t("buildWall.phrase0"),
-      t("buildWall.phrase1"),
-      t("buildWall.phrase2"),
-      t("buildWall.phrase3"),
-    ],
-    [t],
+    () => [t("buildWall.phrase0"), t("buildWall.phrase1"), t("buildWall.phrase2"), t("buildWall.phrase3")],
+    [t]
   );
 
   useEffect(() => {
@@ -84,7 +79,7 @@ const TheBuildWall: React.FC = () => {
         id: `L${i}`,
         asset: BRICK_ASSETS[i % BRICK_ASSETS.length],
       })),
-    [],
+    []
   );
   const rightBricks = useMemo(
     () =>
@@ -92,7 +87,7 @@ const TheBuildWall: React.FC = () => {
         id: `R${i}`,
         asset: BRICK_ASSETS[(i + 3) % BRICK_ASSETS.length],
       })),
-    [],
+    []
   );
 
   const logoNodes = useMemo(
@@ -108,7 +103,7 @@ const TheBuildWall: React.FC = () => {
           />
         ),
       })),
-    [],
+    []
   );
 
   const logoGroups = useMemo(() => {
@@ -173,16 +168,8 @@ const TheBuildWall: React.FC = () => {
       tl.addLabel("phase3", 14);
       tl.addLabel("finale", 15);
 
-      tl.to(
-        marqueeRef.current,
-        { filter: "grayscale(1) blur(4px)", opacity: 0.7, duration: 2 },
-        "start",
-      );
-      tl.to(
-        [leftRef.current, rightRef.current],
-        { xPercent: 0, duration: 2, ease: "power3.inOut" },
-        "start",
-      );
+      tl.to(marqueeRef.current, { filter: "grayscale(1) blur(4px)", opacity: 0.7, duration: 2 }, "start");
+      tl.to([leftRef.current, rightRef.current], { xPercent: 0, duration: 2, ease: "power3.inOut" }, "start");
 
       tl.to(".phase-0", { opacity: 1, duration: 0.1 }, "start+=0.1");
       tl.to(
@@ -196,18 +183,14 @@ const TheBuildWall: React.FC = () => {
           stagger: 0.08,
           ease: "power3.out",
         },
-        "start+=0.2",
+        "start+=0.2"
       );
 
       // ========================================================
       // THE NEW ALGORITHM: INVERSE RADIAL STAGGER
       // ========================================================
-      const leftBricksArr = Array.from(
-        leftRef.current!.querySelectorAll(".brick"),
-      );
-      const rightBricksArr = Array.from(
-        rightRef.current!.querySelectorAll(".brick"),
-      );
+      const leftBricksArr = Array.from(leftRef.current!.querySelectorAll(".brick"));
+      const rightBricksArr = Array.from(rightRef.current!.querySelectorAll(".brick"));
 
       tl.to(
         leftBricksArr,
@@ -232,7 +215,7 @@ const TheBuildWall: React.FC = () => {
             return (maxDistance - distance) * 0.15;
           },
         },
-        2,
+        2
       );
 
       // أنيميشن الحيطة اليمين
@@ -257,7 +240,7 @@ const TheBuildWall: React.FC = () => {
             return (maxDistance - distance) * 0.15;
           },
         },
-        2,
+        2
       );
 
       const flagProxy = { val: 0 };
@@ -269,20 +252,12 @@ const TheBuildWall: React.FC = () => {
           ease: "none",
           onUpdate: () => setFlagProgress(flagProxy.val),
         },
-        "midway",
+        "midway"
       );
 
-      tl.to(
-        marqueeRef.current,
-        { opacity: 0, duration: 1.5, ease: "power2.inOut" },
-        "finale",
-      );
+      tl.to(marqueeRef.current, { opacity: 0, duration: 1.5, ease: "power2.inOut" }, "finale");
 
-      tl.to(
-        ".phase-0",
-        { opacity: 0, filter: "blur(15px)", duration: 0.6 },
-        "phase1",
-      );
+      tl.to(".phase-0", { opacity: 0, filter: "blur(15px)", duration: 0.6 }, "phase1");
       tl.to(".phase-1", { opacity: 1, duration: 0.1 }, "phase1+=0.1");
       tl.to(
         ".phase-1 span",
@@ -295,14 +270,10 @@ const TheBuildWall: React.FC = () => {
           stagger: 0.08,
           ease: "power3.out",
         },
-        "phase1+=0.2",
+        "phase1+=0.2"
       );
 
-      tl.to(
-        ".phase-1",
-        { opacity: 0, filter: "blur(15px)", duration: 0.6 },
-        "phase2",
-      );
+      tl.to(".phase-1", { opacity: 0, filter: "blur(15px)", duration: 0.6 }, "phase2");
       tl.to(".phase-2", { opacity: 1, duration: 0.1 }, "phase2+=0.1");
       tl.to(
         ".phase-2 span",
@@ -315,14 +286,10 @@ const TheBuildWall: React.FC = () => {
           stagger: 0.08,
           ease: "power3.out",
         },
-        "phase2+=0.2",
+        "phase2+=0.2"
       );
 
-      tl.to(
-        ".phase-2",
-        { opacity: 0, filter: "blur(15px)", duration: 0.6 },
-        "phase3",
-      );
+      tl.to(".phase-2", { opacity: 0, filter: "blur(15px)", duration: 0.6 }, "phase3");
       tl.to(".phase-3", { opacity: 1, duration: 0.1 }, "phase3+=0.1");
       tl.to(
         ".phase-3 span",
@@ -335,7 +302,7 @@ const TheBuildWall: React.FC = () => {
           stagger: 0.08,
           ease: "power3.out",
         },
-        "phase3+=0.2",
+        "phase3+=0.2"
       );
 
       tl.to({}, { duration: 1 }, "finale");
@@ -353,11 +320,7 @@ const TheBuildWall: React.FC = () => {
   };
 
   return (
-    <section
-      ref={sectionRef}
-      id="build-section"
-      className="relative w-full h-screen bg-[#010101] overflow-hidden"
-    >
+    <section ref={sectionRef} id="build-section" className="relative w-full h-screen bg-[#010101] overflow-hidden">
       <div ref={containerRef} className="absolute inset-0 w-full h-full">
         {/* RADAR BG */}
         <div
@@ -374,10 +337,8 @@ const TheBuildWall: React.FC = () => {
           ref={marqueeRef}
           className="absolute inset-0 z-1 flex flex-col justify-center gap-10 md:gap-14 py-10 pointer-events-none"
           style={{
-            maskImage:
-              "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
+            maskImage: "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
           }}
         >
           {logoGroups.map((group, i) => (
@@ -393,21 +354,14 @@ const TheBuildWall: React.FC = () => {
         </div>
 
         {/* BRICK WALLS */}
-        <div
-          className="absolute inset-0 z-2 flex"
-          style={{ perspective: "1500px" }}
-        >
+        <div className="absolute inset-0 z-2 flex" style={{ perspective: "1500px" }}>
           <div
             ref={leftRef}
             className="w-1/2 h-full flex flex-wrap content-start"
             style={{ transformStyle: "preserve-3d" }}
           >
             {leftBricks.slice(0, rows * cols).map((b) => (
-              <div
-                key={b.id}
-                className="brick"
-                style={{ ...brickStyle, backgroundImage: `url(${b.asset})` }}
-              />
+              <div key={b.id} className="brick" style={{ ...brickStyle, backgroundImage: `url(${b.asset})` }} />
             ))}
           </div>
           <div
@@ -416,11 +370,7 @@ const TheBuildWall: React.FC = () => {
             style={{ transformStyle: "preserve-3d" }}
           >
             {rightBricks.slice(0, rows * cols).map((b) => (
-              <div
-                key={b.id}
-                className="brick"
-                style={{ ...brickStyle, backgroundImage: `url(${b.asset})` }}
-              />
+              <div key={b.id} className="brick" style={{ ...brickStyle, backgroundImage: `url(${b.asset})` }} />
             ))}
           </div>
         </div>
@@ -455,8 +405,7 @@ const TheBuildWall: React.FC = () => {
         <div
           className="absolute inset-0 z-50 pointer-events-none"
           style={{
-            background:
-              "radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,1) 100%)",
+            background: "radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,1) 100%)",
           }}
         />
       </div>

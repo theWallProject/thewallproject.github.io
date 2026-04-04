@@ -44,21 +44,9 @@ const PlatformShowcase: React.FC = () => {
             },
           })
           .to(mobileImages[0], { y: -8, rotation: -3, ease: "power1.inOut" }, 0)
-          .to(
-            mobileImages[1],
-            { x: -50, y: 15, rotation: -8, ease: "power1.inOut" },
-            0,
-          )
-          .to(
-            mobileImages[2],
-            { x: 50, y: 10, rotation: 6, ease: "power1.inOut" },
-            0,
-          )
-          .to(
-            mobileImages[3],
-            { x: 100, y: 25, rotation: 12, ease: "power1.inOut" },
-            0,
-          );
+          .to(mobileImages[1], { x: -50, y: 15, rotation: -8, ease: "power1.inOut" }, 0)
+          .to(mobileImages[2], { x: 50, y: 10, rotation: 6, ease: "power1.inOut" }, 0)
+          .to(mobileImages[3], { x: 100, y: 25, rotation: 12, ease: "power1.inOut" }, 0);
       }
     }, [desktopRef, mobileRef]);
 
@@ -70,7 +58,9 @@ const PlatformShowcase: React.FC = () => {
       <div className="max-w-[1600px] mx-auto">
         {/* SECTION TITLE */}
         <div className="text-center mb-6 md:mb-10 px-4">
-          <h2 className={`text-xl md:text-2xl font-black text-white uppercase tracking-widest opacity-40 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}>
+          <h2
+            className={`text-xl md:text-2xl font-black text-white uppercase tracking-widest opacity-40 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+          >
             -- {t("platform.sectionTitle")} --
           </h2>
         </div>
@@ -89,14 +79,18 @@ const PlatformShowcase: React.FC = () => {
               </div>
             </div>
 
-            <div className={`flex-1 max-w-xl z-10 text-center md:text-left md:rtl:text-right order-1 md:order-2 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}>
+            <div
+              className={`flex-1 max-w-xl z-10 text-center md:text-left md:rtl:text-right order-1 md:order-2 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+            >
               <span className="flex items-center justify-center md:justify-start md:rtl:justify-end gap-3 text-[10px] font-bold tracking-[0.4em] text-white uppercase mb-4 opacity-80">
                 {t("platform.desktop.subtitle")}
                 <span className="w-4 h-4 rounded-full border border-white/40 flex items-center justify-center">
                   <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
                 </span>
               </span>
-              <h3 className={`text-xl md:text-4xl font-black text-white leading-tight mb-2 ${i18n.language === "ar" ? "font-arabic" : "font-serif"}`}>
+              <h3
+                className={`text-xl md:text-4xl font-black text-white leading-tight mb-2 ${i18n.language === "ar" ? "font-arabic" : "font-serif"}`}
+              >
                 {t("platform.desktop.title")}
               </h3>
               <p className="text-sm md:text-lg text-white/70 leading-relaxed mb-4 font-medium">
@@ -112,14 +106,18 @@ const PlatformShowcase: React.FC = () => {
         {/* BLOCK 2: ANDROID APP (MOBILE) */}
         <section ref={mobileRef} className="relative mt-8 md:mt-16">
           <div className="max-w-[1600px] lg:px-0 px-5 mx-auto flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
-            <div className={`flex-1 max-w-xl z-10 text-center md:text-left md:rtl:text-right ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}>
+            <div
+              className={`flex-1 max-w-xl z-10 text-center md:text-left md:rtl:text-right ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+            >
               <span className="flex items-center justify-center md:justify-start md:rtl:justify-end gap-3 text-[10px] font-bold tracking-[0.4em] text-white uppercase mb-4 opacity-80">
                 {t("platform.mobile.subtitle")}
                 <span className="w-4 h-4 rounded-full border border-white/40 flex items-center justify-center">
                   <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
                 </span>
               </span>
-              <h3 className={`text-xl md:text-4xl font-black text-white leading-tight mb-2 ${i18n.language === "ar" ? "font-arabic" : "font-serif"}`}>
+              <h3
+                className={`text-xl md:text-4xl font-black text-white leading-tight mb-2 ${i18n.language === "ar" ? "font-arabic" : "font-serif"}`}
+              >
                 {t("platform.mobile.title")}
               </h3>
               <p className="text-sm md:text-lg text-white/70 leading-relaxed mb-4 font-medium">
@@ -143,10 +141,7 @@ const PlatformShowcase: React.FC = () => {
             </div>
 
             <div className="flex-1 w-full h-[220px] flex items-center justify-center pt-8 md:pt-4">
-              <div
-                ref={mobileStackRef}
-                className="relative w-full h-[220px] md:h-[480px]"
-              >
+              <div ref={mobileStackRef} className="relative w-full h-[220px] md:h-[480px]">
                 <img
                   src="/files/common/android_featured.png"
                   className="mobile-fan-img absolute inset-0 w-full h-full object-contain rounded-3xl md:rounded-[2.5rem]"

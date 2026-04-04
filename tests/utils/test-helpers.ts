@@ -16,9 +16,7 @@ export class TestHelpers {
   }
 
   static async changeLanguage(page: Page, languageIndex: number = 1) {
-    const languageSwitcher = page.locator(
-      '[role="button"][aria-haspopup="listbox"]'
-    );
+    const languageSwitcher = page.locator('[role="button"][aria-haspopup="listbox"]');
     await languageSwitcher.click();
 
     const languageOptions = page.locator('[role="option"]');
@@ -34,19 +32,12 @@ export class TestHelpers {
     await page.waitForTimeout(100);
   }
 
-  static async testResponsiveViewport(
-    page: Page,
-    viewport: { width: number; height: number }
-  ) {
+  static async testResponsiveViewport(page: Page, viewport: { width: number; height: number }) {
     await page.setViewportSize(viewport);
     await page.waitForTimeout(100);
   }
 
-  static async checkElementVisibility(
-    page: Page,
-    selector: string,
-    shouldBeVisible: boolean = true
-  ) {
+  static async checkElementVisibility(page: Page, selector: string, shouldBeVisible: boolean = true) {
     if (shouldBeVisible) {
       await expect(page.locator(selector)).toBeVisible();
     } else {
@@ -54,28 +45,15 @@ export class TestHelpers {
     }
   }
 
-  static async checkElementCount(
-    page: Page,
-    selector: string,
-    expectedCount: number
-  ) {
+  static async checkElementCount(page: Page, selector: string, expectedCount: number) {
     await expect(page.locator(selector)).toHaveCount(expectedCount);
   }
 
-  static async checkElementText(
-    page: Page,
-    selector: string,
-    expectedText: string
-  ) {
+  static async checkElementText(page: Page, selector: string, expectedText: string) {
     await expect(page.locator(selector)).toContainText(expectedText);
   }
 
-  static async checkElementAttribute(
-    page: Page,
-    selector: string,
-    attribute: string,
-    value: string
-  ) {
+  static async checkElementAttribute(page: Page, selector: string, attribute: string, value: string) {
     await expect(page.locator(selector)).toHaveAttribute(attribute, value);
   }
 
@@ -127,27 +105,15 @@ export class TestHelpers {
     expect(duration).toBeLessThan(maxDuration);
   }
 
-  static async waitForElement(
-    page: Page,
-    selector: string,
-    timeout: number = 5000
-  ) {
+  static async waitForElement(page: Page, selector: string, timeout: number = 5000) {
     await page.waitForSelector(selector, { timeout });
   }
 
-  static async waitForElementToBeVisible(
-    page: Page,
-    selector: string,
-    timeout: number = 5000
-  ) {
+  static async waitForElementToBeVisible(page: Page, selector: string, timeout: number = 5000) {
     await page.waitForSelector(selector, { state: "visible", timeout });
   }
 
-  static async waitForElementToBeHidden(
-    page: Page,
-    selector: string,
-    timeout: number = 5000
-  ) {
+  static async waitForElementToBeHidden(page: Page, selector: string, timeout: number = 5000) {
     await page.waitForSelector(selector, { state: "hidden", timeout });
   }
 

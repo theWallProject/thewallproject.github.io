@@ -114,20 +114,26 @@ export const FlagShader: React.FC<FlagShaderProps> = ({ progress = 0 }) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+    });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     const textureLoader = new THREE.TextureLoader();
     const flagTexture = textureLoader.load("/walls/ps-grunge-01.png");
-    
+
     const material = new THREE.ShaderMaterial({
       vertexShader,
       fragmentShader,
       side: THREE.DoubleSide,
       uniforms: {
         uProgress: { value: progress },
-        uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+        uResolution: {
+          value: new THREE.Vector2(window.innerWidth, window.innerHeight),
+        },
         uTexture: { value: flagTexture },
         uEdgeSoftness: { value: 0.45 },
       },
@@ -165,9 +171,6 @@ export const FlagShader: React.FC<FlagShaderProps> = ({ progress = 0 }) => {
   }, []);
 
   return (
-    <canvas 
-      ref={canvasRef} 
-      className="absolute inset-0 z-4 pointer-events-none opacity-[0.65] mix-blend-screen" 
-    />
+    <canvas ref={canvasRef} className="absolute inset-0 z-4 pointer-events-none opacity-[0.65] mix-blend-screen" />
   );
 };

@@ -19,11 +19,7 @@ export default defineConfig({
           // Split vendor libraries
           "react-vendor": ["react", "react-dom"],
           router: ["react-router-dom"],
-          i18n: [
-            "i18next",
-            "react-i18next",
-            "i18next-browser-languagedetector",
-          ],
+          i18n: ["i18next", "react-i18next", "i18next-browser-languagedetector"],
           utils: ["bowser"],
         },
       },

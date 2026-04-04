@@ -60,9 +60,9 @@ const SplitText: React.FC<SplitTextProps> = ({
     () => {
       if (!ref.current || !text || !fontsLoaded) return;
       if (animationCompletedRef.current) return;
-      
+
       const el = ref.current;
-      
+
       const splitInstance = new GSAPSplitText(el, {
         type: splitType,
         linesClass: "split-line",
@@ -83,7 +83,7 @@ const SplitText: React.FC<SplitTextProps> = ({
           rotationX: () => Math.random() * 360,
           rotationY: () => Math.random() * 360,
           filter: "blur(0px)", // User wants clarity
-          ...from
+          ...from,
         };
         animationTo = {
           opacity: 1,
@@ -94,7 +94,7 @@ const SplitText: React.FC<SplitTextProps> = ({
           rotationY: 0,
           autoAlpha: 1,
           ease: "expo.out",
-          ...to
+          ...to,
         };
       } else if (animationType === "3d-blur") {
         animationFrom = {
@@ -103,7 +103,7 @@ const SplitText: React.FC<SplitTextProps> = ({
           z: -100,
           y: 40,
           filter: "blur(10px)",
-          ...from
+          ...from,
         };
         animationTo = {
           opacity: 1,
@@ -112,14 +112,14 @@ const SplitText: React.FC<SplitTextProps> = ({
           y: 0,
           filter: "blur(0px)",
           transformOrigin: "50% 50% -50px",
-          ...to
+          ...to,
         };
-      } else if (animationType === "drop" ) {
+      } else if (animationType === "drop") {
         animationFrom = {
-           opacity: 0,
-           y: -200,
-           rotationX: -40,
-           ...from
+          opacity: 0,
+          y: -200,
+          rotationX: -40,
+          ...from,
         };
         animationTo = {
           opacity: 1,
@@ -127,8 +127,8 @@ const SplitText: React.FC<SplitTextProps> = ({
           rotationX: 0,
           ease: "bounce.out",
           transformOrigin: "50% 100%",
-          ...to
-        }
+          ...to,
+        };
       }
 
       const targets = splitType.includes("chars") ? splitInstance.chars : splitInstance.words;
@@ -142,9 +142,9 @@ const SplitText: React.FC<SplitTextProps> = ({
           start: `top 90%`,
           once: true,
           onEnter: () => {
-             // Ensure anything hidden (like original text nodes) stays hidden
-             gsap.set(el, { opacity: 1, visibility: "visible" });
-          }
+            // Ensure anything hidden (like original text nodes) stays hidden
+            gsap.set(el, { opacity: 1, visibility: "visible" });
+          },
         },
         onComplete: () => {
           animationCompletedRef.current = true;
@@ -166,10 +166,14 @@ const SplitText: React.FC<SplitTextProps> = ({
   const Tag = (tag || "p") as React.ElementType;
 
   return (
-    <Tag 
-      ref={ref} 
+    <Tag
+      ref={ref}
       className={`split-parent overflow-visible inline-block whitespace-normal ${className}`}
-      style={{ textAlign, wordWrap: "break-word", willChange: "transform, opacity" }}
+      style={{
+        textAlign,
+        wordWrap: "break-word",
+        willChange: "transform, opacity",
+      }}
     >
       {text}
     </Tag>

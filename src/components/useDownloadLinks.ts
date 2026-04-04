@@ -25,8 +25,7 @@ export interface DownloadLinksData {
 }
 
 export const useDownloadLinks = (): DownloadLinksData => {
-  const { name, isMobile, isAndroid, isIOS, recommendedDownload } =
-    useBrowserDetection();
+  const { name, isMobile, isAndroid, isIOS, recommendedDownload } = useBrowserDetection();
 
   const downloadLinks = {
     chrome: {
@@ -63,13 +62,9 @@ export const useDownloadLinks = (): DownloadLinksData => {
     detectedBrowser = "chrome";
   }
 
-  const primaryDownload = isMobile 
-    ? downloadLinks.android 
-    : downloadLinks[detectedBrowser];
+  const primaryDownload = isMobile ? downloadLinks.android : downloadLinks[detectedBrowser];
 
-  const browserDisplayName = isMobile 
-    ? "Android" 
-    : (detectedBrowser.charAt(0).toUpperCase() + detectedBrowser.slice(1));
+  const browserDisplayName = isMobile ? "Android" : detectedBrowser.charAt(0).toUpperCase() + detectedBrowser.slice(1);
 
   // Get other browsers (exclude the primary/detected one) - only browser addons
   const otherBrowsers: DownloadLink[] = [];
@@ -86,9 +81,7 @@ export const useDownloadLinks = (): DownloadLinksData => {
   }
 
   // Double-check: ensure detected browser is NOT in otherBrowsers
-  const filteredOtherBrowsers = otherBrowsers.filter(
-    (browser) => browser.id !== detectedBrowser
-  );
+  const filteredOtherBrowsers = otherBrowsers.filter((browser) => browser.id !== detectedBrowser);
 
   return {
     downloadLinks,
