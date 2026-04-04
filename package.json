@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npm run generate-i18n && tsc --noEmit && npx kill-port 3000 && vite --port 3000",
     "build": "npm run lint && npm run generate-i18n && tsc -b && vite build",
-    "generate-i18n": "node scripts/generate-i18n.js",
+    "generate-i18n": "node scripts/generate-i18n.js && npm run format",
     "lint": "eslint . && prettier --check .",
     "format": "prettier --write .",
     "preview": "vite preview",
