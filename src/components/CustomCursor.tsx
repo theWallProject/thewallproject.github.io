@@ -9,21 +9,17 @@ const CustomCursor: React.FC = () => {
     const dot = cursorDotRef.current;
     const outline = cursorOutlineRef.current;
 
-    const onMouseMove = (e: MouseEvent) => {
-      // Small dot follows mouse exactly
-      gsap.to(dot, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.1,
-      });
+    const xDot = gsap.quickTo(dot, "x", { duration: 0.1 });
+    const yDot = gsap.quickTo(dot, "y", { duration: 0.1 });
+    const xOutline = gsap.quickTo(outline, "x", { duration: 0.5, ease: "power3.out" });
+    const yOutline = gsap.quickTo(outline, "y", { duration: 0.5, ease: "power3.out" });
 
-      // Larger outline follows with slight delay
-      gsap.to(outline, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.5,
-        ease: "power3.out",
-      });
+    const onMouseMove = (e: MouseEvent) => {
+      // QuickTo updates values without creating new tweens
+      xDot(e.clientX);
+      yDot(e.clientY);
+      xOutline(e.clientX);
+      yOutline(e.clientY);
     };
 
     const onMouseEnterLink = () => {

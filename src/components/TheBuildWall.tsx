@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { LogoLoop } from "./LogoLoop";
-import { FlagShader } from "./FlagShader";
+import { FlagShader, type FlagShaderRef } from "./FlagShader";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -49,7 +49,7 @@ const TheBuildWall: React.FC = () => {
 
   const [rows, setRows] = useState(15);
   const [cols, setCols] = useState(6);
-  const [flagProgress, setFlagProgress] = useState(0);
+  const flagRef = useRef<FlagShaderRef>(null);
   const brickAspect = 360 / 154;
 
   const TEXT_PHASES = useMemo(
@@ -250,7 +250,9 @@ const TheBuildWall: React.FC = () => {
           val: 1,
           duration: 10,
           ease: "none",
-          onUpdate: () => setFlagProgress(flagProxy.val),
+          onUpdate: () => {
+            if (flagRef.current) flagRef.current.updateProgress(flagProxy.val);
+          },
         },
         "midway"
       );
@@ -376,7 +378,7 @@ const TheBuildWall: React.FC = () => {
         </div>
 
         {/* PALESTINE FLAG (Refactored Component) */}
-        <FlagShader progress={flagProgress} />
+        <FlagShader ref={flagRef} />
 
         {/* TYPOGRAPHY PRE-RENDERED */}
         <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">

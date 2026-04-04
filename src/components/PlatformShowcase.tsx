@@ -32,7 +32,7 @@ const PlatformShowcase: React.FC = () => {
       }
 
       // ── MOBILE FAN-OUT (Restored Logic to Work with Multiple Images) ──
-      const mobileImages = gsap.utils.toArray<HTMLElement>(".mobile-fan-img");
+      const mobileImages = gsap.utils.toArray<HTMLElement>(".mobile-fan-img", mobileRef.current);
       if (mobileImages.length > 0) {
         gsap
           .timeline({
@@ -48,7 +48,7 @@ const PlatformShowcase: React.FC = () => {
           .to(mobileImages[2], { x: 50, y: 10, rotation: 6, ease: "power1.inOut" }, 0)
           .to(mobileImages[3], { x: 100, y: 25, rotation: 12, ease: "power1.inOut" }, 0);
       }
-    }, [desktopRef, mobileRef]);
+    }, desktopRef);
 
     return () => ctx.revert();
   }, [i18n.language]);

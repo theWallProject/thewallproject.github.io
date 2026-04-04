@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import { useTranslation, Trans } from "react-i18next";
 import InstallButton from "./InstallButton";
 import { useDownloadLinks } from "./useDownloadLinks";
@@ -11,7 +11,7 @@ const Hero: React.FC = () => {
   const { downloadLinks } = useDownloadLinks();
   const lineRef = useRef<SVGPathElement>(null);
   const textContainerRef = useRef<HTMLDivElement>(null);
-  const [count, setCount] = useState(0);
+  const countRef = useRef<HTMLSpanElement>(null);
 
   // Get video URL based on language
   const getVideoUrl = (): string => {
@@ -32,7 +32,9 @@ const Hero: React.FC = () => {
         ease: "power2.out",
         delay: 0.8, // Wait for assemble to start
         onUpdate: () => {
-          setCount(Math.floor(obj.value));
+          if (countRef.current) {
+            countRef.current.innerText = Math.floor(obj.value).toLocaleString();
+          }
         },
       });
 
@@ -109,8 +111,11 @@ const Hero: React.FC = () => {
             >
               <div className="flex items-center justify-center gap-1 whitespace-nowrap">
                 <span className="relative inline-block px-1 shrink-0">
-                  <span className="text-brand-red italic pb-1 md:pb-2 inline-block w-[95px] sm:w-[240px] text-center tabular-nums hero-bottom-anim shrink-0 overflow-visible">
-                    {count.toLocaleString()}
+                  <span
+                    ref={countRef}
+                    className="text-brand-red italic pb-1 md:pb-2 inline-block w-[95px] sm:w-[240px] text-center tabular-nums hero-bottom-anim shrink-0 overflow-visible"
+                  >
+                    0
                   </span>
                   <svg
                     className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-auto"

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect, forwardRef, useImperativeHandle } from "react";
 import * as THREE from "three";
 
 const vertexShader = `
@@ -99,11 +99,23 @@ interface FlagShaderProps {
   progress?: number;
 }
 
-export const FlagShader: React.FC<FlagShaderProps> = ({ progress = 0 }) => {
+export interface FlagShaderRef {
+  updateProgress: (progress: number) => void;
+}
+
+export const FlagShader = forwardRef<FlagShaderRef, FlagShaderProps>(({ progress = 0 }, ref) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
 
-  // Sync prop progress with material uniform
+  useImperativeHandle(ref, () => ({
+    updateProgress: (p: number) => {
+      if (materialRef.current) {
+        materialRef.current.uniforms.uProgress.value = p;
+      }
+    },
+  }));
+
+  // Sync prop progress with material uniform if it changes externally
   useEffect(() => {
     if (materialRef.current) {
       materialRef.current.uniforms.uProgress.value = progress;
@@ -172,4 +184,4 @@ export const FlagShader: React.FC<FlagShaderProps> = ({ progress = 0 }) => {
   return (
     <canvas ref={canvasRef} className="absolute inset-0 z-4 pointer-events-none opacity-[0.65] mix-blend-screen" />
   );
-};
+});

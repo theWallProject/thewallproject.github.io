@@ -61,7 +61,7 @@ const Features: React.FC = () => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const cards = gsap.utils.toArray<HTMLElement>(".feature-stack-card");
+    const cards = gsap.utils.toArray<HTMLElement>(".feature-stack-card", containerRef.current);
     const mm = gsap.matchMedia();
 
     mm.add(
