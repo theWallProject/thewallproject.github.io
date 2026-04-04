@@ -268,8 +268,7 @@ unloaded-script {
   --padding-vertical: 2.5rem;
   --spacing: 7rem;
   --width: 61rem;
-  border-radius: var(--border-radius-tl) var(--border-radius-tr)
-    var(--border-radius-br) var(--border-radius-bl);
+  border-radius: var(--border-radius-tl) var(--border-radius-tr) var(--border-radius-br) var(--border-radius-bl);
   max-width: 100%;
   position: relative;
   width: var(--width);
@@ -689,14 +688,10 @@ hr:before {
 }
 .columnsCommon.columns > .wrapper > .inner > div:first-child > .full {
   margin-left: calc(var(--padding-horizontal) * -1);
-  width: calc(
-    100% + var(--padding-horizontal) + calc(var(--gutters) * 0.5) + 0.4725px
-  );
+  width: calc(100% + var(--padding-horizontal) + calc(var(--gutters) * 0.5) + 0.4725px);
 }
 .columnsCommon.columns > .wrapper > .inner > div:last-child > .full {
-  width: calc(
-    100% + var(--padding-horizontal) + calc(var(--gutters) * 0.5) + 0.4725px
-  );
+  width: calc(100% + var(--padding-horizontal) + calc(var(--gutters) * 0.5) + 0.4725px);
 }
 .columnsCommon.columns > .wrapper > .inner > div > .full:first-child {
   margin-top: calc(var(--padding-vertical) * -1) !important;
@@ -715,20 +710,11 @@ hr:before {
   border-bottom-right-radius: inherit;
   border-top-right-radius: inherit;
 }
-.columnsCommon.columns
-  > .wrapper
-  > .inner
-  > .full
-  > .full:first-child:last-child {
+.columnsCommon.columns > .wrapper > .inner > .full > .full:first-child:last-child {
   border-radius: inherit;
   height: calc(100% + (var(--padding-vertical) * 2));
 }
-.columnsCommon.columns
-  > .wrapper
-  > .inner
-  > .full
-  > .full:first-child:last-child
-  > * {
+.columnsCommon.columns > .wrapper > .inner > .full > .full:first-child:last-child > * {
   border-radius: inherit;
   height: 100%;
   position: absolute;
@@ -801,7 +787,9 @@ hr:before {
   direction: var(--site-language-direction);
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: color 0.25s ease, background-color 0.25s ease,
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease,
     border-color 0.25s ease;
 }
 #buttons01 .button {
@@ -860,7 +848,9 @@ hr:before {
 #icons01 li a {
   height: 2em;
   width: 2em;
-  transition: color 0.25s ease, background-color 0.25s ease,
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease,
     border-color 0.25s ease;
 }
 #icons01 li a svg {
@@ -875,7 +865,9 @@ hr:before {
   fill: #d46679 !important;
 }
 #icons01 li a + svg {
-  transition: fill 0.25s ease, stroke 0.25s ease;
+  transition:
+    fill 0.25s ease,
+    stroke 0.25s ease;
 }
 .icc-credits {
   display: block;
@@ -899,7 +891,9 @@ hr:before {
   padding: 0.5em 0.375em;
   position: relative;
   text-decoration: none;
-  transition: color 0.25s ease, transform 0.25s ease;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
   z-index: 1;
 }
 .icc-credits span a:before {
@@ -924,7 +918,10 @@ hr:before {
   pointer-events: none;
   position: absolute;
   top: -1px;
-  transition: opacity 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  transition:
+    opacity 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
   width: calc(100% + 2px);
 }
 .icc-credits span:hover {
@@ -1196,67 +1193,34 @@ hr:before {
   .columnsCommon.columns > .wrapper > .inner > div > .full:last-child {
     margin-bottom: calc(var(--gutters) * -0.5) !important;
   }
-  .columnsCommon.columns
-    > .wrapper
-    > .inner
-    > div:first-of-type
-    > .full:first-child {
+  .columnsCommon.columns > .wrapper > .inner > div:first-of-type > .full:first-child {
     margin-top: calc(var(--padding-vertical) * -1) !important;
   }
-  .columnsCommon.columns
-    > .wrapper
-    > .inner
-    > div:last-of-type
-    > .full:last-child {
+  .columnsCommon.columns > .wrapper > .inner > div:last-of-type > .full:last-child {
     margin-bottom: calc(var(--padding-vertical) * -1) !important;
   }
   .columnsCommon.columns > .wrapper > .inner > div:first-of-type,
-  .columnsCommon.columns
-    > .wrapper
-    > .inner
-    > div:first-of-type
-    > .full:first-child {
+  .columnsCommon.columns > .wrapper > .inner > div:first-of-type > .full:first-child {
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;
   }
   .columnsCommon.columns > .wrapper > .inner > div:last-of-type,
-  .columnsCommon.columns
-    > .wrapper
-    > .inner
-    > div:last-of-type
-    > .full:last-child {
+  .columnsCommon.columns > .wrapper > .inner > div:last-of-type > .full:last-child {
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
   }
   .columnsCommon.columns > .wrapper > .inner > div:first-of-type,
-  .columnsCommon.columns
-    > .wrapper
-    > .inner
-    > div:first-of-type
-    > .full:last-child {
+  .columnsCommon.columns > .wrapper > .inner > div:first-of-type > .full:last-child {
     border-bottom-left-radius: 0 !important;
   }
   .columnsCommon.columns > .wrapper > .inner > div:last-of-type,
-  .columnsCommon.columns
-    > .wrapper
-    > .inner
-    > div:last-of-type
-    > .full:first-child {
+  .columnsCommon.columns > .wrapper > .inner > div:last-of-type > .full:first-child {
     border-top-right-radius: 0 !important;
   }
-  .columnsCommon.columns
-    > .wrapper
-    > .inner
-    > .full
-    > .full:first-child:last-child {
+  .columnsCommon.columns > .wrapper > .inner > .full > .full:first-child:last-child {
     height: auto;
   }
-  .columnsCommon.columns
-    > .wrapper
-    > .inner
-    > .full
-    > .full:first-child:last-child
-    > * {
+  .columnsCommon.columns > .wrapper > .inner > .full > .full:first-child:last-child > * {
     height: auto;
     position: relative;
     width: auto;
