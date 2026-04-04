@@ -131,7 +131,7 @@ const TheBuildWall: React.FC = () => {
             delay: 0.1,
             ease: "power2.inOut",
           },
-          onUpdate: (self) => {
+          onUpdate: () => {
             // Debug progress removed
           },
         },

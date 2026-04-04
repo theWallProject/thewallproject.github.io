@@ -140,7 +140,6 @@ export const FlagShader: React.FC<FlagShaderProps> = ({ progress = 0 }) => {
       transparent: true,
       depthWrite: false,
     });
-    // @ts-ignore
     materialRef.current = material;
 
     const scene = new THREE.Scene();

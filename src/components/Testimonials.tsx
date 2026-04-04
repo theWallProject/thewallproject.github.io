@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { LogoLoop } from "./LogoLoop";
+import { LogoLoop, type LogoItem } from "./LogoLoop";
 import { useDownloadLinks } from "./useDownloadLinks";
 import MorphingBackground from "./MorphingBackground";
 
@@ -67,18 +67,21 @@ const Testimonials: React.FC = () => {
     const roleKey = idx === 1 ? "testimonial.role" : `testimonial.${idx}.role`;
 
     return {
-      quote: t(quoteKey),
-      author: t(authorKey),
-      role: t(roleKey, { browser: browserDisplayName }),
+      node: (
+        <TestimonialCard quote={t(quoteKey)} author={t(authorKey)} role={t(roleKey, { browser: browserDisplayName })} />
+      ),
     };
   });
 
   const row1 = testimonialList.slice(0, 3);
   const row2 = testimonialList.slice(3, 6);
 
-  const renderTestimonial = (item: any, key: React.Key) => (
-    <TestimonialCard key={key} quote={item.quote} author={item.author} role={item.role} />
-  );
+  const renderTestimonial = (item: LogoItem, key: React.Key) => {
+    if ("node" in item && item.node) {
+      return <div key={key}>{item.node}</div>;
+    }
+    return null;
+  };
 
   return (
     <section id="testimonials" className="relative w-full py-24 md:py-32 overflow-hidden">
@@ -107,21 +110,21 @@ const Testimonials: React.FC = () => {
       <div dir="ltr" className="space-y-8">
         {/* Row 1 - Left */}
         <LogoLoop
-          logos={row1 as any[]}
+          logos={row1}
           direction="left"
           speed={40}
           gap={window.innerWidth < 768 ? 20 : 60}
           logoHeight={0} // Not used with custom render
-          renderItem={renderTestimonial as any}
+          renderItem={renderTestimonial}
           pauseOnHover={true}
         />
         {/* Row 2 - Right */}
         <LogoLoop
-          logos={row2 as any[]}
+          logos={row2}
           speed={-25}
           gap={window.innerWidth < 768 ? 20 : 60}
           logoHeight={0} // Not used with custom render
-          renderItem={renderTestimonial as any}
+          renderItem={renderTestimonial}
           direction="right"
           pauseOnHover={true}
         />

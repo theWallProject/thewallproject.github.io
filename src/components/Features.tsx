@@ -70,7 +70,7 @@ const Features: React.FC = () => {
         isMobile: "(max-width: 767px)",
       },
       (context) => {
-        const { isDesktop } = (context.conditions as any) || {};
+        const { isDesktop } = context.conditions || {};
 
         if (isDesktop) {
           const tl = gsap.timeline({
