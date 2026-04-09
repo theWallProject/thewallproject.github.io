@@ -88,7 +88,7 @@ const Testimonials: React.FC = () => {
       {/* Background with Fixed Image and Gradient Overlay */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div
-          className="absolute inset-0 bg-fixed bg-cover bg-center opacity-90"
+          className="absolute inset-0 bg-cover bg-center opacity-90"
           style={{
             backgroundImage: 'url("/palestine-flag-over-sunrise-75yqzvkpketv5cob.jpg")',
           }}

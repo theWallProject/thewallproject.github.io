@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -100,15 +100,41 @@ interface MorphingBackgroundProps {
   edgeSoftness?: number;
 }
 
+interface WebGLState {
+  renderer: THREE.WebGLRenderer;
+  scene: THREE.Scene;
+  camera: THREE.OrthographicCamera;
+  material: THREE.ShaderMaterial;
+  mesh: THREE.Mesh;
+  trigger: ScrollTrigger;
+}
+
 const MorphingBackground: React.FC<MorphingBackgroundProps> = ({ color = "#b72b00", edgeSoftness = 0.08 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const webglStateRef = useRef<WebGLState | null>(null);
+  const frameIdRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0, rootMargin: "50px" }
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // HEX to RGB
     const hexToRgb = (hex: string) => {
       const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       return result
@@ -120,68 +146,93 @@ const MorphingBackground: React.FC<MorphingBackgroundProps> = ({ color = "#b72b0
         : { r: 183 / 255, g: 43 / 255, b: 0 / 255 };
     };
 
-    const rgb = hexToRgb(color);
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      alpha: true,
-      antialias: false,
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const material = new THREE.ShaderMaterial({
-      vertexShader,
-      fragmentShader,
-      uniforms: {
-        uProgress: { value: 0.0 },
-        uResolution: {
-          value: new THREE.Vector2(window.innerWidth, window.innerHeight),
-        },
-        uColor: { value: new THREE.Vector3(rgb.r, rgb.g, rgb.b) },
-        uEdgeSoftness: { value: edgeSoftness },
-      },
-      transparent: true,
-      depthWrite: false,
-    });
-
-    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
-    scene.add(mesh);
-
-    const handleResize = () => {
+    if (!webglStateRef.current) {
+      const rgb = hexToRgb(color);
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: false,
+        powerPreference: "low-power",
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
       renderer.setSize(window.innerWidth, window.innerHeight);
-      material.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
-    };
-    window.addEventListener("resize", handleResize);
 
-    let frameId: number;
+      const scene = new THREE.Scene();
+      const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+      const material = new THREE.ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+        uniforms: {
+          uProgress: { value: 0.0 },
+          uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+          uColor: { value: new THREE.Vector3(rgb.r, rgb.g, rgb.b) },
+          uEdgeSoftness: { value: edgeSoftness },
+        },
+        transparent: true,
+        depthWrite: false,
+      });
+
+      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+      scene.add(mesh);
+
+      const handleResize = () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        material.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
+      };
+      window.addEventListener("resize", handleResize);
+
+      const trigger = ScrollTrigger.create({
+        trigger: containerRef.current?.parentElement || document.body,
+        start: "top top",
+        end: "+=150%",
+        scrub: true,
+        onUpdate: (self) => {
+          material.uniforms.uProgress.value = self.progress;
+        },
+      });
+
+      webglStateRef.current = { renderer, scene, camera, material, mesh, trigger };
+    }
+
+    const state = webglStateRef.current;
+    if (!state) return;
+
+    let shouldRender = isVisible;
+
     const render = () => {
-      renderer.render(scene, camera);
-      frameId = requestAnimationFrame(render);
+      if (!shouldRender) {
+        frameIdRef.current = null;
+        return;
+      }
+      state.renderer.render(state.scene, state.camera);
+      frameIdRef.current = requestAnimationFrame(render);
     };
-    render();
 
-    // drive transition relative to PARENT container
-    const trigger = ScrollTrigger.create({
-      trigger: containerRef.current?.parentElement || document.body,
-      start: "top top",
-      end: "+=150%", // Slows down the morphing SIGNIFICANTLY
-      scrub: true,
-      onUpdate: (self) => {
-        material.uniforms.uProgress.value = self.progress;
-      },
-    });
+    if (isVisible) {
+      frameIdRef.current = requestAnimationFrame(render);
+    }
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(frameId);
-      trigger.kill();
-      renderer.dispose();
-      material.dispose();
-      mesh.geometry.dispose();
+      shouldRender = false;
+      if (frameIdRef.current !== null) {
+        cancelAnimationFrame(frameIdRef.current);
+        frameIdRef.current = null;
+      }
     };
-  }, [color, edgeSoftness]);
+  }, [isVisible, color, edgeSoftness]);
+
+  useEffect(() => {
+    return () => {
+      const state = webglStateRef.current;
+      if (state) {
+        state.trigger.kill();
+        state.renderer.dispose();
+        state.material.dispose();
+        state.mesh.geometry.dispose();
+        webglStateRef.current = null;
+      }
+    };
+  }, []);
 
   return (
     <div ref={containerRef} className="absolute inset-0 pointer-events-none z-0">

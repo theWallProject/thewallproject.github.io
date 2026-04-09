@@ -1,4 +1,4 @@
-import { useRef, useEffect, forwardRef, useImperativeHandle } from "react";
+import { useRef, useEffect, forwardRef, useImperativeHandle, useState } from "react";
 import * as THREE from "three";
 
 const vertexShader = `
@@ -72,7 +72,7 @@ const fragmentShader = `
   void main() {
     vec2 resolution = uResolution;
     float screenAspect = resolution.x / resolution.y;
-    float textureAspect = 2.0; // Palestinian flag aspect ratio roughly 2:1
+    float textureAspect = 2.0;
     
     vec2 uv = vUv;
     if (screenAspect > textureAspect) {
@@ -84,12 +84,10 @@ const fragmentShader = `
     }
 
     float noise = fbm(vec3(uv * 2.0, 0.0)) * 0.5 + 0.5;
-    // Map uProgress (0.0-1.0) to exactly fill the -0.5 to 1.0 range
     float p = uProgress * 1.5 - 0.5;
     float reveal = smoothstep(p, p - uEdgeSoftness, uv.y - noise * 0.4);
     vec4 tex = texture2D(uTexture, uv);
     
-    // Fade out edges slightly to prevent hard cutoff if container is slightly off
     float alpha = tex.a * reveal;
     gl_FragColor = vec4(tex.rgb, alpha);
   }
@@ -103,9 +101,26 @@ export interface FlagShaderRef {
   updateProgress: (progress: number) => void;
 }
 
+interface WebGLResources {
+  renderer: THREE.WebGLRenderer;
+  scene: THREE.Scene;
+  camera: THREE.OrthographicCamera;
+  material: THREE.ShaderMaterial;
+  texture: THREE.Texture;
+}
+
 export const FlagShader = forwardRef<FlagShaderRef, FlagShaderProps>(({ progress = 0 }, ref) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const webglRef = useRef<WebGLResources | null>(null);
+  const frameIdRef = useRef<number | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const isVisibleRef = useRef(false);
+
+  useEffect(() => {
+    isVisibleRef.current = isVisible;
+  }, [isVisible]);
 
   useImperativeHandle(ref, () => ({
     updateProgress: (p: number) => {
@@ -115,7 +130,6 @@ export const FlagShader = forwardRef<FlagShaderRef, FlagShaderProps>(({ progress
     },
   }));
 
-  // Sync prop progress with material uniform if it changes externally
   useEffect(() => {
     if (materialRef.current) {
       materialRef.current.uniforms.uProgress.value = progress;
@@ -123,65 +137,109 @@ export const FlagShader = forwardRef<FlagShaderRef, FlagShaderProps>(({ progress
   }, [progress]);
 
   useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0, rootMargin: "50px" }
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      alpha: true,
-      antialias: true,
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    if (!webglRef.current) {
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true,
+        powerPreference: "low-power",
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+      renderer.setSize(window.innerWidth, window.innerHeight);
 
-    const textureLoader = new THREE.TextureLoader();
-    const flagTexture = textureLoader.load("/walls/ps-grunge-01.png");
+      const textureLoader = new THREE.TextureLoader();
+      const flagTexture = textureLoader.load("/walls/ps-grunge-01.png");
 
-    const material = new THREE.ShaderMaterial({
-      vertexShader,
-      fragmentShader,
-      side: THREE.DoubleSide,
-      uniforms: {
-        uProgress: { value: progress },
-        uResolution: {
-          value: new THREE.Vector2(window.innerWidth, window.innerHeight),
+      const material = new THREE.ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+        side: THREE.DoubleSide,
+        uniforms: {
+          uProgress: { value: progress },
+          uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+          uTexture: { value: flagTexture },
+          uEdgeSoftness: { value: 0.45 },
         },
-        uTexture: { value: flagTexture },
-        uEdgeSoftness: { value: 0.45 },
-      },
-      transparent: true,
-      depthWrite: false,
-    });
-    materialRef.current = material;
+        transparent: true,
+        depthWrite: false,
+      });
+      materialRef.current = material;
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
+      const scene = new THREE.Scene();
+      const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+      scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
+
+      webglRef.current = { renderer, scene, camera, material, texture: flagTexture };
+
+      const onResize = () => {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        renderer.setSize(w, h);
+        material.uniforms.uResolution.value.set(w, h);
+      };
+      window.addEventListener("resize", onResize);
+    }
+
+    const state = webglRef.current;
+    if (!state) return;
+
+    let shouldRender = isVisible;
 
     const renderLoop = () => {
-      renderer.render(scene, camera);
-      requestAnimationFrame(renderLoop);
+      if (!shouldRender) {
+        frameIdRef.current = null;
+        return;
+      }
+      state.renderer.render(state.scene, state.camera);
+      frameIdRef.current = requestAnimationFrame(renderLoop);
     };
-    const reqId = requestAnimationFrame(renderLoop);
 
-    const onResize = () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      renderer.setSize(w, h);
-      material.uniforms.uResolution.value.set(w, h);
-    };
-    window.addEventListener("resize", onResize);
+    if (isVisible) {
+      frameIdRef.current = requestAnimationFrame(renderLoop);
+    }
 
     return () => {
-      window.removeEventListener("resize", onResize);
-      cancelAnimationFrame(reqId);
-      renderer.dispose();
-      material.dispose();
-      flagTexture.dispose();
+      shouldRender = false;
+      if (frameIdRef.current !== null) {
+        cancelAnimationFrame(frameIdRef.current);
+        frameIdRef.current = null;
+      }
+    };
+  }, [isVisible, progress]);
+
+  useEffect(() => {
+    return () => {
+      const state = webglRef.current;
+      if (state) {
+        state.renderer.dispose();
+        state.material.dispose();
+        state.texture.dispose();
+        webglRef.current = null;
+      }
     };
   }, []);
 
   return (
-    <canvas ref={canvasRef} className="absolute inset-0 z-4 pointer-events-none opacity-[0.65] mix-blend-screen" />
+    <div ref={containerRef} className="absolute inset-0 z-4 pointer-events-none">
+      <canvas ref={canvasRef} className="w-full h-full opacity-[0.65] mix-blend-screen" />
+    </div>
   );
 });
