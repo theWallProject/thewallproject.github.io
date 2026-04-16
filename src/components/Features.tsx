@@ -147,7 +147,7 @@ const Features: React.FC = () => {
         {features.map((feature, i) => (
           <div
             key={feature.id}
-            className="feature-stack-card sticky top-[120px] md:absolute md:inset-0 h-auto md:h-full rounded-3xl md:rounded-4xl border-t border-white/10 flex flex-col gap-6 md:gap-10 p-8 md:p-14 shadow-2xl min-h-[450px] md:min-h-[600px]"
+            className="feature-stack-card sticky top-[120px] md:absolute md:inset-0 h-auto md:h-full rounded-3xl md:rounded-4xl border-t border-white/10 flex flex-col gap-6 md:gap-10 p-8 md:p-14 shadow-2xl min-h-[80vh] md:min-h-[600px]"
             style={{
               zIndex: i + 1,
               transformStyle: "preserve-3d",
@@ -203,7 +203,7 @@ const Features: React.FC = () => {
             {/* Content */}
             <div className="max-w-2xl relative z-10">
               <p
-                className={`text-sm md:text-[1.2rem] text-gray-400 md:text-gray-300 leading-relaxed font-light opacity-90 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+                className={`text-xs sm:text-sm md:text-[1.2rem] text-gray-400 md:text-gray-300 leading-relaxed font-light opacity-90 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
               >
                 {feature.description}
               </p>
