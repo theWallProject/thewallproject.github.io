@@ -4,6 +4,7 @@ export interface DownloadLink {
   id: "chrome" | "firefox" | "macos" | "ios" | "android";
   href: string;
   icon: string;
+  badgeIcon?: string;
   displayName: string;
 }
 
@@ -56,7 +57,8 @@ export const useDownloadLinks = (): DownloadLinksData => {
     android: {
       id: "android" as const,
       href: "https://play.google.com/store/apps/details?id=com.thewallboycott.android",
-      icon: "./files/common/playstore/GetItOnGooglePlay_Badge_Web_color_English.svg",
+      icon: "./files/common/google-play-store-icon.svg",
+      badgeIcon: "./files/common/playstore/GetItOnGooglePlay_Badge_Web_color_English.svg",
       displayName: "Android",
     },
   };
@@ -91,18 +93,25 @@ export const useDownloadLinks = (): DownloadLinksData => {
     otherBrowsers.push(downloadLinks.chrome);
     otherBrowsers.push(downloadLinks.firefox);
     otherBrowsers.push(downloadLinks.macos);
+    otherBrowsers.push(downloadLinks.android);
+  } else if (isAndroid) {
+    otherBrowsers.push(downloadLinks.chrome);
+    otherBrowsers.push(downloadLinks.firefox);
   } else if (detectedBrowser === "safari") {
     otherBrowsers.push(downloadLinks.chrome);
     otherBrowsers.push(downloadLinks.firefox);
     otherBrowsers.push(downloadLinks.ios);
+    otherBrowsers.push(downloadLinks.android);
   } else if (detectedBrowser === "chrome") {
     otherBrowsers.push(downloadLinks.firefox);
     otherBrowsers.push(downloadLinks.macos);
     otherBrowsers.push(downloadLinks.ios);
+    otherBrowsers.push(downloadLinks.android);
   } else if (detectedBrowser === "firefox") {
     otherBrowsers.push(downloadLinks.chrome);
     otherBrowsers.push(downloadLinks.macos);
     otherBrowsers.push(downloadLinks.ios);
+    otherBrowsers.push(downloadLinks.android);
   }
 
   const primaryIds = [primaryDownload.id];

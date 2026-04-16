@@ -51,6 +51,7 @@ const DownloadSnippet: React.FC = () => {
                 className={styles.browserIconLink}
               >
                 <img src={browser.icon} alt={browser.displayName} className={styles.browserIcon} />
+                <span className={styles.browserIconLabel}>{browser.displayName}</span>
               </a>
             ))}
           </div>

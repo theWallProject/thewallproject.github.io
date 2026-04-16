@@ -169,18 +169,18 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Bottom Section: Details & Play/Action */}
-        <div className="w-full max-w-[1600px] flex flex-col lg:flex-row justify-between items-end gap-10 md:gap-12 md:py-4 pb-12 hero-bottom-anim text-center md:text-left">
-          <div className="w-full lg:flex-1 max-w-[700px] flex flex-col gap-8 md:gap-10 items-center lg:items-start mx-auto lg:mx-0">
-            <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-10">
+        <div className="w-full max-w-[1600px] flex flex-col lg:flex-row justify-between items-end gap-8 md:gap-10 lg:gap-8 md:py-4 pb-12 hero-bottom-anim text-center md:text-left">
+          <div className="w-full lg:flex-1 max-w-[480px] flex flex-col gap-8 md:gap-10 lg:gap-6 items-center lg:items-start mx-auto lg:mx-0">
+            <div className="flex flex-col items-center gap-3 md:gap-6">
               <InstallButton />
               <div
-                className={`flex flex-col gap-1 items-center sm:items-start ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+                className={`flex flex-col gap-1 items-center ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
               >
-                <p className="text-[0.5rem] md:text-[0.75rem] text-white/40 leading-tight uppercase tracking-[0.2em] font-bold">
+                <p className="text-[0.5rem] md:text-[0.75rem] lg:text-[0.8rem] text-white/40 leading-tight uppercase tracking-[0.2em] font-bold">
                   {t("downloads.alsoAvailablePrefix")}
                 </p>
-                <div className="flex items-center gap-3 md:gap-8">
-                  {otherBrowsers.slice(0, 3).map((browser) => (
+                <div className="grid grid-cols-2 gap-x-4 gap-y-1 lg:gap-x-6 lg:gap-y-1.5">
+                  {otherBrowsers.map((browser) => (
                     <a
                       key={browser.id}
                       href={browser.href}
@@ -192,9 +192,9 @@ const Hero: React.FC = () => {
                         src={browser.icon.replace(/^\.\//, "/")}
                         alt={browser.displayName}
                         loading="lazy"
-                        className="w-3 md:w-5 h-3 md:h-5"
+                        className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 shrink-0"
                       />
-                      <span className="text-[0.55rem] md:text-[1rem] border-b border-white/10 group-hover:border-white/40 transition-colors">
+                      <span className="text-[0.55rem] md:text-[0.85rem] lg:text-[0.95rem] border-b border-white/10 group-hover:border-white/40 transition-colors">
                         {browser.displayName}
                       </span>
                     </a>
