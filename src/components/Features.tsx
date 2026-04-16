@@ -64,79 +64,49 @@ const Features: React.FC = () => {
     const cards = gsap.utils.toArray<HTMLElement>(".feature-stack-card", containerRef.current);
     const mm = gsap.matchMedia();
 
-    mm.add(
-      {
-        isDesktop: "(min-width: 768px)",
-        isMobile: "(max-width: 767px)",
-      },
-      (context) => {
-        const { isDesktop } = context.conditions || {};
+    mm.add("(min-width: 768px)", () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "+=2000",
+          pin: true,
+          scrub: 1.5,
+          anticipatePin: 1,
+        },
+      });
 
-        if (isDesktop) {
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: "top top",
-              end: "+=2000",
-              pin: true,
-              scrub: 1.5,
-              anticipatePin: 1,
-            },
-          });
+      cards.forEach((card, index) => {
+        if (index === 0) return;
+        tl.to(
+          cards[index - 1],
+          {
+            scale: 0.94,
+            y: -40,
+            opacity: 0.5,
+            filter: "blur(4px)",
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          index - 1
+        );
 
-          cards.forEach((card, index) => {
-            if (index === 0) return;
-            tl.to(
-              cards[index - 1],
-              {
-                scale: 0.94,
-                y: -40,
-                opacity: 0.5,
-                filter: "blur(4px)",
-                duration: 1,
-                ease: "power2.inOut",
-              },
-              index - 1
-            );
-
-            tl.fromTo(
-              card,
-              {
-                yPercent: 120,
-                rotationX: -5,
-              },
-              {
-                yPercent: 0,
-                rotationX: 0,
-                duration: 1.2,
-                ease: "power3.out",
-              },
-              index - 1
-            );
-          });
-        } else {
-          // MOBILE LOGIC: Simple Reveal
-          cards.forEach((card) => {
-            gsap.fromTo(
-              card,
-              { opacity: 0, y: 50, scale: 0.95 },
-              {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 1,
-                ease: "power3.out",
-                scrollTrigger: {
-                  trigger: card,
-                  start: "top 85%",
-                  end: "top 60%",
-                },
-              }
-            );
-          });
-        }
-      }
-    );
+        tl.fromTo(
+          card,
+          {
+            yPercent: 120,
+            rotationX: -5,
+          },
+          {
+            yPercent: 0,
+            rotationX: 0,
+            duration: 1.2,
+            ease: "power3.out",
+          },
+          index - 1
+        );
+      });
+    });
 
     return () => mm.revert();
   }, []);
@@ -145,7 +115,7 @@ const Features: React.FC = () => {
     <section
       ref={containerRef}
       id="features"
-      className="relative w-full min-h-screen overflow-hidden flex flex-col items-center pt-16 pb-20 px-4 md:px-12"
+      className="relative w-full min-h-screen overflow-visible md:overflow-hidden flex flex-col items-center pt-16 pb-20 px-4 md:px-12"
       style={{ background: "var(--color-brand-orange, #b72b00)" }}
     >
       {/* ATMOSPHERIC LAYERS */}
@@ -173,14 +143,11 @@ const Features: React.FC = () => {
       </div>
 
       {/* CARDS CONTAINER */}
-      <div
-        className="relative w-full max-w-5xl flex flex-col gap-8 md:gap-0 md:flex-1 h-auto md:h-full"
-        style={{ perspective: "2000px" }}
-      >
+      <div className="relative w-full max-w-5xl flex flex-col gap-8 md:gap-0 md:flex-1 h-auto md:h-full md:[perspective:2000px]">
         {features.map((feature, i) => (
           <div
             key={feature.id}
-            className="feature-stack-card relative md:absolute md:inset-0 h-auto md:h-full rounded-3xl md:rounded-4xl border-t border-white/10 flex flex-col gap-6 md:gap-10 p-8 md:p-14 shadow-2xl min-h-[450px] md:min-h-[600px]"
+            className="feature-stack-card sticky top-[120px] md:absolute md:inset-0 h-auto md:h-full rounded-3xl md:rounded-4xl border-t border-white/10 flex flex-col gap-6 md:gap-10 p-8 md:p-14 shadow-2xl min-h-[450px] md:min-h-[600px]"
             style={{
               zIndex: i + 1,
               transformStyle: "preserve-3d",
