@@ -2,7 +2,7 @@
   "translation": {
     "meta": {
       "title": "مشروع الجدار",
-      "description": "مشروع الجدار - إضافة للمتصفح وتطبيق أندرويد لاكتشاف وحظر أكثر من 19,000 موقع إسرائيلي وحساباتهم على مواقع التواصل الاجتماعي. نفس قاعدة البيانات، يعمل بدون إنترنت.",
+      "description": "مشروع الجدار - إضافة للمتصفح وتطبيق أندرويد لاكتشاف وحظر أكثر من 20,000 موقع مرتبط بإسرائيل وحساباتهم على مواقع التواصل الاجتماعي. نفس قاعدة البيانات، يعمل بدون إنترنت.",
       "keywords": "The Wall, إضافة الجدار, تطبيق أندرويد, browser addon, website blocker, boycott assistant, Israeli websites, social media blocking, Chrome extension, Firefox addon"
     },
     "header": {
@@ -12,8 +12,8 @@
     },
     "hero": {
       "detectAndBlock": "اكتشف واحجب أكثر من",
-      "israeli": "إسرائيلي",
-      "relatedWebsites": "موقع ذو صلة",
+      "israeli": "بإسرائيل",
+      "relatedWebsites": "موقع مرتبط ",
       "andSocialAccounts": "وحساباتهم الاجتماعية.",
       "availableAsDesktop": "متوفر كـ <span>إضافة للمتصفح</span>",
       "availableAsMobile": "متوفر كـ <span>تطبيق أندرويد</span> و <span>إضافة متصفح</span>"

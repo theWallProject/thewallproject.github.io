@@ -2,13 +2,27 @@
   "translation": {
     "meta": {
       "title": "The Wall Project",
-      "description": "The Wall Project - Browser-addon en Android-app om meer dan 19.000 Israëlische websites en hun sociale media-accounts te detecteren en blokkeren. Dezelfde database, werkt offline.",
+      "description": "The Wall Project - Browser-addon en Android-app om meer dan 20.000 Israëlische websites en hun sociale media-accounts te detecteren en blokkeren. Dezelfde database, werkt offline.",
       "keywords": "The Wall, browser-addon, Android-app, website-blokker, boycot-assistent, Israëlische websites, sociale media-blokkering, Chrome-extensie, Firefox-addon"
     },
     "header": {
       "title": "The Wall Project",
       "platforms": "Platforms",
       "testimonials": "Testimonials"
+    },
+    "hero": {
+      "detectAndBlock": "Detecteer en Blokkeer",
+      "israeli": "Israëlisch",
+      "relatedWebsites": "Gerelateerde Websites",
+      "andSocialAccounts": "En Sociale Accounts.",
+      "availableAsDesktop": "Beschikbaar als <span>Browser-extensie</span>",
+      "availableAsMobile": "Beschikbaar als <span>Android-app</span> en <span>Extensie</span>"
+    },
+    "donate": {
+      "sectionLabel": "DE VERDEDIGING HERBOUWEN",
+      "title": "De Muur is alleen zo <span>sterk</span> als zijn bouwers.",
+      "description": "We vertrouwen op uw steun om de database-integriteit te behouden en deze tool gratis te houden. Elke bijdrage legt een nieuwe steen.",
+      "button": "STEUN OP KO-FI"
     },
     "intro": {
       "text": "Detecteer en blokkeer meer dan {{count}} Israëlische websites en hun sociale accounts. Beschikbaar als browser-addon en Android-app."
@@ -41,9 +55,38 @@
       "comma": ","
     },
     "testimonial": {
+      "2": {
+        "quote": "Ongeloellig ontwerp en werkt perfect offline. Ik gebruik het op zowel mijn browser als mijn Android-telefoon. Essentieel voor bewuste consumenten.",
+        "author": "Sarah Ahmed",
+        "role": "Android-gebruiker"
+      },
+      "3": {
+        "quote": "Eindelijk een manier om effectief te boycotten zonder elke keer handmatig te zoeken. De visuele feedback is krachtig en duidelijk.",
+        "author": "Omar Khaled",
+        "role": "Firefox-gebruiker"
+      },
+      "4": {
+        "quote": "Gedetailleerde redenen voor elke blokkering. Ik vind het geweldig dat het Crunchbase-en oprichterdata aanhaalt. Transparantie bouwt vertrouwen op.",
+        "author": "Layla Hassan",
+        "role": "Safari-gebruiker"
+      },
+      "5": {
+        "quote": "Dit project is een gamechanger voor de BDS-beweging. Zeer aanbevolen voor iedereen die een verschil wil maken.",
+        "author": "Youssef Ibrahim",
+        "role": "Brave-gebruiker"
+      },
+      "6": {
+        "quote": "De Android-app is zo lichtgewicht en put de batterij niet uit. Werkt op de achtergrond en houdt me stilletjes op de hoogte.",
+        "author": "Mariam Ali",
+        "role": "Android-gebruiker"
+      },
       "quote": "De meest naadloze en geweldige plugin die ik ooit heb gebruikt! Het heeft me geïnformeerd over veel bedrijven die ik niet meer gebruik.",
       "author": "Abdo Wahba",
       "role": "{{browser}} gebruiker"
+    },
+    "testimonials": {
+      "title": "Wat mensen zeggen",
+      "subtitle": "Sluit u aan bij duizenden bewuste gebruikers wereldwijd."
     },
     "video": {
       "watchHowItWorks": "Bekijk hoe het werkt"
@@ -71,6 +114,9 @@
     },
     "features": {
       "systemModule": "Systeemmodule",
+      "sectionLabel": "Kernfuncties",
+      "building": "Bouwen",
+      "theFuture": "De Toekomst",
       "installOnce": {
         "title": "Installeer eenmaal, werkt voor altijd",
         "description": "Installeer de browser-addon of de Android-app. Elke keer dat u een Israëlisch bedrijf tegenkomt, ziet u in plaats daarvan \"de muur\"."
@@ -91,6 +137,21 @@
         "title": "Steun The Wall",
         "description": "Help ons The Wall te onderhouden en te verbeteren. Uw steun stelt ons in staat alles gratis te houden, de database regelmatig bij te werken en nieuwe functies toe te voegen. Elke bijdrage maakt het verschil!",
         "button": "Klik om te doneren"
+      }
+    },
+    "platform": {
+      "sectionTitle": "Beschikbare platforms",
+      "desktop": {
+        "subtitle": "[ BROWSER-EXTENSIE ]",
+        "title": "Stil. Automatisch. Onbreekbaar.",
+        "description": "Installeer eenmaal en vergeet het. De extensie draait op de achtergrond en detecteert en blokkeert direct medeplichtige websites en hun sociale accounts tijdens het surfen.",
+        "button": "Installeren voor Chrome"
+      },
+      "mobile": {
+        "subtitle": "[ ANDROID-APP ]",
+        "title": "Scannen. Ontdekken. Vervangen.",
+        "description": "Volledige apparaatbescherming. Scan uw geïnstalleerde apps om verborgen medeplichtige verbindingen te ontdekken en vind direct ethische alternatieven met één tik.",
+        "button": "Verkrijgbaar op Google Play"
       }
     },
     "language": {
@@ -126,6 +187,12 @@
       "alsoGetAddon": "Download ook onze browser-addon",
       "alsoGetApp": "Ook beschikbaar als Android-app",
       "newBadge": "NIEUW"
+    },
+    "buildWall": {
+      "phrase0": "WIJ BOUWEN DE MUUR",
+      "phrase1": "OM ONZE WAARDEN TE BESCHERMEN",
+      "phrase2": "EEN STEEN TEGELIJK",
+      "phrase3": "TOT DE WAARHEID OVERWINT"
     }
   }
 }

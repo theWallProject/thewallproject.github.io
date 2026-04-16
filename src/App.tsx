@@ -11,7 +11,7 @@ import Testimonials from "./components/Testimonials";
 import PlatformShowcase from "./components/PlatformShowcase";
 import Footer from "./components/Footer";
 import PrivacyPolicy from "./components/PrivacyPolicy";
-// import CustomCursor from "./components/CustomCursor";
+import CustomCursor from "./components/CustomCursor";
 import "./App.css";
 import ReactLenis from "lenis/react";
 import DonationSection from "./components/DonationSection";
@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="App   ">
       <ReactLenis root />
-      {/* <CustomCursor /> */}
+      <CustomCursor />
       <Header />
       <Hero />
       <PlatformShowcase />

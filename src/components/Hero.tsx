@@ -24,10 +24,10 @@ const Hero: React.FC = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. Counter Animation for '19,000'
+      // 1. Counter Animation for '20,000'
       const obj = { value: 0 };
       gsap.to(obj, {
-        value: 19000,
+        value: 20000,
         duration: 3,
         ease: "power2.out",
         delay: 0.8, // Wait for assemble to start
@@ -106,9 +106,7 @@ const Hero: React.FC = () => {
             <div className="basis-full h-0 hidden md:block" />
 
             {/* LINE 2 - Flexible cluster */}
-            <div
-              className={`flex flex-wrap justify-center items-center gap-1 sm:gap-2 ${i18n.language === "ar" ? "flex-row-reverse" : "flex-row"}`}
-            >
+            <div className="flex flex-wrap justify-center items-center gap-1 sm:gap-2 flex-row">
               <div className="flex items-center justify-center gap-1 whitespace-nowrap">
                 <span className="relative inline-block px-1 shrink-0">
                   <span
@@ -133,19 +131,19 @@ const Hero: React.FC = () => {
                   </svg>
                 </span>{" "}
                 <SplitText
-                  text={t("hero.israeli")}
+                  text={t(i18n.language === "ar" ? "hero.relatedWebsites" : "hero.israeli")}
                   splitType="words"
                   animationType="assemble"
-                  className="text-brand-red inline-block"
+                  className={i18n.language === "ar" ? "inline-block mx-1" : "text-brand-red inline-block"}
                   delay={50}
                 />
               </div>
 
               <SplitText
-                text={t("hero.relatedWebsites")}
+                text={t(i18n.language === "ar" ? "hero.israeli" : "hero.relatedWebsites")}
                 splitType="words"
                 animationType="assemble"
-                className="inline-block mx-1"
+                className={i18n.language === "ar" ? "text-brand-red inline-block" : "inline-block mx-1"}
                 delay={70}
               />
             </div>

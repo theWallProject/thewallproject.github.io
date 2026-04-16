@@ -2,13 +2,27 @@
   "translation": {
     "meta": {
       "title": "The Wall 項目",
-      "description": "The Wall 項目 - 瀏覽器插件和安卓應用，用於檢測和阻止超過19,000個與以色列相關的網站及其社交媒體帳戶。相同數據庫，離線可用。",
+      "description": "The Wall 項目 - 瀏覽器插件和安卓應用，用於檢測和阻止超過20,000個與以色列相關的網站及其社交媒體帳戶。相同數據庫，離線可用。",
       "keywords": "The Wall, 瀏覽器插件, 安卓應用, 網站攔截器, 抵制助手, 以色列網站, 社交媒體攔截, Chrome擴展, Firefox插件"
     },
     "header": {
       "title": "The Wall 項目",
       "platforms": "平台",
       "testimonials": "推薦"
+    },
+    "hero": {
+      "detectAndBlock": "檢測和阻止",
+      "israeli": "以色列",
+      "relatedWebsites": "相關網站",
+      "andSocialAccounts": "和社交帳戶。",
+      "availableAsDesktop": "可用作<span>瀏覽器擴展</span>",
+      "availableAsMobile": "可用作<span>安卓應用</span>和<span>擴展</span>"
+    },
+    "donate": {
+      "sectionLabel": "重建防線",
+      "title": "牆的<span>強度</span>取決於建造者。",
+      "description": "我們依靠您的支持來維護數據庫完整性並保持此工具免費。每一份貢獻都增添一塊新石頭。",
+      "button": "在 KO-FI 上支持"
     },
     "intro": {
       "text": "檢測和阻止超過{{count}}個與以色列相關的網站及其社交帳戶。提供瀏覽器插件和安卓應用。"
@@ -41,9 +55,38 @@
       "comma": "、"
     },
     "testimonial": {
+      "2": {
+        "quote": "令人難以置信的設計，離線完美運行。我在瀏覽器和安卓手機上都使用它。對於有意識的消費者來說必不可少。",
+        "author": "Sarah Ahmed",
+        "role": "安卓用戶"
+      },
+      "3": {
+        "quote": "終於有一種有效抵制的方法，無需每次手動搜索。視覺反饋強大而清晰。",
+        "author": "Omar Khaled",
+        "role": "Firefox 用戶"
+      },
+      "4": {
+        "quote": "每個封鎖的詳細原因。我喜歡它引用 Crunchbase 和創始人數據。透明建立信任。",
+        "author": "Layla Hassan",
+        "role": "Safari 用戶"
+      },
+      "5": {
+        "quote": "這個項目是 BDS 運動的遊戲規則改變者。強烈推薦給每一個想要產生影響的人。",
+        "author": "Youssef Ibrahim",
+        "role": "Brave 用戶"
+      },
+      "6": {
+        "quote": "安卓應用非常輕量，不耗電池。在後台靜默運行，讓我隨時了解情況。",
+        "author": "Mariam Ali",
+        "role": "安卓用戶"
+      },
       "quote": "我使用過的最流暢、最棒的插件！它讓我了解了很多我已經停止使用的公司。",
       "author": "Abdo Wahba",
       "role": "{{browser}} 用戶"
+    },
+    "testimonials": {
+      "title": "人們怎麼說",
+      "subtitle": "加入全球數千名有意識的用戶。"
     },
     "video": {
       "watchHowItWorks": "觀看工作原理"
@@ -71,6 +114,9 @@
     },
     "features": {
       "systemModule": "系統模組",
+      "sectionLabel": "核心功能",
+      "building": "構建",
+      "theFuture": "未來",
       "installOnce": {
         "title": "安裝一次，永久有效",
         "description": "安裝瀏覽器插件或安卓應用。每當您遇到與以色列相關的公司時，您會看到\"牆\"來代替。"
@@ -91,6 +137,21 @@
         "title": "支持 The Wall",
         "description": "幫助我們維護和改進 The Wall。您的支持使我們能夠保持一切免費，定期更新數據庫，並添加新功能。每一份貢獻都很重要！",
         "button": "點擊捐贈"
+      }
+    },
+    "platform": {
+      "sectionTitle": "可用平台",
+      "desktop": {
+        "subtitle": "[ 瀏覽器擴展 ]",
+        "title": "靜默。自動。牢不可破。",
+        "description": "安裝一次即可忘記。擴展程序在後台運行，在您瀏覽時立即檢測並阻止同謀網站及其社交帳戶。",
+        "button": "安裝 Chrome 版"
+      },
+      "mobile": {
+        "subtitle": "[ 安卓應用 ]",
+        "title": "掃描。發現。替換。",
+        "description": "全面設備保護。掃描您已安裝的應用程序，發現隱藏的同謀關係，並一鍵立即找到道德替代方案。",
+        "button": "在 Google Play 獲取"
       }
     },
     "language": {
@@ -126,6 +187,12 @@
       "alsoGetAddon": "還可以獲取我們的瀏覽器插件",
       "alsoGetApp": "也提供安卓應用",
       "newBadge": "全新"
+    },
+    "buildWall": {
+      "phrase0": "我們建造這堵牆",
+      "phrase1": "保護我們的價值觀",
+      "phrase2": "一塊磚一塊磚地",
+      "phrase3": "直到真理勝利"
     }
   }
 }

@@ -10,6 +10,20 @@
       "platforms": "Plateformes",
       "testimonials": "Témoignages"
     },
+    "hero": {
+      "detectAndBlock": "Détecter et Bloquer",
+      "israeli": "Israélien",
+      "relatedWebsites": "Sites Web Liés",
+      "andSocialAccounts": "Et Comptes Sociaux.",
+      "availableAsDesktop": "Disponible en tant qu'<span>Extension de Navigateur</span>",
+      "availableAsMobile": "Disponible en tant qu'<span>Application Android</span> et <span>Extension</span>"
+    },
+    "donate": {
+      "sectionLabel": "RECONSTRUIRE LES DÉFENSES",
+      "title": "Le Mur n'est aussi <span>fort</span> que ses constructeurs.",
+      "description": "Nous comptons sur votre soutien pour maintenir l'intégrité de la base de données et garder cet outil gratuit. Chaque contribution pose une nouvelle pierre.",
+      "button": "SOUTENIR SUR KO-FI"
+    },
     "intro": {
       "text": "Détectez et bloquez plus de {{count}} sites web israéliens et leurs comptes sociaux. Disponible comme extension de navigateur et application Android."
     },
@@ -41,9 +55,38 @@
       "comma": ","
     },
     "testimonial": {
+      "2": {
+        "quote": "Design incroyable et fonctionne parfaitement hors ligne. Je l'utilise sur mon navigateur et mon téléphone Android. Essentiel pour les consommateurs conscients.",
+        "author": "Sarah Ahmed",
+        "role": "Utilisateur Android"
+      },
+      "3": {
+        "quote": "Enfin un moyen de boycotter efficacement sans chercher manuellement à chaque fois. Le retour visuel est puissant et clair.",
+        "author": "Omar Khaled",
+        "role": "Utilisateur Firefox"
+      },
+      "4": {
+        "quote": "Raisons détaillées pour chaque blocage. J'adore qu'il cite les données Crunchbase et des fondateurs. La transparence construit la confiance.",
+        "author": "Layla Hassan",
+        "role": "Utilisateur Safari"
+      },
+      "5": {
+        "quote": "Ce projet change la donne pour le mouvement BDS. Fortement recommandé pour tous ceux qui veulent faire une différence.",
+        "author": "Youssef Ibrahim",
+        "role": "Utilisateur Brave"
+      },
+      "6": {
+        "quote": "L'application Android est si légère et ne draine pas la batterie. Fonctionne en arrière-plan en me tenant informé silencieusement.",
+        "author": "Mariam Ali",
+        "role": "Utilisateur Android"
+      },
       "quote": "Le plugin le plus fluide et génial que j'aie jamais utilisé ! Il m'a informé sur beaucoup d'entreprises que j'ai arrêté d'utiliser.",
       "author": "Abdo Wahba",
       "role": "Utilisateur {{browser}}"
+    },
+    "testimonials": {
+      "title": "Ce que les gens disent",
+      "subtitle": "Rejoignez des milliers d'utilisateurs conscients dans le monde."
     },
     "video": {
       "watchHowItWorks": "Regardez comment ça fonctionne"
@@ -71,6 +114,9 @@
     },
     "features": {
       "systemModule": "Module Système",
+      "sectionLabel": "Fonctionnalités Principales",
+      "building": "Construire",
+      "theFuture": "Le Futur",
       "installOnce": {
         "title": "Installez une fois, fonctionne pour toujours",
         "description": "Installez l'extension de navigateur ou l'application Android. Chaque fois que vous rencontrez une entreprise connectée à Israël, vous verrez \"le mur\" à la place."
@@ -91,6 +137,21 @@
         "title": "Soutenez The Wall",
         "description": "Aidez-nous à maintenir et améliorer The Wall. Votre soutien nous permet de garder tout gratuit, de mettre à jour la base de données régulièrement et d'ajouter de nouvelles fonctionnalités. Chaque contribution fait la différence !",
         "button": "Cliquez pour faire un don"
+      }
+    },
+    "platform": {
+      "sectionTitle": "Plateformes disponibles",
+      "desktop": {
+        "subtitle": "[ EXTENSION DE NAVIGATEUR ]",
+        "title": "Silencieux. Automatique. Incassable.",
+        "description": "Installez une fois et oubliez. L'extension fonctionne en arrière-plan, détectant et bloquant instantanément les sites complices et leurs comptes sociaux pendant votre navigation.",
+        "button": "Installer pour Chrome"
+      },
+      "mobile": {
+        "subtitle": "[ APPLICATION ANDROID ]",
+        "title": "Scanner. Découvrir. Remplacer.",
+        "description": "Protection complète de l'appareil. Scannez vos applications installées pour découvrir les connexions complices cachées et trouvez instantanément des alternatives éthiques en un tap.",
+        "button": "Obtenez-le sur Google Play"
       }
     },
     "language": {
@@ -126,6 +187,12 @@
       "alsoGetAddon": "Obtenez aussi notre extension de navigateur",
       "alsoGetApp": "Également disponible en application Android",
       "newBadge": "NOUVEAU"
+    },
+    "buildWall": {
+      "phrase0": "NOUS CONSTRUISONS LE MUR",
+      "phrase1": "POUR PROTÉGER NOS VALEURS",
+      "phrase2": "UNE BRIQUE À LA FOIS",
+      "phrase3": "JUSQU'À CE QUE LA VÉRITÉ PRÉVALE"
     }
   }
 }

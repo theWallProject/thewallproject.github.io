@@ -2,13 +2,27 @@
   "translation": {
     "meta": {
       "title": "The Wall Project",
-      "description": "The Wall Project - Addon browser dan aplikasi Android untuk mendeteksi dan memblokir lebih dari 19.000 situs web Israel dan akun media sosial mereka. Database yang sama, bekerja offline.",
+      "description": "The Wall Project - Addon browser dan aplikasi Android untuk mendeteksi dan memblokir lebih dari 20.000 situs web Israel dan akun media sosial mereka. Database yang sama, bekerja offline.",
       "keywords": "The Wall, ekstensi browser, aplikasi Android, pemblokir situs web, asisten boikot, situs web Israel, pemblokiran media sosial, ekstensi Chrome, addon Firefox"
     },
     "header": {
       "title": "The Wall Project",
       "platforms": "Platform",
       "testimonials": "Testimoni"
+    },
+    "hero": {
+      "detectAndBlock": "Deteksi dan Blokir",
+      "israeli": "Israel",
+      "relatedWebsites": "Situs Web Terkait",
+      "andSocialAccounts": "Dan Akun Sosial.",
+      "availableAsDesktop": "Tersedia sebagai <span>Ekstensi Browser</span>",
+      "availableAsMobile": "Tersedia sebagai <span>Aplikasi Android</span> dan <span>Ekstensi</span>"
+    },
+    "donate": {
+      "sectionLabel": "MEMBANGUN KEMBALI PERTAHANAN",
+      "title": "Tembok hanya se<strong>kuat</strong> pembangunnya.",
+      "description": "Kami mengandalkan dukungan Anda untuk menjaga integritas database dan menjaga alat ini tetap gratis. Setiap kontribusi menempatkan batu baru.",
+      "button": "DUKUNG DI KO-FI"
     },
     "intro": {
       "text": "Deteksi dan blokir lebih dari {{count}} situs web Israel dan akun sosial mereka. Tersedia sebagai addon browser dan aplikasi Android."
@@ -41,9 +55,38 @@
       "comma": ","
     },
     "testimonial": {
+      "2": {
+        "quote": "Desain luar biasa dan bekerja sempurna secara offline. Saya menggunakannya di browser dan ponsel Android saya. Penting untuk konsumen yang sadar.",
+        "author": "Sarah Ahmed",
+        "role": "Pengguna Android"
+      },
+      "3": {
+        "quote": "Akhirnya cara untuk memboikot secara efektif tanpa mencari secara manual setiap kali. Umpan balik visualnya kuat dan jelas.",
+        "author": "Omar Khaled",
+        "role": "Pengguna Firefox"
+      },
+      "4": {
+        "quote": "Alasan terperinci untuk setiap pemblokiran. Saya suka karena mengutip data Crunchbase dan pendiri. Transparansi membangun kepercayaan.",
+        "author": "Layla Hassan",
+        "role": "Pengguna Safari"
+      },
+      "5": {
+        "quote": "Proyek ini mengubah permainan bagi gerakan BDS. Sangat direkomendasikan untuk semua orang yang ingin membuat perubahan.",
+        "author": "Youssef Ibrahim",
+        "role": "Pengguna Brave"
+      },
+      "6": {
+        "quote": "Aplikasi Android sangat ringan dan tidak menguras baterai. Bekerja di latar belakang secara diam-diam memberi tahu saya.",
+        "author": "Mariam Ali",
+        "role": "Pengguna Android"
+      },
       "quote": "Plugin yang paling mulus dan luar biasa yang pernah saya gunakan! Ini telah memberi tahu saya tentang banyak perusahaan yang saya berhenti gunakan.",
       "author": "Abdo Wahba",
       "role": "Pengguna {{browser}}"
+    },
+    "testimonials": {
+      "title": "Apa kata orang",
+      "subtitle": "Bergabunglah dengan ribuan pengguna sadar di seluruh dunia."
     },
     "video": {
       "watchHowItWorks": "Tonton cara kerjanya"
@@ -71,6 +114,9 @@
     },
     "features": {
       "systemModule": "Modul Sistem",
+      "sectionLabel": "Fitur Utama",
+      "building": "Membangun",
+      "theFuture": "Masa Depan",
       "installOnce": {
         "title": "Instal sekali, bekerja selamanya",
         "description": "Instal addon browser atau aplikasi Android. Setiap kali Anda menemukan perusahaan yang terhubung dengan Israel, Anda akan melihat \"tembok\" sebagai gantinya."
@@ -91,6 +137,21 @@
         "title": "Dukung The Wall",
         "description": "Bantu kami memelihara dan meningkatkan The Wall. Dukungan Anda memungkinkan kami menjaga semuanya tetap gratis, memperbarui database secara teratur, dan menambahkan fitur baru. Setiap kontribusi membuat perbedaan!",
         "button": "Klik untuk donasi"
+      }
+    },
+    "platform": {
+      "sectionTitle": "Platform tersedia",
+      "desktop": {
+        "subtitle": "[ EKSTENSI BROWSER ]",
+        "title": "Diam. Otomatis. Tak Terkalahkan.",
+        "description": "Instal sekali dan lupakan. Ekstensi berjalan di latar belakang, mendeteksi dan memblokir situs web dan akun sosial yang terlibat secara instan saat Anda menjelajah.",
+        "button": "Instal untuk Chrome"
+      },
+      "mobile": {
+        "subtitle": "[ APLIKASI ANDROID ]",
+        "title": "Pindai. Temukan. Ganti.",
+        "description": "Perlindungan perangkat penuh. Pindai aplikasi yang diinstal untuk menemukan koneksi terlibat tersembunyi dan segera temukan alternatif etis dengan satu ketukan.",
+        "button": "Dapatkan di Google Play"
       }
     },
     "language": {
@@ -126,6 +187,12 @@
       "alsoGetAddon": "Dapatkan juga addon browser kami",
       "alsoGetApp": "Juga tersedia sebagai aplikasi Android",
       "newBadge": "BARU"
+    },
+    "buildWall": {
+      "phrase0": "KAMI MEMBANGUN TEMBOK",
+      "phrase1": "UNTUK MELINDUNGI NILAI-NILAI KAMI",
+      "phrase2": "SATU BATA PADA SATU WAKTU",
+      "phrase3": "SAMPAI KEBENARAN MENANG"
     }
   }
 }

@@ -2,13 +2,27 @@
   "translation": {
     "meta": {
       "title": "The Wall Project",
-      "description": "The Wall Project - Browser-Addon und Android-App zur Erkennung und Blockierung von über 19.000 israelischen Websites und ihren Social-Media-Konten. Gleiche Datenbank, funktioniert offline.",
+      "description": "The Wall Project - Browser-Addon und Android-App zur Erkennung und Blockierung von über 20.000 israelischen Websites und ihren Social-Media-Konten. Gleiche Datenbank, funktioniert offline.",
       "keywords": "The Wall, Browser-Addon, Android-App, Website-Blocker, Boykott-Assistent, israelische Websites, Social-Media-Blockierung, Chrome-Erweiterung, Firefox-Addon"
     },
     "header": {
       "title": "The Wall Project",
       "platforms": "Plattformen",
       "testimonials": "Testimonials"
+    },
+    "hero": {
+      "detectAndBlock": "Erkennen und Blockieren",
+      "israeli": "Israelisch",
+      "relatedWebsites": "Verwandte Websites",
+      "andSocialAccounts": "Und Soziale Konten.",
+      "availableAsDesktop": "Verfügbar als <span>Browser-Erweiterung</span>",
+      "availableAsMobile": "Verfügbar als <span>Android-App</span> und <span>Erweiterung</span>"
+    },
+    "donate": {
+      "sectionLabel": "DIE VERTEIDIGUNG WIEDERAUFBAUEN",
+      "title": "Die Mauer ist nur so <span>stark</span> wie ihre Erbauer.",
+      "description": "Wir sind auf Ihre Unterstützung angewiesen, um die Datenbankintegrität zu wahren und dieses Tool kostenlos zu halten. Jeder Beitrag legt einen neuen Stein.",
+      "button": "AUF KO-FI UNTERSTÜTZEN"
     },
     "intro": {
       "text": "Erkennen und blockieren Sie mehr als {{count}} israelische Websites und ihre sozialen Konten. Verfügbar als Browser-Addon und Android-App."
@@ -41,9 +55,38 @@
       "comma": ","
     },
     "testimonial": {
+      "2": {
+        "quote": "Unglaubliches Design und funktioniert perfekt offline. Ich benutze es sowohl in meinem Browser als auch auf meinem Android-Handy. Unverzichtbar für bewusste Verbraucher.",
+        "author": "Sarah Ahmed",
+        "role": "Android-Benutzer"
+      },
+      "3": {
+        "quote": "Endlich eine Möglichkeit, effektiv zu boykottieren, ohne jedes Mal manuell zu suchen. Das visuelle Feedback ist kraftvoll und klar.",
+        "author": "Omar Khaled",
+        "role": "Firefox-Benutzer"
+      },
+      "4": {
+        "quote": "Detaillierte Gründe für jede Blockierung. Ich liebe es, dass es Crunchbase-und Gründerdaten zitiert. Transparenz schafft Vertrauen.",
+        "author": "Layla Hassan",
+        "role": "Safari-Benutzer"
+      },
+      "5": {
+        "quote": "Dieses Projekt ist ein Gamechanger für die BDS-Bewegung. Sehr empfehlenswert für alle, die einen Unterschied machen wollen.",
+        "author": "Youssef Ibrahim",
+        "role": "Brave-Benutzer"
+      },
+      "6": {
+        "quote": "Die Android-App ist so leicht und verbraucht keinen Akku. Funktioniert im Hintergrund und hält mich stillschweigend auf dem Laufenden.",
+        "author": "Mariam Ali",
+        "role": "Android-Benutzer"
+      },
       "quote": "Das nahtloseste und großartigste Plugin, das ich je verwendet habe! Es hat mich über viele Unternehmen informiert, die ich nicht mehr nutze.",
       "author": "Abdo Wahba",
       "role": "{{browser}}-Benutzer"
+    },
+    "testimonials": {
+      "title": "Was die Leute sagen",
+      "subtitle": "Schließen Sie sich tausenden bewussten Benutzern weltweit an."
     },
     "video": {
       "watchHowItWorks": "Sehen Sie, wie es funktioniert"
@@ -71,6 +114,9 @@
     },
     "features": {
       "systemModule": "Systemmodul",
+      "sectionLabel": "Hauptfunktionen",
+      "building": "Bauen",
+      "theFuture": "Die Zukunft",
       "installOnce": {
         "title": "Einmal installieren, funktioniert für immer",
         "description": "Installieren Sie das Browser-Addon oder die Android-App. Jedes Mal, wenn Sie auf ein israelisches Unternehmen stoßen, sehen Sie stattdessen \"die Mauer\"."
@@ -91,6 +137,21 @@
         "title": "Unterstützen Sie The Wall",
         "description": "Helfen Sie uns, The Wall zu pflegen und zu verbessern. Ihre Unterstützung ermöglicht es uns, alles kostenlos zu halten, die Datenbank regelmäßig zu aktualisieren und neue Funktionen hinzuzufügen. Jeder Beitrag macht einen Unterschied!",
         "button": "Klicken Sie, um zu spenden"
+      }
+    },
+    "platform": {
+      "sectionTitle": "Verfügbare Plattformen",
+      "desktop": {
+        "subtitle": "[ BROWSER-ERWEITERUNG ]",
+        "title": "Leise. Automatisch. Unzerbrechlich.",
+        "description": "Einmal installieren und vergessen. Die Erweiterung läuft im Hintergrund und erkennt und blockiert sofort komplizen Websites und deren Social-Media-Konten während des Surfens.",
+        "button": "Für Chrome installieren"
+      },
+      "mobile": {
+        "subtitle": "[ ANDROID-APP ]",
+        "title": "Scannen. Aufdecken. Ersetzen.",
+        "description": "Vollständiger Geräteschutz. Scannen Sie Ihre installierten Apps, um versteckte komplizen Verbindungen aufzudecken und finden Sie sofort ethische Alternativen mit einem Tippen.",
+        "button": "Hol es dir auf Google Play"
       }
     },
     "language": {
@@ -126,6 +187,12 @@
       "alsoGetAddon": "Holen Sie sich auch unser Browser-Addon",
       "alsoGetApp": "Auch als Android-App verfügbar",
       "newBadge": "NEU"
+    },
+    "buildWall": {
+      "phrase0": "WIR BAUEN DIE MAUER",
+      "phrase1": "UM UNSERE WERTE ZU SCHÜTZEN",
+      "phrase2": "EIN STEIN ZUR ZEIT",
+      "phrase3": "BIS DIE WAHRHEIT SIEGT"
     }
   }
 }
