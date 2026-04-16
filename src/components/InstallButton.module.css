@@ -26,7 +26,7 @@
   max-width: 100%;
 }
 
-.playStoreBadge {
+.storeBadge {
   height: 56px;
   width: auto;
   display: block;
@@ -43,19 +43,19 @@
 @media (max-width: 768px) {
   .installButtonImage {
     transform: scale(0.75);
-    transform-origin: left center;
+    transform-origin: center center;
   }
-  .playStoreBadge {
-    height: 85px;
+  .storeBadge {
+    height: 86px;
   }
 }
 
 @media (max-width: 480px) {
   .installButtonImage {
     transform: scale(0.55);
-    transform-origin: left center;
+    transform-origin: center center;
   }
-  .playStoreBadge {
-    height: 85px;
+  .storeBadge {
+    height: 86px;
   }
 }

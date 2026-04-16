@@ -14,9 +14,7 @@
       "detectAndBlock": "检测和阻止",
       "israeli": "以色列",
       "relatedWebsites": "相关网站",
-      "andSocialAccounts": "和社交账户。",
-      "availableAsDesktop": "可用作<span>浏览器扩展</span>",
-      "availableAsMobile": "可用作<span>安卓应用</span>和<span>扩展</span>"
+      "andSocialAccounts": "和社交账户。"
     },
     "donate": {
       "sectionLabel": "重建防线",

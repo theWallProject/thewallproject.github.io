@@ -14,9 +14,7 @@
       "detectAndBlock": "Detect and Block",
       "israeli": "Israeli",
       "relatedWebsites": "Related Websites",
-      "andSocialAccounts": "And Social Accounts.",
-      "availableAsDesktop": "Available as a <span>Browser Extension</span>",
-      "availableAsMobile": "Available as an <span>Android App</span> and <span>Extension</span>"
+      "andSocialAccounts": "And Social Accounts."
     },
     "donate": {
       "sectionLabel": "REBUILD THE DEFENSES",

@@ -188,7 +188,7 @@ const Features: React.FC = () => {
             }}
           >
             {/* Icon + Title Row */}
-            <div className="relative z-10 w-full flex items-center gap-4 md:gap-6">
+            <div className="relative z-10 w-full flex flex-col items-start md:flex-row md:items-center gap-4 md:gap-6">
               <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-white/[0.08] border border-white/[0.15] flex items-center justify-center backdrop-blur-xl flex-shrink-0">
                 <img
                   src={feature.icon}

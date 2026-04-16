@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDownloadLinks } from "./useDownloadLinks";
+import { getBadgePath } from "./badgeAssets";
 import styles from "./InstallButton.module.css";
 
 interface InstallButtonProps {
@@ -9,10 +10,12 @@ interface InstallButtonProps {
 
 const InstallButton: React.FC<InstallButtonProps> = ({ className = "" }) => {
   const { t, i18n } = useTranslation();
-  const { primaryDownload, browserDisplayName, isAndroid } = useDownloadLinks();
+  const { primaryDownload, browserDisplayName, isAndroid, isIOS } = useDownloadLinks();
   const textRef = useRef<SVGTextElement>(null);
   const [svgWidth, setSvgWidth] = useState(380);
   const [rectWidth, setRectWidth] = useState(376);
+
+  const badgePath = getBadgePath(i18n.language, isIOS, isAndroid);
 
   const buttonText =
     i18n.language === "ar"
@@ -35,20 +38,18 @@ const InstallButton: React.FC<InstallButtonProps> = ({ className = "" }) => {
     }
   }, [buttonText]);
 
-  if (isAndroid) {
+  if (badgePath) {
+    const ariaLabel = isIOS ? t("downloads.ios.title") : t("sections.androidApp.getOnPlayStore");
+
     return (
       <a
         href={primaryDownload.href}
         target="_blank"
         rel="noopener noreferrer"
         className={`${styles.installButton} ${className}`}
-        aria-label={t("sections.androidApp.getOnPlayStore")}
+        aria-label={ariaLabel}
       >
-        <img
-          src="./files/common/playstore/GetItOnGooglePlay_Badge_Web_color_English.svg"
-          alt={t("sections.androidApp.getOnPlayStore")}
-          className={styles.playStoreBadge}
-        />
+        <img src={badgePath} alt={ariaLabel} className={styles.storeBadge} />
       </a>
     );
   }

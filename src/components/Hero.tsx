@@ -79,7 +79,7 @@ const Hero: React.FC = () => {
       style={{ backgroundImage: 'url("/files/common/bg.png")', backgroundSize: "cover" }}
     >
       {/* 1. Seamless Shader Background Bridge (Bottom transition only) */}
-      <div className="absolute  bottom-[-43vh] lg:bottom-0 left-0 w-full h-[100%] z-0 pointer-events-none">
+      <div className="absolute bottom-[-43vh] lg:bottom-0 left-0 w-full h-[89%] sm:h-[100%] z-0 pointer-events-none">
         <MorphingBackground color="#b72b00" edgeSoftness={0.2} />
       </div>
 

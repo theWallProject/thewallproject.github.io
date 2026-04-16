@@ -14,9 +14,7 @@
       "detectAndBlock": "اكتشف واحجب أكثر من",
       "israeli": "إسرائيلي",
       "relatedWebsites": "موقع ذو صلة",
-      "andSocialAccounts": "وحساباتهم الاجتماعية.",
-      "availableAsDesktop": "متوفر كـ <span>إضافة للمتصفح</span>",
-      "availableAsMobile": "متوفر كـ <span>تطبيق أندرويد</span> و <span>إضافة متصفح</span>"
+      "andSocialAccounts": "وحساباتهم الاجتماعية."
     },
     "donate": {
       "sectionLabel": "أعد بناء الدفاعات",
