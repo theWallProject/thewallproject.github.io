@@ -6,11 +6,6 @@ const CustomCursor: React.FC = () => {
   const cursorOutlineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const isTouchDevice =
-      typeof window !== "undefined" && ("ontouchstart" in window || window.matchMedia("(pointer: coarse)").matches);
-
-    if (isTouchDevice) return;
-
     const dot = cursorDotRef.current;
     const outline = cursorOutlineRef.current;
     if (!dot || !outline) return;
@@ -67,10 +62,6 @@ const CustomCursor: React.FC = () => {
       });
     };
   }, []);
-
-  if (typeof window !== "undefined" && ("ontouchstart" in window || window.matchMedia("(pointer: coarse)").matches)) {
-    return null;
-  }
 
   return (
     <>

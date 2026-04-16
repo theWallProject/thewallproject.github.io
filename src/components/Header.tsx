@@ -44,16 +44,10 @@ const Header: React.FC = () => {
         <div className="flex items-center gap-10">
           <nav className="hidden sm:flex items-center gap-10">
             <a
-              href="#build-section"
+              href="#donate"
               className={`text-white text-[0.9rem] font-semibold hover:text-brand-orange transition-all uppercase tracking-[0.15em] drop-shadow-sm ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
             >
-              {t("header.platforms")}
-            </a>
-            <a
-              href="#testimonials"
-              className={`text-white text-[0.9rem] font-semibold hover:text-brand-orange transition-all uppercase tracking-[0.15em] drop-shadow-sm ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
-            >
-              {t("header.testimonials")}
+              {t("header.donate")}
             </a>
           </nav>
 
