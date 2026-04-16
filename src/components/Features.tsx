@@ -193,6 +193,7 @@ const Features: React.FC = () => {
                 <img
                   src={feature.icon}
                   alt={feature.iconAlt}
+                  loading="lazy"
                   className="w-6 h-6 md:w-8 md:h-8 opacity-95 brightness-0 invert"
                 />
               </div>
@@ -205,13 +206,24 @@ const Features: React.FC = () => {
 
               {feature.id === "worksEverywhere" && (
                 <div className="ml-auto flex items-center gap-2 md:gap-4 bg-white/[0.08] px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-white/[0.15] backdrop-blur-sm">
-                  <img src="./files/common/icon-chrome.svg" alt="Chrome" className="w-4 h-4 md:w-5 md:h-5 opacity-80" />
+                  <img
+                    src="./files/common/icon-chrome.svg"
+                    alt="Chrome"
+                    loading="lazy"
+                    className="w-4 h-4 md:w-5 md:h-5 opacity-80"
+                  />
                   <img
                     src="./files/common/icon-firefox.svg"
                     alt="Firefox"
+                    loading="lazy"
                     className="w-4 h-4 md:w-5 md:h-5 opacity-80"
                   />
-                  <img src="./files/common/icon-safari.svg" alt="Safari" className="w-4 h-4 md:w-5 md:h-5 opacity-80" />
+                  <img
+                    src="./files/common/icon-safari.svg"
+                    alt="Safari"
+                    loading="lazy"
+                    className="w-4 h-4 md:w-5 md:h-5 opacity-80"
+                  />
                 </div>
               )}
 

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
 import { useTranslation, Trans } from "react-i18next";
 import InstallButton from "./InstallButton";
 import { useDownloadLinks } from "./useDownloadLinks";
@@ -12,6 +12,16 @@ const Hero: React.FC = () => {
   const lineRef = useRef<SVGPathElement>(null);
   const textContainerRef = useRef<HTMLDivElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.matchMedia("(max-width: 767px)").matches : false
+  );
+
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 767px)");
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
 
   // Get video URL based on language
   const getVideoUrl = (): string => {
@@ -69,7 +79,7 @@ const Hero: React.FC = () => {
   return (
     <section
       className={`relative min-h-screen h-auto md:h-screen w-full flex flex-col justify-between items-center bg-brand-orange bg-center bg-no-repeat overflow-hidden px-6 sm:px-10 pt-20 pb-24 md:pb-16 text-[#f5f5f3] ${i18n.language === "ar" ? "font-arabic" : ""}`}
-      style={{ backgroundImage: 'url("/bg.png")', backgroundSize: "cover" }}
+      style={{ backgroundImage: 'url("/files/common/bg.png")', backgroundSize: "cover" }}
     >
       {/* 1. Seamless Shader Background Bridge (Bottom transition only) */}
       <div className="absolute  bottom-[-43vh] lg:bottom-0 left-0 w-full h-[100%] z-0 pointer-events-none">
@@ -168,7 +178,7 @@ const Hero: React.FC = () => {
               className={`text-[1.3rem] md:text-[2.2rem] lg:text-[1.6rem] leading-[1.3] font-medium opacity-95 tracking-tight px-2 sm:px-0 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
             >
               <Trans
-                i18nKey={window.innerWidth < 768 ? "hero.availableAsMobile" : "hero.availableAsDesktop"}
+                i18nKey={isMobile ? "hero.availableAsMobile" : "hero.availableAsDesktop"}
                 components={{
                   span: <span className="text-white border-b border-white/20 pb-1" />,
                 }}
@@ -189,7 +199,12 @@ const Hero: React.FC = () => {
                     rel="noopener noreferrer"
                     className="group flex items-center gap-2 transition-all hover:opacity-100 opacity-80"
                   >
-                    <img src="/files/common/icon-firefox.svg" alt="Firefox" className="w-4 md:w-5 h-4 md:h-5" />
+                    <img
+                      src="/files/common/icon-firefox.svg"
+                      alt="Firefox"
+                      loading="lazy"
+                      className="w-4 md:w-5 h-4 md:h-5"
+                    />
                     <span className="text-[0.9rem] md:text-[1rem] border-b border-white/10 group-hover:border-white/40 transition-colors">
                       Firefox
                     </span>
@@ -200,7 +215,12 @@ const Hero: React.FC = () => {
                     rel="noopener noreferrer"
                     className="group flex items-center gap-2 transition-all hover:opacity-100 opacity-80"
                   >
-                    <img src="/files/common/icon-safari.svg" alt="Safari" className="w-4 md:w-5 h-4 md:h-5" />
+                    <img
+                      src="/files/common/icon-safari.svg"
+                      alt="Safari"
+                      loading="lazy"
+                      className="w-4 md:w-5 h-4 md:h-5"
+                    />
                     <span className="text-[0.9rem] md:text-[1rem] border-b border-white/10 group-hover:border-white/40 transition-colors">
                       Safari
                     </span>
@@ -218,6 +238,7 @@ const Hero: React.FC = () => {
                 title="How it works"
                 frameBorder="0"
                 allowFullScreen
+                loading="lazy"
               />
             </div>
           </div>

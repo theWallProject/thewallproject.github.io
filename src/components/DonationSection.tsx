@@ -3,13 +3,13 @@ import { useTranslation, Trans } from "react-i18next";
 import gsap from "gsap";
 
 const BRICK_ASSETS = [
-  "/walls/wall1.png",
-  "/walls/wall2.png",
-  "/walls/wall3.png",
-  "/walls/wall4.png",
-  "/walls/wall5.png",
-  "/walls/wall6.png",
-  "/walls/wall7.png",
+  "/files/walls/wall1.png",
+  "/files/walls/wall2.png",
+  "/files/walls/wall3.png",
+  "/files/walls/wall4.png",
+  "/files/walls/wall5.png",
+  "/files/walls/wall6.png",
+  "/files/walls/wall7.png",
 ];
 
 const DonationSection: React.FC = () => {
@@ -32,7 +32,7 @@ const DonationSection: React.FC = () => {
 
   const handleMouseEnter = () => {
     // Disable building hover on mobile
-    if (window.innerWidth < 768) return;
+    if (window.matchMedia("(max-width: 767px)").matches) return;
 
     // لو بنينا الـ 4 صفوف خلاص، ما تعملش حاجة
     if (builtRows >= 4) return;
@@ -69,8 +69,9 @@ const DonationSection: React.FC = () => {
         {/* Left Image */}
         <div className="absolute left-10 top-0 bottom-0 w-[350px] opacity-20">
           <img
-            src="/5e82d90473d74e395f8a00f9ec540cb5.jpg"
+            src="/files/common/flag.jpg"
             alt=""
+            loading="lazy"
             className="w-full h-full object-cover"
             style={{
               maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
@@ -81,8 +82,9 @@ const DonationSection: React.FC = () => {
         {/* Right Image */}
         <div className="absolute right-10 top-0 bottom-0 w-[350px] opacity-20 transform scale-x-[-1]">
           <img
-            src="/5e82d90473d74e395f8a00f9ec540cb5.jpg"
+            src="/files/common/flag.jpg"
             alt=""
+            loading="lazy"
             className="w-full h-full object-cover"
             style={{
               maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
@@ -120,6 +122,7 @@ const DonationSection: React.FC = () => {
           <img
             src="/files/common/kofi-logo.png"
             alt="Ko-fi"
+            loading="lazy"
             className="h-5 w-auto opacity-70 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-110"
           />
           <span
@@ -160,7 +163,7 @@ const DonationSection: React.FC = () => {
                 // الطوب بيبدأ من فوق شوية ومخفي (على الديسكتوب بس)
                 className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
               >
-                <img src={BRICK_ASSETS[idx]} alt="" className="w-full h-full object-cover rounded-sm" />
+                <img src={BRICK_ASSETS[idx]} alt="" loading="lazy" className="w-full h-full object-cover rounded-sm" />
               </div>
             ))}
           </div>
@@ -178,7 +181,7 @@ const DonationSection: React.FC = () => {
                 }}
                 className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
               >
-                <img src={BRICK_ASSETS[idx]} alt="" className="w-full h-full object-cover rounded-sm" />
+                <img src={BRICK_ASSETS[idx]} alt="" loading="lazy" className="w-full h-full object-cover rounded-sm" />
               </div>
             ))}
           </div>
@@ -196,7 +199,7 @@ const DonationSection: React.FC = () => {
                 }}
                 className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
               >
-                <img src={BRICK_ASSETS[idx]} alt="" className="w-full h-full object-cover rounded-sm" />
+                <img src={BRICK_ASSETS[idx]} alt="" loading="lazy" className="w-full h-full object-cover rounded-sm" />
               </div>
             ))}
           </div>
@@ -214,7 +217,7 @@ const DonationSection: React.FC = () => {
                 }}
                 className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
               >
-                <img src={BRICK_ASSETS[idx]} alt="" className="w-full h-full object-cover rounded-sm" />
+                <img src={BRICK_ASSETS[idx]} alt="" loading="lazy" className="w-full h-full object-cover rounded-sm" />
               </div>
             ))}
           </div>

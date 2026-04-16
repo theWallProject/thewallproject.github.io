@@ -31,22 +31,28 @@ const PlatformShowcase: React.FC = () => {
         });
       }
 
-      // ── MOBILE FAN-OUT (Restored Logic to Work with Multiple Images) ──
+      // ── MOBILE FAN-OUT ──
       const mobileImages = gsap.utils.toArray<HTMLElement>(".mobile-fan-img", mobileRef.current);
       if (mobileImages.length > 0) {
-        gsap
-          .timeline({
-            scrollTrigger: {
-              trigger: mobileRef.current,
-              start: "top 80%",
-              end: "bottom 30%",
-              scrub: 1,
-            },
-          })
-          .to(mobileImages[0], { y: -8, rotation: -3, ease: "power1.inOut" }, 0)
-          .to(mobileImages[1], { x: -50, y: 15, rotation: -8, ease: "power1.inOut" }, 0)
-          .to(mobileImages[2], { x: 50, y: 10, rotation: 6, ease: "power1.inOut" }, 0)
-          .to(mobileImages[3], { x: 100, y: 25, rotation: 12, ease: "power1.inOut" }, 0);
+        const fanAnimations = [
+          { y: -8, rotation: -3 },
+          { x: -50, y: 15, rotation: -8 },
+          { x: 50, y: 10, rotation: 6 },
+          { x: 100, y: 25, rotation: 12 },
+        ];
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: mobileRef.current,
+            start: "top 80%",
+            end: "bottom 30%",
+            scrub: 1,
+          },
+        });
+        mobileImages.forEach((img, i) => {
+          if (fanAnimations[i]) {
+            tl.to(img, { ...fanAnimations[i], ease: "power1.inOut" }, 0);
+          }
+        });
       }
     }, desktopRef);
 
@@ -74,6 +80,7 @@ const PlatformShowcase: React.FC = () => {
                   ref={desktopImgRef}
                   src="/files/common/install.gif"
                   alt="Desktop Extension"
+                  loading="lazy"
                   className="w-full h-full object-cover opacity-95 transition-opacity duration-1000 scale-105"
                 />
               </div>
@@ -134,6 +141,7 @@ const PlatformShowcase: React.FC = () => {
                   <img
                     src="./files/common/playstore/GetItOnGooglePlay_Badge_Web_color_English.svg"
                     alt={t("sections.androidApp.getOnPlayStore")}
+                    loading="lazy"
                     className="h-10 w-auto drop-shadow-lg"
                   />
                 </a>
@@ -144,6 +152,7 @@ const PlatformShowcase: React.FC = () => {
               <div ref={mobileStackRef} className="relative w-full h-[220px] md:h-[480px]">
                 <img
                   src="/files/common/android_featured.png"
+                  loading="lazy"
                   className="mobile-fan-img absolute inset-0 w-full h-full object-contain rounded-3xl md:rounded-[2.5rem]"
                   style={{
                     transformOrigin: "bottom center",

@@ -8,35 +8,35 @@ import { FlagShader, type FlagShaderRef } from "./FlagShader";
 gsap.registerPlugin(ScrollTrigger);
 
 const BRICK_ASSETS = [
-  "/walls/wall1.png",
-  "/walls/wall2.png",
-  "/walls/wall3.png",
-  "/walls/wall4.png",
-  "/walls/wall5.png",
-  "/walls/wall6.png",
-  "/walls/wall7.png",
+  "/files/walls/wall1.png",
+  "/files/walls/wall2.png",
+  "/files/walls/wall3.png",
+  "/files/walls/wall4.png",
+  "/files/walls/wall5.png",
+  "/files/walls/wall6.png",
+  "/files/walls/wall7.png",
 ];
 
 const LOGO_FILES = [
-  "/logos/Adama_Logo.svg.png",
-  "/logos/AI21-Labs-Logo.jpg",
-  "/logos/Amdocs-2017-brand-mark.svg.png",
-  "/logos/Ankori.svg.png",
-  "/logos/Arava_Logo.svg.png",
-  "/logos/Ayalon_Logo_Hebrew_RGB_Short_Dark.svg.png",
-  "/logos/B144_logo.png",
-  "/logos/Check_Point_logo_2022.svg.png",
-  "/logos/Coca-Cola-logo.png",
-  "/logos/Decart_Logo.svg.png",
-  "/logos/fiverr-freelance-service-thumbnail.png",
-  "/logos/Logo_of_NSO_Group.svg",
-  "/logos/McDonalds-Logo-2003.png",
-  "/logos/nestle_logo.png",
-  "/logos/SimilarWeb-logo-8.png",
-  "/logos/starbucks-logo-png-transparent.png",
-  "/logos/Teva_Pharmaceuticals_logo.png",
-  "/logos/unnamed (2).png",
-  "/logos/viber-icon_578229-264.avif",
+  "/files/logos/Adama_Logo.svg.png",
+  "/files/logos/AI21-Labs-Logo.jpg",
+  "/files/logos/Amdocs-2017-brand-mark.svg.png",
+  "/files/logos/Ankori.svg.png",
+  "/files/logos/Arava_Logo.svg.png",
+  "/files/logos/Ayalon_Logo_Hebrew_RGB_Short_Dark.svg.png",
+  "/files/logos/B144_logo.png",
+  "/files/logos/Check_Point_logo_2022.svg.png",
+  "/files/logos/Coca-Cola-logo.png",
+  "/files/logos/Decart_Logo.svg.png",
+  "/files/logos/fiverr-freelance-service-thumbnail.png",
+  "/files/logos/Logo_of_NSO_Group.svg",
+  "/files/logos/McDonalds-Logo-2003.png",
+  "/files/logos/nestle_logo.png",
+  "/files/logos/SimilarWeb-logo-8.png",
+  "/files/logos/starbucks-logo-png-transparent.png",
+  "/files/logos/Teva_Pharmaceuticals_logo.png",
+  "/files/logos/unnamed (2).png",
+  "/files/logos/viber-icon_578229-264.avif",
 ];
 
 const TheBuildWall: React.FC = () => {
@@ -69,7 +69,7 @@ const TheBuildWall: React.FC = () => {
       setRows(Math.min(calculatedRows, 60));
     };
     handleResize();
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize, { passive: true });
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -98,6 +98,7 @@ const TheBuildWall: React.FC = () => {
             src={src}
             key={index}
             alt="Target"
+            loading="lazy"
             className="h-10 md:h-14 w-auto object-contain px-8"
             draggable="false"
           />
@@ -115,7 +116,7 @@ const TheBuildWall: React.FC = () => {
   }, [logoNodes]);
 
   useEffect(() => {
-    if (rows === 0) return;
+    if (rows === 0 || !leftRef.current || !rightRef.current || !sectionRef.current || !marqueeRef.current) return;
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
@@ -131,16 +132,10 @@ const TheBuildWall: React.FC = () => {
             delay: 0.1,
             ease: "power2.inOut",
           },
-          onUpdate: () => {
-            // Debug progress removed
-          },
         },
       });
 
-      const bricksArr = [
-        ...Array.from(leftRef.current!.querySelectorAll(".brick")),
-        ...Array.from(rightRef.current!.querySelectorAll(".brick")),
-      ];
+      const bricksArr = [...Array.from(sectionRef.current!.querySelectorAll(".brick"))];
 
       gsap.set(bricksArr, {
         opacity: 0,
@@ -308,7 +303,7 @@ const TheBuildWall: React.FC = () => {
       );
 
       tl.to({}, { duration: 1 }, "finale");
-    });
+    }, sectionRef);
 
     return () => ctx.revert();
   }, [rows, cols]);

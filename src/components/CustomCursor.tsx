@@ -6,8 +6,14 @@ const CustomCursor: React.FC = () => {
   const cursorOutlineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const isTouchDevice =
+      typeof window !== "undefined" && ("ontouchstart" in window || window.matchMedia("(pointer: coarse)").matches);
+
+    if (isTouchDevice) return;
+
     const dot = cursorDotRef.current;
     const outline = cursorOutlineRef.current;
+    if (!dot || !outline) return;
 
     const xDot = gsap.quickTo(dot, "x", { duration: 0.1 });
     const yDot = gsap.quickTo(dot, "y", { duration: 0.1 });
@@ -15,7 +21,6 @@ const CustomCursor: React.FC = () => {
     const yOutline = gsap.quickTo(outline, "y", { duration: 0.5, ease: "power3.out" });
 
     const onMouseMove = (e: MouseEvent) => {
-      // QuickTo updates values without creating new tweens
       xDot(e.clientX);
       yDot(e.clientY);
       xOutline(e.clientX);
@@ -46,9 +51,8 @@ const CustomCursor: React.FC = () => {
       });
     };
 
-    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
 
-    // Add listeners to all interactive elements
     const interactiveElements = document.querySelectorAll("a, button, iframe, .interactive");
     interactiveElements.forEach((el) => {
       el.addEventListener("mouseenter", onMouseEnterLink);
@@ -63,6 +67,10 @@ const CustomCursor: React.FC = () => {
       });
     };
   }, []);
+
+  if (typeof window !== "undefined" && ("ontouchstart" in window || window.matchMedia("(pointer: coarse)").matches)) {
+    return null;
+  }
 
   return (
     <>

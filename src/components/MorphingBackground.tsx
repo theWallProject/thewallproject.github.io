@@ -179,7 +179,7 @@ const MorphingBackground: React.FC<MorphingBackgroundProps> = ({ color = "#b72b0
         renderer.setSize(window.innerWidth, window.innerHeight);
         material.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
       };
-      window.addEventListener("resize", handleResize);
+      window.addEventListener("resize", handleResize, { passive: true });
 
       const trigger = ScrollTrigger.create({
         trigger: containerRef.current?.parentElement || document.body,

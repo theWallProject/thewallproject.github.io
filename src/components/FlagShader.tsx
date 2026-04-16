@@ -166,7 +166,7 @@ export const FlagShader = forwardRef<FlagShaderRef, FlagShaderProps>(({ progress
       renderer.setSize(window.innerWidth, window.innerHeight);
 
       const textureLoader = new THREE.TextureLoader();
-      const flagTexture = textureLoader.load("/walls/ps-grunge-01.png");
+      const flagTexture = textureLoader.load("/files/walls/ps-grunge-01.png");
 
       const material = new THREE.ShaderMaterial({
         vertexShader,
@@ -195,7 +195,7 @@ export const FlagShader = forwardRef<FlagShaderRef, FlagShaderProps>(({ progress
         renderer.setSize(w, h);
         material.uniforms.uResolution.value.set(w, h);
       };
-      window.addEventListener("resize", onResize);
+      window.addEventListener("resize", onResize, { passive: true });
     }
 
     const state = webglRef.current;

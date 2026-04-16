@@ -7,12 +7,19 @@ const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 20);
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -28,6 +35,7 @@ const Header: React.FC = () => {
           <img
             src="/files/common/logo-white.svg"
             alt="The Wall Logo"
+            loading="eager"
             className={`${isScrolled ? "w-20" : "w-24"} h-auto transition-all duration-500 opacity-90 hover:opacity-100`}
           />
         </div>

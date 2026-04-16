@@ -55,7 +55,7 @@ const useResizeObserver = (
   useEffect(() => {
     if (!window.ResizeObserver) {
       const handleResize = () => callback();
-      window.addEventListener("resize", handleResize);
+      window.addEventListener("resize", handleResize, { passive: true });
       callback();
       return () => window.removeEventListener("resize", handleResize);
     }

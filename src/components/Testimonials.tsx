@@ -86,7 +86,7 @@ const Testimonials: React.FC = () => {
         <div
           className="absolute inset-0 bg-cover bg-center opacity-90"
           style={{
-            backgroundImage: 'url("/palestine-flag-over-sunrise-75yqzvkpketv5cob.jpg")',
+            backgroundImage: 'url("/files/common/palestine-flag-over-sunrise-75yqzvkpketv5cob.jpg")',
           }}
         />
         <div className="absolute inset-0 bg-linear-to-b from-[#050505] via-black/60 to-transparent" />
