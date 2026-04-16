@@ -128,7 +128,7 @@ const Footer: React.FC = () => {
               rel="noopener noreferrer"
               className="ml-1 font-semibold text-[#cd4626] hover:underline"
             >
-              By Noor Hesham
+              Website Designed By Noor Hesham
             </a>
           </p>
           <div className={styles.footerLinks}>

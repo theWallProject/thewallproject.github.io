@@ -2,7 +2,6 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { LogoLoop, type LogoItem } from "./LogoLoop";
 import { useDownloadLinks } from "./useDownloadLinks";
-import MorphingBackground from "./MorphingBackground";
 
 const TestimonialCard: React.FC<{
   quote: string;
@@ -124,13 +123,6 @@ const Testimonials: React.FC = () => {
         </p>
         <div className="h-px w-16 bg-white/20" />
       </div>
-
-      {/* Transition Effect - Positioned at the TRUE bottom - Hidden on mobile */}
-      {typeof window !== "undefined" && window.innerWidth >= 768 && (
-        <div className="absolute bottom-[-15%] left-0 w-full h-[60%] z-0 pointer-events-none opacity-60">
-          <MorphingBackground color="#050505" edgeSoftness={0.4} />
-        </div>
-      )}
     </section>
   );
 };
