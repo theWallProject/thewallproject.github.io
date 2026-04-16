@@ -1,5 +1,5 @@
-import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
-import { useTranslation, Trans } from "react-i18next";
+import React, { useLayoutEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import InstallButton from "./InstallButton";
 import { useDownloadLinks } from "./useDownloadLinks";
 import SplitText from "./SplitText";
@@ -8,20 +8,17 @@ import gsap from "gsap";
 
 const Hero: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const { downloadLinks } = useDownloadLinks();
+  const { otherBrowsers } = useDownloadLinks();
   const lineRef = useRef<SVGPathElement>(null);
   const textContainerRef = useRef<HTMLDivElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" ? window.matchMedia("(max-width: 767px)").matches : false
-  );
 
-  useEffect(() => {
-    const mql = window.matchMedia("(max-width: 767px)");
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
-  }, []);
+  // useEffect(() => {
+  //   const mql = window.matchMedia("(max-width: 767px)");
+  //   const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+  //   mql.addEventListener("change", handler);
+  //   return () => mql.removeEventListener("change", handler);
+  // }, []);
 
   // Get video URL based on language
   const getVideoUrl = (): string => {
@@ -174,57 +171,34 @@ const Hero: React.FC = () => {
         {/* Bottom Section: Details & Play/Action */}
         <div className="w-full max-w-[1600px] flex flex-col lg:flex-row justify-between items-end gap-10 md:gap-12 md:py-4 pb-12 hero-bottom-anim text-center md:text-left">
           <div className="w-full lg:flex-1 max-w-[700px] flex flex-col gap-8 md:gap-10 items-center lg:items-start mx-auto lg:mx-0">
-            <p
-              className={`text-[1.3rem] md:text-[2.2rem] lg:text-[1.6rem] leading-[1.3] font-medium opacity-95 tracking-tight px-2 sm:px-0 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
-            >
-              <Trans
-                i18nKey={isMobile ? "hero.availableAsMobile" : "hero.availableAsDesktop"}
-                components={{
-                  span: <span className="text-white border-b border-white/20 pb-1" />,
-                }}
-              />
-            </p>
-            <div className="flex flex-col sm:flex-row items-center gap-8 md:gap-10">
+            <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-10">
               <InstallButton />
               <div
-                className={`flex flex-col gap-2 items-center sm:items-start ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+                className={`flex flex-col gap-1 items-center sm:items-start ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
               >
-                <p className="text-[0.65rem] md:text-[0.75rem] text-white/40 leading-tight uppercase tracking-[0.2em] font-bold">
+                <p className="text-[0.5rem] md:text-[0.75rem] text-white/40 leading-tight uppercase tracking-[0.2em] font-bold">
                   {t("downloads.alsoAvailablePrefix")}
                 </p>
-                <div className="flex items-center gap-6 md:gap-8">
-                  <a
-                    href={downloadLinks.firefox.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center gap-2 transition-all hover:opacity-100 opacity-80"
-                  >
-                    <img
-                      src="/files/common/icon-firefox.svg"
-                      alt="Firefox"
-                      loading="lazy"
-                      className="w-4 md:w-5 h-4 md:h-5"
-                    />
-                    <span className="text-[0.9rem] md:text-[1rem] border-b border-white/10 group-hover:border-white/40 transition-colors">
-                      Firefox
-                    </span>
-                  </a>
-                  <a
-                    href={downloadLinks.safari.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center gap-2 transition-all hover:opacity-100 opacity-80"
-                  >
-                    <img
-                      src="/files/common/icon-safari.svg"
-                      alt="Safari"
-                      loading="lazy"
-                      className="w-4 md:w-5 h-4 md:h-5"
-                    />
-                    <span className="text-[0.9rem] md:text-[1rem] border-b border-white/10 group-hover:border-white/40 transition-colors">
-                      Safari
-                    </span>
-                  </a>
+                <div className="flex items-center gap-3 md:gap-8">
+                  {otherBrowsers.slice(0, 3).map((browser) => (
+                    <a
+                      key={browser.id}
+                      href={browser.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center gap-1 md:gap-2 transition-all hover:opacity-100 opacity-80"
+                    >
+                      <img
+                        src={browser.icon.replace(/^\.\//, "/")}
+                        alt={browser.displayName}
+                        loading="lazy"
+                        className="w-3 md:w-5 h-3 md:h-5"
+                      />
+                      <span className="text-[0.55rem] md:text-[1rem] border-b border-white/10 group-hover:border-white/40 transition-colors">
+                        {browser.displayName}
+                      </span>
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>

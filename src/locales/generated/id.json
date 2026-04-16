@@ -37,11 +37,11 @@
         "title": "Klik untuk mengunduh untuk Firefox",
         "subtitle": "Juga untuk Firefox Android!"
       },
-      "safari": {
-        "title": "Klik untuk mengunduh untuk Safari desktop"
+      "macos": {
+        "title": "Klik untuk mengunduh untuk macOS"
       },
       "ios": {
-        "title": "Klik untuk mengunduh untuk Safari iOS",
+        "title": "Klik untuk mengunduh untuk iOS",
         "subtitle": "untuk iPhone dan iPad"
       },
       "telegram": {

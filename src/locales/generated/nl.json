@@ -37,11 +37,11 @@
         "title": "Klik om te downloaden voor Firefox",
         "subtitle": "Ook voor Firefox Android!"
       },
-      "safari": {
-        "title": "Klik om te downloaden voor Safari desktop"
+      "macos": {
+        "title": "Klik om te downloaden voor macOS"
       },
       "ios": {
-        "title": "Klik om te downloaden voor Safari iOS",
+        "title": "Klik om te downloaden voor iOS",
         "subtitle": "voor iPhone en iPad"
       },
       "telegram": {

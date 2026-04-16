@@ -10,7 +10,7 @@ test.describe("Downloads", () => {
     const downloadsSection = page.locator("section").nth(1);
     await expect(downloadsSection).toBeVisible();
 
-    // Check for all download containers (5 total: Chrome, Firefox, Safari, iOS, Telegram)
+    // Check for all download containers (Chrome, Firefox, macOS, iOS, Android, Telegram)
     // Use more specific selector to target only download links, not social links
     const downloadContainers = page.locator("section").nth(1).locator("a[target='_blank']");
     await expect(downloadContainers).toHaveCount(5);
@@ -18,13 +18,13 @@ test.describe("Downloads", () => {
     // Check for specific download options by their href attributes
     const chromeDownload = page.locator('a[href*="chromewebstore.google.com"]');
     const firefoxDownload = page.locator('a[href*="addons.mozilla.org"]');
-    const safariDownload = page.locator('a[href*="apps.apple.com"]').first();
-    const iosDownload = page.locator('a[href*="apps.apple.com"]').nth(1);
+    const macosDownload = page.locator('a[href*="apps.apple.com/us/app/the-wall-boycott-assistant"]').first();
+    const iosDownload = page.locator('a[href*="apps.apple.com/us/app/the-wall-boycott-helper"]').first();
     const telegramDownload = page.locator('a[href*="t.me"]');
 
     await expect(chromeDownload).toBeVisible();
     await expect(firefoxDownload).toBeVisible();
-    await expect(safariDownload).toBeVisible();
+    await expect(macosDownload).toBeVisible();
     await expect(iosDownload).toBeVisible();
     await expect(telegramDownload).toBeVisible();
   });

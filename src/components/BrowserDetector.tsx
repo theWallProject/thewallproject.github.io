@@ -6,7 +6,7 @@ export interface BrowserInfo {
   isMobile: boolean;
   isIOS: boolean;
   isAndroid: boolean;
-  recommendedDownload: "chrome" | "firefox" | "safari" | "ios" | "android" | "telegram";
+  recommendedDownload: "chrome" | "firefox" | "macos" | "ios" | "android" | "telegram";
 }
 
 export const useBrowserDetection = (): BrowserInfo => {
@@ -112,7 +112,7 @@ export const useBrowserDetection = (): BrowserInfo => {
             recommendedDownload = "firefox";
           } else if (browserNameLower === "safari") {
             browserName = "safari";
-            recommendedDownload = "safari";
+            recommendedDownload = "macos";
           } else if (supportsChromeExtensions()) {
             // Any browser that supports Chrome extensions is treated as Chrome
             browserName = "chrome";

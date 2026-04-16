@@ -55,8 +55,8 @@ const DownloadSnippet: React.FC = () => {
             ))}
           </div>
 
-          {/* Show Play Store badge on Android or as secondary on desktop/iOS */}
-          {(isAndroid || !isIOS) && (
+          {/* Show Play Store badge as secondary on desktop only (on Android, InstallButton already shows it) */}
+          {!isAndroid && !isIOS && (
             <div className={styles.playStoreRow}>
               <p className={styles.playStoreText}>
                 {isAndroid ? t("sections.androidApp.subtitle") : t("sections.alsoGetApp")}

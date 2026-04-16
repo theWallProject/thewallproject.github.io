@@ -18,8 +18,9 @@ const Downloads: React.FC = () => {
 
           <div className={styles.browserIcons}>
             <img src={downloadLinks.chrome.icon} alt="Chrome" className={styles.browserIcon} />
-            <img src={downloadLinks.safari.icon} alt="Safari" className={styles.browserIcon} />
+            <img src={downloadLinks.macos.icon} alt="macOS" className={styles.browserIcon} />
             <img src={downloadLinks.firefox.icon} alt="Firefox" className={styles.browserIcon} />
+            <img src={downloadLinks.ios.icon} alt="iOS" className={styles.browserIcon} />
           </div>
         </div>
       </div>

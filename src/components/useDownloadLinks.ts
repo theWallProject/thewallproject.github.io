@@ -1,7 +1,7 @@
 import { useBrowserDetection } from "./BrowserDetector";
 
 export interface DownloadLink {
-  id: "chrome" | "firefox" | "safari" | "android";
+  id: "chrome" | "firefox" | "macos" | "ios" | "android";
   href: string;
   icon: string;
   displayName: string;
@@ -11,7 +11,8 @@ export interface DownloadLinksData {
   downloadLinks: {
     chrome: DownloadLink;
     firefox: DownloadLink;
-    safari: DownloadLink;
+    macos: DownloadLink;
+    ios: DownloadLink;
     android: DownloadLink;
   };
   detectedBrowser: "chrome" | "firefox" | "safari";
@@ -40,11 +41,17 @@ export const useDownloadLinks = (): DownloadLinksData => {
       icon: "./files/common/icon-firefox.svg",
       displayName: "Firefox",
     },
-    safari: {
-      id: "safari" as const,
+    macos: {
+      id: "macos" as const,
       href: "https://apps.apple.com/us/app/the-wall-boycott-assistant/id6743708305",
       icon: "./files/common/icon-safari.svg",
-      displayName: "Safari",
+      displayName: "Safari (macOS)",
+    },
+    ios: {
+      id: "ios" as const,
+      href: "https://apps.apple.com/us/app/the-wall-boycott-helper/id6744613506",
+      icon: "./files/common/icon-safari.svg",
+      displayName: "Safari (iOS)",
     },
     android: {
       id: "android" as const,
@@ -54,7 +61,6 @@ export const useDownloadLinks = (): DownloadLinksData => {
     },
   };
 
-  // Determine primary download: Android on mobile, Browser Addon on desktop
   let detectedBrowser: "chrome" | "firefox" | "safari";
   if (name === "chrome" || name === "firefox" || name === "safari") {
     detectedBrowser = name;
@@ -62,26 +68,45 @@ export const useDownloadLinks = (): DownloadLinksData => {
     detectedBrowser = "chrome";
   }
 
-  const primaryDownload = isMobile ? downloadLinks.android : downloadLinks[detectedBrowser];
+  let primaryDownload: DownloadLink;
+  let browserDisplayName: string;
 
-  const browserDisplayName = isMobile ? "Android" : detectedBrowser.charAt(0).toUpperCase() + detectedBrowser.slice(1);
-
-  // Get other browsers (exclude the primary/detected one) - only browser addons
-  const otherBrowsers: DownloadLink[] = [];
-
-  if (detectedBrowser === "chrome") {
-    otherBrowsers.push(downloadLinks.firefox);
-    otherBrowsers.push(downloadLinks.safari);
-  } else if (detectedBrowser === "firefox") {
-    otherBrowsers.push(downloadLinks.chrome);
-    otherBrowsers.push(downloadLinks.safari);
+  if (isIOS) {
+    primaryDownload = downloadLinks.ios;
+    browserDisplayName = "Safari (iOS)";
+  } else if (isAndroid) {
+    primaryDownload = downloadLinks.android;
+    browserDisplayName = "Android";
+  } else if (detectedBrowser === "safari") {
+    primaryDownload = downloadLinks.macos;
+    browserDisplayName = "Safari (macOS)";
   } else {
-    otherBrowsers.push(downloadLinks.chrome);
-    otherBrowsers.push(downloadLinks.firefox);
+    primaryDownload = downloadLinks[detectedBrowser];
+    browserDisplayName = detectedBrowser.charAt(0).toUpperCase() + detectedBrowser.slice(1);
   }
 
-  // Double-check: ensure detected browser is NOT in otherBrowsers
-  const filteredOtherBrowsers = otherBrowsers.filter((browser) => browser.id !== detectedBrowser);
+  const otherBrowsers: DownloadLink[] = [];
+
+  if (isIOS) {
+    otherBrowsers.push(downloadLinks.chrome);
+    otherBrowsers.push(downloadLinks.firefox);
+    otherBrowsers.push(downloadLinks.macos);
+  } else if (detectedBrowser === "safari") {
+    otherBrowsers.push(downloadLinks.chrome);
+    otherBrowsers.push(downloadLinks.firefox);
+    otherBrowsers.push(downloadLinks.ios);
+  } else if (detectedBrowser === "chrome") {
+    otherBrowsers.push(downloadLinks.firefox);
+    otherBrowsers.push(downloadLinks.macos);
+    otherBrowsers.push(downloadLinks.ios);
+  } else if (detectedBrowser === "firefox") {
+    otherBrowsers.push(downloadLinks.chrome);
+    otherBrowsers.push(downloadLinks.macos);
+    otherBrowsers.push(downloadLinks.ios);
+  }
+
+  const primaryIds = [primaryDownload.id];
+  const filteredOtherBrowsers = otherBrowsers.filter((browser) => !primaryIds.includes(browser.id));
 
   return {
     downloadLinks,

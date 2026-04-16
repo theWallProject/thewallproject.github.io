@@ -26,6 +26,14 @@
   max-width: 100%;
 }
 
+.playStoreBadge {
+  height: 56px;
+  width: auto;
+  display: block;
+  max-width: 100%;
+  border-radius: 8px;
+}
+
 /* RTL support */
 [dir="rtl"] .installButton {
   direction: ltr;
@@ -34,12 +42,20 @@
 /* Responsive design */
 @media (max-width: 768px) {
   .installButtonImage {
-    /* Width is dynamic based on text */
+    transform: scale(0.75);
+    transform-origin: left center;
+  }
+  .playStoreBadge {
+    height: 85px;
   }
 }
 
 @media (max-width: 480px) {
   .installButtonImage {
-    /* Width is dynamic based on text */
+    transform: scale(0.55);
+    transform-origin: left center;
+  }
+  .playStoreBadge {
+    height: 85px;
   }
 }

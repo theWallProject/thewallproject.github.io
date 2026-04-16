@@ -9,7 +9,7 @@ interface InstallButtonProps {
 
 const InstallButton: React.FC<InstallButtonProps> = ({ className = "" }) => {
   const { t, i18n } = useTranslation();
-  const { primaryDownload, browserDisplayName } = useDownloadLinks();
+  const { primaryDownload, browserDisplayName, isAndroid } = useDownloadLinks();
   const textRef = useRef<SVGTextElement>(null);
   const [svgWidth, setSvgWidth] = useState(380);
   const [rectWidth, setRectWidth] = useState(376);
@@ -19,7 +19,6 @@ const InstallButton: React.FC<InstallButtonProps> = ({ className = "" }) => {
       ? `${t("downloads.installNow")} (${t("downloads.for")} ${browserDisplayName})`
       : `${t("downloads.installNow")} (${t("downloads.for")} ${browserDisplayName})`;
 
-  // We add a LTR mark to the browser name if in AR to stop the parentheses from flipping weirdly
   const renderText =
     i18n.language === "ar"
       ? `${t("downloads.installNow")} (\u200E${browserDisplayName} \u200F${t("downloads.for")})`
@@ -28,14 +27,31 @@ const InstallButton: React.FC<InstallButtonProps> = ({ className = "" }) => {
   useEffect(() => {
     if (textRef.current) {
       const textBBox = textRef.current.getBBox();
-      // Logo takes ~74px, text starts at x=74, add padding on right (20px)
       const calculatedWidth = textBBox.width + 74 + 20;
-      const minWidth = 200; // Minimum button width
+      const minWidth = 200;
       const finalWidth = Math.max(calculatedWidth, minWidth);
       setSvgWidth(finalWidth);
-      setRectWidth(finalWidth - 4); // Account for 2px border on each side
+      setRectWidth(finalWidth - 4);
     }
   }, [buttonText]);
+
+  if (isAndroid) {
+    return (
+      <a
+        href={primaryDownload.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`${styles.installButton} ${className}`}
+        aria-label={t("sections.androidApp.getOnPlayStore")}
+      >
+        <img
+          src="./files/common/playstore/GetItOnGooglePlay_Badge_Web_color_English.svg"
+          alt={t("sections.androidApp.getOnPlayStore")}
+          className={styles.playStoreBadge}
+        />
+      </a>
+    );
+  }
 
   return (
     <a

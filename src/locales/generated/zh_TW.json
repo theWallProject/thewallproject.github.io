@@ -37,11 +37,11 @@
         "title": "點擊下載 Firefox 版本",
         "subtitle": "也適用於 Firefox Android！"
       },
-      "safari": {
-        "title": "點擊下載 Safari 桌面版"
+      "macos": {
+        "title": "點擊下載 macOS 版本"
       },
       "ios": {
-        "title": "點擊下載 iOS 版 Safari",
+        "title": "點擊下載 iOS 版本",
         "subtitle": "適用於 iPhone 和 iPad"
       },
       "telegram": {

@@ -37,11 +37,11 @@
         "title": "Click to download for Firefox",
         "subtitle": "Also for Firefox android!"
       },
-      "safari": {
-        "title": "Click to download for Safari desktop"
+      "macos": {
+        "title": "Click to download for macOS"
       },
       "ios": {
-        "title": "Click to download for Safari for iOS",
+        "title": "Click to download for iOS",
         "subtitle": "for iPhone and iPad"
       },
       "telegram": {
