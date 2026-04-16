@@ -85,6 +85,7 @@
       "role": "{{browser}}-Benutzer"
     },
     "testimonials": {
+      "community": "GEMEINSCHAFT",
       "title": "Was die Leute sagen",
       "subtitle": "Schließen Sie sich tausenden bewussten Benutzern weltweit an."
     },
@@ -115,8 +116,8 @@
     "features": {
       "systemModule": "Systemmodul",
       "sectionLabel": "Hauptfunktionen",
-      "building": "Bauen",
-      "theFuture": "Die Zukunft",
+      "building": "Warum",
+      "theFuture": "The Wall?",
       "installOnce": {
         "title": "Einmal installieren, funktioniert für immer",
         "description": "Installieren Sie das Browser-Addon oder die Android-App. Jedes Mal, wenn Sie auf ein israelisches Unternehmen stoßen, sehen Sie stattdessen \"die Mauer\"."

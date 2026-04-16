@@ -85,6 +85,7 @@
       "role": "{{browser}} 用户"
     },
     "testimonials": {
+      "community": "社区",
       "title": "人们怎么说",
       "subtitle": "加入全球数千名有意识的用户。"
     },
@@ -115,8 +116,8 @@
     "features": {
       "systemModule": "系统模块",
       "sectionLabel": "核心功能",
-      "building": "构建",
-      "theFuture": "未来",
+      "building": "为什么选择",
+      "theFuture": "The Wall？",
       "installOnce": {
         "title": "安装一次，永久有效",
         "description": "安装浏览器插件或安卓应用。每当您遇到与以色列相关的公司时，您会看到\"墙\"来代替。"

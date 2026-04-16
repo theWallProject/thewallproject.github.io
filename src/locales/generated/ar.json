@@ -2,7 +2,7 @@
   "translation": {
     "meta": {
       "title": "مشروع الجدار",
-      "description": "مشروع الجدار - إضافة للمتصفح وتطبيق أندرويد لاكتشاف وحظر أكثر من 20,000 موقع مرتبط بإسرائيل وحساباتهم على مواقع التواصل الاجتماعي. نفس قاعدة البيانات، يعمل بدون إنترنت.",
+      "description": "مشروع الجدار - إضافة للمتصفح وتطبيق أندرويد لاكتشاف وحظر أكثر من 20,000 موقع إسرائيلي وحساباتهم على مواقع التواصل الاجتماعي. نفس قاعدة البيانات، يعمل بدون إنترنت.",
       "keywords": "The Wall, إضافة الجدار, تطبيق أندرويد, browser addon, website blocker, boycott assistant, Israeli websites, social media blocking, Chrome extension, Firefox addon"
     },
     "header": {
@@ -12,8 +12,8 @@
     },
     "hero": {
       "detectAndBlock": "اكتشف واحجب أكثر من",
-      "israeli": "بإسرائيل",
-      "relatedWebsites": "موقع مرتبط ",
+      "israeli": "إسرائيلي",
+      "relatedWebsites": "موقع ذو صلة",
       "andSocialAccounts": "وحساباتهم الاجتماعية.",
       "availableAsDesktop": "متوفر كـ <span>إضافة للمتصفح</span>",
       "availableAsMobile": "متوفر كـ <span>تطبيق أندرويد</span> و <span>إضافة متصفح</span>"
@@ -85,6 +85,7 @@
       "role": "مستخدم {{browser}}"
     },
     "testimonials": {
+      "community": "المجتمع",
       "title": "ماذا يقول الناس",
       "subtitle": "انضم إلى آلاف المستهلكين الواعين حول العالم."
     },
@@ -115,8 +116,8 @@
     "features": {
       "systemModule": "وحدة النظام",
       "sectionLabel": "المميزات الأساسية",
-      "building": "نبني",
-      "theFuture": "المستقبل",
+      "building": "لماذا",
+      "theFuture": "الجدار؟",
       "installOnce": {
         "title": "ضفه مره واحدة ويعمل للأبد",
         "description": "خطوة واحدة لا غير! ثبّت إضافة المتصفح أو تطبيق الأندرويد. عند الدخول لأي موقع مرتبط بالكيان الصهيوني سيظهر لك الجدار ليعلمك!"

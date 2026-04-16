@@ -85,6 +85,7 @@
       "role": "{{browser}} gebruiker"
     },
     "testimonials": {
+      "community": "GEMEENSCHAP",
       "title": "Wat mensen zeggen",
       "subtitle": "Sluit u aan bij duizenden bewuste gebruikers wereldwijd."
     },
@@ -115,8 +116,8 @@
     "features": {
       "systemModule": "Systeemmodule",
       "sectionLabel": "Kernfuncties",
-      "building": "Bouwen",
-      "theFuture": "De Toekomst",
+      "building": "Waarom",
+      "theFuture": "The Wall?",
       "installOnce": {
         "title": "Installeer eenmaal, werkt voor altijd",
         "description": "Installeer de browser-addon of de Android-app. Elke keer dat u een Israëlisch bedrijf tegenkomt, ziet u in plaats daarvan \"de muur\"."

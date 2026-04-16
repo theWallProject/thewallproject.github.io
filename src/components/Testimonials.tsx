@@ -73,9 +73,6 @@ const Testimonials: React.FC = () => {
     };
   });
 
-  const row1 = testimonialList.slice(0, 3);
-  const row2 = testimonialList.slice(3, 6);
-
   const renderTestimonial = (item: LogoItem, key: React.Key) => {
     if ("node" in item && item.node) {
       return <div key={key}>{item.node}</div>;
@@ -107,25 +104,14 @@ const Testimonials: React.FC = () => {
         <div className="w-24 h-1 bg-linear-to-r from-transparent via-brand-orange to-transparent mx-auto opacity-30" />
       </div>
 
-      <div dir="ltr" className="space-y-8">
-        {/* Row 1 - Left */}
+      <div dir="ltr">
         <LogoLoop
-          logos={row1}
+          logos={testimonialList}
           direction="left"
           speed={40}
           gap={window.innerWidth < 768 ? 20 : 60}
-          logoHeight={0} // Not used with custom render
+          logoHeight={0}
           renderItem={renderTestimonial}
-          pauseOnHover={true}
-        />
-        {/* Row 2 - Right */}
-        <LogoLoop
-          logos={row2}
-          speed={-25}
-          gap={window.innerWidth < 768 ? 20 : 60}
-          logoHeight={0} // Not used with custom render
-          renderItem={renderTestimonial}
-          direction="right"
           pauseOnHover={true}
         />
       </div>
@@ -134,7 +120,7 @@ const Testimonials: React.FC = () => {
       <div className="mt-28 flex justify-center items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500">
         <div className="h-px w-16 bg-white/20" />
         <p className="text-white text-[10px] md:text-sm font-bold tracking-[0.2em] uppercase">
-          Trusted by over 100k+ global users
+          Trusted by over 10k global users
         </p>
         <div className="h-px w-16 bg-white/20" />
       </div>

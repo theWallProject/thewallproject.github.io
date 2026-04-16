@@ -27,7 +27,7 @@ const Features: React.FC = () => {
       title: t("features.installOnce.title"),
       description: t("features.installOnce.description"),
       number: "01",
-      gradient: "linear-gradient(135deg, #0a0a0a 0%, #1a0a00 100%)",
+      gradient: "linear-gradient(135deg, #111111 0%, #331700 100%)",
     },
     {
       id: "worksEverywhere",
@@ -36,7 +36,7 @@ const Features: React.FC = () => {
       title: t("features.worksEverywhere.title"),
       description: t("features.worksEverywhere.description"),
       number: "02",
-      gradient: "linear-gradient(135deg, #0a0a0a 0%, #001a0a 100%)",
+      gradient: "linear-gradient(135deg, #111111 0%, #003317 100%)",
     },
     {
       id: "smartDetection",
@@ -45,7 +45,7 @@ const Features: React.FC = () => {
       title: t("features.smartDetection.title"),
       description: t("features.smartDetection.description"),
       number: "03",
-      gradient: "linear-gradient(135deg, #0a0a0a 0%, #0a001a 100%)",
+      gradient: "linear-gradient(135deg, #111111 0%, #170033 100%)",
     },
     {
       id: "trustedData",
@@ -54,7 +54,7 @@ const Features: React.FC = () => {
       title: t("features.trustedData.title"),
       description: t("features.trustedData.description"),
       number: "04",
-      gradient: "linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)",
+      gradient: "linear-gradient(135deg, #111111 0%, #2a2a2a 100%)",
     },
   ];
 
@@ -180,16 +180,16 @@ const Features: React.FC = () => {
         {features.map((feature, i) => (
           <div
             key={feature.id}
-            className="feature-stack-card relative md:absolute md:inset-0 h-auto md:h-full rounded-3xl md:rounded-4xl border-t border-white/10 flex flex-col justify-between p-8 md:p-14 shadow-2xl min-h-[450px] md:min-h-[600px]"
+            className="feature-stack-card relative md:absolute md:inset-0 h-auto md:h-full rounded-3xl md:rounded-4xl border-t border-white/10 flex flex-col gap-6 md:gap-10 p-8 md:p-14 shadow-2xl min-h-[450px] md:min-h-[600px]"
             style={{
               zIndex: i + 1,
               transformStyle: "preserve-3d",
               background: feature.gradient,
             }}
           >
-            {/* Icon / Top Section */}
-            <div className="relative z-10 w-full flex items-start justify-between">
-              <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-xl">
+            {/* Icon + Title Row */}
+            <div className="relative z-10 w-full flex items-center gap-4 md:gap-6">
+              <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-white/[0.08] border border-white/[0.15] flex items-center justify-center backdrop-blur-xl flex-shrink-0">
                 <img
                   src={feature.icon}
                   alt={feature.iconAlt}
@@ -197,8 +197,14 @@ const Features: React.FC = () => {
                 />
               </div>
 
+              <h3
+                className={`text-2xl md:text-5xl font-bold text-white leading-tight ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+              >
+                {feature.title}
+              </h3>
+
               {feature.id === "worksEverywhere" && (
-                <div className="flex items-center gap-2 md:gap-4 bg-white/5 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-white/10 backdrop-blur-sm">
+                <div className="ml-auto flex items-center gap-2 md:gap-4 bg-white/[0.08] px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-white/[0.15] backdrop-blur-sm">
                   <img src="./files/common/icon-chrome.svg" alt="Chrome" className="w-4 h-4 md:w-5 md:h-5 opacity-80" />
                   <img
                     src="./files/common/icon-firefox.svg"
@@ -210,23 +216,13 @@ const Features: React.FC = () => {
               )}
 
               {/* GHOST NUMBER */}
-              <div className="absolute top-[-10px] right-[-10px] md:top-[-20px] md:right-[-20px] text-6xl md:text-[14rem] font-black leading-none text-white opacity-[0.03] select-none pointer-events-none">
+              <div className="absolute top-[-10px] right-[-10px] md:top-[-20px] md:right-[-20px] text-6xl md:text-[14rem] font-black leading-none text-white opacity-[0.06] select-none pointer-events-none">
                 {feature.number}
               </div>
             </div>
 
             {/* Content */}
-            <div className="max-w-2xl mt-8 md:mt-auto relative z-10">
-              <span
-                className={`text-[9px] md:text-[10px] font-bold tracking-[0.2em] md:tracking-[0.3em] text-brand-orange mb-3 md:mb-4 block uppercase opacity-90 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
-              >
-                {t("features.systemModule")} {feature.number}
-              </span>
-              <h3
-                className={`text-2xl md:text-5xl font-bold text-white leading-tight mb-4 md:mb-8 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
-              >
-                {feature.title}
-              </h3>
+            <div className="max-w-2xl relative z-10">
               <p
                 className={`text-sm md:text-[1.2rem] text-gray-400 md:text-gray-300 leading-relaxed font-light opacity-90 ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
               >
@@ -237,7 +233,7 @@ const Features: React.FC = () => {
             <div
               className="absolute top-0 left-0 w-full h-1/2 pointer-events-none rounded-t-[2rem] mix-blend-overlay"
               style={{
-                background: "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%)",
+                background: "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 100%)",
               }}
             />
           </div>

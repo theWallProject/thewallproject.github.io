@@ -85,6 +85,7 @@
       "role": "{{browser}} user"
     },
     "testimonials": {
+      "community": "COMMUNITY",
       "title": "What people are saying",
       "subtitle": "Join thousands of conscious users worldwide."
     },
@@ -115,8 +116,8 @@
     "features": {
       "systemModule": "System Module",
       "sectionLabel": "Core Features",
-      "building": "Building",
-      "theFuture": "The Future",
+      "building": "Why",
+      "theFuture": "The Wall?",
       "installOnce": {
         "title": "Install once, works forever",
         "description": "Install the browser addon or the Android app. Anytime you encounter an Israeli-connected company, you will see \"the wall\" instead."

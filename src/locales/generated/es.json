@@ -85,6 +85,7 @@
       "role": "Usuario de {{browser}}"
     },
     "testimonials": {
+      "community": "COMUNIDAD",
       "title": "Lo que dice la gente",
       "subtitle": "Únete a miles de usuarios conscientes en todo el mundo."
     },
@@ -115,8 +116,8 @@
     "features": {
       "systemModule": "Módulo del Sistema",
       "sectionLabel": "Características Principales",
-      "building": "Construyendo",
-      "theFuture": "El Futuro",
+      "building": "¿Por qué",
+      "theFuture": "The Wall?",
       "installOnce": {
         "title": "Instala una vez, funciona para siempre",
         "description": "Instala la extensión de navegador o la aplicación Android. Cada vez que encuentres una empresa conectada a Israel, verás \"el muro\" en su lugar."
