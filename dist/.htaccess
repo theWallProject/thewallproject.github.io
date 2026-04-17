@@ -43,6 +43,9 @@ RewriteCond %{REQUEST_URI} ^/assets/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^assets/(.*)$ /dist/assets/$1 [L]
 
+# Dynamic PHP routes
+RewriteRule ^dynamic/donations\.png$ /dist/dynamic/donations.php [L]
+
 # Serve other static files from dist folder
 RewriteCond %{REQUEST_URI} ^/(vite\.svg|files/.*)$
 RewriteCond %{REQUEST_FILENAME} !-f
