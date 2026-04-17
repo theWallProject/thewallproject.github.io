@@ -83,7 +83,7 @@ if ($halfBrick === false) {
 imagealphablending($halfBrick, false);
 imagesavealpha($halfBrick, true);
 imagefill($halfBrick, 0, 0, imagecolorallocatealpha($halfBrick, 0, 0, 0, 127));
-imagecopyresampled($halfBrick, $resizedBrick, 0, 0, 0, 0, $halfW, $brickH, 0, 0, $halfW, $brickH);
+imagecopyresampled($halfBrick, $resizedBrick, 0, 0, 0, 0, $halfW, $brickH, $halfW, $brickH);
 
 $bricksPlaced = 0;
 
