@@ -125,8 +125,6 @@ class GoalManager
      *
      * @param int $idSite
      * @param Action $action
-     * @param VisitProperties $visitor
-     * @param Request $request
      * @throws Exception
      * @return array[] Goals matched
      */
@@ -153,9 +151,6 @@ class GoalManager
      * is returned. Otherwise null is returned.
      *
      * @param array $goal
-     * @param Action $action
-     * @param VisitProperties $visitor
-     * @param Request $request
      * @return bool|null if a goal is matched, a string of the Action URL is returned, or if no goal was matched it returns null
      */
     public function detectGoalMatch($goal, Action $action, VisitProperties $visitor, Request $request)
@@ -270,10 +265,6 @@ class GoalManager
     /**
      * Records one or several goals matched in this request.
      *
-     * @param Visitor $visitor
-     * @param array $visitorInformation
-     * @param array $visitCustomVariables
-     * @param Action $action
      */
     public function recordGoals(VisitProperties $visitProperties, Request $request)
     {
@@ -339,9 +330,7 @@ class GoalManager
      * Will deal with 2 types of conversions: Ecommerce Order and Ecommerce Cart update (Add to cart, Update Cart etc).
      *
      * @param array $conversion
-     * @param Visitor $visitor
-     * @param Action $action
-     * @param array $visitInformation
+     * @param Action|null $action
      */
     protected function recordEcommerceGoal(VisitProperties $visitProperties, Request $request, $conversion, $action)
     {
@@ -712,10 +701,8 @@ class GoalManager
     /**
      * Records a standard non-Ecommerce goal in the DB (URL/Title matching),
      * linking the conversion to the action that triggered it
-     * @param $goal
-     * @param Visitor $visitor
-     * @param Action $action
-     * @param $visitorInformation
+     * @param array $goal
+     * @param Action|null $action
      */
     protected function recordStandardGoals(VisitProperties $visitProperties, Request $request, $goal, $action)
     {
@@ -766,7 +753,6 @@ class GoalManager
      *
      * @param array $conversion
      * @param array $visitInformation
-     * @param Request $request
      * @param Action|null $action
      * @param int|null $convertedGoal
      * @return bool

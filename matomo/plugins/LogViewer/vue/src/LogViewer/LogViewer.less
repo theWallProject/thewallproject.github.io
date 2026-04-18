@@ -1,0 +1,96 @@
+.logViewer {
+  #export {
+    display: inline;
+  }
+
+  table {
+    min-width: 800px;
+  }
+
+  .logWriters {
+    padding-left: 0;
+  }
+
+  .severities, .logWriters {
+    width: 150px;
+    display: inline-block;
+    .row {
+      margin-top: 0;
+      margin-bottom: 0;
+      .input-field {
+        margin-top: 0;
+      }
+    }
+  }
+
+  th {
+    text-align: left;
+  }
+
+  .search {
+    width: 200px !important;
+  }
+
+  .severity, .requestId, .date {
+    white-space: nowrap
+  }
+
+  td.selectable {
+    cursor: pointer;
+  }
+
+  .icon-export,
+  .icon-info,
+  .icon-reload {
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+    vertical-align: sub;
+    text-decoration: none;
+    color: @color-silver-dark;
+  }
+
+  .icon-export,
+  .icon-info {
+    color: @theme-color-text;
+  }
+
+  .tag,
+  .message {
+    word-break: break-all;
+  }
+
+  .tag {
+    width: 125px;
+  }
+
+  .useRegExp {
+    display: inline-block;
+    margin: -25px 0 -25px 20px;
+    white-space: nowrap;
+  }
+
+  th, td {
+    padding-right: 20px;
+  }
+
+  .searchIcon {
+    margin-left: -30px;
+    cursor: pointer;
+    font-size: 15px;
+    display: inline-block;
+  }
+
+  .paging {
+    padding: 5px;
+    font-size: 12px;
+    text-align: center;
+
+    .previous {
+      padding-right: 20px;
+    }
+    .next {
+      padding-left: 20px;
+    }
+  }
+}

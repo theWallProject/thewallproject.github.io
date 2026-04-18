@@ -348,7 +348,6 @@ abstract class Controller
      *                                      an instance of an report.
      * @param bool $controllerAction The name of the Controller action name  that is rendering the report. Defaults
      *                               to the `$apiAction`.
-     * @param bool $fetch If `true`, the rendered string is returned, if `false` it is `echo`'d.
      * @throws \Exception if `$pluginName` is not an existing plugin or if `$apiAction` is not an
      *                    existing method of the plugin's API.
      * @return string|void See `$fetch`.
@@ -615,7 +614,6 @@ abstract class Controller
      * Will exit on error.
      *
      * @param View $view
-     * @param string|null $viewType 'basic' or 'admin'. If null, set based on the type of controller.
      * @return void
      * @api
      */
@@ -728,6 +726,7 @@ abstract class Controller
     {
         $view->clientSideConfig = PiwikConfig::getInstance()->getClientSideOptions();
         $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
+        $view->userCurrentRole = Access::getInstance()->getRoleForSite($this->idSite);
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->hasSomeViewAccess  = Piwik::isUserHasSomeViewAccess();
         $view->isUserIsAnonymous  = Piwik::isUserIsAnonymous();
@@ -812,7 +811,6 @@ abstract class Controller
      * Also calls {@link setHostValidationVariablesView()}.
      *
      * @param View $view
-     * @param string $viewType 'basic' or 'admin'. Used by ControllerAdmin.
      * @api
      */
     protected function setBasicVariablesView($view)
@@ -839,8 +837,6 @@ abstract class Controller
     /**
      * Set the template variables to show the what's new popup if appropriate
      *
-     * @param View $view
-     * @return void
      */
     protected function showWhatIsNew(View $view): void
     {
@@ -1127,7 +1123,7 @@ abstract class Controller
             $menu->urlForDefaultUserParams($websiteId, $defaultPeriod, $defaultDate),
             $parameters
         );
-        $queryParams = !empty($parameters) ? '&' . Url::getQueryStringFromParameters($parameters) : '';
+        $queryParams = '&' . Url::getQueryStringFromParameters($parameters);
         $url = "index.php?module=%s&action=%s";
         $url = sprintf($url, $moduleToRedirect, $actionToRedirect);
         $url = $url . $queryParams;

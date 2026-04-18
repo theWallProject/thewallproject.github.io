@@ -12,6 +12,9 @@ collation = "utf8mb4_general_ci"
 [General]
 salt = "1de3f03a35fb072636a40e77056c38b9"
 trusted_hosts[] = "the-wall.win"
+proxy_scheme_headers[] = "HTTP_X_FORWARDED_PROTO"
+proxy_scheme_headers[] = "HTTP_X_FORWARDED_SCHEME"
+proxy_scheme_headers[] = "HTTP_X_URL_SCHEME"
 
 [Plugins]
 Plugins[] = "CoreVue"
@@ -80,7 +83,9 @@ Plugins[] = "CustomDimensions"
 Plugins[] = "JsTrackerInstallCheck"
 Plugins[] = "FeatureFlags"
 Plugins[] = "TagManager"
+Plugins[] = "LogViewer"
 Plugins[] = "SecurityInfo"
+Plugins[] = "Slack"
 
 [PluginsInstalled]
 PluginsInstalled[] = "Diagnostics"
@@ -150,4 +155,6 @@ PluginsInstalled[] = "CustomDimensions"
 PluginsInstalled[] = "FeatureFlags"
 PluginsInstalled[] = "TagManager"
 PluginsInstalled[] = "SecurityInfo"
+PluginsInstalled[] = "LogViewer"
+PluginsInstalled[] = "Slack"
 

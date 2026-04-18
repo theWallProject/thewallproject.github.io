@@ -1,0 +1,31 @@
+{
+    "name": "Slack",
+    "description": "Send Matomo reports and alerts to Slack channels, keeping your team informed and ready to act in real time.",
+    "version": "5.0.4",
+    "theme": false,
+    "require": {
+        "matomo": ">=5.0.0,<6.0.0-b1"
+    },
+    "authors": [
+        {
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "https://matomo.org"
+        }
+    ],
+    "support": {
+        "email": "hello@matomo.org",
+        "issues": "https://github.com/matomo-org/plugin-Slack/issues",
+        "forum": "https://forum.matomo.org",
+        "source": "https://github.com/matomo-org/plugin-Slack",
+        "wiki": "https://github.com/matomo-org/plugin-Slack/wiki"
+    },
+    "homepage": "",
+    "license": "GPL v3+",
+    "keywords": [
+        "Slack",
+        "ScheduledReports",
+        "CustomAlerts"
+    ],
+    "category": "integration"
+}

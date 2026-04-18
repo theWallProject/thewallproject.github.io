@@ -12,8 +12,10 @@ namespace Piwik\Plugins\TwoFactorAuth;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\NoPrivilegesException;
 use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Session;
@@ -176,35 +178,47 @@ class TwoFactorAuth extends \Piwik\Plugin
         return !empty($user);
     }
 
-    public function onCreateAppSpecificTokenAuth($returnedValue, $params)
+    private function getCanonicalLogin(string $userLoginOrEmail): ?string
+    {
+        $model = new Model();
+
+        if ($model->userExists($userLoginOrEmail)) {
+            return $userLoginOrEmail;
+        }
+
+        if ($model->userEmailExists($userLoginOrEmail)) {
+            $user = $model->getUserByEmail($userLoginOrEmail);
+            if (!empty($user['login'])) {
+                return $user['login'];
+            }
+        }
+
+        return null;
+    }
+
+    public function onCreateAppSpecificTokenAuth($returnedValue, array $params): void
     {
         if (!SettingsPiwik::isMatomoInstalled()) {
             return;
         }
 
         if (!empty($returnedValue) && !empty($params['parameters']['userLogin'])) {
-            $login = $params['parameters']['userLogin'];
+            $login = $this->getCanonicalLogin($params['parameters']['userLogin']);
             $twoFa = $this->getTwoFa();
 
-            if (TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login) && $this->isValidTokenAuth($returnedValue)) {
-                $authCode = Common::getRequestVar('authCode', '', 'string');
+            if (!empty($login) && TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login) && $this->isValidTokenAuth($returnedValue)) {
+                $authCode = \Piwik\Request::fromRequest()->getStringParameter('authCode', '');
                 // we only return an error when the login/password combo was correct. otherwise you could brute force
                 // auth tokens
                 if (!$authCode) {
-                    if (!headers_sent()) {
-                        http_response_code(401);
-                    }
-                    throw new Exception(Piwik::translate('TwoFactorAuth_MissingAuthCodeAPI'));
+                    throw new NoPrivilegesException(Piwik::translate('TwoFactorAuth_MissingAuthCodeAPI'));
                 }
                 if (!$twoFa->validateAuthCode($login, $authCode)) {
-                    if (!headers_sent()) {
-                        http_response_code(401);
-                    }
-                    throw new Exception(Piwik::translate('TwoFactorAuth_InvalidAuthCode'));
+                    throw new NoPrivilegesException(Piwik::translate('TwoFactorAuth_InvalidAuthCode'));
                 }
             } elseif (
                 $twoFa->isUserRequiredToHaveTwoFactorEnabled()
-                        && !TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login)
+                && (empty($login) || !TwoFactorAuthentication::isUserUsingTwoFactorAuthentication($login))
             ) {
                 throw new Exception(Piwik::translate('TwoFactorAuth_RequiredAuthCodeNotConfiguredAPI'));
             }
@@ -235,7 +249,7 @@ class TwoFactorAuth extends \Piwik\Plugin
                 if (!Request::isRootRequestApiRequest()) {
                     $module = 'TwoFactorAuth';
                     $action = 'loginTwoFactorAuth';
-                } elseif (Common::getRequestVar('force_api_session', 0) == 1) {
+                } elseif (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
                     // don't allow API requests with session auth if 2fa code hasn't been verified.
                     throw new Exception(Piwik::translate('General_YourSessionHasExpired'));
                 }

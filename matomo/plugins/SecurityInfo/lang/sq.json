@@ -1,0 +1,9 @@
+{
+    "SecurityInfo": {
+        "PluginDescription": "Hollësi sigurie rreth mjedisit tuaj PHP dhe këshilla për përmirësim të tij. Nuk zëvendëson praktika zhvillimi të sigurt, as bën ndonjë auditim të kodit/aplikacionit. Bazuar në PhpSecInfo nga PHP Security Consortium.",
+        "Result": "Përfundimi",
+        "Security": "Siguri",
+        "SecurityInformation": "Hollësi Sigurie PHP",
+        "Test": "Provë"
+    }
+}

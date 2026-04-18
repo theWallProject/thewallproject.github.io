@@ -1,0 +1,10 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'SecurityInfo_SecurityInformation'|translate }}{% endset %}
+
+{% block content %}
+    <div
+        vue-entry="SecurityInfo.TestResultsPage"
+        results="{{ results|json_encode }}"
+    ></div>
+{% endblock %}

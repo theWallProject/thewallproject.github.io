@@ -1,0 +1,5 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+    <div vue-entry="LogViewer.LogViewer" limit="{{ limit|json_encode|e('html_attr') }}"></div>
+{% endblock %}

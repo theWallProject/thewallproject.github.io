@@ -1,0 +1,9 @@
+{
+    "BotTracking": {
+        "PageUrl": "Sayfa adresi",
+        "NoDataHttpTrackingApi": "HTTP izleme API",
+        "SiteWithoutDataBackToMatomo": "Matomo panosuna geri dön",
+        "SiteWithoutDataInstallWithX": "%1$s ile kur",
+        "SiteWithoutDataStepByStepGuide": "Adım adım rehberi"
+    }
+}

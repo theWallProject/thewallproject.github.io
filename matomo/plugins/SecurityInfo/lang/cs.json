@@ -1,0 +1,9 @@
+{
+    "SecurityInfo": {
+        "PluginDescription": "Informace o zabezpečení a navrhovaná vylepšení pro vaše prostředí PHP. Nenahrazuje bezpečné postupy vývoje ani auditování kódu/aplikace. Založeno na PhpSecInfo od konsorcia PHP Security Consortium.",
+        "Result": "Výsledek",
+        "Security": "Zabezpečení",
+        "SecurityInformation": "PHP Security Info",
+        "Test": "Vyzkoušet"
+    }
+}
