@@ -68,7 +68,7 @@ if ($halfW <= 0) {
 
 $topPadding = (int)($brickH * 0.4) + 36;
 $canvasW = $maxRowSize * $brickW;
-$canvasH = $topPadding + $rows * $brickH + (int)($brickH * 0.6);
+$canvasH = $topPadding + $rows * $brickH + (int)($brickH * 0.15);
 
 $canvas = imagecreatetruecolor($canvasW, $canvasH);
 if ($canvas === false) {
