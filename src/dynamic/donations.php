@@ -88,21 +88,21 @@ imagesavealpha($halfBrick, true);
 imagefill($halfBrick, 0, 0, imagecolorallocatealpha($halfBrick, 0, 0, 0, 127));
 imagecopyresampled($halfBrick, $resizedBrick, 0, 0, 0, 0, $halfW, $brickH, $halfW, $brickH);
 
-$textFont = 2;
+$brickTextFontPath = __DIR__ . '/../files/common/Roboto-Bold.ttf';
+$brickTextFontSize = 18;
 $textStr = '10$';
 $textColor = imagecolorallocate($resizedBrick, 0, 0, 0);
-$textWidth = strlen($textStr) * imagefontwidth($textFont);
-$textHeight = imagefontheight($textFont);
+$bbox = imagettftext($resizedBrick, $brickTextFontSize, 0, 0, 0, $textColor, $brickTextFontPath, $textStr);
+$textWidth = $bbox[4] - $bbox[6];
+$textHeight = $bbox[1] - $bbox[7];
 $textX = (int)(($brickW - $textWidth) / 2);
-$textY = (int)(($brickH - $textHeight) / 2);
-imagestring($resizedBrick, $textFont, $textX, $textY, $textStr, $textColor);
+$textY = (int)(($brickH + $textHeight) / 2);
+imagettftext($resizedBrick, $brickTextFontSize, 0, $textX, $textY, $textColor, $brickTextFontPath, $textStr);
 
 $halfTextColor = imagecolorallocate($halfBrick, 0, 0, 0);
-$halfTextWidth = strlen($textStr) * imagefontwidth($textFont);
-$halfTextHeight = imagefontheight($textFont);
-$halfTextX = (int)(($halfW - $halfTextWidth) / 2);
-$halfTextY = (int)(($brickH - $halfTextHeight) / 2);
-imagestring($halfBrick, $textFont, $halfTextX, $halfTextY, $textStr, $halfTextColor);
+$halfTextX = (int)(($halfW - $textWidth) / 2);
+$halfTextY = (int)(($brickH + $textHeight) / 2);
+imagettftext($halfBrick, $brickTextFontSize, 0, $halfTextX, $halfTextY, $halfTextColor, $brickTextFontPath, $textStr);
 
 $bricksPlaced = 0;
 
@@ -157,7 +157,7 @@ $drawY = $nextY - $liftY - (int)(($rotH - $brickH) / 2);
 
 imagecopy($canvas, $rotatedBrick, $drawX, $drawY, 0, 0, $rotW, $rotH);
 
-$ctaFontPath = __DIR__ . '/../files/common/JimmyCollins.otf';
+$ctaFontPath = __DIR__ . '/../files/common/Roboto-Bold.ttf';
 $ctaFontSize = 64;
 $ctaLines = [
     'Help build the wall.',
