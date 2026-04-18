@@ -66,7 +66,7 @@ if ($halfW <= 0) {
     exit('Brick too small for half-width offset');
 }
 
-$topPadding = (int)($brickH * 0.4);
+$topPadding = (int)($brickH * 0.4) + 36;
 $canvasW = $maxRowSize * $brickW;
 $canvasH = $topPadding + ($rows + 1) * $brickH;
 
@@ -186,22 +186,22 @@ $drawY = $nextY - $liftY - (int)(($rotH - $brickH) / 2);
 
 imagecopy($canvas, $rotatedBrick, $drawX, $drawY, 0, 0, $rotW, $rotH);
 
-$ctaFontSize = 64;
-$ctaLines = [
-    'Help build the wall.',
-    'Each 10$ monthly donations = one brick.',
-    'Click to donate!'
-];
+$ctaFontSize = 36;
+$ctaText = 'Help build the wall. Each 10$ monthly donations = one brick. Click to donate!';
+$ctaShadowColor = imagecolorallocate($canvas, 0, 0, 0);
 $ctaColor = imagecolorallocate($canvas, 255, 255, 255);
-$ctaX = $nextX + $rotW + 10;
-$ctaY = $nextY - $liftY;
-$ctaLineHeight = $ctaFontSize + 24;
-
-foreach ($ctaLines as $i => $line) {
-    if (imagettftext($canvas, $ctaFontSize, 0, $ctaX, $ctaY + $i * $ctaLineHeight + $ctaFontSize, $ctaColor, $fontPath, $line) === false) {
+$ctaX = 4;
+$ctaY = $topPadding - 4;
+$shadowOffsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]];
+foreach ($shadowOffsets as $dx => $off) {
+    if (imagettftext($canvas, $ctaFontSize, 0, $ctaX + $off[0], $ctaY + $off[1], $ctaShadowColor, $fontPath, $ctaText) === false) {
         http_response_code(500);
-        exit('Failed to render CTA text');
+        exit('Failed to render CTA shadow');
     }
+}
+if (imagettftext($canvas, $ctaFontSize, 0, $ctaX, $ctaY, $ctaColor, $fontPath, $ctaText) === false) {
+    http_response_code(500);
+    exit('Failed to render CTA text');
 }
 
 header('Content-Type: image/png');
