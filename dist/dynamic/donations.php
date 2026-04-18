@@ -52,7 +52,7 @@ if ($halfW <= 0) {
 
 $topPadding = (int)($brickH * 0.4);
 $canvasW = $maxRowSize * $brickW;
-$canvasH = ($rows + 2) * $brickH + $topPadding;
+$canvasH = $topPadding + ($rows + 1) * $brickH;
 
 $canvas = imagecreatetruecolor($canvasW, $canvasH);
 if ($canvas === false) {
@@ -157,19 +157,20 @@ $drawY = $nextY - $liftY - (int)(($rotH - $brickH) / 2);
 
 imagecopy($canvas, $rotatedBrick, $drawX, $drawY, 0, 0, $rotW, $rotH);
 
-$ctaFont = 4;
+$ctaFontPath = __DIR__ . '/../files/common/JimmyCollins.otf';
+$ctaFontSize = 16;
 $ctaLines = [
     'Help build the wall.',
     'Each 10$ monthly donations = one brick.',
     'Click to donate!'
 ];
 $ctaColor = imagecolorallocate($canvas, 255, 255, 255);
-$ctaLineHeight = imagefontheight($ctaFont) + 2;
-$ctaX = $nextX + $brickW + 10;
+$ctaX = $nextX + $rotW + 10;
 $ctaY = $nextY - $liftY;
+$ctaLineHeight = $ctaFontSize + 6;
 
 foreach ($ctaLines as $i => $line) {
-    imagestring($canvas, $ctaFont, $ctaX, $ctaY + $i * $ctaLineHeight, $line, $ctaColor);
+    imagettftext($canvas, $ctaFontSize, 0, $ctaX, $ctaY + $i * $ctaLineHeight + $ctaFontSize, $ctaColor, $ctaFontPath, $line);
 }
 
 header('Content-Type: image/png');
