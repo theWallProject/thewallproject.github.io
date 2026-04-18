@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 
 $totalMonthlyEuro = 47;
 $totalBricks = intdiv($totalMonthlyEuro, 10); // Each brick represents 5 euros
-$maxRowSize = 50;
+$maxRowSize = 30;
 $maxBrickDimension = 120;
 
 $brickPath = __DIR__ . '/../files/common/brick.png';
