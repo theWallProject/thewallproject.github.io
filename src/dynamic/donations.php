@@ -191,7 +191,7 @@ $ctaText = 'Help build the wall. Each 10$ monthly donations = one brick. Click t
 $ctaShadowColor = imagecolorallocate($canvas, 0, 0, 0);
 $ctaColor = imagecolorallocate($canvas, 255, 255, 255);
 $ctaX = 4;
-$ctaY = $topPadding - 4;
+$ctaY = $topPadding - 4 - 20;
 $shadowOffsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]];
 foreach ($shadowOffsets as $dx => $off) {
     if (imagettftext($canvas, $ctaFontSize, 0, $ctaX + $off[0], $ctaY + $off[1], $ctaShadowColor, $fontPath, $ctaText) === false) {
