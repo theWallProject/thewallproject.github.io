@@ -8,7 +8,7 @@ $maxRowSize = 30;
 $maxBrickDimension = 120;
 
 $brickPath = __DIR__ . '/../files/common/brick.png';
-$fontPath = __DIR__ . '/../files/common/Roboto-Bold.ttf';
+$fontPath = __DIR__ . '/../files/common/Roboto-Variable.ttf';
 
 if (!function_exists('imagecreatefrompng')) {
     http_response_code(500);
