@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 $totalMonthlyEuro = 47;
 $totalBricks = intdiv($totalMonthlyEuro, 10); // Each brick represents 5 euros
 $maxRowSize = 50;
-$maxBrickDimension = 100;
+$maxBrickDimension = 120;
 
 $brickPath = __DIR__ . '/../files/common/brick.png';
 
@@ -43,14 +43,16 @@ if ($brickW <= 0 || $brickH <= 0) {
 }
 
 $rows = (int)ceil($totalBricks / $maxRowSize);
-$canvasW = $maxRowSize * $brickW;
-$canvasH = $rows * $brickH;
 $halfW = (int)($brickW / 2);
 
 if ($halfW <= 0) {
     http_response_code(500);
     exit('Brick too small for half-width offset');
 }
+
+$topPadding = (int)($brickH * 0.4);
+$canvasW = $maxRowSize * $brickW;
+$canvasH = ($rows + 2) * $brickH + $topPadding;
 
 $canvas = imagecreatetruecolor($canvasW, $canvasH);
 if ($canvas === false) {
@@ -105,7 +107,7 @@ imagestring($halfBrick, $textFont, $halfTextX, $halfTextY, $textStr, $halfTextCo
 $bricksPlaced = 0;
 
 for ($row = 0; $row < $rows && $bricksPlaced < $totalBricks; $row++) {
-    $y = $row * $brickH;
+    $y = $topPadding + $row * $brickH;
 
     if ($row % 2 === 0) {
         $x = 0;
@@ -126,6 +128,50 @@ for ($row = 0; $row < $rows && $bricksPlaced < $totalBricks; $row++) {
     }
 }
 
+$nextIndex = $totalBricks;
+$nextRow = (int)floor($nextIndex / $maxRowSize);
+$posInRow = $nextIndex % $maxRowSize;
+
+if ($nextRow % 2 === 0) {
+    if ($posInRow === 0) {
+        $nextX = 0;
+    } else {
+        $nextX = $halfW + ($posInRow - 1) * $brickW;
+    }
+} else {
+    $nextX = $posInRow * $brickW;
+}
+$nextY = $topPadding + $nextRow * $brickH;
+
+$liftY = (int)($brickH * 0.35);
+$rotateAngle = -8;
+$bgTransparent = imagecolorallocatealpha($resizedBrick, 0, 0, 0, 127);
+$rotatedBrick = imagerotate($resizedBrick, $rotateAngle, $bgTransparent);
+imagealphablending($rotatedBrick, false);
+imagesavealpha($rotatedBrick, true);
+
+$rotW = imagesx($rotatedBrick);
+$rotH = imagesy($rotatedBrick);
+$drawX = $nextX - (int)(($rotW - $brickW) / 2);
+$drawY = $nextY - $liftY - (int)(($rotH - $brickH) / 2);
+
+imagecopy($canvas, $rotatedBrick, $drawX, $drawY, 0, 0, $rotW, $rotH);
+
+$ctaFont = 4;
+$ctaLines = [
+    'Help build the wall.',
+    'Each 10$ monthly donations = one brick.',
+    'Click to donate!'
+];
+$ctaColor = imagecolorallocate($canvas, 255, 255, 255);
+$ctaLineHeight = imagefontheight($ctaFont) + 2;
+$ctaX = $nextX + $brickW + 10;
+$ctaY = $nextY - $liftY;
+
+foreach ($ctaLines as $i => $line) {
+    imagestring($canvas, $ctaFont, $ctaX, $ctaY + $i * $ctaLineHeight, $line, $ctaColor);
+}
+
 header('Content-Type: image/png');
 header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Pragma: no-cache');
@@ -138,3 +184,4 @@ imagedestroy($canvas);
 imagedestroy($srcImage);
 imagedestroy($resizedBrick);
 imagedestroy($halfBrick);
+imagedestroy($rotatedBrick);
