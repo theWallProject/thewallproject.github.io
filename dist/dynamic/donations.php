@@ -2,9 +2,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$totalBricks = 100;
+$totalMonthlyEuro = 47;
+$totalBricks = intdiv($totalMonthlyEuro, 5); // Each brick represents 5 euros
 $maxRowSize = 50;
-$maxBrickDimension = 20;
+$maxBrickDimension = 40;
 
 $brickPath = __DIR__ . '/../files/common/brick.png';
 
@@ -110,6 +111,9 @@ for ($row = 0; $row < $rows && $bricksPlaced < $totalBricks; $row++) {
 }
 
 header('Content-Type: image/png');
+header('Cache-Control: no-cache, no-store, must-revalidate');
+header('Pragma: no-cache');
+header('Expires: 0');
 imagealphablending($canvas, false);
 imagesavealpha($canvas, true);
 imagepng($canvas);
