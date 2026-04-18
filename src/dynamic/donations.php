@@ -8,15 +8,31 @@ $maxRowSize = 30;
 $maxBrickDimension = 120;
 
 $brickPath = __DIR__ . '/../files/common/brick.png';
+$fontPath = __DIR__ . '/../files/common/Roboto-Bold.ttf';
 
 if (!function_exists('imagecreatefrompng')) {
     http_response_code(500);
     exit('GD library not available');
 }
 
+if (!function_exists('imagettftext')) {
+    http_response_code(500);
+    exit('GD FreeType not available');
+}
+
+if (!function_exists('imagerotate')) {
+    http_response_code(500);
+    exit('GD imagerotate not available');
+}
+
 if (!file_exists($brickPath) || !is_readable($brickPath)) {
     http_response_code(500);
     exit('Brick image not found');
+}
+
+if (!file_exists($fontPath) || !is_readable($fontPath)) {
+    http_response_code(500);
+    exit('Font file not found');
 }
 
 $srcImage = imagecreatefrompng($brickPath);
@@ -88,21 +104,30 @@ imagesavealpha($halfBrick, true);
 imagefill($halfBrick, 0, 0, imagecolorallocatealpha($halfBrick, 0, 0, 0, 127));
 imagecopyresampled($halfBrick, $resizedBrick, 0, 0, 0, 0, $halfW, $brickH, $halfW, $brickH);
 
-$brickTextFontPath = __DIR__ . '/../files/common/Roboto-Bold.ttf';
 $brickTextFontSize = 18;
 $textStr = '10$';
 $textColor = imagecolorallocate($resizedBrick, 0, 0, 0);
-$bbox = imageftbbox($brickTextFontSize, 0, $brickTextFontPath, $textStr);
+$bbox = imageftbbox($brickTextFontSize, 0, $fontPath, $textStr);
+if ($bbox === false) {
+    http_response_code(500);
+    exit('Failed to measure brick text');
+}
 $textWidth = $bbox[4] - $bbox[6];
 $textHeight = $bbox[1] - $bbox[7];
 $textX = (int)(($brickW - $textWidth) / 2);
 $textY = (int)(($brickH + $textHeight) / 2);
-imagettftext($resizedBrick, $brickTextFontSize, 0, $textX, $textY, $textColor, $brickTextFontPath, $textStr);
+if (imagettftext($resizedBrick, $brickTextFontSize, 0, $textX, $textY, $textColor, $fontPath, $textStr) === false) {
+    http_response_code(500);
+    exit('Failed to render brick text');
+}
 
 $halfTextColor = imagecolorallocate($halfBrick, 0, 0, 0);
 $halfTextX = (int)(($halfW - $textWidth) / 2);
 $halfTextY = (int)(($brickH + $textHeight) / 2);
-imagettftext($halfBrick, $brickTextFontSize, 0, $halfTextX, $halfTextY, $halfTextColor, $brickTextFontPath, $textStr);
+if (imagettftext($halfBrick, $brickTextFontSize, 0, $halfTextX, $halfTextY, $halfTextColor, $fontPath, $textStr) === false) {
+    http_response_code(500);
+    exit('Failed to render half brick text');
+}
 
 $bricksPlaced = 0;
 
@@ -147,6 +172,10 @@ $liftY = (int)($brickH * 0.35);
 $rotateAngle = -8;
 $bgTransparent = imagecolorallocatealpha($resizedBrick, 0, 0, 0, 127);
 $rotatedBrick = imagerotate($resizedBrick, $rotateAngle, $bgTransparent);
+if ($rotatedBrick === false) {
+    http_response_code(500);
+    exit('Failed to rotate brick');
+}
 imagealphablending($rotatedBrick, false);
 imagesavealpha($rotatedBrick, true);
 
@@ -157,7 +186,6 @@ $drawY = $nextY - $liftY - (int)(($rotH - $brickH) / 2);
 
 imagecopy($canvas, $rotatedBrick, $drawX, $drawY, 0, 0, $rotW, $rotH);
 
-$ctaFontPath = __DIR__ . '/../files/common/Roboto-Bold.ttf';
 $ctaFontSize = 64;
 $ctaLines = [
     'Help build the wall.',
@@ -170,7 +198,10 @@ $ctaY = $nextY - $liftY;
 $ctaLineHeight = $ctaFontSize + 24;
 
 foreach ($ctaLines as $i => $line) {
-    imagettftext($canvas, $ctaFontSize, 0, $ctaX, $ctaY + $i * $ctaLineHeight + $ctaFontSize, $ctaColor, $ctaFontPath, $line);
+    if (imagettftext($canvas, $ctaFontSize, 0, $ctaX, $ctaY + $i * $ctaLineHeight + $ctaFontSize, $ctaColor, $fontPath, $line) === false) {
+        http_response_code(500);
+        exit('Failed to render CTA text');
+    }
 }
 
 header('Content-Type: image/png');
