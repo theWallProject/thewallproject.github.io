@@ -3,9 +3,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $totalMonthlyEuro = 47;
-$totalBricks = intdiv($totalMonthlyEuro, 5); // Each brick represents 5 euros
+$totalBricks = intdiv($totalMonthlyEuro, 10); // Each brick represents 5 euros
 $maxRowSize = 50;
-$maxBrickDimension = 40;
+$maxBrickDimension = 60;
 
 $brickPath = __DIR__ . '/../files/common/brick.png';
 
@@ -75,6 +75,15 @@ imagesavealpha($resizedBrick, true);
 imagefill($resizedBrick, 0, 0, imagecolorallocatealpha($resizedBrick, 0, 0, 0, 127));
 imagecopyresampled($resizedBrick, $srcImage, 0, 0, 0, 0, $brickW, $brickH, $origW, $origH);
 
+$textFont = 2;
+$textStr = '10$';
+$textColor = imagecolorallocate($resizedBrick, 0, 0, 0);
+$textWidth = strlen($textStr) * imagefontwidth($textFont);
+$textHeight = imagefontheight($textFont);
+$textX = (int)(($brickW - $textWidth) / 2);
+$textY = (int)(($brickH - $textHeight) / 2);
+imagestring($resizedBrick, $textFont, $textX, $textY, $textStr, $textColor);
+
 $halfBrick = imagecreatetruecolor($halfW, $brickH);
 if ($halfBrick === false) {
     http_response_code(500);
@@ -85,6 +94,13 @@ imagealphablending($halfBrick, false);
 imagesavealpha($halfBrick, true);
 imagefill($halfBrick, 0, 0, imagecolorallocatealpha($halfBrick, 0, 0, 0, 127));
 imagecopyresampled($halfBrick, $resizedBrick, 0, 0, 0, 0, $halfW, $brickH, $halfW, $brickH);
+
+$halfTextColor = imagecolorallocate($halfBrick, 0, 0, 0);
+$halfTextWidth = strlen($textStr) * imagefontwidth($textFont);
+$halfTextHeight = imagefontheight($textFont);
+$halfTextX = (int)(($halfW - $halfTextWidth) / 2);
+$halfTextY = (int)(($brickH - $halfTextHeight) / 2);
+imagestring($halfBrick, $textFont, $halfTextX, $halfTextY, $textStr, $halfTextColor);
 
 $bricksPlaced = 0;
 
