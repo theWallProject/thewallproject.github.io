@@ -158,7 +158,7 @@ $drawY = $nextY - $liftY - (int)(($rotH - $brickH) / 2);
 imagecopy($canvas, $rotatedBrick, $drawX, $drawY, 0, 0, $rotW, $rotH);
 
 $ctaFontPath = __DIR__ . '/../files/common/JimmyCollins.otf';
-$ctaFontSize = 16;
+$ctaFontSize = 64;
 $ctaLines = [
     'Help build the wall.',
     'Each 10$ monthly donations = one brick.',
@@ -167,7 +167,7 @@ $ctaLines = [
 $ctaColor = imagecolorallocate($canvas, 255, 255, 255);
 $ctaX = $nextX + $rotW + 10;
 $ctaY = $nextY - $liftY;
-$ctaLineHeight = $ctaFontSize + 6;
+$ctaLineHeight = $ctaFontSize + 24;
 
 foreach ($ctaLines as $i => $line) {
     imagettftext($canvas, $ctaFontSize, 0, $ctaX, $ctaY + $i * $ctaLineHeight + $ctaFontSize, $ctaColor, $ctaFontPath, $line);
