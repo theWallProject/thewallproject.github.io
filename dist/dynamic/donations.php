@@ -7,14 +7,6 @@ $totalBricks = intdiv($totalMonthlyEuro, 10); // Each brick represents 5 euros
 $maxRowSize = 50;
 $maxBrickDimension = 100;
 
-$textFont = 2;
-$textStr = '10$';
-$textColor = imagecolorallocate($resizedBrick, 0, 0, 0);
-$textWidth = strlen($textStr) * imagefontwidth($textFont);
-$textHeight = imagefontheight($textFont);
-$textX = (int)(($brickW - $textWidth) / 2);
-$textY = (int)(($brickH - $textHeight) / 2);
-
 $brickPath = __DIR__ . '/../files/common/brick.png';
 
 if (!function_exists('imagecreatefrompng')) {
@@ -94,6 +86,13 @@ imagesavealpha($halfBrick, true);
 imagefill($halfBrick, 0, 0, imagecolorallocatealpha($halfBrick, 0, 0, 0, 127));
 imagecopyresampled($halfBrick, $resizedBrick, 0, 0, 0, 0, $halfW, $brickH, $halfW, $brickH);
 
+$textFont = 2;
+$textStr = '10$';
+$textColor = imagecolorallocate($resizedBrick, 0, 0, 0);
+$textWidth = strlen($textStr) * imagefontwidth($textFont);
+$textHeight = imagefontheight($textFont);
+$textX = (int)(($brickW - $textWidth) / 2);
+$textY = (int)(($brickH - $textHeight) / 2);
 imagestring($resizedBrick, $textFont, $textX, $textY, $textStr, $textColor);
 
 $halfTextColor = imagecolorallocate($halfBrick, 0, 0, 0);
