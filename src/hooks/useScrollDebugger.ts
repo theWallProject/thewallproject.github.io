@@ -23,23 +23,14 @@ export function useScrollDebugger() {
         );
         console.warn(
           "[SCROLL-JUMP] All ScrollTriggers:",
-          ScrollTrigger.getAll().map(
-            (st: {
-              vars: { trigger?: HTMLElement };
-              progress: number;
-              direction: number;
-              start: number;
-              end: number;
-              pin?: boolean | string;
-            }) => ({
-              trigger: (st.vars.trigger as HTMLElement)?.id || (st.vars.trigger as HTMLElement)?.tagName,
-              progress: st.progress.toFixed(4),
-              direction: st.direction,
-              start: st.start,
-              end: st.end,
-              pin: !!st.pin,
-            })
-          )
+          ScrollTrigger.getAll().map((st) => ({
+            trigger: String(st.vars.trigger instanceof HTMLElement ? st.vars.trigger.id || st.vars.trigger.tagName : st.vars.trigger),
+            progress: Number(st.progress.toFixed(4)),
+            direction: st.direction,
+            start: st.start,
+            end: st.end,
+            pin: !!st.pin,
+          }))
         );
       }
 

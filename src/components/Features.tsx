@@ -74,11 +74,17 @@ const Features: React.FC = () => {
           pin: true,
           scrub: 1.5,
           anticipatePin: 1,
-          onPinEnter: () => {
-            console.warn("[Features] pin enter — scrollTop:", window.scrollY);
+          onEnter: () => {
+            console.warn("[Features] enter — scrollTop:", window.scrollY);
           },
-          onPinLeave: () => {
-            console.warn("[Features] pin leave — scrollTop:", window.scrollY);
+          onLeave: () => {
+            console.warn("[Features] leave — scrollTop:", window.scrollY);
+          },
+          onEnterBack: () => {
+            console.warn("[Features] enterBack — scrollTop:", window.scrollY);
+          },
+          onLeaveBack: () => {
+            console.warn("[Features] leaveBack — scrollTop:", window.scrollY);
           },
           onUpdate: (self) => {
             console.warn(

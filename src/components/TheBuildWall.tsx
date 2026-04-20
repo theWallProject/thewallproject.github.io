@@ -155,11 +155,17 @@ const TheBuildWall: React.FC = () => {
               self.direction
             );
           },
-          onPinEnter: () => {
-            console.warn("[TheBuildWall] pin enter — scrollTop:", window.scrollY);
+          onEnter: () => {
+            console.warn("[TheBuildWall] enter — scrollTop:", window.scrollY);
           },
-          onPinLeave: () => {
-            console.warn("[TheBuildWall] pin leave — scrollTop:", window.scrollY);
+          onLeave: () => {
+            console.warn("[TheBuildWall] leave — scrollTop:", window.scrollY);
+          },
+          onEnterBack: () => {
+            console.warn("[TheBuildWall] enterBack — scrollTop:", window.scrollY);
+          },
+          onLeaveBack: () => {
+            console.warn("[TheBuildWall] leaveBack — scrollTop:", window.scrollY);
           },
           onUpdate: (self) => {
             console.warn(
