@@ -94,7 +94,7 @@ $transparent = imagecolorallocatealpha($canvas, 0, 0, 0, 127);
 imagefill($canvas, 0, 0, $transparent);
 imagealphablending($canvas, true);
 
-// --- Create full brick ---
+// --- Create full brick (image only) ---
 $resizedBrick = imagecreatetruecolor($brickW, $brickH);
 if ($resizedBrick === false) {
     http_response_code(500);
@@ -106,6 +106,19 @@ imagesavealpha($resizedBrick, true);
 imagefill($resizedBrick, 0, 0, imagecolorallocatealpha($resizedBrick, 0, 0, 0, 127));
 imagecopyresampled($resizedBrick, $srcImage, 0, 0, 0, 0, $brickW, $brickH, $origW, $origH);
 
+// --- Create half brick (from source, before text is added) ---
+$halfBrick = imagecreatetruecolor($halfW, $brickH);
+if ($halfBrick === false) {
+    http_response_code(500);
+    exit('Failed to create half brick');
+}
+
+imagealphablending($halfBrick, false);
+imagesavealpha($halfBrick, true);
+imagefill($halfBrick, 0, 0, imagecolorallocatealpha($halfBrick, 0, 0, 0, 127));
+imagecopyresampled($halfBrick, $srcImage, 0, 0, 0, 0, $halfW, $brickH, (int)($origW / 2), $origH);
+
+// --- Render text on full brick ---
 $brickTextFontSize = 18;
 $textStr = '10$';
 $textColor = imagecolorallocate($resizedBrick, 0, 0, 0);
@@ -123,18 +136,7 @@ if (imagettftext($resizedBrick, $brickTextFontSize, 0, $textX, $textY, $textColo
     exit('Failed to render brick text');
 }
 
-// --- Create half brick ---
-$halfBrick = imagecreatetruecolor($halfW, $brickH);
-if ($halfBrick === false) {
-    http_response_code(500);
-    exit('Failed to create half brick');
-}
-
-imagealphablending($halfBrick, false);
-imagesavealpha($halfBrick, true);
-imagefill($halfBrick, 0, 0, imagecolorallocatealpha($halfBrick, 0, 0, 0, 127));
-imagecopyresampled($halfBrick, $resizedBrick, 0, 0, 0, 0, $halfW, $brickH, $halfW, $brickH);
-
+// --- Render text on half brick ---
 $halfTextColor = imagecolorallocate($halfBrick, 0, 0, 0);
 $halfTextX = (int)(($halfW - $textWidth) / 2);
 $halfTextY = (int)(($brickH + $textHeight) / 2);
