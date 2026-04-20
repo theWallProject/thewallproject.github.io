@@ -2,10 +2,17 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$totalMonthlyEuro = 47;
-$totalBricks = intdiv($totalMonthlyEuro, 10); // Each brick represents 5 euros
-$maxRowSize = 30;
+$currentAmount = 47;
+$goalAmount = 500;
+$maxRowBricks = max(3, min(100, intval($_GET['maxRowBricks'] ?? 30)));
 $maxBrickDimension = 120;
+
+$currentBricks = intdiv($currentAmount, 10);
+$goalBricks = intdiv($goalAmount, 10);
+if ($goalBricks <= $currentBricks) {
+    $goalBricks = $currentBricks + 1;
+}
+$totalPositions = $goalBricks + 1;
 
 $brickPath = __DIR__ . '/../files/common/brick.png';
 $fontPath = __DIR__ . '/../files/common/Roboto-Variable.ttf';
@@ -58,7 +65,7 @@ if ($brickW <= 0 || $brickH <= 0) {
     exit('Brick dimensions too small after scaling');
 }
 
-$rows = (int)ceil($totalBricks / $maxRowSize);
+$rows = (int)ceil($totalPositions / $maxRowBricks);
 $halfW = (int)($brickW / 2);
 
 if ($halfW <= 0) {
@@ -66,9 +73,14 @@ if ($halfW <= 0) {
     exit('Brick too small for half-width offset');
 }
 
+$goalScaleFactor = 1.15;
+$goalBrickW = (int)round($brickW * $goalScaleFactor);
+$goalBrickH = (int)round($brickH * $goalScaleFactor);
+
 $topPadding = (int)($brickH * 0.4) + 36;
-$canvasW = $maxRowSize * $brickW;
-$canvasH = $topPadding + $rows * $brickH + (int)($brickH * 0.15);
+$bottomPadding = (int)($brickH * 0.5);
+$canvasW = $maxRowBricks * $brickW;
+$canvasH = $topPadding + $rows * $brickH + $bottomPadding;
 
 $canvas = imagecreatetruecolor($canvasW, $canvasH);
 if ($canvas === false) {
@@ -82,6 +94,7 @@ $transparent = imagecolorallocatealpha($canvas, 0, 0, 0, 127);
 imagefill($canvas, 0, 0, $transparent);
 imagealphablending($canvas, true);
 
+// --- Create full brick ---
 $resizedBrick = imagecreatetruecolor($brickW, $brickH);
 if ($resizedBrick === false) {
     http_response_code(500);
@@ -92,17 +105,6 @@ imagealphablending($resizedBrick, false);
 imagesavealpha($resizedBrick, true);
 imagefill($resizedBrick, 0, 0, imagecolorallocatealpha($resizedBrick, 0, 0, 0, 127));
 imagecopyresampled($resizedBrick, $srcImage, 0, 0, 0, 0, $brickW, $brickH, $origW, $origH);
-
-$halfBrick = imagecreatetruecolor($halfW, $brickH);
-if ($halfBrick === false) {
-    http_response_code(500);
-    exit('Failed to create half brick');
-}
-
-imagealphablending($halfBrick, false);
-imagesavealpha($halfBrick, true);
-imagefill($halfBrick, 0, 0, imagecolorallocatealpha($halfBrick, 0, 0, 0, 127));
-imagecopyresampled($halfBrick, $resizedBrick, 0, 0, 0, 0, $halfW, $brickH, $halfW, $brickH);
 
 $brickTextFontSize = 18;
 $textStr = '10$';
@@ -121,6 +123,18 @@ if (imagettftext($resizedBrick, $brickTextFontSize, 0, $textX, $textY, $textColo
     exit('Failed to render brick text');
 }
 
+// --- Create half brick ---
+$halfBrick = imagecreatetruecolor($halfW, $brickH);
+if ($halfBrick === false) {
+    http_response_code(500);
+    exit('Failed to create half brick');
+}
+
+imagealphablending($halfBrick, false);
+imagesavealpha($halfBrick, true);
+imagefill($halfBrick, 0, 0, imagecolorallocatealpha($halfBrick, 0, 0, 0, 127));
+imagecopyresampled($halfBrick, $resizedBrick, 0, 0, 0, 0, $halfW, $brickH, $halfW, $brickH);
+
 $halfTextColor = imagecolorallocate($halfBrick, 0, 0, 0);
 $halfTextX = (int)(($halfW - $textWidth) / 2);
 $halfTextY = (int)(($brickH + $textHeight) / 2);
@@ -129,71 +143,156 @@ if (imagettftext($halfBrick, $brickTextFontSize, 0, $halfTextX, $halfTextY, $hal
     exit('Failed to render half brick text');
 }
 
-$bricksPlaced = 0;
+// --- Create ghost bricks (barely visible, for missing donations) ---
+$ghostAlphaPercent = 18;
 
-for ($row = 0; $row < $rows && $bricksPlaced < $totalBricks; $row++) {
+$ghostFullBrick = imagecreatetruecolor($brickW, $brickH);
+if ($ghostFullBrick === false) {
+    http_response_code(500);
+    exit('Failed to create ghost full brick');
+}
+imagealphablending($ghostFullBrick, false);
+imagesavealpha($ghostFullBrick, true);
+imagefill($ghostFullBrick, 0, 0, imagecolorallocatealpha($ghostFullBrick, 0, 0, 0, 127));
+imagecopyresampled($ghostFullBrick, $srcImage, 0, 0, 0, 0, $brickW, $brickH, $origW, $origH);
+for ($gy = 0; $gy < $brickH; $gy++) {
+    for ($gx = 0; $gx < $brickW; $gx++) {
+        $rgb = imagecolorat($ghostFullBrick, $gx, $gy);
+        $a = (($rgb >> 24) & 0x7F);
+        if ($a < 127) {
+            $newAlpha = (int)(127 - ((127 - $a) * $ghostAlphaPercent / 100));
+            imagesetpixel($ghostFullBrick, $gx, $gy, ((($rgb >> 16) & 0xFF) << 16) | ((($rgb >> 8) & 0xFF) << 8) | ($rgb & 0xFF) | ($newAlpha << 24));
+        }
+    }
+}
+imagerectangle($ghostFullBrick, 0, 0, $brickW - 1, $brickH - 1, imagecolorallocatealpha($ghostFullBrick, 255, 255, 255, (int)(127 * (1 - $ghostAlphaPercent / 100))));
+
+$ghostHalfBrick = imagecreatetruecolor($halfW, $brickH);
+if ($ghostHalfBrick === false) {
+    http_response_code(500);
+    exit('Failed to create ghost half brick');
+}
+imagealphablending($ghostHalfBrick, false);
+imagesavealpha($ghostHalfBrick, true);
+imagefill($ghostHalfBrick, 0, 0, imagecolorallocatealpha($ghostHalfBrick, 0, 0, 0, 127));
+imagecopyresampled($ghostHalfBrick, $ghostFullBrick, 0, 0, 0, 0, $halfW, $brickH, $halfW, $brickH);
+
+// --- Create goal brick (slightly larger, fully opaque, with "GOAL" text) ---
+$goalBrick = imagecreatetruecolor($goalBrickW, $goalBrickH);
+if ($goalBrick === false) {
+    http_response_code(500);
+    exit('Failed to create goal brick canvas');
+}
+imagealphablending($goalBrick, false);
+imagesavealpha($goalBrick, true);
+imagefill($goalBrick, 0, 0, imagecolorallocatealpha($goalBrick, 0, 0, 0, 127));
+imagecopyresampled($goalBrick, $srcImage, 0, 0, 0, 0, $goalBrickW, $goalBrickH, $origW, $origH);
+
+$goalTextFontSize = 20;
+$goalTextStr = 'GOAL';
+$goalTextColor = imagecolorallocate($goalBrick, 255, 255, 255);
+$goalTextShadowColor = imagecolorallocate($goalBrick, 0, 0, 0);
+$goalBbox = imageftbbox($goalTextFontSize, 0, $fontPath, $goalTextStr);
+if ($goalBbox === false) {
+    http_response_code(500);
+    exit('Failed to measure goal text');
+}
+$goalTextWidth = $goalBbox[4] - $goalBbox[6];
+$goalTextHeight = $goalBbox[1] - $goalBbox[7];
+$goalTextX = (int)(($goalBrickW - $goalTextWidth) / 2);
+$goalTextY = (int)(($goalBrickH + $goalTextHeight) / 2);
+$goalShadowOffsets = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+foreach ($goalShadowOffsets as $off) {
+    if (imagettftext($goalBrick, $goalTextFontSize, 0, $goalTextX + $off[0], $goalTextY + $off[1], $goalTextShadowColor, $fontPath, $goalTextStr) === false) {
+        http_response_code(500);
+        exit('Failed to render goal text shadow');
+    }
+}
+if (imagettftext($goalBrick, $goalTextFontSize, 0, $goalTextX, $goalTextY, $goalTextColor, $fontPath, $goalTextStr) === false) {
+    http_response_code(500);
+    exit('Failed to render goal text');
+}
+
+// --- Helper: get x,y pixel position for a brick index ---
+function getBrickPosition($index, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding) {
+    $row = (int)floor($index / $maxRowBricks);
+    $posInRow = $index % $maxRowBricks;
     $y = $topPadding + $row * $brickH;
 
     if ($row % 2 === 0) {
-        $x = 0;
-        imagecopy($canvas, $halfBrick, $x, $y, 0, 0, $halfW, $brickH);
-        $bricksPlaced++;
-        $x += $halfW;
-
-        for ($col = 1; $col < $maxRowSize && $bricksPlaced < $totalBricks; $col++) {
-            imagecopy($canvas, $resizedBrick, $x, $y, 0, 0, $brickW, $brickH);
-            $bricksPlaced++;
-            $x += $brickW;
+        if ($posInRow === 0) {
+            $x = 0;
+            $useHalf = true;
+        } else {
+            $x = $halfW + ($posInRow - 1) * $brickW;
+            $useHalf = false;
         }
     } else {
-        for ($col = 0; $col < $maxRowSize && $bricksPlaced < $totalBricks; $col++) {
-            imagecopy($canvas, $resizedBrick, $col * $brickW, $y, 0, 0, $brickW, $brickH);
-            $bricksPlaced++;
-        }
+        $x = $posInRow * $brickW;
+        $useHalf = false;
+    }
+
+    return ['x' => $x, 'y' => $y, 'useHalf' => $useHalf];
+}
+
+// --- 1. Place GHOST bricks (positions $currentBricks to $goalBricks - 1) ---
+for ($i = $currentBricks; $i < $goalBricks; $i++) {
+    $pos = getBrickPosition($i, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding);
+    if ($pos['useHalf']) {
+        imagecopy($canvas, $ghostHalfBrick, $pos['x'], $pos['y'], 0, 0, $halfW, $brickH);
+    } else {
+        imagecopy($canvas, $ghostFullBrick, $pos['x'], $pos['y'], 0, 0, $brickW, $brickH);
     }
 }
 
-$nextIndex = $totalBricks;
-$nextRow = (int)floor($nextIndex / $maxRowSize);
-$posInRow = $nextIndex % $maxRowSize;
-
-if ($nextRow % 2 === 0) {
-    if ($posInRow === 0) {
-        $nextX = 0;
+// --- 2. Place REAL bricks (positions 0 to $currentBricks - 1) ---
+for ($i = 0; $i < $currentBricks; $i++) {
+    $pos = getBrickPosition($i, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding);
+    if ($pos['useHalf']) {
+        imagecopy($canvas, $halfBrick, $pos['x'], $pos['y'], 0, 0, $halfW, $brickH);
     } else {
-        $nextX = $halfW + ($posInRow - 1) * $brickW;
+        imagecopy($canvas, $resizedBrick, $pos['x'], $pos['y'], 0, 0, $brickW, $brickH);
     }
-} else {
-    $nextX = $posInRow * $brickW;
 }
-$nextY = $topPadding + $nextRow * $brickH;
 
-$liftY = (int)($brickH * 0.35);
-$rotateAngle = -8;
-$bgTransparent = imagecolorallocatealpha($resizedBrick, 0, 0, 0, 127);
-$rotatedBrick = imagerotate($resizedBrick, $rotateAngle, $bgTransparent);
-if ($rotatedBrick === false) {
-    http_response_code(500);
-    exit('Failed to rotate brick');
+// --- 3. Place GOAL brick (position $goalBricks, slightly larger, centered) ---
+$goalPos = getBrickPosition($goalBricks, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding);
+$goalOffsetX = (int)(($brickW - $goalBrickW) / 2);
+$goalOffsetY = (int)(($brickH - $goalBrickH) / 2);
+imagecopy($canvas, $goalBrick, $goalPos['x'] + $goalOffsetX, $goalPos['y'] + $goalOffsetY, 0, 0, $goalBrickW, $goalBrickH);
+
+// --- 4. Place FLYING brick (rotated, at position $currentBricks) ---
+if ($currentBricks > 0) {
+    $flyingPos = getBrickPosition($currentBricks, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding);
+    $liftY = (int)($brickH * 0.35);
+    $rotateAngle = -8;
+    $bgTransparent = imagecolorallocatealpha($resizedBrick, 0, 0, 0, 127);
+    $rotatedBrick = imagerotate($resizedBrick, $rotateAngle, $bgTransparent);
+    if ($rotatedBrick === false) {
+        http_response_code(500);
+        exit('Failed to rotate brick');
+    }
+    imagealphablending($rotatedBrick, false);
+    imagesavealpha($rotatedBrick, true);
+
+    $rotW = imagesx($rotatedBrick);
+    $rotH = imagesy($rotatedBrick);
+    $drawX = $flyingPos['x'] - (int)(($rotW - $brickW) / 2);
+    $drawY = $flyingPos['y'] - $liftY - (int)(($rotH - $brickH) / 2);
+
+    imagecopy($canvas, $rotatedBrick, $drawX, $drawY, 0, 0, $rotW, $rotH);
+    imagedestroy($rotatedBrick);
 }
-imagealphablending($rotatedBrick, false);
-imagesavealpha($rotatedBrick, true);
 
-$rotW = imagesx($rotatedBrick);
-$rotH = imagesy($rotatedBrick);
-$drawX = $nextX - (int)(($rotW - $brickW) / 2);
-$drawY = $nextY - $liftY - (int)(($rotH - $brickH) / 2);
-
-imagecopy($canvas, $rotatedBrick, $drawX, $drawY, 0, 0, $rotW, $rotH);
-
+// --- 5. CTA text ---
 $ctaFontSize = 36;
-$ctaText = 'Help build the wall. Each 10$ monthly donations = one brick. Click to donate!';
+$ctaText = "Help build the wall. Each 10$ monthly donations = one brick. Click to donate! ($currentAmount / $goalAmount)";
 $ctaShadowColor = imagecolorallocate($canvas, 0, 0, 0);
 $ctaColor = imagecolorallocate($canvas, 255, 255, 255);
 $ctaX = 4;
 $ctaY = $topPadding - 30;
 $shadowOffsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]];
-foreach ($shadowOffsets as $dx => $off) {
+foreach ($shadowOffsets as $off) {
     if (imagettftext($canvas, $ctaFontSize, 0, $ctaX + $off[0], $ctaY + $off[1], $ctaShadowColor, $fontPath, $ctaText) === false) {
         http_response_code(500);
         exit('Failed to render CTA shadow');
@@ -204,6 +303,7 @@ if (imagettftext($canvas, $ctaFontSize, 0, $ctaX, $ctaY, $ctaColor, $fontPath, $
     exit('Failed to render CTA text');
 }
 
+// --- Output ---
 header('Content-Type: image/png');
 header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Pragma: no-cache');
@@ -216,4 +316,6 @@ imagedestroy($canvas);
 imagedestroy($srcImage);
 imagedestroy($resizedBrick);
 imagedestroy($halfBrick);
-imagedestroy($rotatedBrick);
+imagedestroy($ghostFullBrick);
+imagedestroy($ghostHalfBrick);
+imagedestroy($goalBrick);
