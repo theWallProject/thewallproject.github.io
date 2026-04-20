@@ -143,39 +143,29 @@ if (imagettftext($halfBrick, $brickTextFontSize, 0, $halfTextX, $halfTextY, $hal
     exit('Failed to render half brick text');
 }
 
-// --- Create ghost bricks (barely visible, for missing donations) ---
-$ghostAlphaPercent = 18;
+// --- Create ghost bricks (faint brick on white background, for missing donations) ---
+$brickOnWhite = imagecreatetruecolor($brickW, $brickH);
+imagefill($brickOnWhite, 0, 0, imagecolorallocate($brickOnWhite, 255, 255, 255));
+imagealphablending($brickOnWhite, true);
+imagecopyresampled($brickOnWhite, $srcImage, 0, 0, 0, 0, $brickW, $brickH, $origW, $origH);
 
 $ghostFullBrick = imagecreatetruecolor($brickW, $brickH);
 if ($ghostFullBrick === false) {
     http_response_code(500);
     exit('Failed to create ghost full brick');
 }
-imagealphablending($ghostFullBrick, false);
-imagesavealpha($ghostFullBrick, true);
-imagefill($ghostFullBrick, 0, 0, imagecolorallocatealpha($ghostFullBrick, 0, 0, 0, 127));
-imagecopyresampled($ghostFullBrick, $srcImage, 0, 0, 0, 0, $brickW, $brickH, $origW, $origH);
-for ($gy = 0; $gy < $brickH; $gy++) {
-    for ($gx = 0; $gx < $brickW; $gx++) {
-        $rgb = imagecolorat($ghostFullBrick, $gx, $gy);
-        $a = (($rgb >> 24) & 0x7F);
-        if ($a < 127) {
-            $newAlpha = (int)(127 - ((127 - $a) * $ghostAlphaPercent / 100));
-            imagesetpixel($ghostFullBrick, $gx, $gy, ((($rgb >> 16) & 0xFF) << 16) | ((($rgb >> 8) & 0xFF) << 8) | ($rgb & 0xFF) | ($newAlpha << 24));
-        }
-    }
-}
-imagerectangle($ghostFullBrick, 0, 0, $brickW - 1, $brickH - 1, imagecolorallocatealpha($ghostFullBrick, 255, 255, 255, (int)(127 * (1 - $ghostAlphaPercent / 100))));
+$ghostWhite = imagecolorallocate($ghostFullBrick, 255, 255, 255);
+imagefill($ghostFullBrick, 0, 0, $ghostWhite);
+imagecopymerge($ghostFullBrick, $brickOnWhite, 0, 0, 0, 0, $brickW, $brickH, 20);
 
 $ghostHalfBrick = imagecreatetruecolor($halfW, $brickH);
 if ($ghostHalfBrick === false) {
     http_response_code(500);
     exit('Failed to create ghost half brick');
 }
-imagealphablending($ghostHalfBrick, false);
-imagesavealpha($ghostHalfBrick, true);
-imagefill($ghostHalfBrick, 0, 0, imagecolorallocatealpha($ghostHalfBrick, 0, 0, 0, 127));
-imagecopyresampled($ghostHalfBrick, $ghostFullBrick, 0, 0, 0, 0, $halfW, $brickH, $halfW, $brickH);
+imagecopy($ghostHalfBrick, $ghostFullBrick, 0, 0, 0, 0, $halfW, $brickH);
+
+imagedestroy($brickOnWhite);
 
 // --- Create goal brick (slightly larger, fully opaque, with "GOAL" text) ---
 $goalBrick = imagecreatetruecolor($goalBrickW, $goalBrickH);
