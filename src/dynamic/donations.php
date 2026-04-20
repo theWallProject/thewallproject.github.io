@@ -77,8 +77,8 @@ $goalScaleFactor = 1.15;
 $goalBrickW = (int)round($brickW * $goalScaleFactor);
 $goalBrickH = (int)round($brickH * $goalScaleFactor);
 
-$topPadding = (int)($brickH * 0.4) + 36;
-$bottomPadding = (int)($brickH * 0.5);
+$topPadding = (int)($brickH * 2) + 60;
+$bottomPadding = 4;
 $canvasW = $maxRowBricks * $brickW;
 $canvasH = $topPadding + $rows * $brickH + $bottomPadding;
 
@@ -88,10 +88,8 @@ if ($canvas === false) {
     exit('Failed to create canvas');
 }
 
-imagealphablending($canvas, false);
-imagesavealpha($canvas, true);
-$transparent = imagecolorallocatealpha($canvas, 0, 0, 0, 127);
-imagefill($canvas, 0, 0, $transparent);
+$black = imagecolorallocate($canvas, 0, 0, 0);
+imagefill($canvas, 0, 0, $black);
 imagealphablending($canvas, true);
 
 // --- Create full brick ---
@@ -213,11 +211,11 @@ if (imagettftext($goalBrick, $goalTextFontSize, 0, $goalTextX, $goalTextY, $goal
     exit('Failed to render goal text');
 }
 
-// --- Helper: get x,y pixel position for a brick index ---
-function getBrickPosition($index, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding) {
+// --- Helper: get x,y pixel position for a brick index (rows grow from bottom up) ---
+function getBrickPosition($index, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding) {
     $row = (int)floor($index / $maxRowBricks);
     $posInRow = $index % $maxRowBricks;
-    $y = $topPadding + $row * $brickH;
+    $y = $canvasH - $bottomPadding - ($rows - $row) * $brickH;
 
     if ($row % 2 === 0) {
         if ($posInRow === 0) {
@@ -237,7 +235,7 @@ function getBrickPosition($index, $maxRowBricks, $halfW, $brickW, $brickH, $topP
 
 // --- 1. Place GHOST bricks (positions $currentBricks to $goalBricks - 1) ---
 for ($i = $currentBricks; $i < $goalBricks; $i++) {
-    $pos = getBrickPosition($i, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding);
+    $pos = getBrickPosition($i, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding);
     if ($pos['useHalf']) {
         imagecopy($canvas, $ghostHalfBrick, $pos['x'], $pos['y'], 0, 0, $halfW, $brickH);
     } else {
@@ -247,7 +245,7 @@ for ($i = $currentBricks; $i < $goalBricks; $i++) {
 
 // --- 2. Place REAL bricks (positions 0 to $currentBricks - 1) ---
 for ($i = 0; $i < $currentBricks; $i++) {
-    $pos = getBrickPosition($i, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding);
+    $pos = getBrickPosition($i, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding);
     if ($pos['useHalf']) {
         imagecopy($canvas, $halfBrick, $pos['x'], $pos['y'], 0, 0, $halfW, $brickH);
     } else {
@@ -256,14 +254,14 @@ for ($i = 0; $i < $currentBricks; $i++) {
 }
 
 // --- 3. Place GOAL brick (position $goalBricks, slightly larger, centered) ---
-$goalPos = getBrickPosition($goalBricks, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding);
+$goalPos = getBrickPosition($goalBricks, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding);
 $goalOffsetX = (int)(($brickW - $goalBrickW) / 2);
 $goalOffsetY = (int)(($brickH - $goalBrickH) / 2);
 imagecopy($canvas, $goalBrick, $goalPos['x'] + $goalOffsetX, $goalPos['y'] + $goalOffsetY, 0, 0, $goalBrickW, $goalBrickH);
 
 // --- 4. Place FLYING brick (rotated, at position $currentBricks) ---
 if ($currentBricks > 0) {
-    $flyingPos = getBrickPosition($currentBricks, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding);
+    $flyingPos = getBrickPosition($currentBricks, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding);
     $liftY = (int)($brickH * 0.35);
     $rotateAngle = -8;
     $bgTransparent = imagecolorallocatealpha($resizedBrick, 0, 0, 0, 127);
@@ -308,8 +306,6 @@ header('Content-Type: image/png');
 header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Pragma: no-cache');
 header('Expires: 0');
-imagealphablending($canvas, false);
-imagesavealpha($canvas, true);
 imagepng($canvas);
 
 imagedestroy($canvas);
