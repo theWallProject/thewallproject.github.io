@@ -86,8 +86,8 @@ const DonationSection: React.FC = () => {
         className="relative z-10 max-w-2xl w-full"
       >
         <picture>
-          <source media="(min-width: 1024px)" srcSet="https://the-wall.win/dynamic/donations.png?maxRowBricks=15" />
-          <source media="(min-width: 640px)" srcSet="https://the-wall.win/dynamic/donations.png?maxRowBricks=10" />
+          <source media="(min-width: 1024px)" srcSet="https://the-wall.win/dynamic/donations.png?maxRowBricks=20" />
+          <source media="(min-width: 640px)" srcSet="https://the-wall.win/dynamic/donations.png?maxRowBricks=11" />
           <img
             src="https://the-wall.win/dynamic/donations.png?maxRowBricks=7"
             alt="Donation progress wall"
