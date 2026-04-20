@@ -81,7 +81,14 @@ const Features: React.FC = () => {
             console.warn("[Features] pin leave — scrollTop:", window.scrollY);
           },
           onUpdate: (self) => {
-            console.warn("[Features] update — progress:", self.progress.toFixed(4), "dir:", self.direction, "scrollTop:", window.scrollY);
+            console.warn(
+              "[Features] update — progress:",
+              self.progress.toFixed(4),
+              "dir:",
+              self.direction,
+              "scrollTop:",
+              window.scrollY
+            );
           },
         },
       });

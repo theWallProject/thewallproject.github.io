@@ -66,7 +66,18 @@ const TheBuildWall: React.FC = () => {
       const bh = bw / brickAspect;
       const calculatedRows = Math.ceil(window.innerHeight / bh) + 1;
       setRows(Math.min(calculatedRows, 60));
-      console.warn("[TheBuildWall] resize — isMobile:", isMobile, "cols:", currentCols, "rows:", Math.min(calculatedRows, 60), "innerWidth:", window.innerWidth, "innerHeight:", window.innerHeight);
+      console.warn(
+        "[TheBuildWall] resize — isMobile:",
+        isMobile,
+        "cols:",
+        currentCols,
+        "rows:",
+        Math.min(calculatedRows, 60),
+        "innerWidth:",
+        window.innerWidth,
+        "innerHeight:",
+        window.innerHeight
+      );
     };
     handleResize();
     window.addEventListener("resize", handleResize, { passive: true });
@@ -135,7 +146,14 @@ const TheBuildWall: React.FC = () => {
             ease: "power2.inOut",
           },
           onSnapComplete: (self) => {
-            console.warn("[TheBuildWall] snap complete — progress:", self.progress.toFixed(4), "scrollTop:", window.scrollY, "dir:", self.direction);
+            console.warn(
+              "[TheBuildWall] snap complete — progress:",
+              self.progress.toFixed(4),
+              "scrollTop:",
+              window.scrollY,
+              "dir:",
+              self.direction
+            );
           },
           onPinEnter: () => {
             console.warn("[TheBuildWall] pin enter — scrollTop:", window.scrollY);
@@ -144,7 +162,18 @@ const TheBuildWall: React.FC = () => {
             console.warn("[TheBuildWall] pin leave — scrollTop:", window.scrollY);
           },
           onUpdate: (self) => {
-            console.warn("[TheBuildWall] update — progress:", self.progress.toFixed(4), "dir:", self.direction, "scrollTop:", window.scrollY, "pinStart:", self.start, "pinEnd:", self.end);
+            console.warn(
+              "[TheBuildWall] update — progress:",
+              self.progress.toFixed(4),
+              "dir:",
+              self.direction,
+              "scrollTop:",
+              window.scrollY,
+              "pinStart:",
+              self.start,
+              "pinEnd:",
+              self.end
+            );
           },
         },
       });

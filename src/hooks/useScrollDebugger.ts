@@ -21,14 +21,26 @@ export function useScrollDebugger() {
           `%c[SCROLL-JUMP] delta=${delta}px in ${dt.toFixed(0)}ms (speed=${speed.toFixed(1)}px/ms) ${delta < 0 ? "⬆ UP" : "⬇ DOWN"} from=${lastY} to=${currentY}`,
           "background:#ff0000;color:#fff;font-size:14px;"
         );
-        console.warn("[SCROLL-JUMP] All ScrollTriggers:", ScrollTrigger.getAll().map((st: { vars: { trigger?: HTMLElement }; progress: number; direction: number; start: number; end: number; pin?: boolean | string }) => ({
-          trigger: (st.vars.trigger as HTMLElement)?.id || (st.vars.trigger as HTMLElement)?.tagName,
-          progress: st.progress.toFixed(4),
-          direction: st.direction,
-          start: st.start,
-          end: st.end,
-          pin: !!st.pin,
-        })));
+        console.warn(
+          "[SCROLL-JUMP] All ScrollTriggers:",
+          ScrollTrigger.getAll().map(
+            (st: {
+              vars: { trigger?: HTMLElement };
+              progress: number;
+              direction: number;
+              start: number;
+              end: number;
+              pin?: boolean | string;
+            }) => ({
+              trigger: (st.vars.trigger as HTMLElement)?.id || (st.vars.trigger as HTMLElement)?.tagName,
+              progress: st.progress.toFixed(4),
+              direction: st.direction,
+              start: st.start,
+              end: st.end,
+              pin: !!st.pin,
+            })
+          )
+        );
       }
 
       lastY = currentY;

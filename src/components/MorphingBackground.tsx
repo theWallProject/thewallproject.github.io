@@ -188,7 +188,14 @@ const MorphingBackground: React.FC<MorphingBackgroundProps> = ({ color = "#b72b0
         scrub: true,
         onUpdate: (self) => {
           material.uniforms.uProgress.value = self.progress;
-          console.warn("[MorphingBG] progress:", self.progress.toFixed(4), "dir:", self.direction, "scrollTop:", window.scrollY);
+          console.warn(
+            "[MorphingBG] progress:",
+            self.progress.toFixed(4),
+            "dir:",
+            self.direction,
+            "scrollTop:",
+            window.scrollY
+          );
         },
       });
 
