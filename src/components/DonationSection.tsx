@@ -1,66 +1,11 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { useTranslation, Trans } from "react-i18next";
-import gsap from "gsap";
-
-const BRICK_ASSETS = [
-  "/files/walls/wall1.png",
-  "/files/walls/wall2.png",
-  "/files/walls/wall3.png",
-  "/files/walls/wall4.png",
-  "/files/walls/wall5.png",
-  "/files/walls/wall6.png",
-  "/files/walls/wall7.png",
-];
 
 const DonationSection: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const sectionRef = useRef<HTMLElement>(null);
-
-  // نحتفظ بـ Reference لكل صف طوب منفصل
-  const row1Ref = useRef<(HTMLDivElement | null)[]>([]);
-  const row2Ref = useRef<(HTMLDivElement | null)[]>([]);
-  const row3Ref = useRef<(HTMLDivElement | null)[]>([]);
-  const row4Ref = useRef<(HTMLDivElement | null)[]>([]);
-
-  // State عشان نتبع إحنا في أي صف مبني دلوقتي
-  const [builtRows, setBuiltRows] = useState(0);
-
-  // مقاسات الطوب الثابتة للتعشيق
-  const BRICK_HEIGHT = 42;
-  const GAP = 4;
-  const DROP_DISTANCE = BRICK_HEIGHT + GAP;
-
-  const handleMouseEnter = () => {
-    // Disable building hover on mobile
-    if (window.matchMedia("(max-width: 767px)").matches) return;
-
-    // لو بنينا الـ 4 صفوف خلاص، ما تعملش حاجة
-    if (builtRows >= 4) return;
-
-    let targetRowRef;
-
-    // تحديد أي صف هيتبني دلوقتي
-    if (builtRows === 0) targetRowRef = row1Ref.current;
-    else if (builtRows === 1) targetRowRef = row2Ref.current;
-    else if (builtRows === 2) targetRowRef = row3Ref.current;
-    else targetRowRef = row4Ref.current;
-
-    // أنيميشن بناء الصف الحالي
-    gsap.to(targetRowRef, {
-      opacity: 1,
-      y: 0, // بينزل لمكانه الطبيعي
-      duration: 0.5,
-      ease: "bounce.out", // حركة هبدة واقعية للطوب
-      stagger: 0.05,
-    });
-
-    // زيادة العداد
-    setBuiltRows((prev) => prev + 1);
-  };
 
   return (
     <section
-      ref={sectionRef}
       id="donate"
       className="relative w-full min-h-[60vh] bg-[#050505] overflow-hidden py-24 px-6 flex flex-col items-center justify-center border-t border-white/5"
     >
@@ -93,6 +38,7 @@ const DonationSection: React.FC = () => {
           />
         </div>
       </div>
+
       {/* ── CONTENT ── */}
       <div className="relative z-10 text-center max-w-2xl flex flex-col items-center mb-16">
         <span
@@ -111,12 +57,11 @@ const DonationSection: React.FC = () => {
           {t("donate.description")}
         </p>
 
-        {/* Ko-fi Button - Action Trigger */}
+        {/* Ko-fi Button */}
         <a
           href="https://ko-fi.com/thewalladdon"
           target="_blank"
           rel="noopener noreferrer"
-          onMouseEnter={handleMouseEnter}
           className="inline-flex items-center gap-3 mt-10 px-8 py-3.5 bg-white/5 border border-white/10 hover:border-[#b72b00]/50 hover:bg-[#b72b00]/10 text-white rounded-full backdrop-blur-md transition-all duration-300 group shadow-lg"
         >
           <img
@@ -133,96 +78,23 @@ const DonationSection: React.FC = () => {
         </a>
       </div>
 
-      {/* ── THE PROGRESSIVE WALL ── */}
-      <div className="absolute bottom-[-5px] left-1/2 -translate-x-1/2 w-full flex justify-center pointer-events-none z-1 overflow-visible">
-        {/* Scale للموبايل عشان ميبوظش التعشيق */}
-        <div className="relative transform scale-[0.55] sm:scale-[0.7] md:scale-100 origin-bottom">
-          {/* Foundation (الصف الثابت الباهت تحت خالص) - 7 طوبات */}
-          <div className="flex justify-center gap-[4px] opacity-100">
-            {[4, 1, 6, 2, 5, 0, 3].map((idx, i) => (
-              <img
-                key={`base-${i}`}
-                src={BRICK_ASSETS[idx]}
-                alt=""
-                className="w-[100px] h-[42px] object-cover rounded-sm"
-              />
-            ))}
-          </div>
-
-          {/* ROW 1 (يُبنى مع أول Hover) - 6 طوبات */}
-          <div
-            className="absolute left-1/2 -translate-x-1/2 w-max flex justify-center gap-[4px]"
-            style={{ bottom: `${DROP_DISTANCE}px` }}
-          >
-            {[0, 2, 4, 1, 3, 5].map((idx, i) => (
-              <div
-                key={`r1-${i}`}
-                ref={(el) => {
-                  row1Ref.current[i] = el;
-                }}
-                // الطوب بيبدأ من فوق شوية ومخفي (على الديسكتوب بس)
-                className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
-              >
-                <img src={BRICK_ASSETS[idx]} alt="" loading="lazy" className="w-full h-full object-cover rounded-sm" />
-              </div>
-            ))}
-          </div>
-
-          {/* ROW 2 (يُبنى مع ثاني Hover) - 7 طوبات */}
-          <div
-            className="absolute left-1/2 -translate-x-1/2 w-max flex justify-center gap-[4px]"
-            style={{ bottom: `${DROP_DISTANCE * 2}px` }}
-          >
-            {[6, 1, 5, 0, 3, 2, 4].map((idx, i) => (
-              <div
-                key={`r2-${i}`}
-                ref={(el) => {
-                  row2Ref.current[i] = el;
-                }}
-                className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
-              >
-                <img src={BRICK_ASSETS[idx]} alt="" loading="lazy" className="w-full h-full object-cover rounded-sm" />
-              </div>
-            ))}
-          </div>
-
-          {/* ROW 3 (يُبنى مع ثالث Hover) - 6 طوبات */}
-          <div
-            className="absolute left-1/2 -translate-x-1/2 w-max flex justify-center gap-[4px]"
-            style={{ bottom: `${DROP_DISTANCE * 3}px` }}
-          >
-            {[2, 4, 0, 5, 1, 6].map((idx, i) => (
-              <div
-                key={`r3-${i}`}
-                ref={(el) => {
-                  row3Ref.current[i] = el;
-                }}
-                className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
-              >
-                <img src={BRICK_ASSETS[idx]} alt="" loading="lazy" className="w-full h-full object-cover rounded-sm" />
-              </div>
-            ))}
-          </div>
-
-          {/* ROW 4 (يُبنى مع رابع Hover - الماكس الجديد) - 7 طوبات */}
-          <div
-            className="absolute left-1/2 -translate-x-1/2 w-max flex justify-center gap-[4px]"
-            style={{ bottom: `${DROP_DISTANCE * 4}px` }}
-          >
-            {[1, 3, 6, 2, 4, 0, 5].map((idx, i) => (
-              <div
-                key={`r4-${i}`}
-                ref={(el) => {
-                  row4Ref.current[i] = el;
-                }}
-                className="w-[100px] h-[42px] md:opacity-0 md:translate-y-[-40px] opacity-100 translate-y-0"
-              >
-                <img src={BRICK_ASSETS[idx]} alt="" loading="lazy" className="w-full h-full object-cover rounded-sm" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* ── DONATION PROGRESS IMAGE ── */}
+      <a
+        href="https://ko-fi.com/thewalladdon"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="relative z-10 max-w-2xl w-full"
+      >
+        <picture>
+          <source media="(min-width: 1024px)" srcSet="https://the-wall.win/dynamic/donations.png?maxRowBricks=15" />
+          <source media="(min-width: 640px)" srcSet="https://the-wall.win/dynamic/donations.png?maxRowBricks=10" />
+          <img
+            src="https://the-wall.win/dynamic/donations.png?maxRowBricks=7"
+            alt="Donation progress wall"
+            className="w-full cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:brightness-110"
+          />
+        </picture>
+      </a>
     </section>
   );
 };

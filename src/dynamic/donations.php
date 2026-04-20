@@ -274,23 +274,30 @@ if ($currentBricks > 0) {
     imagedestroy($rotatedBrick);
 }
 
-// --- 5. CTA text ---
+// --- 5. CTA text (2 lines, left-aligned, white) ---
 $ctaFontSize = 36;
-$ctaText = "Help build the wall. Each 10$ monthly donations = one brick. Click to donate! ($currentAmount / $goalAmount)";
-$ctaShadowColor = imagecolorallocate($canvas, 255, 255, 255);
-$ctaColor = imagecolorallocate($canvas, 0, 0, 0);
+$ctaText1 = "Click to donate ANY monthly amount! ($currentAmount / $goalAmount)";
+$ctaText2 = "Each brick = 10$ Monthly donations.";
+$ctaShadowColor = imagecolorallocate($canvas, 0, 0, 0);
+$ctaColor = imagecolorallocate($canvas, 255, 255, 255);
 $ctaX = 4;
-$ctaY = $topPadding - 30;
+$ctaLineHeight = (int)($ctaFontSize * 1.3);
+$ctaY1 = $topPadding - 30 - $ctaLineHeight;
+$ctaY2 = $ctaY1 + $ctaLineHeight;
 $shadowOffsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]];
-foreach ($shadowOffsets as $off) {
-    if (imagettftext($canvas, $ctaFontSize, 0, $ctaX + $off[0], $ctaY + $off[1], $ctaShadowColor, $fontPath, $ctaText) === false) {
-        http_response_code(500);
-        exit('Failed to render CTA shadow');
+
+foreach ([$ctaText1, $ctaText2] as $lineIndex => $ctaLine) {
+    $ctaY = $lineIndex === 0 ? $ctaY1 : $ctaY2;
+    foreach ($shadowOffsets as $off) {
+        if (imagettftext($canvas, $ctaFontSize, 0, $ctaX + $off[0], $ctaY + $off[1], $ctaShadowColor, $fontPath, $ctaLine) === false) {
+            http_response_code(500);
+            exit('Failed to render CTA shadow');
+        }
     }
-}
-if (imagettftext($canvas, $ctaFontSize, 0, $ctaX, $ctaY, $ctaColor, $fontPath, $ctaText) === false) {
-    http_response_code(500);
-    exit('Failed to render CTA text');
+    if (imagettftext($canvas, $ctaFontSize, 0, $ctaX, $ctaY, $ctaColor, $fontPath, $ctaLine) === false) {
+        http_response_code(500);
+        exit('Failed to render CTA text');
+    }
 }
 
 // --- Output ---

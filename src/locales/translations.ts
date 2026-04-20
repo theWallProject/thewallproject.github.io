@@ -138,7 +138,7 @@ export const translations = {
     zh_TW: "牆的<span>強度</span>取決於建造者。",
   },
   "donate.description": {
-    en: "We rely on your support to maintain database integrity and keep this tool free. Every contribution places a new stone.",
+    en: "The Wall project is free to use, but not free to make! Small monthly donations are the only way it can survive.",
     ar: "نحن نعتمد على دعمك للحفاظ على نزاهة قاعدة البيانات وإبقاء هذه الأداة مجانية. كل مساهمة تضع حجراً جديداً.",
     fr: "Nous comptons sur votre soutien pour maintenir l'intégrité de la base de données et garder cet outil gratuit. Chaque contribution pose une nouvelle pierre.",
     es: "Dependemos de tu apoyo para mantener la integridad de la base de datos y mantener esta herramienta gratuita. Cada contribución coloca una nueva piedra.",
