@@ -14,9 +14,15 @@ import PrivacyPolicy from "./components/PrivacyPolicy";
 import CustomCursor from "./components/CustomCursor";
 import "./App.css";
 import ReactLenis from "lenis/react";
+import { useLenis } from "lenis/react";
 import DonationSection from "./components/DonationSection";
+import { useScrollDebugger } from "./hooks/useScrollDebugger";
 
 const HomePage: React.FC = () => {
+  useScrollDebugger();
+  useLenis((lenis) => {
+    console.warn("[Lenis] scroll:", Math.round(lenis.scroll), "velocity:", lenis.velocity.toFixed(2), "dir:", lenis.direction, "isSmooth:", lenis.isSmooth);
+  });
   return (
     <div className="App   ">
       <ReactLenis root />

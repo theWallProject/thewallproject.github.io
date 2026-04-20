@@ -65,6 +65,7 @@ const Features: React.FC = () => {
     const mm = gsap.matchMedia();
 
     mm.add("(min-width: 768px)", () => {
+      console.warn("[Features] matchMedia activated (>=768px) — setting up pin");
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -73,6 +74,15 @@ const Features: React.FC = () => {
           pin: true,
           scrub: 1.5,
           anticipatePin: 1,
+          onPinEnter: () => {
+            console.warn("[Features] pin enter — scrollTop:", window.scrollY);
+          },
+          onPinLeave: () => {
+            console.warn("[Features] pin leave — scrollTop:", window.scrollY);
+          },
+          onUpdate: (self) => {
+            console.warn("[Features] update — progress:", self.progress.toFixed(4), "dir:", self.direction, "scrollTop:", window.scrollY);
+          },
         },
       });
 

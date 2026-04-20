@@ -64,9 +64,9 @@ const TheBuildWall: React.FC = () => {
       setCols(currentCols);
       const bw = window.innerWidth / 2 / currentCols;
       const bh = bw / brickAspect;
-      // Increased row limit to 60 to prioritize filling the bottom on tall screens
       const calculatedRows = Math.ceil(window.innerHeight / bh) + 1;
       setRows(Math.min(calculatedRows, 60));
+      console.warn("[TheBuildWall] resize — isMobile:", isMobile, "cols:", currentCols, "rows:", Math.min(calculatedRows, 60), "innerWidth:", window.innerWidth, "innerHeight:", window.innerHeight);
     };
     handleResize();
     window.addEventListener("resize", handleResize, { passive: true });
@@ -118,6 +118,8 @@ const TheBuildWall: React.FC = () => {
   useEffect(() => {
     if (rows === 0 || !leftRef.current || !rightRef.current || !sectionRef.current || !marqueeRef.current) return;
 
+    console.warn("[TheBuildWall] GSAP effect running — rows:", rows, "cols:", cols, "scrollTop:", window.scrollY);
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -131,6 +133,18 @@ const TheBuildWall: React.FC = () => {
             duration: { min: 0.3, max: 0.8 },
             delay: 0.1,
             ease: "power2.inOut",
+          },
+          onSnapComplete: (self) => {
+            console.warn("[TheBuildWall] snap complete — progress:", self.progress.toFixed(4), "scrollTop:", window.scrollY, "dir:", self.direction);
+          },
+          onPinEnter: () => {
+            console.warn("[TheBuildWall] pin enter — scrollTop:", window.scrollY);
+          },
+          onPinLeave: () => {
+            console.warn("[TheBuildWall] pin leave — scrollTop:", window.scrollY);
+          },
+          onUpdate: (self) => {
+            console.warn("[TheBuildWall] update — progress:", self.progress.toFixed(4), "dir:", self.direction, "scrollTop:", window.scrollY, "pinStart:", self.start, "pinEnd:", self.end);
           },
         },
       });
@@ -305,7 +319,10 @@ const TheBuildWall: React.FC = () => {
       tl.to({}, { duration: 1 }, "finale");
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      console.warn("[TheBuildWall] GSAP context reverting — rows:", rows, "cols:", cols, "scrollTop:", window.scrollY);
+      ctx.revert();
+    };
   }, [rows, cols]);
 
   const brickStyle = {
