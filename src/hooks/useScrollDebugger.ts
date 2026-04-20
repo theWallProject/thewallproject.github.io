@@ -24,7 +24,9 @@ export function useScrollDebugger() {
         console.warn(
           "[SCROLL-JUMP] All ScrollTriggers:",
           ScrollTrigger.getAll().map((st) => ({
-            trigger: String(st.vars.trigger instanceof HTMLElement ? st.vars.trigger.id || st.vars.trigger.tagName : st.vars.trigger),
+            trigger: String(
+              st.vars.trigger instanceof HTMLElement ? st.vars.trigger.id || st.vars.trigger.tagName : st.vars.trigger
+            ),
             progress: Number(st.progress.toFixed(4)),
             direction: st.direction,
             start: st.start,
