@@ -88,8 +88,10 @@ if ($canvas === false) {
     exit('Failed to create canvas');
 }
 
-$black = imagecolorallocate($canvas, 0, 0, 0);
-imagefill($canvas, 0, 0, $black);
+imagealphablending($canvas, false);
+imagesavealpha($canvas, true);
+$transparent = imagecolorallocatealpha($canvas, 0, 0, 0, 127);
+imagefill($canvas, 0, 0, $transparent);
 imagealphablending($canvas, true);
 
 // --- Create full brick ---
@@ -215,7 +217,7 @@ if (imagettftext($goalBrick, $goalTextFontSize, 0, $goalTextX, $goalTextY, $goal
 function getBrickPosition($index, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding) {
     $row = (int)floor($index / $maxRowBricks);
     $posInRow = $index % $maxRowBricks;
-    $y = $canvasH - $bottomPadding - ($rows - $row) * $brickH;
+    $y = $canvasH - $bottomPadding - ($row + 1) * $brickH;
 
     if ($row % 2 === 0) {
         if ($posInRow === 0) {
@@ -285,8 +287,8 @@ if ($currentBricks > 0) {
 // --- 5. CTA text ---
 $ctaFontSize = 36;
 $ctaText = "Help build the wall. Each 10$ monthly donations = one brick. Click to donate! ($currentAmount / $goalAmount)";
-$ctaShadowColor = imagecolorallocate($canvas, 0, 0, 0);
-$ctaColor = imagecolorallocate($canvas, 255, 255, 255);
+$ctaShadowColor = imagecolorallocate($canvas, 255, 255, 255);
+$ctaColor = imagecolorallocate($canvas, 0, 0, 0);
 $ctaX = 4;
 $ctaY = $topPadding - 30;
 $shadowOffsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]];
@@ -306,6 +308,8 @@ header('Content-Type: image/png');
 header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Pragma: no-cache');
 header('Expires: 0');
+imagealphablending($canvas, false);
+imagesavealpha($canvas, true);
 imagepng($canvas);
 
 imagedestroy($canvas);
