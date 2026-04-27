@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $currentAmount = 47;
-$goalAmount = 500;
+$goalAmount = 1000;
 $maxRowBricks = max(3, min(100, intval($_GET['maxRowBricks'] ?? 30)));
 $maxBrickDimension = 120;
 

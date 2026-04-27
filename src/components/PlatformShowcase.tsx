@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import InstallButton from "./InstallButton";
 import { useDownloadLinks } from "./useDownloadLinks";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -103,8 +102,49 @@ const PlatformShowcase: React.FC = () => {
               <p className="text-sm md:text-lg text-white/70 leading-relaxed mb-4 font-medium">
                 {t("platform.desktop.description")}
               </p>
-              <div className="flex justify-center md:justify-start md:rtl:justify-end">
-                <InstallButton />
+              <div className="flex gap-3 justify-center md:justify-start md:rtl:justify-end">
+                <a
+                  href={downloadLinks.chrome.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-transform duration-300 hover:scale-105 active:scale-95"
+                  aria-label={t("downloads.chrome.title")}
+                >
+                  <img
+                    src="./files/common/icon-chrome.svg"
+                    alt="Chrome"
+                    loading="lazy"
+                    className="h-10 w-10 drop-shadow-lg"
+                  />
+                </a>
+                <a
+                  href={downloadLinks.firefox.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-transform duration-300 hover:scale-105 active:scale-95"
+                  aria-label={t("downloads.firefox.title")}
+                >
+                  <img
+                    src="./files/common/icon-firefox.svg"
+                    alt="Firefox"
+                    loading="lazy"
+                    className="h-10 w-10 drop-shadow-lg"
+                  />
+                </a>
+                <a
+                  href={downloadLinks.macos.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-transform duration-300 hover:scale-105 active:scale-95"
+                  aria-label={t("downloads.macos.title")}
+                >
+                  <img
+                    src="./files/common/icon-safari.svg"
+                    alt="Safari (macOS)"
+                    loading="lazy"
+                    className="h-10 w-10 drop-shadow-lg"
+                  />
+                </a>
               </div>
             </div>
           </div>
