@@ -139,22 +139,6 @@ const TheBuildWall: React.FC = () => {
           end: "+=3000",
           pin: true,
           scrub: 1.5,
-          snap: {
-            snapTo: "labels",
-            duration: { min: 0.3, max: 0.8 },
-            delay: 0.1,
-            ease: "power2.inOut",
-          },
-          onSnapComplete: (self) => {
-            console.warn(
-              "[TheBuildWall] snap complete — progress:",
-              self.progress.toFixed(4),
-              "scrollTop:",
-              window.scrollY,
-              "dir:",
-              self.direction
-            );
-          },
           onEnter: () => {
             console.warn("[TheBuildWall] enter — scrollTop:", window.scrollY);
           },
