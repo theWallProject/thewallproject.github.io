@@ -129,8 +129,6 @@ const TheBuildWall: React.FC = () => {
   useEffect(() => {
     if (rows === 0 || !leftRef.current || !rightRef.current || !sectionRef.current || !marqueeRef.current) return;
 
-    console.warn("[TheBuildWall] GSAP effect running — rows:", rows, "cols:", cols, "scrollTop:", window.scrollY);
-
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -139,32 +137,6 @@ const TheBuildWall: React.FC = () => {
           end: "+=3000",
           pin: true,
           scrub: 1.5,
-          onEnter: () => {
-            console.warn("[TheBuildWall] enter — scrollTop:", window.scrollY);
-          },
-          onLeave: () => {
-            console.warn("[TheBuildWall] leave — scrollTop:", window.scrollY);
-          },
-          onEnterBack: () => {
-            console.warn("[TheBuildWall] enterBack — scrollTop:", window.scrollY);
-          },
-          onLeaveBack: () => {
-            console.warn("[TheBuildWall] leaveBack — scrollTop:", window.scrollY);
-          },
-          onUpdate: (self) => {
-            console.warn(
-              "[TheBuildWall] update — progress:",
-              self.progress.toFixed(4),
-              "dir:",
-              self.direction,
-              "scrollTop:",
-              window.scrollY,
-              "pinStart:",
-              self.start,
-              "pinEnd:",
-              self.end
-            );
-          },
         },
       });
 
