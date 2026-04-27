@@ -279,7 +279,7 @@ if ($currentBricks > 0) {
 // --- 5. CTA text (2 lines, left-aligned, white) ---
 $ctaFontSize = 36;
 $ctaText1 = "Click to donate ANY monthly amount!";
-$ctaText2 = "Each brick = 10$ Monthly donations. Current: $currentAmount Goal: $goalAmount)";
+$ctaText2 = "Each brick = 10$ Monthly donations. Current: $$currentAmount Goal: $$goalAmount";
 $ctaShadowColor = imagecolorallocate($canvas, 0, 0, 0);
 $ctaColor = imagecolorallocate($canvas, 255, 255, 255);
 $ctaX = 4;
