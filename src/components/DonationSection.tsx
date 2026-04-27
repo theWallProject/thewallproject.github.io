@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation, Trans } from "react-i18next";
+import styles from "./DonationSection.module.css";
 
 const DonationSection: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -62,7 +63,7 @@ const DonationSection: React.FC = () => {
           href="https://ko-fi.com/thewalladdon"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-3 mt-10 px-8 py-3.5 bg-white/5 border border-white/10 hover:border-[#b72b00]/50 hover:bg-[#b72b00]/10 text-white rounded-full backdrop-blur-md transition-all duration-300 group shadow-lg"
+          className={`${styles.kofiBtn} inline-flex items-center gap-3 mt-10 px-8 py-3.5 bg-white/5 border border-white/10 hover:border-[#b72b00]/50 hover:bg-[#b72b00]/10 text-white rounded-full backdrop-blur-md transition-all duration-500 ease-out group`}
         >
           <img
             src="/files/common/kofi-logo.png"
@@ -91,7 +92,7 @@ const DonationSection: React.FC = () => {
           <img
             src="https://the-wall.win/dynamic/donations.png?maxRowBricks=7"
             alt="Donation progress wall"
-            className="w-full cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:brightness-110"
+            className={`${styles.brickImage} w-full cursor-pointer transition-all duration-500 ease-out`}
           />
         </picture>
       </a>
