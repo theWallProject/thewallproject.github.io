@@ -41,7 +41,6 @@ body {
   background-color: var(--color-brand-orange);
   color: #ffffff;
   font-family: var(--font-sans);
-  
 }
 
 @keyframes fadeIn {
