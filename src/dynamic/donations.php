@@ -297,17 +297,19 @@ if ($currentBricks > 0) {
 // --- 5. CTA text (2 lines, left-aligned, white) ---
 $ctaFontSize = 36;
 $ctaText1 = "Click to donate ANY monthly amount!";
-$ctaText2 = "Each brick = 10$ Monthly donations. Current: $$currentAmount Goal: $$goalAmount";
+$ctaText2 = "Each brick = 10$ Monthly donations.";
+$ctaText3 = "Current: $$currentAmount Goal: $$goalAmount";
 $ctaShadowColor = imagecolorallocate($canvas, 0, 0, 0);
 $ctaColor = imagecolorallocate($canvas, 255, 255, 255);
 $ctaX = 4;
 $ctaLineHeight = (int)($ctaFontSize * 1.3);
 $ctaY1 = $topPadding - 30 - $ctaLineHeight;
 $ctaY2 = $ctaY1 + $ctaLineHeight;
+$ctaY3 = $ctaY2 + $ctaLineHeight;
 $shadowOffsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]];
 
-foreach ([$ctaText1, $ctaText2] as $lineIndex => $ctaLine) {
-    $ctaY = $lineIndex === 0 ? $ctaY1 : $ctaY2;
+foreach ([$ctaText1, $ctaText2, $ctaText3] as $lineIndex => $ctaLine) {
+    $ctaY = $lineIndex === 0 ? $ctaY1 : ($lineIndex === 1 ? $ctaY2 : $ctaY3);
     foreach ($shadowOffsets as $off) {
         if (imagettftext($canvas, $ctaFontSize, 0, $ctaX + $off[0], $ctaY + $off[1], $ctaShadowColor, $fontPath, $ctaLine) === false) {
             http_response_code(500);
