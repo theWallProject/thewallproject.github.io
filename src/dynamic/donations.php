@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $currentAmount = 47;
-$goalAmount = 500;
+$goalAmount = 800;
 $maxRowBricks = max(3, min(100, intval($_GET['maxRowBricks'] ?? 30)));
 $maxBrickDimension = 120;
 
@@ -303,7 +303,7 @@ $ctaShadowColor = imagecolorallocate($canvas, 0, 0, 0);
 $ctaColor = imagecolorallocate($canvas, 255, 255, 255);
 $ctaX = 4;
 $ctaLineHeight = (int)($ctaFontSize * 1.3);
-$ctaY1 = $topPadding - 30 - $ctaLineHeight;
+$ctaY1 = $topPadding - 50 - $ctaLineHeight;
 $ctaY2 = $ctaY1 + $ctaLineHeight;
 $ctaY3 = $ctaY2 + $ctaLineHeight;
 $shadowOffsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]];
