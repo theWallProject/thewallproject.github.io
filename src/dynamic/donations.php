@@ -14,6 +14,24 @@ if ($goalBricks <= $currentBricks) {
 }
 $totalPositions = $goalBricks + 1;
 
+$cacheKey = md5(serialize([$currentAmount, $goalAmount, $maxRowBricks]));
+$cacheDir = sys_get_temp_dir() . '/donations_cache';
+$cacheFile = $cacheDir . '/donations_' . $cacheKey . '.png';
+$cacheTtl = 3600;
+
+if (!is_dir($cacheDir)) {
+    @mkdir($cacheDir, 0755, true);
+}
+
+if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < $cacheTtl) {
+    header('Content-Type: image/png');
+    header('Cache-Control: public, max-age=3600');
+    header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 3600) . ' GMT');
+    header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($cacheFile)) . ' GMT');
+    readfile($cacheFile);
+    exit;
+}
+
 $brickPath = __DIR__ . '/../files/common/brick.png';
 $fontPath = __DIR__ . '/../files/common/Roboto-Variable.ttf';
 
@@ -304,12 +322,21 @@ foreach ([$ctaText1, $ctaText2] as $lineIndex => $ctaLine) {
 
 // --- Output ---
 header('Content-Type: image/png');
-header('Cache-Control: no-cache, no-store, must-revalidate');
-header('Pragma: no-cache');
-header('Expires: 0');
+header('Cache-Control: public, max-age=3600');
+header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 3600) . ' GMT');
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 imagealphablending($canvas, false);
 imagesavealpha($canvas, true);
+
+ob_start();
 imagepng($canvas);
+$imageData = ob_get_clean();
+
+if ($imageData !== false) {
+    @file_put_contents($cacheFile, $imageData);
+}
+
+echo $imageData;
 
 imagedestroy($canvas);
 imagedestroy($srcImage);
