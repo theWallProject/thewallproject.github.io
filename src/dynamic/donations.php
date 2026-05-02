@@ -95,7 +95,7 @@ $goalScaleFactor = 1.15;
 $goalBrickW = (int)round($brickW * $goalScaleFactor);
 $goalBrickH = (int)round($brickH * $goalScaleFactor);
 
-$topPadding = (int)($brickH * 2) + 60;
+$topPadding = (int)($brickH * 2) + 120;
 $bottomPadding = 4;
 $canvasW = $maxRowBricks * $brickW;
 $canvasH = $topPadding + $rows * $brickH + $bottomPadding;
@@ -300,7 +300,7 @@ $ctaText1 = "Click to donate ANY monthly amount!";
 $ctaText2 = "Each brick = 10$ Monthly donations.";
 $ctaText3 = "Current: $$currentAmount Goal: $$goalAmount";
 $ctaShadowColor = imagecolorallocate($canvas, 0, 0, 0);
-$ctaColor = imagecolorallocate($canvas, 255, 255, 255);
+$ctaColor = imagecolorallocate($canvas, 0, 0, 0);
 $ctaX = 4;
 $ctaLineHeight = (int)($ctaFontSize * 1.3);
 $ctaY1 = $topPadding - 50 - $ctaLineHeight;
