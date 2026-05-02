@@ -95,7 +95,12 @@ $goalScaleFactor = 1.15;
 $goalBrickW = (int)round($brickW * $goalScaleFactor);
 $goalBrickH = (int)round($brickH * $goalScaleFactor);
 
-$topPadding = (int)($brickH * 2) + 120;
+$ctaFontSize = 36;
+$ctaLineHeight = (int)($ctaFontSize * 1.3);
+$ctaY1 = (int)($ctaFontSize * 1.2);
+$ctaY2 = $ctaY1 + $ctaLineHeight;
+$ctaY3 = $ctaY2 + $ctaLineHeight;
+$topPadding = $ctaY3 + $ctaLineHeight;
 $bottomPadding = 4;
 $canvasW = $maxRowBricks * $brickW;
 $canvasH = $topPadding + $rows * $brickH + $bottomPadding;
@@ -295,17 +300,12 @@ if ($currentBricks > 0) {
 }
 
 // --- 5. CTA text (2 lines, left-aligned, white) ---
-$ctaFontSize = 36;
 $ctaText1 = "Click to donate ANY monthly amount!";
 $ctaText2 = "Each brick = 10$ Monthly donations.";
 $ctaText3 = "Current: $$currentAmount Goal: $$goalAmount";
 $ctaShadowColor = imagecolorallocate($canvas, 0, 0, 0);
 $ctaColor = imagecolorallocate($canvas, 0, 0, 0);
 $ctaX = 4;
-$ctaLineHeight = (int)($ctaFontSize * 1.3);
-$ctaY1 = $topPadding - 50 - $ctaLineHeight;
-$ctaY2 = $ctaY1 + $ctaLineHeight;
-$ctaY3 = $ctaY2 + $ctaLineHeight;
 $shadowOffsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]];
 
 foreach ([$ctaText1, $ctaText2, $ctaText3] as $lineIndex => $ctaLine) {
