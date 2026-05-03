@@ -43,9 +43,9 @@ const HomePage: React.FC = () => {
       <Hero />
       <PlatformShowcase />
       <Features />
+      <DonationSection />
       <TheBuildWall />
       <Testimonials />
-      <DonationSection />
       <Footer />
     </div>
   );
