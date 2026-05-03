@@ -17,10 +17,14 @@ import ReactLenis from "lenis/react";
 import { useLenis } from "lenis/react";
 import DonationSection from "./components/DonationSection";
 import { useScrollDebugger } from "./hooks/useScrollDebugger";
+import { useBrowserDetection } from "./components/BrowserDetector";
 
 const HomePage: React.FC = () => {
+  const { isMobile } = useBrowserDetection();
   useScrollDebugger();
+
   useLenis((lenis) => {
+    if (isMobile) return;
     console.warn(
       "[Lenis] scroll:",
       Math.round(lenis.scroll),
@@ -34,7 +38,7 @@ const HomePage: React.FC = () => {
   });
   return (
     <div className="App   ">
-      <ReactLenis root />
+      {!isMobile && <ReactLenis root />}
       <Header />
       <Hero />
       <PlatformShowcase />
