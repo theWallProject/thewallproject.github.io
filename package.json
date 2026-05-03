@@ -21,7 +21,8 @@
     "test:lighthouse": "npm run build && playwright test tests/performance/lighthouse.spec.ts",
     "test:bundle": "npm run build && playwright test tests/performance/bundle-analysis.spec.ts",
     "test:comprehensive": "npm run build && playwright test tests/performance/comprehensive-performance.spec.ts",
-    "deploy": "npm run build && git push && node scripts/deploy.js"
+    "deploy": "npm run build && git push && node scripts/deploy.js",
+    "deploy:php": "node scripts/copy-dynamic.js && git push --no-verify && node scripts/deploy.js"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

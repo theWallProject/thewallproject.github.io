@@ -42,11 +42,6 @@ const DonationSection: React.FC = () => {
 
       {/* ── CONTENT ── */}
       <div className="relative z-10 text-center max-w-2xl flex flex-col items-center mb-16">
-        <span
-          className={`block text-[10px] font-bold tracking-[0.4em] uppercase text-white/40 mb-5 px-5 py-1.5 border border-white/10 rounded-full ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
-        >
-          {t("donate.sectionLabel")}
-        </span>
         <h2
           className={`text-3xl md:text-5xl font-black text-white uppercase leading-tight mb-6 tracking-tight ${i18n.language === "ar" ? "font-arabic leading-[1.3]" : "font-sans"}`}
         >

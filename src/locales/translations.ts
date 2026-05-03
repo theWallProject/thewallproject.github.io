@@ -114,18 +114,6 @@ export const translations = {
     zh_CN: "和社交账户。",
     zh_TW: "和社交帳戶。",
   },
-
-  "donate.sectionLabel": {
-    en: "REBUILD THE DEFENSES",
-    ar: "أعد بناء الدفاعات",
-    fr: "RECONSTRUIRE LES DÉFENSES",
-    es: "RECONSTRUIR LAS DEFENSAS",
-    de: "DIE VERTEIDIGUNG WIEDERAUFBAUEN",
-    id: "MEMBANGUN KEMBALI PERTAHANAN",
-    nl: "DE VERDEDIGING HERBOUWEN",
-    zh_CN: "重建防线",
-    zh_TW: "重建防線",
-  },
   "donate.title": {
     en: "The Wall is only as <span>strong</span> as its builders.",
     ar: "الجدار قوي فقط بقوة <span>بناته</span>.",
