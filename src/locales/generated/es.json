@@ -17,8 +17,8 @@
       "andSocialAccounts": "Y Cuentas Sociales."
     },
     "donate": {
-      "title": "El Muro es tan <span>fuerte</span> como sus constructores.",
-      "description": "Dependemos de tu apoyo para mantener la integridad de la base de datos y mantener esta herramienta gratuita. Cada contribución coloca una nueva piedra.",
+      "title": "El proyecto del Muro es <span>gratis</span> de usar, ¡pero no <span>gratis</span> de <span>hacer</span>!",
+      "description": "Las pequeñas donaciones mensuales son la única forma de que sobreviva.",
       "button": "APOYAR EN KO-FI"
     },
     "intro": {

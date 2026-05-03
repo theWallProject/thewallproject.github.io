@@ -41,7 +41,7 @@ const DonationSection: React.FC = () => {
       </div>
 
       {/* ── CONTENT ── */}
-      <div className="relative z-10 text-center max-w-2xl flex flex-col items-center mb-16">
+      <div className="relative z-10 text-center max-w-2xl flex flex-col items-center mb-6 md:mb-10">
         <h2
           className={`text-3xl md:text-5xl font-black text-white uppercase leading-tight mb-6 tracking-tight ${i18n.language === "ar" ? "font-arabic leading-[1.3]" : "font-sans"}`}
         >

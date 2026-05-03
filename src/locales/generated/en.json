@@ -17,8 +17,8 @@
       "andSocialAccounts": "And Social Accounts."
     },
     "donate": {
-      "title": "The Wall is only as <span>strong</span> as its builders.",
-      "description": "The Wall project is free to use, but not free to make! Small monthly donations are the only way it can survive.",
+      "title": "The Wall project is <span>free</span> to use, but not <span>free</span> to <span>make</span>!",
+      "description": "Small monthly donations are the only way it can survive.",
       "button": "SUPPORT ON KO-FI"
     },
     "intro": {
