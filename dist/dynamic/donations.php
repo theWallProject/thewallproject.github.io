@@ -2,25 +2,55 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$currentAmount = 47;
+$dataFile = __DIR__ . '/donations_data.json';
+if (!file_exists($dataFile)) {
+    http_response_code(500);
+    exit('donations_data.json missing');
+}
+if (!is_readable($dataFile)) {
+    http_response_code(500);
+    exit('donations_data.json not readable');
+}
+$jsonData = file_get_contents($dataFile);
+if ($jsonData === false) {
+    http_response_code(500);
+    exit('Failed to read donations_data.json');
+}
+$decoded = json_decode($jsonData, true);
+if ($decoded === null || !is_array($decoded)) {
+    http_response_code(500);
+    exit('donations_data.json contains invalid JSON');
+}
+if (!array_key_exists('currentMonthly', $decoded)) {
+    http_response_code(500);
+    exit('donations_data.json missing currentMonthly key');
+}
+if (!is_numeric($decoded['currentMonthly'])) {
+    http_response_code(500);
+    exit('donations_data.json currentMonthly is not numeric');
+}
+$currentMonthly = max(0, (float)$decoded['currentMonthly']);
 $goalAmount = 800;
 $maxRowBricks = max(3, min(100, intval($_GET['maxRowBricks'] ?? 30)));
 $maxBrickDimension = 120;
 
-$currentBricks = intdiv($currentAmount, 10);
+$currentBricks = intdiv($currentMonthly, 10);
 $goalBricks = intdiv($goalAmount, 10);
 if ($goalBricks <= $currentBricks) {
     $goalBricks = $currentBricks + 1;
 }
 $totalPositions = $goalBricks + 1;
 
-$cacheKey = md5(serialize([$currentAmount, $goalAmount, $maxRowBricks]));
+$cacheKey = md5(serialize([$currentMonthly, $goalAmount, $maxRowBricks]));
 $cacheDir = sys_get_temp_dir() . '/donations_cache';
 $cacheFile = $cacheDir . '/donations_' . $cacheKey . '.png';
 $cacheTtl = 3600;
 
 if (!is_dir($cacheDir)) {
-    @mkdir($cacheDir, 0755, true);
+    if (!mkdir($cacheDir, 0755, true)) {
+        http_response_code(500);
+        exit('Failed to create cache directory');
+    }
 }
 
 if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < $cacheTtl) {
@@ -302,7 +332,7 @@ if ($currentBricks > 0) {
 // --- 5. CTA text (2 lines, left-aligned, white) ---
 $ctaText1 = "Click to donate ANY monthly amount!";
 $ctaText2 = "Each brick = 10$ Monthly donations.";
-$ctaText3 = "Current: $$currentAmount Goal: $$goalAmount";
+$ctaText3 = "Current: $$currentMonthly Goal: $$goalAmount";
 $ctaShadowColor = imagecolorallocate($canvas, 0, 0, 0);
 $ctaColor = imagecolorallocate($canvas, 0, 0, 0);
 $ctaX = 4;
@@ -334,8 +364,14 @@ ob_start();
 imagepng($canvas);
 $imageData = ob_get_clean();
 
-if ($imageData !== false) {
-    @file_put_contents($cacheFile, $imageData);
+if ($imageData === false) {
+    http_response_code(500);
+    exit('Failed to render image');
+}
+
+$cacheWritten = file_put_contents($cacheFile, $imageData);
+if ($cacheWritten === false) {
+    error_log("donations.php: failed to write cache file {$cacheFile}");
 }
 
 echo $imageData;

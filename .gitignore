@@ -28,3 +28,11 @@ scripts/deploy.js
 matomo/misc/DBIP-City.mmdb
 matomo/tmp/
 dist/.htaccess
+
+# Ko-fi webhook secrets and data
+src/dynamic/config.php
+src/dynamic/donations_data.json
+src/dynamic/donations_debug.log
+dist/dynamic/config.php
+dist/dynamic/donations_data.json
+dist/dynamic/donations_debug.log
