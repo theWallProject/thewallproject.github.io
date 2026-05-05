@@ -1,2 +1,0 @@
-<?php
-define('KOFI_VERIFICATION_TOKEN', '888d456a-3b7f');
