@@ -41,7 +41,7 @@ if ($goalBricks <= $currentBricks) {
 }
 $totalPositions = $goalBricks + 1;
 
-$cacheKey = md5(serialize([$currentMonthly, $goalAmount, $maxRowBricks]));
+$cacheKey = md5(serialize([$currentMonthly, $goalAmount, $maxRowBricks, 'v2']));
 $cacheDir = sys_get_temp_dir() . '/donations_cache';
 $cacheFile = $cacheDir . '/donations_' . $cacheKey . '.png';
 $cacheTtl = 3600;
@@ -113,7 +113,13 @@ if ($brickW <= 0 || $brickH <= 0) {
     exit('Brick dimensions too small after scaling');
 }
 
-$rows = (int)ceil($totalPositions / $maxRowBricks);
+$rows = 0;
+$_remaining = $totalPositions;
+while ($_remaining > 0) {
+    $_capacity = ($rows % 2 === 0) ? ($maxRowBricks + 1) : $maxRowBricks;
+    $_remaining -= $_capacity;
+    $rows++;
+}
 $halfW = (int)($brickW / 2);
 
 if ($halfW <= 0) {
@@ -258,15 +264,32 @@ if (imagettftext($goalBrick, $goalTextFontSize, 0, $goalTextX, $goalTextY, $goal
     exit('Failed to render goal text');
 }
 
+// --- Helper: map flat index to (row, posInRow) with variable row capacities ---
+function indexToRowPos($index, $maxRowBricks) {
+    $row = 0;
+    $posInRow = $index;
+    while (true) {
+        $capacity = ($row % 2 === 0) ? ($maxRowBricks + 1) : $maxRowBricks;
+        if ($posInRow < $capacity) {
+            return [$row, $posInRow];
+        }
+        $posInRow -= $capacity;
+        $row++;
+    }
+}
+
 // --- Helper: get x,y pixel position for a brick index (rows grow from bottom up) ---
-function getBrickPosition($index, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding) {
-    $row = (int)floor($index / $maxRowBricks);
-    $posInRow = $index % $maxRowBricks;
+function getBrickPosition($index, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding, $canvasW) {
+    list($row, $posInRow) = indexToRowPos($index, $maxRowBricks);
     $y = $canvasH - $bottomPadding - ($row + 1) * $brickH;
 
     if ($row % 2 === 0) {
+        $capacity = $maxRowBricks + 1;
         if ($posInRow === 0) {
             $x = 0;
+            $useHalf = true;
+        } elseif ($posInRow === $capacity - 1) {
+            $x = $canvasW - $halfW;
             $useHalf = true;
         } else {
             $x = $halfW + ($posInRow - 1) * $brickW;
@@ -282,7 +305,7 @@ function getBrickPosition($index, $maxRowBricks, $halfW, $brickW, $brickH, $topP
 
 // --- 1. Place GHOST bricks (positions $currentBricks to $goalBricks - 1) ---
 for ($i = $currentBricks; $i < $goalBricks; $i++) {
-    $pos = getBrickPosition($i, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding);
+    $pos = getBrickPosition($i, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding, $canvasW);
     if ($pos['useHalf']) {
         imagecopy($canvas, $ghostHalfBrick, $pos['x'], $pos['y'], 0, 0, $halfW, $brickH);
     } else {
@@ -292,7 +315,7 @@ for ($i = $currentBricks; $i < $goalBricks; $i++) {
 
 // --- 2. Place REAL bricks (positions 0 to $currentBricks - 1) ---
 for ($i = 0; $i < $currentBricks; $i++) {
-    $pos = getBrickPosition($i, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding);
+    $pos = getBrickPosition($i, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding, $canvasW);
     if ($pos['useHalf']) {
         imagecopy($canvas, $halfBrick, $pos['x'], $pos['y'], 0, 0, $halfW, $brickH);
     } else {
@@ -301,18 +324,20 @@ for ($i = 0; $i < $currentBricks; $i++) {
 }
 
 // --- 3. Place GOAL brick (position $goalBricks, slightly larger, centered) ---
-$goalPos = getBrickPosition($goalBricks, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding);
+$goalPos = getBrickPosition($goalBricks, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding, $canvasW);
 $goalOffsetX = (int)(($brickW - $goalBrickW) / 2);
 $goalOffsetY = (int)(($brickH - $goalBrickH) / 2);
 imagecopy($canvas, $goalBrick, $goalPos['x'] + $goalOffsetX, $goalPos['y'] + $goalOffsetY, 0, 0, $goalBrickW, $goalBrickH);
 
 // --- 4. Place FLYING brick (rotated, at position $currentBricks) ---
 if ($currentBricks > 0) {
-    $flyingPos = getBrickPosition($currentBricks, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding);
+    $flyingPos = getBrickPosition($currentBricks, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding, $canvasW);
+    $flyingSrc = $flyingPos['useHalf'] ? $halfBrick : $resizedBrick;
+    $flyingW = $flyingPos['useHalf'] ? $halfW : $brickW;
     $liftY = (int)($brickH * 0.35);
     $rotateAngle = -8;
-    $bgTransparent = imagecolorallocatealpha($resizedBrick, 0, 0, 0, 127);
-    $rotatedBrick = imagerotate($resizedBrick, $rotateAngle, $bgTransparent);
+    $bgTransparent = imagecolorallocatealpha($flyingSrc, 0, 0, 0, 127);
+    $rotatedBrick = imagerotate($flyingSrc, $rotateAngle, $bgTransparent);
     if ($rotatedBrick === false) {
         http_response_code(500);
         exit('Failed to rotate brick');
@@ -322,7 +347,7 @@ if ($currentBricks > 0) {
 
     $rotW = imagesx($rotatedBrick);
     $rotH = imagesy($rotatedBrick);
-    $drawX = $flyingPos['x'] - (int)(($rotW - $brickW) / 2);
+    $drawX = $flyingPos['x'] - (int)(($rotW - $flyingW) / 2);
     $drawY = $flyingPos['y'] - $liftY - (int)(($rotH - $brickH) / 2);
 
     imagecopy($canvas, $rotatedBrick, $drawX, $drawY, 0, 0, $rotW, $rotH);
@@ -333,7 +358,7 @@ if ($currentBricks > 0) {
 $ctaText1 = "Click to donate ANY monthly amount!";
 $ctaText2 = "Each brick = 10$ Monthly donations.";
 $ctaText3 = "Current: $$currentMonthly Goal: $$goalAmount";
-$ctaShadowColor = imagecolorallocate($canvas, 0, 0, 0);
+$ctaShadowColor = imagecolorallocate($canvas, 255, 255, 255);
 $ctaColor = imagecolorallocate($canvas, 0, 0, 0);
 $ctaX = 4;
 $shadowOffsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]];
