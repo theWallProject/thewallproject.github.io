@@ -2,33 +2,50 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$dataFile = __DIR__ . '/donations_data.json';
-if (!file_exists($dataFile)) {
+define('DYNAMIC_DIR', __DIR__ . '/../../dynamic');
+define('DATA_FILE', DYNAMIC_DIR . '/donations_data.json');
+
+// --- Fail-fast: dynamic directory and data file must exist and be readable ---
+
+if (!is_dir(DYNAMIC_DIR)) {
     http_response_code(500);
-    exit('donations_data.json missing');
+    exit('FATAL: Dynamic data directory missing: ' . DYNAMIC_DIR . ' — create it outside the web root with proper ownership');
 }
-if (!is_readable($dataFile)) {
+
+if (!file_exists(DATA_FILE)) {
     http_response_code(500);
-    exit('donations_data.json not readable');
+    exit('FATAL: Donations data file missing: ' . DATA_FILE . ' — create it with schema: {"currentMonthly":0,"lastUpdated":"","donations":[]}');
 }
-$jsonData = file_get_contents($dataFile);
+
+if (!is_readable(DATA_FILE)) {
+    http_response_code(500);
+    exit('FATAL: Donations data file not readable: ' . DATA_FILE . ' — check file permissions');
+}
+
+// --- Load and validate data ---
+
+$jsonData = file_get_contents(DATA_FILE);
 if ($jsonData === false) {
     http_response_code(500);
-    exit('Failed to read donations_data.json');
+    exit('FATAL: Failed to read donations data file: ' . DATA_FILE);
 }
+
 $decoded = json_decode($jsonData, true);
 if ($decoded === null || !is_array($decoded)) {
     http_response_code(500);
-    exit('donations_data.json contains invalid JSON');
+    exit('FATAL: donations_data.json contains invalid JSON: ' . DATA_FILE . ' — ' . json_last_error_msg());
 }
+
 if (!array_key_exists('currentMonthly', $decoded)) {
     http_response_code(500);
-    exit('donations_data.json missing currentMonthly key');
+    exit('FATAL: donations_data.json missing currentMonthly key: ' . DATA_FILE);
 }
+
 if (!is_numeric($decoded['currentMonthly'])) {
     http_response_code(500);
-    exit('donations_data.json currentMonthly is not numeric');
+    exit('FATAL: donations_data.json currentMonthly is not numeric: ' . DATA_FILE);
 }
+
 $currentMonthly = max(0, (float)$decoded['currentMonthly']);
 $goalAmount = 800;
 $maxRowBricks = max(3, min(100, intval($_GET['maxRowBricks'] ?? 30)));
@@ -40,6 +57,8 @@ if ($goalBricks <= $currentBricks) {
     $goalBricks = $currentBricks + 1;
 }
 $totalPositions = $goalBricks + 1;
+
+// --- Cache ---
 
 $cacheKey = md5(serialize([$currentMonthly, $goalAmount, $maxRowBricks, 'v2']));
 $cacheDir = sys_get_temp_dir() . '/donations_cache';
@@ -62,6 +81,8 @@ if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < $cacheTtl) {
     exit;
 }
 
+// --- Image generation prerequisites ---
+
 $brickPath = __DIR__ . '/../files/common/brick.png';
 $fontPath = __DIR__ . '/../files/common/Roboto-Variable.ttf';
 
@@ -82,12 +103,12 @@ if (!function_exists('imagerotate')) {
 
 if (!file_exists($brickPath) || !is_readable($brickPath)) {
     http_response_code(500);
-    exit('Brick image not found');
+    exit('Brick image not found: ' . $brickPath);
 }
 
 if (!file_exists($fontPath) || !is_readable($fontPath)) {
     http_response_code(500);
-    exit('Font file not found');
+    exit('Font file not found: ' . $fontPath);
 }
 
 $srcImage = imagecreatefrompng($brickPath);
