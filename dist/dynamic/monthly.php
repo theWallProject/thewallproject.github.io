@@ -1,8 +1,10 @@
 <?php
 define('KOFI_DEBUG', true);
 
-define('KOFI_DATA_FILE', __DIR__ . '/donations_data.json');
-define('KOFI_LOG_FILE', __DIR__ . '/donations_debug.log');
+define('KOFI_DYNAMIC_DIR', __DIR__ . '/../../dynamic');
+define('KOFI_DATA_FILE', KOFI_DYNAMIC_DIR . '/donations_data.json');
+define('KOFI_LOG_FILE', KOFI_DYNAMIC_DIR . '/donations_debug.log');
+define('KOFI_CONFIG_FILE', KOFI_DYNAMIC_DIR . '/config.php');
 define('KOFI_LOG_MAX_BYTES', 5 * 1024 * 1024);
 define('KOFI_MAX_AMOUNT', 10000);
 define('KOFI_MAX_MESSAGE_ID_LEN', 255);
@@ -16,19 +18,63 @@ define('KOFI_TIER_NAME_MAX_LEN', 100);
 define('KOFI_CURRENCY_MAX_LEN', 10);
 define('KOFI_SHOP_ITEMS_MAX', 50);
 
-if (!file_exists(__DIR__ . '/config.php')) {
+// --- Fail-fast: all runtime directories and files must exist and be writable ---
+
+if (!is_dir(KOFI_DYNAMIC_DIR)) {
     http_response_code(500);
-    exit('config.php missing - cannot start');
+    exit('FATAL: Dynamic data directory missing: ' . KOFI_DYNAMIC_DIR . ' — create it outside the web root with proper ownership');
 }
-require_once __DIR__ . '/config.php';
+
+if (!is_writable(KOFI_DYNAMIC_DIR)) {
+    $owner = function_exists('posix_getpwuid') ? posix_getpwuid(filestat(KOFI_DYNAMIC_DIR)['uid'])['name'] ?? 'unknown' : 'unknown';
+    http_response_code(500);
+    exit('FATAL: Dynamic data directory not writable: ' . KOFI_DYNAMIC_DIR . ' — current owner: ' . $owner . ', PHP process needs write access');
+}
+
+if (!file_exists(KOFI_CONFIG_FILE)) {
+    http_response_code(500);
+    exit('FATAL: Config file missing: ' . KOFI_CONFIG_FILE . ' — create it with KOFI_VERIFICATION_TOKEN constant');
+}
+
+if (!is_readable(KOFI_CONFIG_FILE)) {
+    http_response_code(500);
+    exit('FATAL: Config file not readable: ' . KOFI_CONFIG_FILE);
+}
+
+if (!file_exists(KOFI_DATA_FILE)) {
+    http_response_code(500);
+    exit('FATAL: Donations data file missing: ' . KOFI_DATA_FILE . ' — create it with schema: {"currentMonthly":0,"lastUpdated":"","donations":[]}');
+}
+
+if (!is_readable(KOFI_DATA_FILE)) {
+    http_response_code(500);
+    exit('FATAL: Donations data file not readable: ' . KOFI_DATA_FILE);
+}
+
+if (!is_writable(KOFI_DATA_FILE)) {
+    $perms = substr(sprintf('%o', fileperms(KOFI_DATA_FILE)), -4);
+    $owner = function_exists('posix_getpwuid') ? posix_getpwuid(filestat(KOFI_DATA_FILE)['uid'])['name'] ?? 'unknown' : 'unknown';
+    http_response_code(500);
+    exit('FATAL: Donations data file not writable: ' . KOFI_DATA_FILE . ' — permissions: ' . $perms . ', owner: ' . $owner . ', PHP process needs read+write');
+}
+
+if (!is_writable(KOFI_LOG_FILE) && !is_writable(KOFI_DYNAMIC_DIR)) {
+    http_response_code(500);
+    exit('FATAL: Debug log file not writable: ' . KOFI_LOG_FILE . ' and parent directory is also not writable');
+}
+
+// --- Load config ---
+
+require_once KOFI_CONFIG_FILE;
 
 if (!defined('KOFI_VERIFICATION_TOKEN')) {
     http_response_code(500);
-    exit('KOFI_VERIFICATION_TOKEN not defined in config.php');
+    exit('FATAL: KOFI_VERIFICATION_TOKEN not defined in ' . KOFI_CONFIG_FILE);
 }
+
 if (KOFI_VERIFICATION_TOKEN === '') {
     http_response_code(500);
-    exit('KOFI_VERIFICATION_TOKEN is empty in config.php');
+    exit('FATAL: KOFI_VERIFICATION_TOKEN is empty in ' . KOFI_CONFIG_FILE);
 }
 
 function kofi_log(string $msg): void {
@@ -253,19 +299,6 @@ if (!$tokenValid) {
 }
 
 $dataFile = KOFI_DATA_FILE;
-if (!file_exists($dataFile)) {
-    kofi_log("FATAL: data file missing: {$dataFile}");
-    kofi_send(500, 'Data file missing');
-}
-if (!is_readable($dataFile)) {
-    kofi_log("FATAL: data file not readable: {$dataFile}");
-    kofi_send(500, 'Data file not readable');
-}
-if (!is_writable($dataFile)) {
-    kofi_log("FATAL: data file not writable: {$dataFile}");
-    kofi_send(500, 'Data file not writable');
-}
-
 $fileContents = file_get_contents($dataFile);
 if ($fileContents === false) {
     kofi_log("FATAL: file_get_contents failed on {$dataFile}");
