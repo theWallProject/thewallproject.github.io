@@ -75,13 +75,16 @@ const PlatformShowcase: React.FC = () => {
           <div className="max-w-[1600px] lg:px-0 px-5 mx-auto flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
             <div className="flex-1 w-full max-w-xl order-2 md:order-1">
               <div className="relative aspect-video rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-black/10 border border-white/5">
-                <img
-                  ref={desktopImgRef}
-                  src="/files/common/install.gif"
-                  alt="Desktop Extension"
-                  loading="lazy"
-                  className="w-full h-full object-cover opacity-95 transition-opacity duration-1000 scale-105"
-                />
+                <picture>
+                  <source srcSet="/files/common/install.webp" type="image/webp" />
+                  <img
+                    ref={desktopImgRef}
+                    src="/files/common/install.gif"
+                    alt="Desktop Extension"
+                    loading="lazy"
+                    className="w-full h-full object-cover opacity-95 transition-opacity duration-1000 scale-105"
+                  />
+                </picture>
               </div>
             </div>
 
@@ -190,14 +193,18 @@ const PlatformShowcase: React.FC = () => {
 
             <div className="flex-1 w-full h-[220px] flex items-center justify-center pt-8 md:pt-4">
               <div ref={mobileStackRef} className="relative w-full h-[220px] md:h-[480px]">
-                <img
-                  src="/files/common/android_featured.png"
-                  loading="lazy"
-                  className="mobile-fan-img absolute inset-0 w-full h-full object-contain rounded-3xl md:rounded-[2.5rem]"
-                  style={{
-                    transformOrigin: "bottom center",
-                  }}
-                />
+                <picture>
+                  <source srcSet="/files/common/android_featured.webp" type="image/webp" />
+                  <img
+                    src="/files/common/android_featured.png"
+                    loading="lazy"
+                    alt="Android featured"
+                    className="mobile-fan-img absolute inset-0 w-full h-full object-contain rounded-3xl md:rounded-[2.5rem]"
+                    style={{
+                      transformOrigin: "bottom center",
+                    }}
+                  />
+                </picture>
               </div>
             </div>
           </div>

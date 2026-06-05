@@ -166,7 +166,7 @@ export const FlagShader = forwardRef<FlagShaderRef, FlagShaderProps>(({ progress
       renderer.setSize(window.innerWidth, window.innerHeight);
 
       const textureLoader = new THREE.TextureLoader();
-      const flagTexture = textureLoader.load("/files/walls/ps-grunge-01.png");
+      const flagTexture = textureLoader.load("/files/walls/ps-grunge-01.webp");
 
       const material = new THREE.ShaderMaterial({
         vertexShader,

@@ -14,29 +14,35 @@ const DonationSection: React.FC = () => {
       <div className="absolute inset-0 pointer-events-none hidden md:block select-none overflow-hidden">
         {/* Left Image */}
         <div className="absolute left-10 top-0 bottom-0 w-[350px] opacity-20">
-          <img
-            src="/files/common/flag.jpg"
-            alt=""
-            loading="lazy"
-            className="w-full h-full object-cover"
-            style={{
-              maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-              WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-            }}
-          />
+          <picture>
+            <source srcSet="/files/common/flag.webp" type="image/webp" />
+            <img
+              src="/files/common/flag.jpg"
+              alt=""
+              loading="lazy"
+              className="w-full h-full object-cover"
+              style={{
+                maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+                WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+              }}
+            />
+          </picture>
         </div>
         {/* Right Image */}
         <div className="absolute right-10 top-0 bottom-0 w-[350px] opacity-20 transform scale-x-[-1]">
-          <img
-            src="/files/common/flag.jpg"
-            alt=""
-            loading="lazy"
-            className="w-full h-full object-cover"
-            style={{
-              maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-              WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-            }}
-          />
+          <picture>
+            <source srcSet="/files/common/flag.webp" type="image/webp" />
+            <img
+              src="/files/common/flag.jpg"
+              alt=""
+              loading="lazy"
+              className="w-full h-full object-cover"
+              style={{
+                maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+                WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+              }}
+            />
+          </picture>
         </div>
       </div>
 

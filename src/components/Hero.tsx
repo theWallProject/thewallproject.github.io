@@ -76,7 +76,7 @@ const Hero: React.FC = () => {
   return (
     <section
       className={`relative min-h-screen h-auto md:h-screen w-full flex flex-col justify-between items-center bg-brand-orange bg-center bg-no-repeat overflow-hidden px-6 sm:px-10 pt-20 pb-24 md:pb-16 text-[#f5f5f3] ${i18n.language === "ar" ? "font-arabic" : ""}`}
-      style={{ backgroundImage: 'url("/files/common/bg.png")', backgroundSize: "cover" }}
+      style={{ backgroundImage: 'url("/files/common/bg.webp")', backgroundSize: "cover" }}
     >
       {/* 1. Seamless Shader Background Bridge (Bottom transition only) */}
       <div className="absolute bottom-[-43vh] lg:bottom-0 left-0 w-full h-[89%] sm:h-[100%] z-0 pointer-events-none">
