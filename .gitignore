@@ -32,7 +32,6 @@ dist/.htaccess
 # Runtime dynamic data (config, donation data, logs) — not in web root
 /dynamic/
 
-# PHP tooling (composer/php-cs-fixer) — installed locally, not committed
+# PHP tooling (php-cs-fixer, phpunit) — installed locally, not committed
 vendor/
-composer.lock
 .php-cs-fixer.cache
