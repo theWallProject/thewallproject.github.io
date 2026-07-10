@@ -77,7 +77,7 @@ const isTabId = (s: string | null): s is TabId => s === "website" || s === "addo
 
 const readTabFromHash = (): TabId => {
   const hash = typeof window !== "undefined" ? window.location.hash.replace(/^#/, "") : "";
-  return isTabId(hash) ? hash : "website";
+  return isTabId(hash) ? hash : "addon";
 };
 
 // ---------------------------------------------------------------------------
@@ -119,9 +119,8 @@ const WebsiteStatsTab: React.FC = () => {
   return (
     <>
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>
-          {t("stats.visitors")} <span className={styles.freshBadge}>Fresh</span>
-        </h2>
+        <h2 className={styles.sectionTitle}>{t("stats.visitors")}</h2>
+        <p className={styles.dataHint}>Data collection started 11.7.2026</p>
         <div className={styles.cards}>
           <StatCard
             label={t("stats.liveNow")}
@@ -135,6 +134,7 @@ const WebsiteStatsTab: React.FC = () => {
             accent
             sub={`${formatNum(v.today.uniqueVisitors)} ${t("stat.uniqueVisitors").toLowerCase()}`}
           />
+          <StatCard label={t("stats.allTime")} value={formatNum(v.allTime.visits)} accent />
         </div>
       </section>
 
@@ -387,29 +387,29 @@ const Stats: React.FC = () => {
           <button
             type="button"
             role="tab"
-            aria-selected={activeTab === "website"}
-            className={`${styles.tab} ${activeTab === "website" ? styles.tabActive : ""}`}
-            onClick={() => selectTab("website")}
-          >
-            {t("stats.tab.website")}
-          </button>
-          <button
-            type="button"
-            role="tab"
             aria-selected={activeTab === "addon"}
             className={`${styles.tab} ${activeTab === "addon" ? styles.tabActive : ""}`}
             onClick={() => selectTab("addon")}
           >
             {t("stats.tab.addon")}
           </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === "website"}
+            className={`${styles.tab} ${activeTab === "website" ? styles.tabActive : ""}`}
+            onClick={() => selectTab("website")}
+          >
+            {t("stats.tab.website")}
+          </button>
         </div>
 
-        <div className={activeTab === "website" ? "" : styles.hidden} role="tabpanel">
-          <WebsiteStatsTab />
+        <div className={activeTab === "addon" ? "" : styles.hidden} role="tabpanel">
+          <AddonStatsTab />
         </div>
-        {visited.has("addon") && (
-          <div className={activeTab === "addon" ? "" : styles.hidden} role="tabpanel">
-            <AddonStatsTab />
+        {visited.has("website") && (
+          <div className={activeTab === "website" ? "" : styles.hidden} role="tabpanel">
+            <WebsiteStatsTab />
           </div>
         )}
       </div>

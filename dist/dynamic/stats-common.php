@@ -38,7 +38,7 @@ use CuyZ\Valinor\MapperBuilder;
 // -------------------------------------------------------------------------
 
 if (!defined('STATS_DEBUG')) {
-    define('STATS_DEBUG', true); // flip to false in production
+    define('STATS_DEBUG', false); // flip to false in production
 }
 
 define('STATS_CONFIG_FILE', __DIR__ . '/../../dynamic/config.php');
@@ -49,7 +49,7 @@ define('STATS_CACHE_DIR', sys_get_temp_dir() . '/stats_cache');
 // response header). 0 = disabled (every request hits Matomo live;
 // client never polls).
 if (!defined('STATS_CACHE_TTL')) {
-    define('STATS_CACHE_TTL', 0);
+    define('STATS_CACHE_TTL', 3600);
 }
 
 define('STATS_TIMEOUT', 30); // seconds per Matomo call

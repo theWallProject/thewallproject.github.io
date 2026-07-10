@@ -133,18 +133,10 @@
   color: #ff3e1a;
 }
 
-.freshBadge {
-  display: inline-block;
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: #050505;
-  background: #ff3e1a;
-  padding: 0.15rem 0.5rem;
-  border-radius: 4px;
-  margin-left: 0.6rem;
-  vertical-align: middle;
-  text-transform: uppercase;
+.dataHint {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.35);
+  margin: -0.5rem 0 1.5rem;
 }
 
 .tables {
