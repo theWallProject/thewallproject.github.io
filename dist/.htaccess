@@ -55,6 +55,7 @@ RewriteRule ^assets/(.*)$ /dist/assets/$1 [L]
 # Dynamic PHP routes
 RewriteRule ^dynamic/donations\.png$ /dist/dynamic/donations.php [L]
 RewriteRule ^dynamic/monthly\.php$ /dist/dynamic/monthly.php [L]
+RewriteRule ^dynamic/stats\.php$ /dist/dynamic/stats.php [L]
 
 # Deny direct web access to sensitive files in dynamic folder
 <FilesMatch "^(config|donations_data|donations_debug)(\.php|\.php_)?$">
