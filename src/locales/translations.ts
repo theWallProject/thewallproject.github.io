@@ -70,6 +70,17 @@ export const translations = {
     zh_CN: "捐赠",
     zh_TW: "捐款",
   },
+  "header.stats": {
+    en: "Stats",
+    ar: "الإحصائيات",
+    fr: "Statistiques",
+    es: "Estadísticas",
+    de: "Statistiken",
+    id: "Statistik",
+    nl: "Statistieken",
+    zh_CN: "统计",
+    zh_TW: "統計",
+  },
   "hero.detectAndBlock": {
     en: "Detect and Block",
     ar: "اكتشف واحجب أكثر من",

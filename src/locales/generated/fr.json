@@ -8,7 +8,8 @@
     "header": {
       "title": "The Wall Project",
       "platforms": "Plateformes",
-      "donate": "Faire un don"
+      "donate": "Faire un don",
+      "stats": "Statistiques"
     },
     "hero": {
       "detectAndBlock": "Détecter et Bloquer",

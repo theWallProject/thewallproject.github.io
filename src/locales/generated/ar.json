@@ -8,7 +8,8 @@
     "header": {
       "title": "مشروع الجدار",
       "platforms": "المنصات",
-      "donate": "تبرع"
+      "donate": "تبرع",
+      "stats": "الإحصائيات"
     },
     "hero": {
       "detectAndBlock": "اكتشف واحجب أكثر من",
