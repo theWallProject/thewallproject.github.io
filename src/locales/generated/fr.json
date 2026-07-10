@@ -169,7 +169,12 @@
       "noData": "NOUS NE COLLECTERONS JAMAIS DE DONNÉES D'IDENTIFICATION UTILISATEUR NI D'HISTORIQUE DE NAVIGATION !",
       "eventsTracked": "Voici les événements que nous suivons :",
       "event1": "Quand le Mur apparaît (pour s'assurer que l'extension fonctionne comme prévu, et pour compter le nombre pour encourager les autres à l'avenir)",
-      "event2": "Quand les boutons partager, continuer ou signaler du Mur sont cliqués (pour étudier les performances des changements de conception etc.)"
+      "event2": "Quand les boutons partager, continuer ou signaler du Mur sont cliqués (pour étudier les performances des changements de conception etc.)",
+      "websiteAppendix": {
+        "title": "Analyse du site web",
+        "scope": "Cette section couvre uniquement le site web marketing (the-wall.win) — distinct de l'extension de navigateur The Wall et de l'application Android.",
+        "body": "Notre site utilise Matomo, une solution d'analyse auto-hébergée respectueuse de la vie privée, avec des adresses IP anonymisées. Nous suivons uniquement des événements d'utilisation agrégés — vues de pages, sections affichées au défilement, clics sur les boutons d'installation/téléchargement, changements de langue, clics de don (Ko-fi) et clics sur les liens sociaux — afin d'améliorer le site. Nous NE collectons PAS de données personnellement identifiables, NE partageons PAS les données avec des tiers et NE vous suivons PAS sur d'autres sites web."
+      }
     },
     "sections": {
       "browserAddon": {

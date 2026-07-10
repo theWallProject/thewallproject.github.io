@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDownloadLinks } from "./useDownloadLinks";
 import { getBadgePath } from "./badgeAssets";
+import { trackEvent, MatomoEvent } from "../lib/matomo";
 import styles from "./InstallButton.module.css";
 
 interface InstallButtonProps {
@@ -27,6 +28,10 @@ const InstallButton: React.FC<InstallButtonProps> = ({ className = "" }) => {
       ? `${t("downloads.installNow")} (\u200E${browserDisplayName} \u200F${t("downloads.for")})`
       : buttonText;
 
+  const handleDownloadClick = () => {
+    trackEvent(MatomoEvent.category.engagement, MatomoEvent.action.downloadClick, `download.${primaryDownload.id}`);
+  };
+
   useEffect(() => {
     if (textRef.current) {
       const textBBox = textRef.current.getBBox();
@@ -48,6 +53,7 @@ const InstallButton: React.FC<InstallButtonProps> = ({ className = "" }) => {
         rel="noopener noreferrer"
         className={`${styles.installButton} ${className}`}
         aria-label={ariaLabel}
+        onClick={handleDownloadClick}
       >
         <img src={badgePath} alt={ariaLabel} className={styles.storeBadge} />
       </a>
@@ -61,6 +67,7 @@ const InstallButton: React.FC<InstallButtonProps> = ({ className = "" }) => {
       rel="noopener noreferrer"
       className={`${styles.installButton} ${className}`}
       aria-label={buttonText}
+      onClick={handleDownloadClick}
     >
       <svg
         width={svgWidth}

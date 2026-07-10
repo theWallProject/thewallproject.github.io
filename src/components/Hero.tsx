@@ -4,6 +4,7 @@ import InstallButton from "./InstallButton";
 import { useDownloadLinks } from "./useDownloadLinks";
 import SplitText from "./SplitText";
 import MorphingBackground from "./MorphingBackground";
+import { trackEvent, MatomoEvent } from "../lib/matomo";
 import gsap from "gsap";
 
 const Hero: React.FC = () => {
@@ -75,6 +76,7 @@ const Hero: React.FC = () => {
 
   return (
     <section
+      id="hero"
       className={`relative min-h-screen h-auto md:h-screen w-full flex flex-col justify-between items-center bg-brand-orange bg-center bg-no-repeat overflow-hidden px-6 sm:px-10 pt-20 pb-24 md:pb-16 text-[#f5f5f3] ${i18n.language === "ar" ? "font-arabic" : ""}`}
       style={{ backgroundImage: 'url("/files/common/bg.webp")', backgroundSize: "cover" }}
     >
@@ -187,6 +189,13 @@ const Hero: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="group flex items-center gap-1 md:gap-2 transition-all hover:opacity-100 opacity-80"
+                      onClick={() =>
+                        trackEvent(
+                          MatomoEvent.category.engagement,
+                          MatomoEvent.action.downloadClick,
+                          `download.${browser.id}`
+                        )
+                      }
                     >
                       <img
                         src={browser.icon.replace(/^\.\//, "/")}

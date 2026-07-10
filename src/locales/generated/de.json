@@ -169,7 +169,12 @@
       "noData": "WIR WERDEN NIEMALS BENUTZERIDENTIFIZIERENDE DATEN ODER NAVIGATIONSHISTORIE SAMMELN!",
       "eventsTracked": "Das sind die Ereignisse, die wir verfolgen:",
       "event1": "Wenn die Mauer erscheint (um sicherzustellen, dass das Addon wie erwartet funktioniert, und um die Anzahl für die Ermutigung anderer in der Zukunft zu zählen)",
-      "event2": "Wenn die Teilen-, Weiter- oder Melden-Schaltflächen der Mauer geklickt werden (um die Leistung von Designänderungen usw. zu untersuchen)"
+      "event2": "Wenn die Teilen-, Weiter- oder Melden-Schaltflächen der Mauer geklickt werden (um die Leistung von Designänderungen usw. zu untersuchen)",
+      "websiteAppendix": {
+        "title": "Website-Analyse",
+        "scope": "Dieser Abschnitt behandelt ausschließlich die Marketing-Website (the-wall.win) — getrennt vom The Wall Browser-Add-on und der Android-App.",
+        "body": "Unsere Website verwendet selbstgehostete, datenschutzfreundliche Matomo-Analytik mit anonymisierten IP-Adressen. Wir erfassen nur aggregierte Nutzungsereignisse — Seitenaufrufe, sichtbar gescrollte Abschnitte, Klicks auf Installations-/Download-Schaltflächen, Sprachwechsel, Spenden-Klicks (Ko-fi) und Klicks auf Social-Links — um die Website zu verbessern. Wir erheben KEINE personenidentifizierenden Daten, geben KEINE Daten an Dritte weiter und verfolgen Sie NICHT über andere Websites hinweg."
+      }
     },
     "sections": {
       "browserAddon": {

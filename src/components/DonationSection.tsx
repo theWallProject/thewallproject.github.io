@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation, Trans } from "react-i18next";
+import { trackEvent, MatomoEvent } from "../lib/matomo";
 import styles from "./DonationSection.module.css";
 
 const DonationSection: React.FC = () => {
@@ -65,6 +66,7 @@ const DonationSection: React.FC = () => {
           target="_blank"
           rel="noopener noreferrer"
           className={`${styles.kofiBtn} inline-flex items-center gap-3 mt-10 px-8 py-3.5 bg-white/5 border border-white/10 hover:border-[#b72b00]/50 hover:bg-[#b72b00]/10 text-white rounded-full backdrop-blur-md transition-all duration-500 ease-out group`}
+          onClick={() => trackEvent(MatomoEvent.category.engagement, MatomoEvent.action.donationClick, "kofi")}
         >
           <img
             src="/files/common/kofi-logo.png"
@@ -86,6 +88,7 @@ const DonationSection: React.FC = () => {
         target="_blank"
         rel="noopener noreferrer"
         className="relative z-10 max-w-2xl w-full"
+        onClick={() => trackEvent(MatomoEvent.category.engagement, MatomoEvent.action.donationClick, "kofi")}
       >
         <picture>
           <source media="(min-width: 1024px)" srcSet="https://the-wall.win/dynamic/donations.png?maxRowBricks=15" />

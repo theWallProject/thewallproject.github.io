@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./PrivacyPolicy.module.css";
 
 const PrivacyPolicy: React.FC = () => {
   const { t } = useTranslation();
+
+  useEffect(() => {
+    document.title = "The Wall Project - Privacy Policy";
+  }, []);
 
   return (
     <div className={styles.privacyPolicy}>
@@ -17,6 +21,12 @@ const PrivacyPolicy: React.FC = () => {
           <li>{t("privacy.event1")}</li>
           <li>{t("privacy.event2")}</li>
         </ol>
+
+        <hr />
+
+        <h2>{t("privacy.websiteAppendix.title")}</h2>
+        <p>{t("privacy.websiteAppendix.scope")}</p>
+        <p>{t("privacy.websiteAppendix.body")}</p>
       </div>
     </div>
   );

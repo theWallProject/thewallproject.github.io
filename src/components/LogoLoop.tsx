@@ -72,6 +72,7 @@ const useResizeObserver = (
     return () => {
       observers.forEach((observer) => observer?.disconnect());
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, dependencies);
 };
 
@@ -112,6 +113,7 @@ const useImageLoader = (
         img.removeEventListener("error", handleImageLoad);
       });
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, dependencies);
 };
 
@@ -191,7 +193,7 @@ const useAnimationLoop = (
       }
       lastTimestampRef.current = null;
     };
-  }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical]);
+  }, [trackRef, targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical]);
 };
 
 export const LogoLoop = React.memo<LogoLoopProps>(

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { trackEvent, MatomoEvent } from "../lib/matomo";
 import styles from "./Footer.module.css";
 
 const Footer: React.FC = () => {
@@ -79,7 +80,7 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className={`${styles.footer} footer-overlap-fix`}>
+    <footer id="footer" className={`${styles.footer} footer-overlap-fix`}>
       <div className={styles.container}>
         <div className={styles.footerMain}>
           {/* Left Column - Branding and Social */}
@@ -103,6 +104,7 @@ const Footer: React.FC = () => {
                   rel="noopener noreferrer"
                   className={styles.socialIcon}
                   aria-label={link.label}
+                  onClick={() => trackEvent(MatomoEvent.category.engagement, MatomoEvent.action.socialClick, link.id)}
                 >
                   <img src={link.icon} alt={link.label} />
                 </a>
@@ -127,6 +129,9 @@ const Footer: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="ml-1 font-semibold text-[#cd4626] hover:underline"
+              onClick={() =>
+                trackEvent(MatomoEvent.category.engagement, MatomoEvent.action.socialClick, "designer-credit")
+              }
             >
               Website Designed By Noor Hesham
             </a>

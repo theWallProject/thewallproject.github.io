@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useLanguage } from "../hooks/useLanguage";
 import { useTranslation } from "react-i18next";
 import type { SupportedLanguages } from "../types/translations";
+import { trackEvent, MatomoEvent } from "../lib/matomo";
 import styles from "./LanguageSwitcher.module.css";
 
 interface LanguageSwitcherProps {
@@ -40,11 +41,16 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ isScrolled = false 
 
   const handleLanguageSelect = useCallback(
     (languageCode: SupportedLanguages) => {
+      trackEvent(
+        MatomoEvent.category.engagement,
+        MatomoEvent.action.languageSwitch,
+        `${currentLanguage}->${languageCode}`
+      );
       changeLanguage(languageCode);
       setIsOpen(false);
       setFocusedIndex(-1);
     },
-    [changeLanguage]
+    [changeLanguage, currentLanguage]
   );
 
   // Close dropdown when clicking outside

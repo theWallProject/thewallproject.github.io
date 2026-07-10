@@ -169,7 +169,12 @@
       "noData": "KAMI TIDAK AKAN PERNAH MENGUMPULKAN DATA IDENTIFIKASI PENGGUNA ATAU RIWAYAT NAVIGASI!",
       "eventsTracked": "Berikut adalah peristiwa yang kami lacak:",
       "event1": "Ketika Tembok muncul (untuk memastikan addon bekerja seperti yang diharapkan, dan untuk menghitung jumlah untuk mendorong orang lain di masa depan)",
-      "event2": "Ketika tombol berbagi, lanjutkan, atau laporkan Tembok diklik (untuk mempelajari kinerja perubahan desain dll)"
+      "event2": "Ketika tombol berbagi, lanjutkan, atau laporkan Tembok diklik (untuk mempelajari kinerja perubahan desain dll)",
+      "websiteAppendix": {
+        "title": "Analitik Situs Web",
+        "scope": "Bagian ini hanya mencakup situs web pemasaran (the-wall.win) — terpisah dari add-on browser The Wall dan aplikasi Android.",
+        "body": "Situs web kami menggunakan analitik Matomo yang dihosting sendiri dan ramah privasi dengan alamat IP yang dianonimkan. Kami hanya melacak peristiwa penggunaan agregat — tampilan halaman, bagian yang terlihat saat digulir, klik tombol pasang/unduh, perubahan bahasa, klik donasi (Ko-fi), dan klik tautan sosial — untuk meningkatkan situs. Kami TIDAK mengumpulkan informasi yang mengidentifikasi pribadi, TIDAK membagikan data kepada pihak ketiga, dan TIDAK melacak Anda di situs web lain."
+      }
     },
     "sections": {
       "browserAddon": {

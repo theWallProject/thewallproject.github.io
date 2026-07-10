@@ -169,7 +169,12 @@
       "noData": "WE ZULLEN NOOIT GEBRUIKERSIDENTIFICERENDE GEGEVENS OF NAVIGATIEGESCHIEDENIS VERZAMELEN!",
       "eventsTracked": "Dit zijn de gebeurtenissen die we volgen:",
       "event1": "Wanneer de Muur verschijnt (om ervoor te zorgen dat de addon werkt zoals verwacht, en om het aantal te tellen voor het aanmoedigen van anderen in de toekomst)",
-      "event2": "Wanneer de deel-, doorgaan- of rapportageknoppen van de Muur worden geklikt (om de prestaties van ontwerpwijzigingen etc. te bestuderen)"
+      "event2": "Wanneer de deel-, doorgaan- of rapportageknoppen van de Muur worden geklikt (om de prestaties van ontwerpwijzigingen etc. te bestuderen)",
+      "websiteAppendix": {
+        "title": "Website-analyse",
+        "scope": "Deze sectie betreft uitsluitend de marketingwebsite (the-wall.win) — los van de The Wall browser-add-on en Android-app.",
+        "body": "Onze website gebruikt zelf-gehoste, privacyvriendelijke Matomo-analyse met geanonimiseerde IP-adressen. We volgen alleen geaggregeerde gebruiksgebeurtenissen — paginaweergaven, in beeld gekomen secties, klikken op installatie-/downloadknoppen, taalwijzigingen, donatieklikken (Ko-fi) en klikken op sociaal-links — om de site te verbeteren. We verzamelen GEEN persoonlijk identificeerbare gegevens, delen GEEN gegevens met derden en volgen u NIET op andere websites."
+      }
     },
     "sections": {
       "browserAddon": {

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useDownloadLinks } from "./useDownloadLinks";
+import { trackEvent, MatomoEvent } from "../lib/matomo";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -59,7 +60,7 @@ const PlatformShowcase: React.FC = () => {
   }, [i18n.language]);
 
   return (
-    <div className="relative w-full bg-brand-orange overflow-hidden pt-8 md:pt-12 pb-12">
+    <div id="platform" className="relative w-full bg-brand-orange overflow-hidden pt-8 md:pt-12 pb-12">
       <div className="max-w-[1600px] mx-auto">
         {/* SECTION TITLE */}
         <div className="text-center mb-6 md:mb-10 px-4">
@@ -112,6 +113,9 @@ const PlatformShowcase: React.FC = () => {
                   rel="noopener noreferrer"
                   className="transition-transform duration-300 hover:scale-105 active:scale-95"
                   aria-label={t("downloads.chrome.title")}
+                  onClick={() =>
+                    trackEvent(MatomoEvent.category.engagement, MatomoEvent.action.downloadClick, "download.chrome")
+                  }
                 >
                   <img
                     src="./files/common/icon-chrome.svg"
@@ -126,6 +130,9 @@ const PlatformShowcase: React.FC = () => {
                   rel="noopener noreferrer"
                   className="transition-transform duration-300 hover:scale-105 active:scale-95"
                   aria-label={t("downloads.firefox.title")}
+                  onClick={() =>
+                    trackEvent(MatomoEvent.category.engagement, MatomoEvent.action.downloadClick, "download.firefox")
+                  }
                 >
                   <img
                     src="./files/common/icon-firefox.svg"
@@ -140,6 +147,9 @@ const PlatformShowcase: React.FC = () => {
                   rel="noopener noreferrer"
                   className="transition-transform duration-300 hover:scale-105 active:scale-95"
                   aria-label={t("downloads.macos.title")}
+                  onClick={() =>
+                    trackEvent(MatomoEvent.category.engagement, MatomoEvent.action.downloadClick, "download.macos")
+                  }
                 >
                   <img
                     src="./files/common/icon-safari.svg"
@@ -180,6 +190,9 @@ const PlatformShowcase: React.FC = () => {
                   rel="noopener noreferrer"
                   className="transition-transform duration-300 hover:scale-105 active:scale-95 text-center sm:text-left sm:rtl:text-right"
                   aria-label={t("sections.androidApp.getOnPlayStore")}
+                  onClick={() =>
+                    trackEvent(MatomoEvent.category.engagement, MatomoEvent.action.downloadClick, "download.android")
+                  }
                 >
                   <img
                     src="./files/common/playstore/GetItOnGooglePlay_Badge_Web_color_English.svg"

@@ -169,7 +169,12 @@
       "noData": "WE WILL NEVER COLLECT USER IDENTIFYING DATA NOR NAVIGATION HISTORY!",
       "eventsTracked": "Those are the events we track:",
       "event1": "When the Wall appears (to ensure the addon works as expected, and to count the number for encouraging others in the future)",
-      "event2": "When the Wall's share, continue, or report buttons are clicked (to study the performance of design changes etc.)"
+      "event2": "When the Wall's share, continue, or report buttons are clicked (to study the performance of design changes etc.)",
+      "websiteAppendix": {
+        "title": "Website Analytics",
+        "scope": "This section covers the marketing website (the-wall.win) only — separate from The Wall browser add-on and Android app.",
+        "body": "Our website uses self-hosted, privacy-friendly Matomo analytics with anonymized IP addresses. We track only aggregate usage events — page views, sections scrolled into view, install-button/download clicks, language changes, donation (Ko-fi) clicks, and social-link clicks — to improve the site. We do NOT collect personally identifying information, do NOT share data with third parties, and do NOT track you across other websites."
+      }
     },
     "sections": {
       "browserAddon": {

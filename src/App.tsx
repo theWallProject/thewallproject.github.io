@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { I18nextProvider } from "react-i18next";
@@ -18,10 +18,25 @@ import { useLenis } from "lenis/react";
 import DonationSection from "./components/DonationSection";
 import { useScrollDebugger } from "./hooks/useScrollDebugger";
 import { useBrowserDetection } from "./components/BrowserDetector";
+import { useMatomoTracking } from "./hooks/useMatomoTracking";
+import { useSectionTracking } from "./hooks/useSectionTracking";
+
+const TRACKED_SECTIONS = ["hero", "platform", "features", "donate", "build-section", "testimonials", "footer"];
+
+// Must be rendered inside <Router> so useLocation() works.
+const MatomoTrackingBoundary: React.FC = () => {
+  useMatomoTracking();
+  return null;
+};
 
 const HomePage: React.FC = () => {
   const { isMobile } = useBrowserDetection();
   useScrollDebugger();
+  useSectionTracking(TRACKED_SECTIONS);
+
+  useEffect(() => {
+    document.title = "The Wall Project";
+  }, []);
 
   useLenis((lenis) => {
     if (isMobile) return;
@@ -56,6 +71,7 @@ const App: React.FC = () => {
     <I18nextProvider i18n={i18n}>
       <LanguageProvider>
         <Router>
+          <MatomoTrackingBoundary />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
