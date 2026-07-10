@@ -55,7 +55,7 @@ if (!defined('STATS_CACHE_TTL')) {
 define('STATS_TIMEOUT', 30); // seconds per Matomo call
 define('STATS_ALL_TIME_START', '2000-01-01'); // effectively "since the beginning"
 define('STATS_ALL_TIME_END', 'today');
-define('STATS_TOP_LIMIT', 10); // cut every ranking to N rows
+define('STATS_TOP_LIMIT', 5); // cut every ranking to N rows
 
 // Public base path for Matomo assets (flags, browser logos, etc.).
 // Matomo returns relative paths like "plugins/Morpheus/icons/dist/flags/eg.png"

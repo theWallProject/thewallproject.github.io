@@ -133,6 +133,20 @@
   color: #ff3e1a;
 }
 
+.freshBadge {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #050505;
+  background: #ff3e1a;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  margin-left: 0.6rem;
+  vertical-align: middle;
+  text-transform: uppercase;
+}
+
 .tables {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -206,10 +220,11 @@ tr:last-child td {
 .loading {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.8rem;
   color: rgba(255, 255, 255, 0.4);
   font-size: 1rem;
-  padding: 2rem 0;
+  padding: 4rem 0;
 }
 
 .spinner {

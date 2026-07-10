@@ -7,7 +7,6 @@ import Footer from "./Footer";
 import styles from "./Stats.module.css";
 
 const formatNum = (n: number): string => n.toLocaleString();
-const formatPercent = (n: number): string => `${n.toFixed(1)}%`;
 const formatDuration = (sec: number): string => {
   if (sec < 60) return `${sec}s`;
   const m = Math.floor(sec / 60);
@@ -119,12 +118,10 @@ const WebsiteStatsTab: React.FC = () => {
 
   return (
     <>
-      <p className={styles.meta}>
-        {t("stats.generatedAt")}: {new Date(data.generatedAt).toLocaleString()}
-      </p>
-
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{t("stats.visitors")}</h2>
+        <h2 className={styles.sectionTitle}>
+          {t("stats.visitors")} <span className={styles.freshBadge}>Fresh</span>
+        </h2>
         <div className={styles.cards}>
           <StatCard
             label={t("stats.liveNow")}
@@ -138,46 +135,6 @@ const WebsiteStatsTab: React.FC = () => {
             accent
             sub={`${formatNum(v.today.uniqueVisitors)} ${t("stat.uniqueVisitors").toLowerCase()}`}
           />
-          <StatCard
-            label={t("stats.yesterday")}
-            value={formatNum(v.yesterday.visits)}
-            sub={`${formatNum(v.yesterday.uniqueVisitors)} ${t("stat.uniqueVisitors").toLowerCase()}`}
-          />
-          <StatCard
-            label={t("stats.thisWeek")}
-            value={formatNum(v.thisWeek.visits)}
-            sub={`${formatNum(v.thisWeek.uniqueVisitors)} ${t("stat.uniqueVisitors").toLowerCase()}`}
-          />
-          <StatCard
-            label={t("stats.thisMonth")}
-            value={formatNum(v.thisMonth.visits)}
-            sub={`${formatNum(v.thisMonth.uniqueVisitors)} ${t("stat.uniqueVisitors").toLowerCase()}`}
-          />
-          <StatCard
-            label={t("stats.lastMonth")}
-            value={formatNum(v.lastMonth.visits)}
-            sub={`${formatNum(v.lastMonth.uniqueVisitors)} ${t("stat.uniqueVisitors").toLowerCase()}`}
-          />
-          <StatCard
-            label={t("stats.allTime")}
-            value={formatNum(v.allTime.visits)}
-            accent
-            sub={`${formatNum(v.allTime.uniqueVisitors)} ${t("stat.uniqueVisitors").toLowerCase()}`}
-          />
-          <StatCard
-            label={t("stat.actions")}
-            value={formatNum(v.allTime.actions)}
-            sub={formatPercent(v.allTime.bounceRate) + " " + t("stat.bounceRate").toLowerCase()}
-          />
-          <StatCard label={t("stat.avgDuration")} value={formatDuration(v.allTime.avgVisitDuration)} />
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{t("stats.visitFrequency")}</h2>
-        <div className={styles.cards}>
-          <StatCard label={t("stat.newVisits")} value={formatNum(data.visitFrequency.newVisits)} accent />
-          <StatCard label={t("stat.returningVisits")} value={formatNum(data.visitFrequency.returningVisits)} />
         </div>
       </section>
 
@@ -210,6 +167,14 @@ const WebsiteStatsTab: React.FC = () => {
             <h3 className={styles.tableTitle}>{t("stats.deviceTypes")}</h3>
             <RankingTable rows={data.deviceTypes} visitsLabel={t("stat.visits").toLowerCase()} />
           </div>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>{t("stats.visitFrequency")}</h2>
+        <div className={styles.cards}>
+          <StatCard label={t("stat.newVisits")} value={formatNum(data.visitFrequency.newVisits)} accent />
+          <StatCard label={t("stat.returningVisits")} value={formatNum(data.visitFrequency.returningVisits)} />
         </div>
       </section>
 
@@ -252,6 +217,10 @@ const WebsiteStatsTab: React.FC = () => {
           <StatCard label={t("stats.totalDonations")} value={formatNum(data.donationsData.donations.length)} />
         </div>
       </section>
+
+      <p className={styles.meta}>
+        {t("stats.generatedAt")}: {new Date(data.generatedAt).toLocaleString()}
+      </p>
     </>
   );
 };
@@ -272,13 +241,10 @@ const AddonStatsTab: React.FC = () => {
 
   const v = data.visitors;
   const a = data.addonActions;
+  const desktopMobile = data.deviceTypes.filter((d) => /desktop|smartphone/i.test(d.label));
 
   return (
     <>
-      <p className={styles.meta}>
-        {t("stats.generatedAt")}: {new Date(data.generatedAt).toLocaleString()}
-      </p>
-
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>{t("stats.visitors")}</h2>
         <div className={styles.cards}>
@@ -289,52 +255,12 @@ const AddonStatsTab: React.FC = () => {
             accent
             sub={`${formatNum(data.liveNow.actions)} ${t("stat.actions").toLowerCase()}`}
           />
-          <StatCard
-            label={t("stats.today")}
-            value={formatNum(v.today.visits)}
-            accent
-            sub={`${formatNum(v.today.uniqueVisitors)} ${t("stat.uniqueVisitors").toLowerCase()}`}
-          />
-          <StatCard
-            label={t("stats.yesterday")}
-            value={formatNum(v.yesterday.visits)}
-            sub={`${formatNum(v.yesterday.uniqueVisitors)} ${t("stat.uniqueVisitors").toLowerCase()}`}
-          />
-          <StatCard
-            label={t("stats.thisWeek")}
-            value={formatNum(v.thisWeek.visits)}
-            sub={`${formatNum(v.thisWeek.uniqueVisitors)} ${t("stat.uniqueVisitors").toLowerCase()}`}
-          />
-          <StatCard
-            label={t("stats.thisMonth")}
-            value={formatNum(v.thisMonth.visits)}
-            sub={`${formatNum(v.thisMonth.uniqueVisitors)} ${t("stat.uniqueVisitors").toLowerCase()}`}
-          />
-          <StatCard
-            label={t("stats.lastMonth")}
-            value={formatNum(v.lastMonth.visits)}
-            sub={`${formatNum(v.lastMonth.uniqueVisitors)} ${t("stat.uniqueVisitors").toLowerCase()}`}
-          />
-          <StatCard
-            label={t("stats.allTime")}
-            value={formatNum(v.allTime.visits)}
-            accent
-            sub={`${formatNum(v.allTime.uniqueVisitors)} ${t("stat.uniqueVisitors").toLowerCase()}`}
-          />
-          <StatCard
-            label={t("stat.actions")}
-            value={formatNum(v.allTime.actions)}
-            sub={formatPercent(v.allTime.bounceRate) + " " + t("stat.bounceRate").toLowerCase()}
-          />
+          <StatCard label={t("stats.today")} value={formatNum(v.today.visits)} accent />
+          <StatCard label={t("stats.yesterday")} value={formatNum(v.yesterday.visits)} />
+          <StatCard label={t("stats.thisWeek")} value={formatNum(v.thisWeek.visits)} />
+          <StatCard label={t("stats.thisMonth")} value={formatNum(v.thisMonth.visits)} />
+          <StatCard label={t("stats.lastMonth")} value={formatNum(v.lastMonth.visits)} />
           <StatCard label={t("stat.avgDuration")} value={formatDuration(v.allTime.avgVisitDuration)} />
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{t("stats.visitFrequency")}</h2>
-        <div className={styles.cards}>
-          <StatCard label={t("stat.newVisits")} value={formatNum(data.visitFrequency.newVisits)} accent />
-          <StatCard label={t("stat.returningVisits")} value={formatNum(data.visitFrequency.returningVisits)} />
         </div>
       </section>
 
@@ -365,21 +291,7 @@ const AddonStatsTab: React.FC = () => {
           </div>
           <div className={styles.tableBlock}>
             <h3 className={styles.tableTitle}>{t("stats.deviceTypes")}</h3>
-            <RankingTable rows={data.deviceTypes} visitsLabel={t("stat.visits").toLowerCase()} />
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{t("stats.referrerTypes")}</h2>
-        <div className={styles.tables}>
-          <div className={styles.tableBlock}>
-            <h3 className={styles.tableTitle}>{t("stats.referrerTypes")}</h3>
-            <RankingTable rows={data.referrerTypes} visitsLabel={t("stat.visits").toLowerCase()} />
-          </div>
-          <div className={styles.tableBlock}>
-            <h3 className={styles.tableTitle}>{t("stats.topBlockedSites")}</h3>
-            <RankingTable rows={data.topBlockedSites} visitsLabel={t("stat.visits").toLowerCase()} />
+            <RankingTable rows={desktopMobile} visitsLabel={t("stat.visits").toLowerCase()} />
           </div>
         </div>
       </section>
@@ -391,8 +303,13 @@ const AddonStatsTab: React.FC = () => {
           <StatCard label={t("stat.shares")} value={formatNum(a.shares)} />
           <StatCard label={t("stat.bannerEngagement")} value={formatNum(a.bannerEngagement)} />
           <StatCard label={t("stat.hintEngagement")} value={formatNum(a.hintEngagement)} />
-          <StatCard label={t("stat.whatsnewEngagement")} value={formatNum(a.whatsnewEngagement)} accent />
-          <StatCard label={t("stat.whatsnewViews")} value={formatNum(a.whatsnewViews)} />
+          <StatCard
+            label={t("stat.whatsnewEngagement")}
+            value={formatNum(a.whatsnewEngagement)}
+            accent
+            sub="WhatsNew release page"
+          />
+          <StatCard label={t("stat.whatsnewViews")} value={formatNum(a.whatsnewViews)} sub="WhatsNew release page" />
         </div>
       </section>
 
@@ -407,6 +324,10 @@ const AddonStatsTab: React.FC = () => {
           <StatCard label={t("stats.totalDonations")} value={formatNum(data.donationsData.donations.length)} />
         </div>
       </section>
+
+      <p className={styles.meta}>
+        {t("stats.generatedAt")}: {new Date(data.generatedAt).toLocaleString()}
+      </p>
     </>
   );
 };
