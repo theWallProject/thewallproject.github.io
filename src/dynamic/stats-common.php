@@ -52,7 +52,7 @@ if (!defined('STATS_CACHE_TTL')) {
     define('STATS_CACHE_TTL', 0);
 }
 
-define('STATS_TIMEOUT', 12); // seconds per Matomo call
+define('STATS_TIMEOUT', 30); // seconds per Matomo call
 define('STATS_ALL_TIME_START', '2000-01-01'); // effectively "since the beginning"
 define('STATS_ALL_TIME_END', 'today');
 define('STATS_TOP_LIMIT', 10); // cut every ranking to N rows
@@ -427,7 +427,7 @@ class MatomoStatsClient
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => STATS_TIMEOUT,
-            CURLOPT_CONNECTTIMEOUT => 5,
+            CURLOPT_CONNECTTIMEOUT => 15,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_MAXREDIRS => 5,
             CURLOPT_SSL_VERIFYPEER => false,
