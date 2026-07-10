@@ -223,7 +223,14 @@
       "donations": "捐赠",
       "events": "事件",
       "currentMonthly": "本月",
-      "totalDonations": "捐赠总数"
+      "totalDonations": "捐赠总数",
+      "tab": {
+        "website": "网站",
+        "addon": "插件"
+      },
+      "totalBlocks": "总阻止数",
+      "topBlockedSites": "受阻最多的网站",
+      "addonActions": "插件操作"
     },
     "stat": {
       "visits": "访问",
@@ -232,7 +239,14 @@
       "bounceRate": "跳出率",
       "avgDuration": "平均时长",
       "newVisits": "新访问",
-      "returningVisits": "回访"
+      "returningVisits": "回访",
+      "blocks": "已显示横幅",
+      "donationClicks": "捐赠点击",
+      "shares": "分享",
+      "bannerEngagement": "横幅互动",
+      "hintEngagement": "提示互动",
+      "whatsnewEngagement": "更新互动",
+      "whatsnewViews": "更新浏览"
     }
   }
 }

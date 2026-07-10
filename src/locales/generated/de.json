@@ -223,7 +223,14 @@
       "donations": "Spenden",
       "events": "Ereignisse",
       "currentMonthly": "Aktueller Monat",
-      "totalDonations": "Gesamte Spenden"
+      "totalDonations": "Gesamte Spenden",
+      "tab": {
+        "website": "Website",
+        "addon": "Addon"
+      },
+      "totalBlocks": "Blockierungen gesamt",
+      "topBlockedSites": "Meistblockierte Websites",
+      "addonActions": "Addon-Aktionen"
     },
     "stat": {
       "visits": "Besuche",
@@ -232,7 +239,14 @@
       "bounceRate": "Absprungrate",
       "avgDuration": "Ø Dauer",
       "newVisits": "Neue Besuche",
-      "returningVisits": "Wiederkehrende Besuche"
+      "returningVisits": "Wiederkehrende Besuche",
+      "blocks": "Banner angezeigt",
+      "donationClicks": "Spenden-Klicks",
+      "shares": "Teilen",
+      "bannerEngagement": "Banner-Engagement",
+      "hintEngagement": "Hinweis-Engagement",
+      "whatsnewEngagement": "Release-Engagement",
+      "whatsnewViews": "Release-Aufrufe"
     }
   }
 }

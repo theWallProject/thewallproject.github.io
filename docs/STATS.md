@@ -1,9 +1,12 @@
 # /stats — Matomo Stats Page
 
-Public-facing analytics dashboard for The Wall Project. A single PHP backend
-proxies the Matomo Reporting API server-side, validates every response against
-a hand-rolled schema, and returns one JSON blob. The React `/stats` route
-fetches it and hard-validates with Zod (`.strict()` — unknown keys throw).
+Public-facing analytics dashboard for The Wall Project. Two PHP backends
+(`/dynamic/stats.php` for the marketing site and `/dynamic/addon-stats.php`
+for the browser-addon telemetry) share a common library (`stats-common.php`)
+to proxy the Matomo Reporting API server-side, validate every response
+against a hand-rolled schema, and return one JSON blob per endpoint. The
+React `/stats` route renders both as separate tabs (loading independent)
+and hard-validates each with Zod (`.strict()` — unknown keys throw).
 
 > **Design principle:** fail early and hard. Any shape mismatch between the
 > Matomo API and the declared schema (PHP or TS) surfaces as an explicit error
@@ -14,15 +17,22 @@ fetches it and hard-validates with Zod (`.strict()` — unknown keys throw).
 ## Architecture
 
 ```
-┌──────────────┐    fetch      ┌────────────────────┐    cURL    ┌────────────┐
-│  React SPA   │  /stats.php   │  stats.php         │  HTTP API  │  Matomo     │
-│  /stats route│ ────────────▶ │  (dynamic backend) │ ─────────▶ │  Reporting  │
-│              │               │                     │            │  API        │
-│  Zod parse  │               │  hand-rolled schema │            │  (local)    │
-│  (strict)   │               │  validation         │            └────────────┘
-└──────────────┘               │  10-min file cache  │
-                               └────────────────────┘
+┌──────────────┐  fetch /dynamic/stats.php      ┌──────────────────────┐  cURL  ┌────────────┐
+│  React SPA   │  fetch /dynamic/addon-stats.php│  stats-common.php    │  HTTP  │  Matomo    │
+│  /stats route│ ─────────────────────────────▶ │  (shared library)   │ ─────▶│  Reporting │
+│              │                                 │  ▲ stats.php         │       │  API       │
+│  Zod parse   │                                 │  ▲ addon-stats.php   │       │  (local)   │
+│  (strict)    │                                 │  hand-rolled schema  │       └────────────┘
+└──────────────┘                                 │  10-min file cache   │
+                                                 └──────────────────────┘
 ```
+
+Two thin sibling endpoints (`stats.php`, `addon-stats.php`) each `define` a
+site ID, `require` the shared library, and call `runEndpoint()`. The library
+holds the schema helpers, Matomo client, cache, and the shared parsers
+(period summary, rankings, frequency, live, event-actions, donations). Only
+addon-specific parsers (`parsePageTitleHits`, `parseEventNameGroups`) and
+the `ADDON_ACTION_GROUPS` map live in `addon-stats.php`.
 
 ### Why a PHP proxy (not direct Matomo calls from the browser)?
 
@@ -35,20 +45,23 @@ fetches it and hard-validates with Zod (`.strict()` — unknown keys throw).
 
 ## Files
 
-| File                              | Purpose                                                                                           |
-| --------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `src/dynamic/stats.php`           | Backend proxy + aggregator (single file, no deps)                                                 |
-| `src/dynamic/config.php`          | Server-only secrets (denied web access via `.htaccess`)                                           |
-| `src/types/stats.ts`              | Zod strict schemas (`StatsResponseSchema`, etc.)                                                  |
-| `src/hooks/useStats.ts`           | Fetch hook with `StatsResponseSchema.parse()`                                                     |
-| `src/components/Stats.tsx`        | Page component (large numbers + tables, no graphs)                                                |
-| `src/components/Stats.module.css` | Scoped styles (dark theme, RTL, responsive)                                                       |
-| `.htaccess`                       | Denies web access to `config.php` / `donations_data.json` (existing rules cover `stats.php` path) |
-| `src/App.tsx`                     | Route `<Route path="/stats" element={<Stats />} />`                                               |
-| `src/lib/matomo.ts`               | Event action `statsView: "stats_view"`                                                            |
-| `src/hooks/useMatomoTracking.ts`  | Tracks `/stats` pageview event                                                                    |
-| `src/components/Footer.tsx`       | Footer link to `/stats`                                                                           |
-| `src/locales/translations.ts`     | `stats.*` + `stat.*` keys (all 9 languages)                                                       |
+| File                              | Purpose                                                                                                                                                                                                                                                                                                                                                    |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/dynamic/stats-common.php`    | Shared library: bootstrap, CORS/cache headers, primitive schema helpers, `MatomoStatsClient`, shared parsers (`parsePeriodSummary`, `parseRankingRows`, `parseFrequency`, `parseLiveCounters`, `parseEventActions`, `parseDonationsData`), cache layer, `runEndpoint()` driver. Required by both endpoints; never served directly (`.htaccess` denies it). |
+| `src/dynamic/stats.php`           | Marketing endpoint: `define`s site IDs + `MATOMO_STATS_SITE_ID = MATOMO_SITE_MARKETING`, requires `stats-common.php`, defines `fetchAllMarketing()`, calls `runEndpoint()`.                                                                                                                                                                                |
+| `src/dynamic/addon-stats.php`     | Addon endpoint: `MATOMO_STATS_SITE_ID = MATOMO_SITE_ADDON`, requires `stats-common.php`, defines addon-specific parsers (`parsePageTitleHits`, `parseEventNameGroups`) + `ADDON_ACTION_GROUPS` map + `fetchAllAddon()`, calls `runEndpoint()`.                                                                                                             |
+| `src/dynamic/config.php`          | Server-only secrets (denied web access via `.htaccess`)                                                                                                                                                                                                                                                                                                    |
+| `src/types/stats.ts`              | Zod strict schemas (`StatsResponseSchema`, `AddonStatsResponseSchema`, `AddonActionsSchema`, etc.)                                                                                                                                                                                                                                                         |
+| `src/hooks/useStatsBase.ts`       | Generic fetch + hard-validate hook (`useStatsBase<T>(url, schema)`) shared by both tabs. Mirrors the old `useStats` body.                                                                                                                                                                                                                                  |
+| `src/hooks/useStats.ts`           | Thin wrappers: `useStats()` (marketing) and `useAddonStats()` (addon). Loading stays independent per tab.                                                                                                                                                                                                                                                  |
+| `src/components/Stats.tsx`        | Page shell with tab switcher (URL-hash-synced, lazy mount + `display:none` keep-alive). Extracts `WebsiteStatsTab` and `AddonStatsTab`. Shared `StatCard`, `RankingTable`, `EventsTable` subcomponents.                                                                                                                                                    |
+| `src/components/Stats.module.css` | Scoped styles (dark theme, RTL, responsive) + `.tabs`/`.tab`/`.tabActive`/`.hidden`                                                                                                                                                                                                                                                                        |
+| `.htaccess`                       | Denies web access to `config.php` / `donations_data.json` / `stats-common.php`; rewrites `stats.php` + `addon-stats.php` to `dist/dynamic/`.                                                                                                                                                                                                               |
+| `src/App.tsx`                     | Route `<Route path="/stats" element={<Stats />} />`                                                                                                                                                                                                                                                                                                        |
+| `src/lib/matomo.ts`               | Event action `statsView: "stats_view"`                                                                                                                                                                                                                                                                                                                     |
+| `src/hooks/useMatomoTracking.ts`  | Tracks `/stats` pageview event                                                                                                                                                                                                                                                                                                                             |
+| `src/components/Footer.tsx`       | Footer link to `/stats`                                                                                                                                                                                                                                                                                                                                    |
+| `src/locales/translations.ts`     | `stats.*` + `stat.*` keys (all 9 languages) — includes addon-tab keys (`stats.tab.*`, `stats.totalBlocks`, `stats.topBlockedSites`, `stats.addonActions`, `stat.donationClicks`, `stat.shares`, `stat.bannerEngagement`, `stat.hintEngagement`, `stat.whatsnewEngagement`, `stat.whatsnewViews`, `stat.blocks`)                                            |
 
 ---
 
@@ -62,7 +75,7 @@ Constants are split between code (`stats.php`) and secrets (`dynamic/config.php`
 // Site IDs — named constants, not magic numbers.
 // Adding a new tracked property = one constant here, no config changes.
 define('MATOMO_SITE_MARKETING', 2); // the-wall.win marketing website
-define('MATOMO_SITE_ADDON',     1); // browser addon / app telemetry (future)
+define('MATOMO_SITE_ADDON',     1); // browser addon
 
 // Default site for /stats endpoint.
 define('MATOMO_STATS_SITE_ID', MATOMO_SITE_MARKETING);
@@ -78,20 +91,18 @@ direct web access by `.htaccess` `<FilesMatch>` rules. Required constants:
 // Create a view-only user. Do NOT reuse an admin token.
 define('MATOMO_STATS_TOKEN', '');
 
-// Matomo API base URL (localhost keeps the request in-box).
-define('MATOMO_STATS_API_URL', 'http://127.0.0.1/matomo/index.php');
+// Matomo API base URL.
+define('MATOMO_STATS_API_URL', 'https://the-wall.win/matomo/index.php');
 ```
 
-### Switching to addon stats later
+### Adding a third tracked property
 
-Change one line in `src/dynamic/stats.php`:
-
-```php
-define('MATOMO_STATS_SITE_ID', MATOMO_SITE_ADDON);
-```
-
-Or clone `stats.php` as `addon-stats.php` with a different default to expose a
-separate `/addon-stats` endpoint.
+Both endpoints follow the same pattern: copy `stats.php`, change the
+`MATOMO_STATS_SITE_ID` constant, write a `fetchAll*()` callback that returns
+the validated response array (using shared parsers or new ones), and call
+`runEndpoint()`. Add a matching Zod schema in `src/types/stats.ts` and a
+matching `use*Stats` hook via `useStatsBase<T>(url, schema)`. No changes to
+`stats-common.php` are needed unless a new shared parser is required.
 
 ---
 
@@ -133,19 +144,50 @@ DevicesDetection.getType(idSite, period, date, segment='')
 Referrers.getReferrerType(idSite, period, date, segment='', typeReferrer='', idSubtable, expanded)
 Referrers.getWebsites(idSite, period, date, segment='', expanded, flat)
 Events.getAction(idSite, period, date, segment='', expanded, secondaryDimension, flat)
+Events.getName(idSite, period, date, segment='', expanded, secondaryDimension, flat)
+Actions.getPageTitles(idSite, period, date, segment='', flat, filter_limit, ...)
 Live.getCounters(idSite, lastMinutes, segment='', showColumns, hideColumns)
 ```
 
 All ranking endpoints are called with `filter_limit=10` (applied by slicing
 the response array in PHP — `STATS_TOP_LIMIT`).
 
+### Addon tab (`/dynamic/addon-stats.php`, `MATOMO_SITE_ADDON`)
+
+The addon endpoint reuses every shared parser above (visitors, frequency,
+rankings, live, donations) and adds two addon-specific Matomo calls:
+
+| Stat block        | Matomo method           | Extra params                   | PHP parser                                          |
+| ----------------- | ----------------------- | ------------------------------ | --------------------------------------------------- |
+| Total blocks      | `Actions.getPageTitles` | `period=range&date=...&flat=1` | `parsePageTitleHits(…, 'wall')` (reads `nb_hits`)   |
+| Top blocked sites | `Referrers.getWebsites` | `period=range&date=...`        | `parseRankingRows` (shared)                         |
+| Addon actions     | `Events.getName`        | `period=range&date=...&flat=1` | `parseEventNameGroups` (sums `nb_events` per group) |
+
+`Actions.getPageTitles` returns one row per page title; we filter `label="wall"` and read `nb_hits` as the total-blocks proxy (the addon fires one anonymous page view named `wall` each time the flagging banner renders). The blocked host is captured by Matomo as the `bg.gif` referrer, so `Referrers.getWebsites` returns the top blocked sites.
+
+`Events.getName` is used (not `Events.getAction`) because the addon varies events by name (`donation_bricks`, `share_fb`, `hint_link`, …) under a single category/action pair (`Button`/`Click`); `Events.getAction` would collapse to one row. `parseEventNameGroups` sums `nb_events` per group defined in `ADDON_ACTION_GROUPS` plus a dynamic-prefix match for `whatsnew_update_*` (the `whatsnewViews` group):
+
+| Group                | Member event names                                                                           | What it represents                                 |
+| -------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `donationClicks`     | `donation_bricks`, `options_donate`, `whatsnew_donate_monthly`, `whatsnew_donation_image`    | All donate-CTA clicks (banner, popup, whats-new)   |
+| `shares`             | `share_*`, `options_share_*`, `whatsnew_share_*` (15 names)                                  | All "share to platform" intent clicks              |
+| `bannerEngagement`   | `show_alternatives`, `show_bds_guide`, `support_pal`, `report_mistake`                       | Positive banner interactions (dismissals excluded) |
+| `hintEngagement`     | `hint_link`, `hint_expand`, `hint_toggle_system`, `hint_reset_dismissed`                     | Positive hint-system use (disables excluded)       |
+| `whatsnewEngagement` | `whatsnew_youtube_telpshow`, `whatsnew_visit_website`, `whatsnew_contact`, `whatsnew_report` | Positive whats-new page clicks                     |
+| `whatsnewViews`      | `whatsnew_update_*` (prefix match — version numbers are dynamic)                             | Changelog page views = update-reach signal         |
+
+Negative events (`dismiss_close`, `hint_dismiss_this`, `hint_disable_all`, `uninstall_form`) are deliberately not grouped — investors care about positive engagement.
+
 ---
 
 ## JSON Response Shape
 
+### Website tab — `/dynamic/stats.php`
+
 ```jsonc
 {
   "generatedAt": "2026-07-10T12:00:00Z",
+  "site": "marketing",
   "visitors": {
     "today":     { "visits": 0, "uniqueVisitors": 0, "actions": 0, "bounceRate": 0, "avgVisitDuration": 0 },
     "yesterday": { ... },
@@ -169,6 +211,35 @@ the response array in PHP — `STATS_TOP_LIMIT`).
 }
 ```
 
+### Addon tab — `/dynamic/addon-stats.php`
+
+```jsonc
+{
+  "generatedAt": "2026-07-10T12:00:00Z",
+  "site": "addon",
+  "visitors":      { /* same six-period block as the marketing tab */ },
+  "topCountries":  [ ... ],
+  "topContinents": [ ... ],
+  "topBrowsers":   [ ... ],
+  "topOs":         [ ... ],
+  "deviceTypes":   [ ... ],
+  "visitFrequency":{ "newVisits": 0, "returningVisits": 0 },
+  "referrerTypes":  [ ... ],
+  "topBlockedSites": [ { "label": "example.com", "visits": 0 } ],
+  "totalBlocks":     0,
+  "addonActions": {
+    "donationClicks":     0,
+    "shares":             0,
+    "bannerEngagement":   0,
+    "hintEngagement":     0,
+    "whatsnewEngagement": 0,
+    "whatsnewViews":      0
+  },
+  "liveNow":       { "visits": 0, "actions": 0 },
+  "donationsData": { /* same shared block as the marketing tab */ }
+}
+```
+
 ### Error envelope (HTTP 500)
 
 ```jsonc
@@ -184,15 +255,17 @@ shapes**. They are intentionally redundant — server-side catches drift before
 the client fetches; client-side catches drift if the server is bypassed or
 modified incorrectly.
 
-| Zod schema (`src/types/stats.ts`) | PHP validator (`stats.php`) | Fields                                                        |
-| --------------------------------- | --------------------------- | ------------------------------------------------------------- |
-| `PeriodSummarySchema` (strict)    | `parsePeriodSummary`        | visits, uniqueVisitors, actions, bounceRate, avgVisitDuration |
-| `RankingRowSchema` (strict)       | `parseRankingRows`          | label, visits, logo?                                          |
-| `VisitFrequencySchema` (strict)   | `parseFrequency`            | newVisits, returningVisits                                    |
-| `LiveNowSchema` (strict)          | `parseLiveCounters`         | visits, actions                                               |
-| `EventRowSchema` (strict)         | `parseEventActions`         | label, events                                                 |
-| `DonationsDataSchema` (strict)    | `parseDonationsData`        | currentMonthly, donations[]                                   |
-| `StatsResponseSchema` (strict)    | `fetchAll` (return shape)   | all of the above                                              |
+| Zod schema (`src/types/stats.ts`)   | PHP validator                      | Fields                                                                                      |
+| ----------------------------------- | ---------------------------------- | ------------------------------------------------------------------------------------------- |
+| `PeriodSummarySchema` (strict)      | `parsePeriodSummary`               | visits, uniqueVisitors, actions, bounceRate, avgVisitDuration                               |
+| `RankingRowSchema` (strict)         | `parseRankingRows`                 | label, visits, logo?                                                                        |
+| `VisitFrequencySchema` (strict)     | `parseFrequency`                   | newVisits, returningVisits                                                                  |
+| `LiveNowSchema` (strict)            | `parseLiveCounters`                | visits, actions                                                                             |
+| `EventRowSchema` (strict)           | `parseEventActions`                | label, events                                                                               |
+| `DonationsDataSchema` (strict)      | `parseDonationsData`               | currentMonthly, donations[]                                                                 |
+| `StatsResponseSchema` (strict)      | `fetchAllMarketing` (return shape) | site + all of the above (marketing tab)                                                     |
+| `AddonActionsSchema` (strict)       | `parseEventNameGroups`             | donationClicks, shares, bannerEngagement, hintEngagement, whatsnewEngagement, whatsnewViews |
+| `AddonStatsResponseSchema` (strict) | `fetchAllAddon` (return shape)     | site + shared blocks + totalBlocks, topBlockedSites, addonActions                           |
 
 **`.strict()`** on every Zod object means unknown keys cause `parse()` to throw.
 The PHP validators only extract declared keys (unknown extras are silently
@@ -204,14 +277,19 @@ shape it outputs, and the client is strict on what it receives.
 
 ## Adding a New Stat
 
-1. **`src/dynamic/stats.php`** — add a `$client->get(...)` call in `fetchAll()`
-   and parse it with an existing or new `parse…()` function. Add the result
-   to the return array.
+1. **`src/dynamic/stats.php`** (or `addon-stats.php`) — add a `$client->get(...)`
+   call in `fetchAllMarketing()` (or `fetchAllAddon()`) and parse it with an
+   existing shared `parse…()` from `stats-common.php` or a new one. Add the
+   result to the return array. If the parser is `≥90 %` shared, put it in
+   `stats-common.php`; otherwise keep it endpoint-local.
 2. **`src/types/stats.ts`** — add a Zod schema (`.strict()`) for the new block
-   and add the field to `StatsResponseSchema`.
-3. **`src/components/Stats.tsx`** — render the new data (card or table).
-4. **`src/locales/translations.ts`** — add i18n keys for labels (all 9 languages).
-5. **`docs/STATS.md`** — add the new method to the table above.
+   and add the field to `StatsResponseSchema` and/or `AddonStatsResponseSchema`.
+3. **`src/components/Stats.tsx`** — render the new data (card or table) in the
+   relevant tab component.
+4. **`src/locales/translations.ts`** — add i18n keys for labels (all 9 languages),
+   then run `npm run generate-i18n`.
+5. **`docs/STATS.md`** — add the new method to the table above (+ the
+   `Addon` section if it's an addon stat).
 
 The TypeScript compiler (`tsc -b`) will catch missing schema fields, missing
 translation keys, and type mismatches at build time.

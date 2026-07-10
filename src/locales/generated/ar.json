@@ -223,7 +223,14 @@
       "donations": "التبرعات",
       "events": "الأحداث",
       "currentMonthly": "الشهري الحالي",
-      "totalDonations": "إجمالي التبرعات"
+      "totalDonations": "إجمالي التبرعات",
+      "tab": {
+        "website": "الموقع",
+        "addon": "الإضافة"
+      },
+      "totalBlocks": "إجمالي الحظر",
+      "topBlockedSites": "أكثر المواقع المحظورة",
+      "addonActions": "إجراءات الإضافة"
     },
     "stat": {
       "visits": "الزيارات",
@@ -232,7 +239,14 @@
       "bounceRate": "معدل الارتداد",
       "avgDuration": "متوسط المدة",
       "newVisits": "زيارات جديدة",
-      "returningVisits": "زيارات عائدة"
+      "returningVisits": "زيارات عائدة",
+      "blocks": "لافتات معروضة",
+      "donationClicks": "نقرات التبرع",
+      "shares": "مشاركات",
+      "bannerEngagement": "تفاعل اللافتة",
+      "hintEngagement": "تفاعل التلميحات",
+      "whatsnewEngagement": "تفاعل التحديثات",
+      "whatsnewViews": "مشاهدات التحديث"
     }
   }
 }

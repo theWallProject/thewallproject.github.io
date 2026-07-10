@@ -223,7 +223,14 @@
       "donations": "Donaties",
       "events": "Gebeurtenissen",
       "currentMonthly": "Huidig maandelijks",
-      "totalDonations": "Totaal donaties"
+      "totalDonations": "Totaal donaties",
+      "tab": {
+        "website": "Website",
+        "addon": "Addon"
+      },
+      "totalBlocks": "Totaal blokkeringen",
+      "topBlockedSites": "Meest geblokkeerde sites",
+      "addonActions": "Addon-acties"
     },
     "stat": {
       "visits": "Bezoeken",
@@ -232,7 +239,14 @@
       "bounceRate": "Bouncepercentage",
       "avgDuration": "Gem. duur",
       "newVisits": "Nieuwe bezoeken",
-      "returningVisits": "Terugkerende bezoeken"
+      "returningVisits": "Terugkerende bezoeken",
+      "blocks": "banners getoond",
+      "donationClicks": "Donatie-klikken",
+      "shares": "Delingen",
+      "bannerEngagement": "Banner-betrokkenheid",
+      "hintEngagement": "Hint-betrokkenheid",
+      "whatsnewEngagement": "Release-betrokkenheid",
+      "whatsnewViews": "Release-weergaven"
     }
   }
 }

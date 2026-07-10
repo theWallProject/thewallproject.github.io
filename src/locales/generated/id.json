@@ -223,7 +223,14 @@
       "donations": "Donasi",
       "events": "Peristiwa",
       "currentMonthly": "Bulanan saat ini",
-      "totalDonations": "Total donasi"
+      "totalDonations": "Total donasi",
+      "tab": {
+        "website": "Situs web",
+        "addon": "Addon"
+      },
+      "totalBlocks": "Total blokir",
+      "topBlockedSites": "Situs paling diblokir",
+      "addonActions": "Aksi addon"
     },
     "stat": {
       "visits": "Kunjungan",
@@ -232,7 +239,14 @@
       "bounceRate": "Tingkat pental",
       "avgDuration": "Durasi rata-rata",
       "newVisits": "Kunjungan baru",
-      "returningVisits": "Kunjungan kembali"
+      "returningVisits": "Kunjungan kembali",
+      "blocks": "banner ditampilkan",
+      "donationClicks": "Klik donasi",
+      "shares": "Berbagi",
+      "bannerEngagement": "Interaksi banner",
+      "hintEngagement": "Interaksi petunjuk",
+      "whatsnewEngagement": "Interaksi pembaruan",
+      "whatsnewViews": "Tampilan pembaruan"
     }
   }
 }

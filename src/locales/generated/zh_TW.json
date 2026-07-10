@@ -223,7 +223,14 @@
       "donations": "捐款",
       "events": "事件",
       "currentMonthly": "本月",
-      "totalDonations": "捐款總數"
+      "totalDonations": "捐款總數",
+      "tab": {
+        "website": "網站",
+        "addon": "附加元件"
+      },
+      "totalBlocks": "總封鎖數",
+      "topBlockedSites": "被封鎖最多的網站",
+      "addonActions": "附加元件操作"
     },
     "stat": {
       "visits": "訪問",
@@ -232,7 +239,14 @@
       "bounceRate": "跳出率",
       "avgDuration": "平均時長",
       "newVisits": "新訪問",
-      "returningVisits": "回訪"
+      "returningVisits": "回訪",
+      "blocks": "已顯示橫幅",
+      "donationClicks": "捐款點擊",
+      "shares": "分享",
+      "bannerEngagement": "橫幅互動",
+      "hintEngagement": "提示互動",
+      "whatsnewEngagement": "更新互動",
+      "whatsnewViews": "更新瀏覽"
     }
   }
 }

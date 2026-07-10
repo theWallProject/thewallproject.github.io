@@ -56,9 +56,11 @@ RewriteRule ^assets/(.*)$ /dist/assets/$1 [L]
 RewriteRule ^dynamic/donations\.png$ /dist/dynamic/donations.php [L]
 RewriteRule ^dynamic/monthly\.php$ /dist/dynamic/monthly.php [L]
 RewriteRule ^dynamic/stats\.php$ /dist/dynamic/stats.php [L]
+RewriteRule ^dynamic/addon-stats\.php$ /dist/dynamic/addon-stats.php [L]
 
-# Deny direct web access to sensitive files in dynamic folder
-<FilesMatch "^(config|donations_data|donations_debug)(\.php|\.php_)?$">
+# Deny direct web access to sensitive files in dynamic folder.
+# stats-common.php is a shared library (required-only) — never hit directly.
+<FilesMatch "^(config|donations_data|donations_debug|stats-common)(\.php|\.php_)?$">
     <IfModule mod_authz_core.c>
         Require all denied
     </IfModule>

@@ -223,7 +223,14 @@
       "donations": "Dons",
       "events": "Événements",
       "currentMonthly": "Mensuel actuel",
-      "totalDonations": "Total des dons"
+      "totalDonations": "Total des dons",
+      "tab": {
+        "website": "Site web",
+        "addon": "Addon"
+      },
+      "totalBlocks": "Blocages totaux",
+      "topBlockedSites": "Sites les plus bloqués",
+      "addonActions": "Actions de l'addon"
     },
     "stat": {
       "visits": "Visites",
@@ -232,7 +239,14 @@
       "bounceRate": "Taux de rebond",
       "avgDuration": "Durée moyenne",
       "newVisits": "Nouvelles visites",
-      "returningVisits": "Visites de retour"
+      "returningVisits": "Visites de retour",
+      "blocks": "bannières affichées",
+      "donationClicks": "Clics de don",
+      "shares": "Partages",
+      "bannerEngagement": "Engagement bannière",
+      "hintEngagement": "Engagement astuces",
+      "whatsnewEngagement": "Engagement release",
+      "whatsnewViews": "Vues de release"
     }
   }
 }

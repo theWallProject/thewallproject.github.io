@@ -223,7 +223,14 @@
       "donations": "Donations",
       "events": "Events",
       "currentMonthly": "Current monthly",
-      "totalDonations": "Total donations"
+      "totalDonations": "Total donations",
+      "tab": {
+        "website": "Website",
+        "addon": "Addon"
+      },
+      "totalBlocks": "Total blocks",
+      "topBlockedSites": "Top blocked sites",
+      "addonActions": "Addon actions"
     },
     "stat": {
       "visits": "Visits",
@@ -232,7 +239,14 @@
       "bounceRate": "Bounce rate",
       "avgDuration": "Avg duration",
       "newVisits": "New visits",
-      "returningVisits": "Returning visits"
+      "returningVisits": "Returning visits",
+      "blocks": "banners shown",
+      "donationClicks": "Donation clicks",
+      "shares": "Shares",
+      "bannerEngagement": "Banner engagement",
+      "hintEngagement": "Hint engagement",
+      "whatsnewEngagement": "Release engagement",
+      "whatsnewViews": "Release views"
     }
   }
 }

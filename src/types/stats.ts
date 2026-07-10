@@ -108,11 +108,12 @@ export const DonationsDataSchema = z
 
 export type DonationsData = z.infer<typeof DonationsDataSchema>;
 
-// --- Root response ---
+// --- Root response (marketing website tab) ---
 
 export const StatsResponseSchema = z
   .object({
     generatedAt: NonEmptyStringSchema,
+    site: z.literal("marketing"),
     visitors: VisitorsSchema,
     topCountries: z.array(RankingRowSchema),
     topContinents: z.array(RankingRowSchema),
@@ -131,7 +132,51 @@ export const StatsResponseSchema = z
 
 export type StatsResponse = z.infer<typeof StatsResponseSchema>;
 
-// --- Error response from stats.php on failure ---
+// --- Addon telemetry tab (MATOMO_SITE_ADDON) ---
+//
+// The addon fires an anonymous page view "wall" per banner shown and
+// custom events grouped by name. The PHP server-side rolls those events
+// into AddonActions (donations, shares, banner/hint/whatsnew engagement
+// + changelog views). totalBlocks is the nb_hits of the "wall" page
+// title. topBlockedSites are Matomo referrer-type websites (the blocked
+// domain is captured as the bg.gif referrer).
+
+export const AddonActionsSchema = z
+  .object({
+    donationClicks: NonNegIntSchema,
+    shares: NonNegIntSchema,
+    bannerEngagement: NonNegIntSchema,
+    hintEngagement: NonNegIntSchema,
+    whatsnewEngagement: NonNegIntSchema,
+    whatsnewViews: NonNegIntSchema,
+  })
+  .strict();
+
+export type AddonActions = z.infer<typeof AddonActionsSchema>;
+
+export const AddonStatsResponseSchema = z
+  .object({
+    generatedAt: NonEmptyStringSchema,
+    site: z.literal("addon"),
+    visitors: VisitorsSchema,
+    topCountries: z.array(RankingRowSchema),
+    topContinents: z.array(RankingRowSchema),
+    topBrowsers: z.array(RankingRowSchema),
+    topOs: z.array(RankingRowSchema),
+    deviceTypes: z.array(RankingRowSchema),
+    visitFrequency: VisitFrequencySchema,
+    referrerTypes: z.array(RankingRowSchema),
+    topBlockedSites: z.array(RankingRowSchema),
+    totalBlocks: NonNegIntSchema,
+    addonActions: AddonActionsSchema,
+    liveNow: LiveNowSchema,
+    donationsData: DonationsDataSchema,
+  })
+  .strict();
+
+export type AddonStatsResponse = z.infer<typeof AddonStatsResponseSchema>;
+
+// --- Error response from stats.php / addon-stats.php on failure ---
 
 export const StatsErrorSchema = z
   .object({
