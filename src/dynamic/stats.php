@@ -350,11 +350,14 @@ class MatomoStatsClient
         ], $extraParams);
 
         $queryString = http_build_query($params);
+        // Send token_auth in the URL too — Matomo's auth layer reads it
+        // from GET before POST on some server configs (LiteSpeed).
+        $url = $this->apiUrl . '?' . $queryString;
 
         if (!function_exists('curl_init')) {
-            $raw = $this->fallbackPost($queryString);
+            $raw = $this->fallbackPost($url, $queryString);
         } else {
-            $ch = curl_init($this->apiUrl);
+            $ch = curl_init($url);
             curl_setopt_array($ch, [
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_TIMEOUT => STATS_TIMEOUT,
@@ -380,7 +383,7 @@ class MatomoStatsClient
 
         $decoded = json_decode($raw, true);
         if (!is_array($decoded)) {
-            throw new StatsSchemaException("Matomo returned non-JSON for {$method}: " . substr((string)$raw, 0, 2000));
+            throw new StatsSchemaException("Matomo returned non-JSON for {$method} (HTTP {$code}): " . substr((string)$raw, 0, 2000));
         }
         // Matomo sometimes wraps errors as { result: 'error', message: '...' }
         if (isset($decoded['result']) && $decoded['result'] === 'error') {
@@ -390,7 +393,7 @@ class MatomoStatsClient
         return $decoded;
     }
 
-    private function fallbackPost(string $queryString): string
+    private function fallbackPost(string $url, string $queryString): string
     {
         $ctx = stream_context_create(['http' => [
             'method' => 'POST',
@@ -399,9 +402,9 @@ class MatomoStatsClient
             'timeout' => (string)STATS_TIMEOUT,
             'ignore_errors' => true,
         ]]);
-        $raw = @file_get_contents($this->apiUrl, false, $ctx);
+        $raw = @file_get_contents($url, false, $ctx);
         if ($raw === false) {
-            throw new StatsSchemaException("Matomo file_get_contents failed for {$this->apiUrl}");
+            throw new StatsSchemaException("Matomo file_get_contents failed for {$url}");
         }
         return $raw;
     }
