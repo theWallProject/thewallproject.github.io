@@ -349,12 +349,12 @@ class MatomoStatsClient
             'token_auth' => $this->token,
         ], $extraParams);
 
-        $url = $this->apiUrl . '?' . http_build_query($params);
+        $queryString = http_build_query($params);
 
         if (!function_exists('curl_init')) {
-            $raw = $this->fallbackGet($url);
+            $raw = $this->fallbackPost($queryString);
         } else {
-            $ch = curl_init($url);
+            $ch = curl_init($this->apiUrl);
             curl_setopt_array($ch, [
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_TIMEOUT => STATS_TIMEOUT,
@@ -362,7 +362,9 @@ class MatomoStatsClient
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_MAXREDIRS => 5,
                 CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_HTTPHEADER => ['Accept: application/json'],
+                CURLOPT_HTTPHEADER => ['Accept: application/json', 'Content-Type: application/x-www-form-urlencoded'],
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => $queryString,
             ]);
             $raw = curl_exec($ch);
             $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -388,15 +390,18 @@ class MatomoStatsClient
         return $decoded;
     }
 
-    private function fallbackGet(string $url): string
+    private function fallbackPost(string $queryString): string
     {
         $ctx = stream_context_create(['http' => [
+            'method' => 'POST',
+            'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
+            'content' => $queryString,
             'timeout' => (string)STATS_TIMEOUT,
             'ignore_errors' => true,
         ]]);
-        $raw = @file_get_contents($url, false, $ctx);
+        $raw = @file_get_contents($this->apiUrl, false, $ctx);
         if ($raw === false) {
-            throw new StatsSchemaException("Matomo file_get_contents failed for {$url}");
+            throw new StatsSchemaException("Matomo file_get_contents failed for {$this->apiUrl}");
         }
         return $raw;
     }
