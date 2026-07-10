@@ -5,9 +5,10 @@
  *
  * Holds every piece that is identical (≥90 %) between the marketing
  * and addon stats layers: constants, fail-fast bootstrap, CORS / cache
- * headers, primitive schema helpers, StatsSchemaException, the Matomo
- * HTTP client, the generic period / ranking / frequency / live / event /
- * donations parsers, the file cache layer, and the runEndpoint() driver.
+ * headers, Valinor DTOs for Matomo API response structures, the generic
+ * period / ranking / frequency / live / event / donations parsers, the
+ * Matomo HTTP client, the file cache layer, and the runEndpoint()
+ * driver.
  *
  * This file is NOT a standalone endpoint — it is required by either
  * stats.php (marketing, MATOMO_SITE_MARKETING) or addon-stats.php
@@ -15,14 +16,21 @@
  * MATOMO_STATS_SITE_ID constant BEFORE requiring this file, and
  * supplies its fetchAll*() callback to runEndpoint().
  *
- * Contract: any schema mismatch throws StatsSchemaException →
- * runEndpoint() responds with HTTP 500 + an error envelope. The React
- * client re-validates the same shape with Zod `.strict()` so unknown
- * shapes fail hard on both ends. Adding a new stat = one entry per
- * side (PHP parser + Zod schema) — mirror of STATS.md.
+ * Schema validation is handled by cuyz/valinor (the closest PHP
+ * equivalent to Zod). Each Matomo response block is mapped to a typed
+ * DTO — a shape mismatch throws \CuyZ\Valinor\Mapper\MappingError,
+ * which runEndpoint() catches and returns as a JSON error envelope.
+ * The React client re-validates the same shape with Zod `.strict()` so
+ * unknown shapes fail hard on both ends.
+ *
+ * Adding a new stat = one DTO + one parse function (PHP) + one field in
+ * the Zod schema (TS) — mirror of STATS.md.
  */
 
 declare(strict_types=1);
+
+use CuyZ\Valinor\Mapper\TreeMapper;
+use CuyZ\Valinor\MapperBuilder;
 
 // -------------------------------------------------------------------------
 // Constants — site IDs are provided by the requiring file. The rest is
@@ -54,11 +62,17 @@ define('STATS_TOP_LIMIT', 10); // cut every ranking to N rows
 define('STATS_DONATIONS_FILE', __DIR__ . '/../../dynamic/donations_data.json');
 
 // -------------------------------------------------------------------------
-// Fail-fast bootstrap — mirrors the donations.php pattern
+// Fail-fast bootstrap — loads config, autoloader, checks cache dir
 // -------------------------------------------------------------------------
 
 function statsBootstrap(): void
 {
+    $autoload = __DIR__ . '/../../vendor/autoload.php';
+    if (!file_exists($autoload)) {
+        statsFatal(500, 'vendor/autoload.php missing — run composer install');
+    }
+    require_once $autoload;
+
     if (!file_exists(STATS_CONFIG_FILE) || !is_readable(STATS_CONFIG_FILE)) {
         statsFatal(500, 'config.php missing or unreadable');
     }
@@ -106,107 +120,103 @@ function statsEmitHeaders(): void
 }
 
 // -------------------------------------------------------------------------
-// Primitive schema helpers — hand-rolled mirror of src/types/stats.ts
-// Zod schemas. Each Matomo method is mapped to an expected shape; a
-// mismatch throws StatsSchemaException.
+// Valinor mapper singleton — typed DTO maps replace hand-rolled
+// expectInt/String/Float/Array/Object helpers.
 // -------------------------------------------------------------------------
 
-/**
- * @param mixed  $value
- * @param string $context
- * @return int
- * @throws StatsSchemaException
- */
-function expectInt($value, string $context): int
+function getMapper(): TreeMapper
 {
-    if (is_int($value)) {
-        return $value;
+    static $mapper = null;
+    if ($mapper === null) {
+        $mapper = (new MapperBuilder())
+            // allowSuperfluousKeys = true means Matomo can add
+            // undocumented fields without breaking PHP. The client-side
+            // Zod .strict() still rejects those fields as drift.
+            ->allowSuperfluousKeys(true)
+            ->enableFlexibleCasting()
+            ->mapper();
     }
-    if (is_string($value) && preg_match('/^-?\d+$/', $value) === 1) {
-        return (int)$value;
-    }
-    if (is_float($value) && floor($value) === $value) {
-        return (int)$value;
-    }
-    throw StatsSchemaException::unexpected($context . ': expected int', $value);
+    return $mapper;
 }
 
 /**
- * @param mixed  $value
- * @param string $context
- * @throws StatsSchemaException
+ * Shared exception for non-shape errors (curl failures, HTTP statuses,
+ * json_encode problems). Shape errors use Valinor's MappingError — no
+ * more expect* functions.
  */
-function expectString($value, string $context): string
-{
-    if (is_string($value) && $value !== '') {
-        return $value;
-    }
-    if (is_int($value) || is_float($value)) {
-        return (string)$value;
-    }
-    throw StatsSchemaException::unexpected($context . ': expected non-empty string', $value);
-}
-
-/**
- * @param mixed  $value
- * @param string $context
- * @return float
- * @throws StatsSchemaException
- */
-function expectFloat($value, string $context): float
-{
-    if (is_float($value) || is_int($value)) {
-        return (float)$value;
-    }
-    if (is_string($value) && is_numeric($value)) {
-        return (float)$value;
-    }
-    throw StatsSchemaException::unexpected($context . ': expected number', $value);
-}
-
-/**
- * @param mixed  $value
- * @param string $context
- * @throws StatsSchemaException
- */
-function expectArray($value, string $context): array
-{
-    if (is_array($value) && array_is_list($value)) {
-        return $value;
-    }
-    if (is_array($value)) {
-        return array_values($value);
-    }
-    throw StatsSchemaException::unexpected($context . ': expected array', $value);
-}
-
-/**
- * @param mixed  $value
- * @param string $context
- * @throws StatsSchemaException
- */
-function expectObject($value, string $context): array
-{
-    if (!is_array($value)) {
-        throw StatsSchemaException::unexpected($context . ': expected object', $value);
-    }
-    if (array_is_list($value)) {
-        throw StatsSchemaException::unexpected($context . ': expected object, got list', $value);
-    }
-    return $value;
-}
-
 class StatsSchemaException extends Exception
 {
-    public static function unexpected(string $message, $value = null): self
-    {
-        $type = is_scalar($value) ? gettype($value) . '(' . var_export($value, true) . ')' : gettype($value);
-        return new self("Stats schema violation: {$message}; got {$type}");
+}
+
+// -------------------------------------------------------------------------
+// DTOs — each maps one Matomo API response shape. Defaults allow
+// graceful fallback when Matomo omits a field.
+// -------------------------------------------------------------------------
+
+final readonly class PeriodSummaryDto
+{
+    public function __construct(
+        public int $nb_visits = 0,
+        public int $nb_uniq_visitors = 0,
+        public int $nb_actions = 0,
+        public float $bounce_rate = 0.0,
+        public int $avg_time_on_site = 0,
+    ) {
+    }
+}
+
+final readonly class RankingRowDto
+{
+    public function __construct(
+        public string $label = '',
+        public int $nb_visits = 0,
+        public ?string $logo = null,
+    ) {
+    }
+}
+
+final readonly class FrequencyDto
+{
+    public function __construct(
+        public int $nb_visits_new = 0,
+        public int $nb_visits_returning = 0,
+    ) {
+    }
+}
+
+final readonly class LiveCounterDto
+{
+    public function __construct(
+        public int $visits = 0,
+        public int $actions = 0,
+    ) {
+    }
+}
+
+final readonly class EventActionDto
+{
+    public function __construct(
+        public string $label = '',
+        public string $secondaryLabel = '',
+        public int $nb_events = 0,
+    ) {
+    }
+}
+
+final readonly class DonationDto
+{
+    public function __construct(
+        public float $amount = 0.0,
+        public string $currency = 'USD',
+        public string $timestamp = '',
+        public string $type = 'Donation',
+    ) {
     }
 }
 
 // -------------------------------------------------------------------------
-// Shared Matomo Reporting API parsers — used by both endpoints
+// Shared Matomo Reporting API parsers — each marshals a raw API response
+// through Valinor into the canonical camelCase response shape.
 // -------------------------------------------------------------------------
 
 /**
@@ -215,32 +225,49 @@ class StatsSchemaException extends Exception
  */
 function parsePeriodSummary($raw, string $periodLabel): array
 {
-    $obj = expectObject($raw, "VisitsSummary.{$periodLabel}");
+    try {
+        /** @var PeriodSummaryDto $dto */
+        $dto = getMapper()->map(PeriodSummaryDto::class, $raw);
+    } catch (\CuyZ\Valinor\Mapper\MappingError $e) {
+        throw new StatsSchemaException("VisitsSummary.{$periodLabel} validation failed: " . $e->getMessage(), 0, $e);
+    }
     return [
-        'visits' => expectInt($obj['nb_visits'] ?? 0, "VisitsSummary.{$periodLabel}.nb_visits"),
-        'uniqueVisitors' => expectInt($obj['nb_uniq_visitors'] ?? 0, "VisitsSummary.{$periodLabel}.nb_uniq_visitors"),
-        'actions' => expectInt($obj['nb_actions'] ?? 0, "VisitsSummary.{$periodLabel}.nb_actions"),
-        'bounceRate' => expectFloat($obj['bounce_rate'] ?? 0, "VisitsSummary.{$periodLabel}.bounce_rate"),
-        'avgVisitDuration' => expectInt($obj['avg_time_on_site'] ?? 0, "VisitsSummary.{$periodLabel}.avg_time_on_site"),
+        'visits' => $dto->nb_visits,
+        'uniqueVisitors' => $dto->nb_uniq_visitors,
+        'actions' => $dto->nb_actions,
+        'bounceRate' => $dto->bounce_rate,
+        'avgVisitDuration' => $dto->avg_time_on_site,
     ];
 }
 
 /**
- * Parse a ranking response (Matomo returns list of { label, nb_visits, logo?, ... }).
- * Unknown keys are ignored here — only the declared subset is returned.
+ * Parse a ranking response (Matomo returns list of { label, nb_visits,
+ * logo?, ... }). Limits to $limit rows. Unknown map keys are silently
+ * ignored by Valinor (allowSuperfluousKeys = true).
  */
 function parseRankingRows($raw, string $method, int $limit): array
 {
-    $rows = expectArray($raw, $method);
+    if (!is_array($raw)) {
+        throw new StatsSchemaException("{$method}: expected array, got " . gettype($raw));
+    }
     $out = [];
-    foreach (array_slice($rows, 0, $limit) as $row) {
-        $obj = expectObject($row, "{$method}[]");
+    $mapper = getMapper();
+    foreach (array_slice($raw, 0, $limit) as $i => $row) {
+        if (!is_array($row)) {
+            continue;
+        }
+        try {
+            /** @var RankingRowDto $dto */
+            $dto = $mapper->map(RankingRowDto::class, $row);
+        } catch (\CuyZ\Valinor\Mapper\MappingError $e) {
+            throw new StatsSchemaException("{$method}[{$i}] validation failed: " . $e->getMessage(), 0, $e);
+        }
         $parsed = [
-            'label' => expectString($obj['label'] ?? '', "{$method}[].label"),
-            'visits' => expectInt($obj['nb_visits'] ?? 0, "{$method}[].nb_visits"),
+            'label' => $dto->label,
+            'visits' => $dto->nb_visits,
         ];
-        if (isset($obj['logo']) && is_string($obj['logo']) && $obj['logo'] !== '') {
-            $parsed['logo'] = $obj['logo'];
+        if ($dto->logo !== null && $dto->logo !== '') {
+            $parsed['logo'] = $dto->logo;
         }
         $out[] = $parsed;
     }
@@ -252,10 +279,15 @@ function parseRankingRows($raw, string $method, int $limit): array
  */
 function parseFrequency($raw): array
 {
-    $obj = expectObject($raw, 'VisitFrequency.get');
+    try {
+        /** @var FrequencyDto $dto */
+        $dto = getMapper()->map(FrequencyDto::class, $raw);
+    } catch (\CuyZ\Valinor\Mapper\MappingError $e) {
+        throw new StatsSchemaException('VisitFrequency.get validation failed: ' . $e->getMessage(), 0, $e);
+    }
     return [
-        'newVisits' => expectInt($obj['nb_visits_new'] ?? 0, 'VisitFrequency.nb_visits_new'),
-        'returningVisits' => expectInt($obj['nb_visits_returning'] ?? 0, 'VisitFrequency.nb_visits_returning'),
+        'newVisits' => $dto->nb_visits_new,
+        'returningVisits' => $dto->nb_visits_returning,
     ];
 }
 
@@ -264,35 +296,48 @@ function parseFrequency($raw): array
  */
 function parseLiveCounters($raw): array
 {
-    $list = expectArray($raw, 'Live.getCounters');
-    if (count($list) === 0) {
+    if (!is_array($raw) || count($raw) === 0) {
         return ['visits' => 0, 'actions' => 0];
     }
-    $obj = expectObject($list[0], 'Live.getCounters[0]');
+    try {
+        /** @var LiveCounterDto $dto */
+        $dto = getMapper()->map(LiveCounterDto::class, $raw[0]);
+    } catch (\CuyZ\Valinor\Mapper\MappingError $e) {
+        throw new StatsSchemaException('Live.getCounters validation failed: ' . $e->getMessage(), 0, $e);
+    }
     return [
-        'visits' => expectInt($obj['visits'] ?? 0, 'Live.getCounters.visits'),
-        'actions' => expectInt($obj['actions'] ?? 0, 'Live.getCounters.actions'),
+        'visits' => $dto->visits,
+        'actions' => $dto->actions,
     ];
 }
 
 /**
  * Parse Events.getAction with flat=1 — Matomo returns rows keyed by
- * event category + action. We filter by action name client-side via
- * $actionFilter.
+ * event category + action. We filter by action name.
  */
 function parseEventActions($raw, string $actionFilter): array
 {
-    $rows = expectArray($raw, 'Events.getAction');
+    if (!is_array($raw)) {
+        throw new StatsSchemaException('Events.getAction: expected array, got ' . gettype($raw));
+    }
     $out = [];
-    foreach ($rows as $row) {
-        $obj = expectObject($row, 'Events.getAction[]');
-        $action = expectString($obj['label'] ?? '', 'Events.getAction[].label');
-        if ($action !== $actionFilter) {
+    $mapper = getMapper();
+    foreach ($raw as $i => $row) {
+        if (!is_array($row)) {
+            continue;
+        }
+        try {
+            /** @var EventActionDto $dto */
+            $dto = $mapper->map(EventActionDto::class, $row);
+        } catch (\CuyZ\Valinor\Mapper\MappingError $e) {
+            throw new StatsSchemaException("Events.getAction[{$i}] validation failed: " . $e->getMessage(), 0, $e);
+        }
+        if ($dto->label !== $actionFilter) {
             continue;
         }
         $out[] = [
-            'label' => expectString($obj['secondaryLabel'] ?? $action, 'Events.getAction[].secondaryLabel'),
-            'events' => expectInt($obj['nb_events'] ?? 0, 'Events.getAction[].nb_events'),
+            'label' => $dto->secondaryLabel !== '' ? $dto->secondaryLabel : $dto->label,
+            'events' => $dto->nb_events,
         ];
     }
     return $out;
@@ -317,15 +362,22 @@ function parseDonationsData(): array
         : 0.0;
     $donations = [];
     if (isset($raw['donations']) && is_array($raw['donations'])) {
-        foreach ($raw['donations'] as $d) {
+        $mapper = getMapper();
+        foreach ($raw['donations'] as $i => $d) {
             if (!is_array($d)) {
                 continue;
             }
+            try {
+                /** @var DonationDto $dto */
+                $dto = $mapper->map(DonationDto::class, $d);
+            } catch (\CuyZ\Valinor\Mapper\MappingError) {
+                continue;
+            }
             $donations[] = [
-                'amount' => expectFloat($d['amount'] ?? 0, 'donations[].amount'),
-                'currency' => expectString($d['currency'] ?? 'USD', 'donations[].currency'),
-                'timestamp' => expectString($d['timestamp'] ?? '', 'donations[].timestamp'),
-                'type' => expectString($d['type'] ?? 'Donation', 'donations[].type'),
+                'amount' => $dto->amount,
+                'currency' => $dto->currency,
+                'timestamp' => $dto->timestamp,
+                'type' => $dto->type,
             ];
         }
     }
@@ -356,10 +408,9 @@ class MatomoStatsClient
      * token_auth goes in the POST body only (POST-only tokens reject
      * auth if token_auth appears in the query string).
      *
-     * @return mixed
      * @throws StatsSchemaException
      */
-    public function get(string $method, array $extraParams = [])
+    public function get(string $method, array $extraParams = []): mixed
     {
         $urlParams = array_merge([
             'module' => 'API',
@@ -401,7 +452,7 @@ class MatomoStatsClient
             throw new StatsSchemaException("Matomo returned non-JSON for {$method} (HTTP {$code}): " . substr((string)$raw, 0, 2000));
         }
         if (isset($decoded['result']) && $decoded['result'] === 'error') {
-            $msg = expectString($decoded['message'] ?? 'unknown error', 'Matomo.error.message');
+            $msg = is_string($decoded['message'] ?? null) ? $decoded['message'] : 'unknown error';
             throw new StatsSchemaException("Matomo API error for {$method}: {$msg}");
         }
         return $decoded;
