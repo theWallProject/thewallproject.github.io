@@ -53,7 +53,7 @@ $goalAmount = 800;
 $maxRowBricks = max(3, min(100, intval($_GET['maxRowBricks'] ?? 30)));
 $maxBrickDimension = 120;
 
-$currentBricks = intdiv($currentMonthly, 10);
+$currentBricks = intdiv((int)$currentMonthly, 10);
 $goalBricks = intdiv($goalAmount, 10);
 if ($goalBricks <= $currentBricks) {
     $goalBricks = $currentBricks + 1;
