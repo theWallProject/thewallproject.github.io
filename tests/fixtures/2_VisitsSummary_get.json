@@ -1,11 +1,11 @@
 {
-    "nb_visits": 21,
-    "nb_actions": 196,
-    "nb_visits_converted": 0,
-    "bounce_count": 7,
-    "sum_visit_length": 7235,
-    "max_actions": 54,
-    "bounce_rate": 0.33,
-    "nb_actions_per_visit": 9.3,
-    "avg_time_on_site": 345
+  "nb_visits": 21,
+  "nb_actions": 196,
+  "nb_visits_converted": 0,
+  "bounce_count": 7,
+  "sum_visit_length": 7235,
+  "max_actions": 54,
+  "bounce_rate": 0.33,
+  "nb_actions_per_visit": 9.3,
+  "avg_time_on_site": 345
 }

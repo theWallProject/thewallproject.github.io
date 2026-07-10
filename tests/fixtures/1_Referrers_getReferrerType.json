@@ -1,43 +1,43 @@
 [
-    {
-        "label": "Direct Entry",
-        "nb_visits": 88012,
-        "nb_actions": 179907,
-        "max_actions": 256,
-        "sum_visit_length": 7146526,
-        "bounce_count": 33458,
-        "nb_visits_converted": 0,
-        "sum_daily_nb_uniq_visitors": 88011,
-        "sum_daily_nb_users": 0,
-        "segment": "referrerType==direct",
-        "referrer_type": 1
-    },
-    {
-        "label": "Campaigns",
-        "nb_visits": 392,
-        "nb_actions": 958,
-        "max_actions": 14,
-        "sum_visit_length": 41900,
-        "bounce_count": 130,
-        "nb_visits_converted": 0,
-        "sum_daily_nb_uniq_visitors": 392,
-        "sum_daily_nb_users": 0,
-        "segment": "referrerType==campaign",
-        "referrer_type": 6,
-        "idsubdatatable": 6
-    },
-    {
-        "label": "AI Assistants",
-        "nb_visits": 5,
-        "nb_actions": 8,
-        "max_actions": 2,
-        "sum_visit_length": 232,
-        "bounce_count": 2,
-        "nb_visits_converted": 0,
-        "sum_daily_nb_uniq_visitors": 5,
-        "sum_daily_nb_users": 0,
-        "segment": "referrerType==ai",
-        "referrer_type": 8,
-        "idsubdatatable": 8
-    }
+  {
+    "label": "Direct Entry",
+    "nb_visits": 88012,
+    "nb_actions": 179907,
+    "max_actions": 256,
+    "sum_visit_length": 7146526,
+    "bounce_count": 33458,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 88011,
+    "sum_daily_nb_users": 0,
+    "segment": "referrerType==direct",
+    "referrer_type": 1
+  },
+  {
+    "label": "Campaigns",
+    "nb_visits": 392,
+    "nb_actions": 958,
+    "max_actions": 14,
+    "sum_visit_length": 41900,
+    "bounce_count": 130,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 392,
+    "sum_daily_nb_users": 0,
+    "segment": "referrerType==campaign",
+    "referrer_type": 6,
+    "idsubdatatable": 6
+  },
+  {
+    "label": "AI Assistants",
+    "nb_visits": 5,
+    "nb_actions": 8,
+    "max_actions": 2,
+    "sum_visit_length": 232,
+    "bounce_count": 2,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 5,
+    "sum_daily_nb_users": 0,
+    "segment": "referrerType==ai",
+    "referrer_type": 8,
+    "idsubdatatable": 8
+  }
 ]

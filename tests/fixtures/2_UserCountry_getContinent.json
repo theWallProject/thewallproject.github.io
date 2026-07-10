@@ -1,62 +1,62 @@
 [
-    {
-        "label": "Asia",
-        "nb_visits": 7,
-        "nb_actions": 99,
-        "max_actions": 36,
-        "sum_visit_length": 4249,
-        "bounce_count": 0,
-        "nb_visits_converted": 0,
-        "sum_daily_nb_uniq_visitors": 5,
-        "sum_daily_nb_users": 0,
-        "code": "Asia"
-    },
-    {
-        "label": "Oceania",
-        "nb_visits": 3,
-        "nb_actions": 3,
-        "max_actions": 1,
-        "sum_visit_length": 0,
-        "bounce_count": 3,
-        "nb_visits_converted": 0,
-        "sum_daily_nb_uniq_visitors": 1,
-        "sum_daily_nb_users": 0,
-        "code": "Oceania"
-    },
-    {
-        "label": "North America",
-        "nb_visits": 2,
-        "nb_actions": 6,
-        "max_actions": 4,
-        "sum_visit_length": 20,
-        "bounce_count": 0,
-        "nb_visits_converted": 0,
-        "sum_daily_nb_uniq_visitors": 2,
-        "sum_daily_nb_users": 0,
-        "code": "North America"
-    },
-    {
-        "label": "Africa",
-        "nb_visits": 1,
-        "nb_actions": 6,
-        "max_actions": 6,
-        "sum_visit_length": 3,
-        "bounce_count": 0,
-        "nb_visits_converted": 0,
-        "sum_daily_nb_uniq_visitors": 1,
-        "sum_daily_nb_users": 0,
-        "code": "Africa"
-    },
-    {
-        "label": "Europe",
-        "nb_visits": 1,
-        "nb_actions": 5,
-        "max_actions": 5,
-        "sum_visit_length": 4,
-        "bounce_count": 0,
-        "nb_visits_converted": 0,
-        "sum_daily_nb_uniq_visitors": 1,
-        "sum_daily_nb_users": 0,
-        "code": "Europe"
-    }
+  {
+    "label": "Asia",
+    "nb_visits": 7,
+    "nb_actions": 99,
+    "max_actions": 36,
+    "sum_visit_length": 4249,
+    "bounce_count": 0,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 5,
+    "sum_daily_nb_users": 0,
+    "code": "Asia"
+  },
+  {
+    "label": "Oceania",
+    "nb_visits": 3,
+    "nb_actions": 3,
+    "max_actions": 1,
+    "sum_visit_length": 0,
+    "bounce_count": 3,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 1,
+    "sum_daily_nb_users": 0,
+    "code": "Oceania"
+  },
+  {
+    "label": "North America",
+    "nb_visits": 2,
+    "nb_actions": 6,
+    "max_actions": 4,
+    "sum_visit_length": 20,
+    "bounce_count": 0,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 2,
+    "sum_daily_nb_users": 0,
+    "code": "North America"
+  },
+  {
+    "label": "Africa",
+    "nb_visits": 1,
+    "nb_actions": 6,
+    "max_actions": 6,
+    "sum_visit_length": 3,
+    "bounce_count": 0,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 1,
+    "sum_daily_nb_users": 0,
+    "code": "Africa"
+  },
+  {
+    "label": "Europe",
+    "nb_visits": 1,
+    "nb_actions": 5,
+    "max_actions": 5,
+    "sum_visit_length": 4,
+    "bounce_count": 0,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 1,
+    "sum_daily_nb_users": 0,
+    "code": "Europe"
+  }
 ]

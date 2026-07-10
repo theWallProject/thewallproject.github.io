@@ -1,15 +1,15 @@
 [
-    {
-        "label": "Direct Entry",
-        "nb_visits": 14,
-        "nb_actions": 119,
-        "max_actions": 36,
-        "sum_visit_length": 4276,
-        "bounce_count": 3,
-        "nb_visits_converted": 0,
-        "sum_daily_nb_uniq_visitors": 9,
-        "sum_daily_nb_users": 0,
-        "segment": "referrerType==direct",
-        "referrer_type": 1
-    }
+  {
+    "label": "Direct Entry",
+    "nb_visits": 14,
+    "nb_actions": 119,
+    "max_actions": 36,
+    "sum_visit_length": 4276,
+    "bounce_count": 3,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 9,
+    "sum_daily_nb_users": 0,
+    "segment": "referrerType==direct",
+    "referrer_type": 1
+  }
 ]
