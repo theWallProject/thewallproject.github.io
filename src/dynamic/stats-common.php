@@ -153,63 +153,63 @@ class StatsSchemaException extends Exception
 // graceful fallback when Matomo omits a field.
 // -------------------------------------------------------------------------
 
-final readonly class PeriodSummaryDto
+final class PeriodSummaryDto
 {
     public function __construct(
-        public int $nb_visits = 0,
-        public int $nb_uniq_visitors = 0,
-        public int $nb_actions = 0,
-        public float $bounce_rate = 0.0,
-        public int $avg_time_on_site = 0,
+        public readonly int $nb_visits = 0,
+        public readonly int $nb_uniq_visitors = 0,
+        public readonly int $nb_actions = 0,
+        public readonly float $bounce_rate = 0.0,
+        public readonly int $avg_time_on_site = 0,
     ) {
     }
 }
 
-final readonly class RankingRowDto
+final class RankingRowDto
 {
     public function __construct(
-        public string $label = '',
-        public int $nb_visits = 0,
-        public ?string $logo = null,
+        public readonly string $label = '',
+        public readonly int $nb_visits = 0,
+        public readonly ?string $logo = null,
     ) {
     }
 }
 
-final readonly class FrequencyDto
+final class FrequencyDto
 {
     public function __construct(
-        public int $nb_visits_new = 0,
-        public int $nb_visits_returning = 0,
+        public readonly int $nb_visits_new = 0,
+        public readonly int $nb_visits_returning = 0,
     ) {
     }
 }
 
-final readonly class LiveCounterDto
+final class LiveCounterDto
 {
     public function __construct(
-        public int $visits = 0,
-        public int $actions = 0,
+        public readonly int $visits = 0,
+        public readonly int $actions = 0,
     ) {
     }
 }
 
-final readonly class EventActionDto
+final class EventActionDto
 {
     public function __construct(
-        public string $label = '',
-        public string $secondaryLabel = '',
-        public int $nb_events = 0,
+        public readonly string $label = '',
+        public readonly string $secondaryLabel = '',
+        public readonly int $nb_events = 0,
     ) {
     }
 }
 
-final readonly class DonationDto
+final class DonationDto
 {
     public function __construct(
-        public float $amount = 0.0,
-        public string $currency = 'USD',
-        public string $timestamp = '',
-        public string $type = 'Donation',
+        public readonly float $amount = 0.0,
+        public readonly string $currency = 'USD',
+        public readonly string $timestamp = '',
+        public readonly string $type = 'Donation',
     ) {
     }
 }
