@@ -57,6 +57,14 @@ define('STATS_ALL_TIME_START', '2000-01-01'); // effectively "since the beginnin
 define('STATS_ALL_TIME_END', 'today');
 define('STATS_TOP_LIMIT', 10); // cut every ranking to N rows
 
+// Public base path for Matomo assets (flags, browser logos, etc.).
+// Matomo returns relative paths like "plugins/Morpheus/icons/dist/flags/eg.png"
+// — these need the Matomo installation prefix to resolve in the browser.
+// Override in config.php if Matomo is at a different public path.
+if (!defined('STATS_MATOMO_ASSETS_URL')) {
+    define('STATS_MATOMO_ASSETS_URL', '/matomo/');
+}
+
 // Optional: read donations data for funding traction card. Shared by
 // both endpoints — represents org-wide funding, not site-specific.
 define('STATS_DONATIONS_FILE', __DIR__ . '/../../dynamic/donations_data.json');
@@ -222,6 +230,34 @@ final class DonationDto
     }
 }
 
+/**
+ * Matomo Events.getName flat=1 row. The critical field is
+ * Events_EventName (clean event name like "allow_month"), NOT `label`
+ * which is the display string "allow_month - Click". Declaring this
+ * field as required forces Valinor to fail if Matomo renames it.
+ */
+final class EventNameRowDto
+{
+    public function __construct(
+        public readonly string $Events_EventName = '',
+        public readonly int $nb_events = 0,
+    ) {
+    }
+}
+
+/**
+ * Matomo Actions.getPageTitles flat=1 row. nb_hits is the total times
+ * the page title was displayed (used as the blocks proxy for "wall").
+ */
+final class PageTitleRowDto
+{
+    public function __construct(
+        public readonly string $label = '',
+        public readonly int $nb_hits = 0,
+    ) {
+    }
+}
+
 // -------------------------------------------------------------------------
 // Shared Matomo Reporting API parsers — each marshals a raw API response
 // through Valinor into the canonical camelCase response shape.
@@ -275,7 +311,14 @@ function parseRankingRows($raw, string $method, int $limit): array
             'visits' => $dto->nb_visits,
         ];
         if ($dto->logo !== null && $dto->logo !== '') {
-            $parsed['logo'] = $dto->logo;
+            // Matomo returns relative paths like
+            // "plugins/Morpheus/icons/dist/flags/eg.png" — prepend the
+            // public Matomo base URL so the browser can load them.
+            $logo = $dto->logo;
+            if (!str_starts_with($logo, 'http')) {
+                $logo = rtrim(STATS_MATOMO_ASSETS_URL, '/') . '/' . $logo;
+            }
+            $parsed['logo'] = $logo;
         }
         $out[] = $parsed;
     }
@@ -390,6 +433,73 @@ function parseDonationsData(): array
         }
     }
     return ['currentMonthly' => $currentMonthly, 'donations' => $donations];
+}
+
+/**
+ * Parse Actions.getPageTitles flat=1 → total hits for a given page
+ * title. Used by the addon endpoint to read the "wall" banner-display
+ * count as a blocks proxy. Returns 0 if the title row is absent.
+ *
+ * Each row is validated against PageTitleRowDto via Valinor — if
+ * Matomo changes the `label` or `nb_hits` field names, this throws
+ * instead of silently returning 0.
+ */
+function parsePageTitleHits($raw, string $titleFilter): int
+{
+    if (!is_array($raw)) {
+        throw new StatsSchemaException('Actions.getPageTitles: expected array, got ' . gettype($raw));
+    }
+    $mapper = getMapper();
+    foreach ($raw as $i => $row) {
+        if (!is_array($row)) {
+            continue;
+        }
+        try {
+            /** @var PageTitleRowDto $dto */
+            $dto = $mapper->map(PageTitleRowDto::class, $row);
+        } catch (\CuyZ\Valinor\Mapper\MappingError $e) {
+            throw new StatsSchemaException("Actions.getPageTitles[{$i}] validation failed: " . $e->getMessage(), 0, $e);
+        }
+        if ($dto->label !== $titleFilter) {
+            continue;
+        }
+        return $dto->nb_hits;
+    }
+    return 0;
+}
+
+/**
+ * Parse Events.getName flat=1 → list of {name, events} pairs. Each row
+ * is validated against EventNameRowDto via Valinor. The critical field
+ * is Events_EventName (clean name like "allow_month"), NOT `label`
+ * (display string "allow_month - Click"). The DTO enforces this — if
+ * Matomo renames Events_EventName, Valinor throws.
+ *
+ * The addon endpoint uses this to sum events per group.
+ */
+function parseEventNameRows($raw): array
+{
+    if (!is_array($raw)) {
+        throw new StatsSchemaException('Events.getName: expected array, got ' . gettype($raw));
+    }
+    $mapper = getMapper();
+    $out = [];
+    foreach ($raw as $i => $row) {
+        if (!is_array($row)) {
+            continue;
+        }
+        try {
+            /** @var EventNameRowDto $dto */
+            $dto = $mapper->map(EventNameRowDto::class, $row);
+        } catch (\CuyZ\Valinor\Mapper\MappingError $e) {
+            throw new StatsSchemaException("Events.getName[{$i}] validation failed: " . $e->getMessage(), 0, $e);
+        }
+        $out[] = [
+            'name' => $dto->Events_EventName,
+            'events' => $dto->nb_events,
+        ];
+    }
+    return $out;
 }
 
 // -------------------------------------------------------------------------

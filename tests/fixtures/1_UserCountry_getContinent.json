@@ -1,0 +1,98 @@
+[
+    {
+        "label": "Africa",
+        "nb_visits": 29392,
+        "nb_actions": 61372,
+        "max_actions": 58,
+        "sum_visit_length": 2128732,
+        "bounce_count": 10771,
+        "nb_visits_converted": 0,
+        "sum_daily_nb_uniq_visitors": 29388,
+        "sum_daily_nb_users": 0,
+        "code": "Africa"
+    },
+    {
+        "label": "Europe",
+        "nb_visits": 24982,
+        "nb_actions": 52477,
+        "max_actions": 134,
+        "sum_visit_length": 2467113,
+        "bounce_count": 8940,
+        "nb_visits_converted": 0,
+        "sum_daily_nb_uniq_visitors": 24982,
+        "sum_daily_nb_users": 0,
+        "code": "Europe"
+    },
+    {
+        "label": "North America",
+        "nb_visits": 18708,
+        "nb_actions": 36331,
+        "max_actions": 256,
+        "sum_visit_length": 1257541,
+        "bounce_count": 7189,
+        "nb_visits_converted": 0,
+        "sum_daily_nb_uniq_visitors": 18708,
+        "sum_daily_nb_users": 0,
+        "code": "North America"
+    },
+    {
+        "label": "Asia",
+        "nb_visits": 12357,
+        "nb_actions": 25124,
+        "max_actions": 178,
+        "sum_visit_length": 1036797,
+        "bounce_count": 5330,
+        "nb_visits_converted": 0,
+        "sum_daily_nb_uniq_visitors": 12355,
+        "sum_daily_nb_users": 0,
+        "code": "Asia"
+    },
+    {
+        "label": "Oceania",
+        "nb_visits": 1675,
+        "nb_actions": 3113,
+        "max_actions": 69,
+        "sum_visit_length": 92212,
+        "bounce_count": 776,
+        "nb_visits_converted": 0,
+        "sum_daily_nb_uniq_visitors": 1675,
+        "sum_daily_nb_users": 0,
+        "code": "Oceania"
+    },
+    {
+        "label": "South America",
+        "nb_visits": 1123,
+        "nb_actions": 2118,
+        "max_actions": 59,
+        "sum_visit_length": 194686,
+        "bounce_count": 515,
+        "nb_visits_converted": 0,
+        "sum_daily_nb_uniq_visitors": 1123,
+        "sum_daily_nb_users": 0,
+        "code": "South America"
+    },
+    {
+        "label": "Central America",
+        "nb_visits": 171,
+        "nb_actions": 337,
+        "max_actions": 8,
+        "sum_visit_length": 11577,
+        "bounce_count": 68,
+        "nb_visits_converted": 0,
+        "sum_daily_nb_uniq_visitors": 171,
+        "sum_daily_nb_users": 0,
+        "code": "Central America"
+    },
+    {
+        "label": "Unknown",
+        "nb_visits": 1,
+        "nb_actions": 1,
+        "max_actions": 1,
+        "sum_visit_length": 0,
+        "bounce_count": 1,
+        "nb_visits_converted": 0,
+        "sum_daily_nb_uniq_visitors": 1,
+        "sum_daily_nb_users": 0,
+        "code": "Unknown"
+    }
+]

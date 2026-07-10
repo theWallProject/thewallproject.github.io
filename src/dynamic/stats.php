@@ -18,13 +18,18 @@
 declare(strict_types=1);
 
 // Site IDs for different tracked properties in Matomo.
-// Using named constants keeps the code generic and lets us add more
-// tracked properties later without touching any other file.
-define('MATOMO_SITE_MARKETING', 2); // the-wall.win marketing website
-define('MATOMO_SITE_ADDON', 1); // browser addon / app telemetry
+// Guarded for test inclusion (already defined by test bootstrap).
+if (!defined('MATOMO_SITE_MARKETING')) {
+    define('MATOMO_SITE_MARKETING', 2);
+}
+if (!defined('MATOMO_SITE_ADDON')) {
+    define('MATOMO_SITE_ADDON', 1);
+}
 
 // Active site for this endpoint.
-define('MATOMO_STATS_SITE_ID', MATOMO_SITE_MARKETING);
+if (!defined('MATOMO_STATS_SITE_ID')) {
+    define('MATOMO_STATS_SITE_ID', MATOMO_SITE_MARKETING);
+}
 
 require_once __DIR__ . '/stats-common.php';
 
@@ -100,4 +105,6 @@ function fetchAllMarketing(MatomoStatsClient $client): array
 // Main
 // -------------------------------------------------------------------------
 
-runEndpoint(MATOMO_STATS_SITE_ID, 'fetchAllMarketing');
+if (!defined('PHPUNIT_COMPOSER_INSTALL')) {
+    runEndpoint(MATOMO_STATS_SITE_ID, 'fetchAllMarketing');
+}

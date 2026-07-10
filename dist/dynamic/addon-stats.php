@@ -32,28 +32,31 @@
 declare(strict_types=1);
 
 // Reuse the same site-id constants as stats.php for symmetry.
-define('MATOMO_SITE_MARKETING', 2);
-define('MATOMO_SITE_ADDON', 1);
+// Guarded for test inclusion (already defined by test bootstrap).
+if (!defined('MATOMO_SITE_MARKETING')) {
+    define('MATOMO_SITE_MARKETING', 2);
+}
+if (!defined('MATOMO_SITE_ADDON')) {
+    define('MATOMO_SITE_ADDON', 1);
+}
 
 // Active site for this endpoint.
-define('MATOMO_STATS_SITE_ID', MATOMO_SITE_ADDON);
+if (!defined('MATOMO_STATS_SITE_ID')) {
+    define('MATOMO_STATS_SITE_ID', MATOMO_SITE_ADDON);
+}
 
 require_once __DIR__ . '/stats-common.php';
 
 // -------------------------------------------------------------------------
-// ADDON_ACTION_GROUPS — each addon event name (e_c=Button, e_a=Click,
-// e_n=<value>) maps to exactly one investor-readable group. Sum all
-// nb_events in the group to produce one integer per group. The
-// whatsnewViews group uses a dynamic prefix (whatsnew_update_<version>)
-// so it is matched via startsWith rather than enumerated.
-//
-// Only POSITIVE events are tracked here — dismissals, uninstall survey
-// links, and hint-disable clicks are deliberately excluded.
+// ADDON_ACTION_GROUPS — only defined if not already set (allows test
+// bootstrap to pre-define constants without "already defined" warnings).
 // -------------------------------------------------------------------------
-define('ADDON_ACTION_GROUPS', [
+if (!defined('ADDON_ACTION_GROUPS')) {
+    define('ADDON_ACTION_GROUPS', [
     'donationClicks' => [
         'donation_bricks',
         'options_donate',
+        'support_ko_fi',
         'whatsnew_donate_monthly',
         'whatsnew_donation_image',
     ],
@@ -94,6 +97,7 @@ define('ADDON_ACTION_GROUPS', [
         'whatsnew_report',
     ],
 ]);
+}
 
 // Event names whose label starts with this prefix roll up into the
 // whatsnewViews group regardless of version (e.g.
@@ -101,47 +105,20 @@ define('ADDON_ACTION_GROUPS', [
 define('ADDON_VIEWS_PREFIX', 'whatsnew_update_');
 
 // -------------------------------------------------------------------------
-// Addon-specific parsers
+// Addon-specific parsers — these use the shared Valinor-backed
+// parsePageTitleHits() and parseEventNameRows() from stats-common.php.
+// The group-summing logic is addon-specific so it stays here.
 // -------------------------------------------------------------------------
 
 /**
- * Parse Actions.getPageTitles flat=1 → total hits for a given page
- * title (used to read the "wall" banner-display count as a blocks
- * proxy). Returns 0 if the title row is absent (no banners yet).
- */
-function parsePageTitleHits($raw, string $titleFilter): int
-{
-    if (!is_array($raw)) {
-        throw new StatsSchemaException('Actions.getPageTitles: expected array, got ' . gettype($raw));
-    }
-    foreach ($raw as $row) {
-        if (!is_array($row) || array_is_list($row)) {
-            continue;
-        }
-        $label = isset($row['label']) && is_string($row['label']) ? $row['label'] : '';
-        if ($label !== $titleFilter) {
-            continue;
-        }
-        if (!isset($row['nb_hits']) || !is_int($row['nb_hits'])) {
-            throw new StatsSchemaException('Actions.getPageTitles[].nb_hits: expected int, got ' . gettype($row['nb_hits'] ?? 'null'));
-        }
-        return $row['nb_hits'];
-    }
-    return 0;
-}
-
-/**
- * Parse Events.getName flat=1 → one row per event name with nb_events.
- * Sums events per group defined in ADDON_ACTION_GROUPS and implicitly
- * the whatsnewViews group (prefix match for ADDON_VIEWS_PREFIX). Any
- * row whose name is not in any group is ignored (we only surface the
- * positive investor-facing groups).
+ * Parse Events.getName flat=1 → grouped action counts. Uses
+ * parseEventNameRows() (Valinor-validated) to extract clean event
+ * names, then sums nb_events per group via ADDON_ACTION_GROUPS. The
+ * whatsnewViews group uses a prefix match for whatsnew_update_*.
  */
 function parseEventNameGroups($raw): array
 {
-    if (!is_array($raw)) {
-        throw new StatsSchemaException('Events.getName: expected array, got ' . gettype($raw));
-    }
+    $rows = parseEventNameRows($raw);
     $grouped = [
         'donationClicks' => 0,
         'shares' => 0,
@@ -150,12 +127,9 @@ function parseEventNameGroups($raw): array
         'whatsnewEngagement' => 0,
         'whatsnewViews' => 0,
     ];
-    foreach ($raw as $row) {
-        if (!is_array($row) || array_is_list($row)) {
-            continue;
-        }
-        $name = isset($row['label']) && is_string($row['label']) ? $row['label'] : '';
-        $events = isset($row['nb_events']) && is_int($row['nb_events']) ? $row['nb_events'] : throw new StatsSchemaException('Events.getName[].nb_events: expected int, got ' . gettype($row['nb_events'] ?? 'null'));
+    foreach ($rows as $row) {
+        $name = $row['name'];
+        $events = $row['events'];
 
         if (str_starts_with($name, ADDON_VIEWS_PREFIX)) {
             $grouped['whatsnewViews'] += $events;
@@ -243,4 +217,6 @@ function fetchAllAddon(MatomoStatsClient $client): array
     ];
 }
 
-runEndpoint(MATOMO_STATS_SITE_ID, 'fetchAllAddon');
+if (!defined('PHPUNIT_COMPOSER_INSTALL')) {
+    runEndpoint(MATOMO_STATS_SITE_ID, 'fetchAllAddon');
+}

@@ -1,0 +1,93 @@
+[
+    {
+        "label": "section_view - engagement",
+        "nb_visits": 13,
+        "nb_events": 30,
+        "nb_events_with_value": 0,
+        "sum_event_value": 0,
+        "min_event_value": null,
+        "max_event_value": null,
+        "sum_daily_nb_uniq_visitors": 12,
+        "avg_event_value": 0,
+        "Events_EventAction": "section_view",
+        "Events_EventCategory": "engagement"
+    },
+    {
+        "label": "section_view_hero - engagement",
+        "nb_visits": 6,
+        "nb_events": 6,
+        "nb_events_with_value": 0,
+        "sum_event_value": 0,
+        "min_event_value": null,
+        "max_event_value": null,
+        "sum_daily_nb_uniq_visitors": 6,
+        "avg_event_value": 0,
+        "Events_EventAction": "section_view_hero",
+        "Events_EventCategory": "engagement"
+    },
+    {
+        "label": "section_view_donate - engagement",
+        "nb_visits": 3,
+        "nb_events": 3,
+        "nb_events_with_value": 0,
+        "sum_event_value": 0,
+        "min_event_value": null,
+        "max_event_value": null,
+        "sum_daily_nb_uniq_visitors": 2,
+        "avg_event_value": 0,
+        "Events_EventAction": "section_view_donate",
+        "Events_EventCategory": "engagement"
+    },
+    {
+        "label": "stats_view - engagement",
+        "nb_visits": 3,
+        "nb_events": 14,
+        "nb_events_with_value": 0,
+        "sum_event_value": 0,
+        "min_event_value": null,
+        "max_event_value": null,
+        "sum_daily_nb_uniq_visitors": 1,
+        "avg_event_value": 0,
+        "Events_EventAction": "stats_view",
+        "Events_EventCategory": "engagement"
+    },
+    {
+        "label": "donation_click - engagement",
+        "nb_visits": 2,
+        "nb_events": 2,
+        "nb_events_with_value": 0,
+        "sum_event_value": 0,
+        "min_event_value": null,
+        "max_event_value": null,
+        "sum_daily_nb_uniq_visitors": 2,
+        "avg_event_value": 0,
+        "Events_EventAction": "donation_click",
+        "Events_EventCategory": "engagement"
+    },
+    {
+        "label": "download_click - engagement",
+        "nb_visits": 1,
+        "nb_events": 1,
+        "nb_events_with_value": 0,
+        "sum_event_value": 0,
+        "min_event_value": null,
+        "max_event_value": null,
+        "sum_daily_nb_uniq_visitors": 1,
+        "avg_event_value": 0,
+        "Events_EventAction": "download_click",
+        "Events_EventCategory": "engagement"
+    },
+    {
+        "label": "section_view_platform - engagement",
+        "nb_visits": 1,
+        "nb_events": 1,
+        "nb_events_with_value": 0,
+        "sum_event_value": 0,
+        "min_event_value": null,
+        "max_event_value": null,
+        "sum_daily_nb_uniq_visitors": 1,
+        "avg_event_value": 0,
+        "Events_EventAction": "section_view_platform",
+        "Events_EventCategory": "engagement"
+    }
+]

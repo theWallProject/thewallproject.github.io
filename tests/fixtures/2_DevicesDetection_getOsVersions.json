@@ -1,0 +1,67 @@
+[
+    {
+        "label": "Android 16.0",
+        "nb_visits": 6,
+        "nb_actions": 19,
+        "max_actions": 7,
+        "sum_visit_length": 96,
+        "bounce_count": 3,
+        "nb_visits_converted": 0,
+        "sum_daily_nb_uniq_visitors": 4,
+        "sum_daily_nb_users": 0,
+        "segment": "operatingSystemCode==AND;operatingSystemVersion==16.0",
+        "logo": "plugins/Morpheus/icons/dist/os/AND.png"
+    },
+    {
+        "label": "Windows 11",
+        "nb_visits": 5,
+        "nb_actions": 89,
+        "max_actions": 36,
+        "sum_visit_length": 4173,
+        "bounce_count": 0,
+        "nb_visits_converted": 0,
+        "sum_daily_nb_uniq_visitors": 1,
+        "sum_daily_nb_users": 0,
+        "segment": "operatingSystemCode==WIN;operatingSystemVersion==11",
+        "logo": "plugins/Morpheus/icons/dist/os/WIN.png"
+    },
+    {
+        "label": "GNU/Linux",
+        "nb_visits": 1,
+        "nb_actions": 2,
+        "max_actions": 2,
+        "sum_visit_length": 2,
+        "bounce_count": 0,
+        "nb_visits_converted": 0,
+        "sum_daily_nb_uniq_visitors": 1,
+        "sum_daily_nb_users": 0,
+        "segment": "operatingSystemCode==LIN;operatingSystemVersion==",
+        "logo": "plugins/Morpheus/icons/dist/os/LIN.png"
+    },
+    {
+        "label": "iOS 26.4",
+        "nb_visits": 1,
+        "nb_actions": 3,
+        "max_actions": 3,
+        "sum_visit_length": 2,
+        "bounce_count": 0,
+        "nb_visits_converted": 0,
+        "sum_daily_nb_uniq_visitors": 1,
+        "sum_daily_nb_users": 0,
+        "segment": "operatingSystemCode==IOS;operatingSystemVersion==26.4",
+        "logo": "plugins/Morpheus/icons/dist/os/IOS.png"
+    },
+    {
+        "label": "Windows 10",
+        "nb_visits": 1,
+        "nb_actions": 6,
+        "max_actions": 6,
+        "sum_visit_length": 3,
+        "bounce_count": 0,
+        "nb_visits_converted": 0,
+        "sum_daily_nb_uniq_visitors": 1,
+        "sum_daily_nb_users": 0,
+        "segment": "operatingSystemCode==WIN;operatingSystemVersion==10",
+        "logo": "plugins/Morpheus/icons/dist/os/WIN.png"
+    }
+]
