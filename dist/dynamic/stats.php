@@ -380,7 +380,7 @@ class MatomoStatsClient
 
         $decoded = json_decode($raw, true);
         if (!is_array($decoded)) {
-            throw new StatsSchemaException("Matomo returned non-JSON for {$method}: " . substr((string)$raw, 0, 200));
+            throw new StatsSchemaException("Matomo returned non-JSON for {$method}: " . substr((string)$raw, 0, 2000));
         }
         // Matomo sometimes wraps errors as { result: 'error', message: '...' }
         if (isset($decoded['result']) && $decoded['result'] === 'error') {
