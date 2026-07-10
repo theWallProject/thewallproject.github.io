@@ -61,6 +61,10 @@ define('STATS_TOP_LIMIT', 10); // cut every ranking to N rows
 // both endpoints — represents org-wide funding, not site-specific.
 define('STATS_DONATIONS_FILE', __DIR__ . '/../../dynamic/donations_data.json');
 
+// Debug dump directory — when STATS_DEBUG is on, every raw Matomo API
+// response is written here as <siteId>_<method>.json for inspection.
+define('STATS_DEBUG_DIR', sys_get_temp_dir() . '/stats_debug');
+
 // -------------------------------------------------------------------------
 // Fail-fast bootstrap — loads config, autoloader, checks cache dir
 // -------------------------------------------------------------------------
@@ -87,6 +91,10 @@ function statsBootstrap(): void
 
     if (!is_dir(STATS_CACHE_DIR) && !@mkdir(STATS_CACHE_DIR, 0775, true) && !is_dir(STATS_CACHE_DIR)) {
         statsFatal(500, 'cache dir not writable: ' . STATS_CACHE_DIR);
+    }
+
+    if (STATS_DEBUG && !is_dir(STATS_DEBUG_DIR) && !@mkdir(STATS_DEBUG_DIR, 0775, true) && !is_dir(STATS_DEBUG_DIR)) {
+        statsFatal(500, 'debug dir not writable: ' . STATS_DEBUG_DIR);
     }
 }
 
@@ -455,6 +463,12 @@ class MatomoStatsClient
             $msg = is_string($decoded['message'] ?? null) ? $decoded['message'] : 'unknown error';
             throw new StatsSchemaException("Matomo API error for {$method}: {$msg}");
         }
+
+        if (STATS_DEBUG) {
+            $dumpFile = STATS_DEBUG_DIR . '/' . $this->siteId . '_' . str_replace('.', '_', $method) . '.json';
+            @file_put_contents($dumpFile, json_encode($decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        }
+
         return $decoded;
     }
 }
@@ -470,7 +484,7 @@ function cacheKey(int $siteId): string
 
 function tryServeCache(int $siteId): void
 {
-    if (STATS_CACHE_TTL <= 0) {
+    if (STATS_DEBUG || STATS_CACHE_TTL <= 0) {
         return;
     }
     $file = cacheKey($siteId);
