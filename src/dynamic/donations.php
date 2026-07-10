@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -286,7 +288,8 @@ if (imagettftext($goalBrick, $goalTextFontSize, 0, $goalTextX, $goalTextY, $goal
 }
 
 // --- Helper: map flat index to (row, posInRow) with variable row capacities ---
-function indexToRowPos($index, $maxRowBricks) {
+function indexToRowPos($index, $maxRowBricks)
+{
     $row = 0;
     $posInRow = $index;
     while (true) {
@@ -300,7 +303,8 @@ function indexToRowPos($index, $maxRowBricks) {
 }
 
 // --- Helper: get x,y pixel position for a brick index (rows grow from bottom up) ---
-function getBrickPosition($index, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding, $canvasW) {
+function getBrickPosition($index, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding, $canvasW)
+{
     list($row, $posInRow) = indexToRowPos($index, $maxRowBricks);
     $y = $canvasH - $bottomPadding - ($row + 1) * $brickH;
 
@@ -376,8 +380,8 @@ if ($currentBricks > 0) {
 }
 
 // --- 5. CTA text (2 lines, left-aligned, white) ---
-$ctaText1 = "Click to donate ANY monthly amount!";
-$ctaText2 = "Each brick = 10$ Monthly donations.";
+$ctaText1 = 'Click to donate ANY monthly amount!';
+$ctaText2 = 'Each brick = 10$ Monthly donations.';
 $ctaText3 = "Current: $$currentMonthly Goal: $$goalAmount";
 $ctaShadowColor = imagecolorallocate($canvas, 255, 255, 255);
 $ctaColor = imagecolorallocate($canvas, 0, 0, 0);

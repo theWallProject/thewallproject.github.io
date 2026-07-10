@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 define('KOFI_DEBUG', true);
 
 define('KOFI_DYNAMIC_DIR', __DIR__ . '/../../dynamic');
@@ -77,7 +79,8 @@ if (KOFI_VERIFICATION_TOKEN === '') {
     exit('FATAL: KOFI_VERIFICATION_TOKEN is empty in ' . KOFI_CONFIG_FILE);
 }
 
-function kofi_log(string $msg): void {
+function kofi_log(string $msg): void
+{
     if (!KOFI_DEBUG) {
         return;
     }
@@ -99,7 +102,8 @@ function kofi_log(string $msg): void {
     }
 }
 
-function kofi_send(int $code, string $body = ''): void {
+function kofi_send(int $code, string $body = ''): void
+{
     kofi_log("RESPONSE {$code} {$body}");
     http_response_code($code);
     if ($body !== '') {
@@ -109,30 +113,32 @@ function kofi_send(int $code, string $body = ''): void {
     exit;
 }
 
-function kofi_atomic_write(string $path, string $content): void {
+function kofi_atomic_write(string $path, string $content): void
+{
     $pid = getmypid();
     if ($pid === false) {
-        kofi_log("ATOMIC_WRITE ABORT: getmypid() failed");
+        kofi_log('ATOMIC_WRITE ABORT: getmypid() failed');
         kofi_send(500, 'Internal server error');
     }
     $tmpPath = $path . '.tmp.' . $pid;
     kofi_log("ATOMIC_WRITE tmp={$tmpPath}");
     $written = file_put_contents($tmpPath, $content, LOCK_EX);
     if ($written === false) {
-        kofi_log("ATOMIC_WRITE ABORT: could not write tmp file");
+        kofi_log('ATOMIC_WRITE ABORT: could not write tmp file');
         @unlink($tmpPath);
         kofi_send(500, 'Write failed: tmp');
     }
     kofi_log("ATOMIC_WRITE wrote {$written} bytes to tmp");
     if (!rename($tmpPath, $path)) {
-        kofi_log("ATOMIC_WRITE ABORT: could not rename tmp to final");
+        kofi_log('ATOMIC_WRITE ABORT: could not rename tmp to final');
         @unlink($tmpPath);
         kofi_send(500, 'Write failed: rename');
     }
     kofi_log("ATOMIC_WRITE success: {$path}");
 }
 
-function kofi_purge_cache(): void {
+function kofi_purge_cache(): void
+{
     $cacheDir = KOFI_CACHE_DIR;
     if (!is_dir($cacheDir)) {
         kofi_log("CACHE_PURGE no dir: {$cacheDir} - nothing to purge");
@@ -144,7 +150,7 @@ function kofi_purge_cache(): void {
         return;
     }
     if (count($files) === 0) {
-        kofi_log("CACHE_PURGE no cache files found");
+        kofi_log('CACHE_PURGE no cache files found');
         return;
     }
     $count = 0;
@@ -160,7 +166,8 @@ function kofi_purge_cache(): void {
     kofi_log("CACHE_PURGE deleted={$count} failed={$failCount} from {$cacheDir}");
 }
 
-function kofi_sanitize_message_id(string $id): string {
+function kofi_sanitize_message_id(string $id): string
+{
     $clean = preg_replace('/[^a-zA-Z0-9\-_]/', '', $id);
     if ($clean === null) {
         return '';
@@ -175,30 +182,30 @@ $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 kofi_log("METHOD={$method} IP={$ip}");
 
 if ($method !== 'POST') {
-    kofi_log("REJECTED: method not POST");
+    kofi_log('REJECTED: method not POST');
     kofi_send(405, 'Method Not Allowed');
 }
 
 $rawBody = file_get_contents('php://input');
 if ($rawBody === false) {
-    kofi_log("REJECTED: php://input read failed");
+    kofi_log('REJECTED: php://input read failed');
     kofi_send(400, 'Failed to read request body');
 }
-kofi_log("RAW_BODY length=" . strlen($rawBody));
+kofi_log('RAW_BODY length=' . strlen($rawBody));
 
 if ($rawBody === '') {
-    kofi_log("REJECTED: empty body");
+    kofi_log('REJECTED: empty body');
     kofi_send(400, 'Empty body');
 }
 
 if (strlen($rawBody) > KOFI_MAX_BODY_LEN) {
-    kofi_log("REJECTED: body too large (" . strlen($rawBody) . " bytes)");
+    kofi_log('REJECTED: body too large (' . strlen($rawBody) . ' bytes)');
     kofi_send(413, 'Payload too large');
 }
 
 parse_str($rawBody, $postFields);
 if ($postFields === null || !is_array($postFields)) {
-    kofi_log("REJECTED: parse_str failed");
+    kofi_log('REJECTED: parse_str failed');
     kofi_send(400, 'Failed to parse request body');
 }
 
@@ -208,35 +215,35 @@ if (!is_string($dataRaw) || $dataRaw === '') {
     kofi_send(400, 'Missing data field');
 }
 
-kofi_log("DATA_RAW length=" . strlen($dataRaw));
+kofi_log('DATA_RAW length=' . strlen($dataRaw));
 
 $payload = json_decode($dataRaw, true);
 if ($payload === null || !is_array($payload)) {
-    kofi_log("REJECTED: JSON decode failed - " . json_last_error_msg());
+    kofi_log('REJECTED: JSON decode failed - ' . json_last_error_msg());
     kofi_send(400, 'Invalid JSON in data field');
 }
 
-kofi_log("PAYLOAD keys=" . implode(',', array_keys($payload)));
+kofi_log('PAYLOAD keys=' . implode(',', array_keys($payload)));
 
 $messageId = $payload['message_id'] ?? '';
 if (!is_string($messageId) || $messageId === '') {
-    kofi_log("REJECTED: missing or invalid message_id");
+    kofi_log('REJECTED: missing or invalid message_id');
     kofi_send(400, 'Missing message_id');
 }
 if (strlen($messageId) > KOFI_MAX_MESSAGE_ID_LEN) {
-    kofi_log("REJECTED: message_id too long (" . strlen($messageId) . ")");
+    kofi_log('REJECTED: message_id too long (' . strlen($messageId) . ')');
     kofi_send(400, 'message_id too long');
 }
 $messageId = kofi_sanitize_message_id($messageId);
 if ($messageId === '') {
-    kofi_log("REJECTED: message_id empty after sanitization");
+    kofi_log('REJECTED: message_id empty after sanitization');
     kofi_send(400, 'Invalid message_id');
 }
 kofi_log("MESSAGE_ID={$messageId}");
 
 $timestamp = $payload['timestamp'] ?? '';
 if (!is_string($timestamp) || $timestamp === '') {
-    kofi_log("REJECTED: missing or invalid timestamp");
+    kofi_log('REJECTED: missing or invalid timestamp');
     kofi_send(400, 'Missing timestamp');
 }
 $tsParsed = strtotime($timestamp);
@@ -248,14 +255,14 @@ kofi_log("TIMESTAMP={$timestamp}");
 
 $type = $payload['type'] ?? '';
 if (!is_string($type) || !in_array($type, KOFI_ALLOWED_TYPES, true)) {
-    kofi_log("REJECTED: invalid type: " . var_export($type, true));
+    kofi_log('REJECTED: invalid type: ' . var_export($type, true));
     kofi_send(400, 'Invalid type');
 }
 kofi_log("TYPE={$type}");
 
 $amount = $payload['amount'] ?? null;
 if (!is_numeric($amount)) {
-    kofi_log("REJECTED: missing or non-numeric amount: " . var_export($amount, true));
+    kofi_log('REJECTED: missing or non-numeric amount: ' . var_export($amount, true));
     kofi_send(400, 'Invalid amount');
 }
 $amount = (float)$amount;
@@ -267,33 +274,33 @@ kofi_log("AMOUNT={$amount}");
 
 $isPublic = $payload['is_public'] ?? null;
 if ($isPublic !== null && !is_bool($isPublic)) {
-    kofi_log("REJECTED: is_public not boolean: " . var_export($isPublic, true));
+    kofi_log('REJECTED: is_public not boolean: ' . var_export($isPublic, true));
     kofi_send(400, 'Invalid is_public');
 }
-kofi_log("IS_PUBLIC=" . var_export($isPublic, true));
+kofi_log('IS_PUBLIC=' . var_export($isPublic, true));
 
 $isSubscriptionPayment = array_key_exists('is_subscription_payment', $payload) ? $payload['is_subscription_payment'] : null;
 if ($isSubscriptionPayment !== null && !is_bool($isSubscriptionPayment)) {
-    kofi_log("REJECTED: is_subscription_payment not boolean");
+    kofi_log('REJECTED: is_subscription_payment not boolean');
     kofi_send(400, 'Invalid is_subscription_payment');
 }
-kofi_log("IS_SUBSCRIPTION_PAYMENT=" . var_export($isSubscriptionPayment, true));
+kofi_log('IS_SUBSCRIPTION_PAYMENT=' . var_export($isSubscriptionPayment, true));
 
 $isFirstSubscriptionPayment = array_key_exists('is_first_subscription_payment', $payload) ? $payload['is_first_subscription_payment'] : null;
 if ($isFirstSubscriptionPayment !== null && !is_bool($isFirstSubscriptionPayment)) {
-    kofi_log("REJECTED: is_first_subscription_payment not boolean");
+    kofi_log('REJECTED: is_first_subscription_payment not boolean');
     kofi_send(400, 'Invalid is_first_subscription_payment');
 }
-kofi_log("IS_FIRST_SUBSCRIPTION_PAYMENT=" . var_export($isFirstSubscriptionPayment, true));
+kofi_log('IS_FIRST_SUBSCRIPTION_PAYMENT=' . var_export($isFirstSubscriptionPayment, true));
 
 $token = $payload['verification_token'] ?? '';
 if (!is_string($token) || $token === '') {
-    kofi_log("REJECTED: missing verification_token");
+    kofi_log('REJECTED: missing verification_token');
     kofi_send(400, 'Missing verification_token');
 }
 
 $tokenValid = hash_equals(KOFI_VERIFICATION_TOKEN, $token);
-kofi_log("TOKEN_VALID=" . ($tokenValid ? 'yes' : 'no'));
+kofi_log('TOKEN_VALID=' . ($tokenValid ? 'yes' : 'no'));
 if (!$tokenValid) {
     kofi_send(403, 'Forbidden');
 }
@@ -307,28 +314,28 @@ if ($fileContents === false) {
 
 $store = json_decode($fileContents, true);
 if ($store === null || !is_array($store)) {
-    kofi_log("FATAL: data file JSON invalid - " . json_last_error_msg());
+    kofi_log('FATAL: data file JSON invalid - ' . json_last_error_msg());
     kofi_send(500, 'Data file corrupt');
 }
 
 if (!array_key_exists('currentMonthly', $store)) {
-    kofi_log("FATAL: data file missing currentMonthly key");
+    kofi_log('FATAL: data file missing currentMonthly key');
     kofi_send(500, 'Data file missing currentMonthly');
 }
 if (!is_numeric($store['currentMonthly'])) {
-    kofi_log("FATAL: data file currentMonthly is not numeric: " . var_export($store['currentMonthly'], true));
+    kofi_log('FATAL: data file currentMonthly is not numeric: ' . var_export($store['currentMonthly'], true));
     kofi_send(500, 'Data file currentMonthly invalid');
 }
 if (!array_key_exists('donations', $store)) {
-    kofi_log("FATAL: data file missing donations key");
+    kofi_log('FATAL: data file missing donations key');
     kofi_send(500, 'Data file missing donations');
 }
 if (!is_array($store['donations'])) {
-    kofi_log("FATAL: data file donations is not an array");
+    kofi_log('FATAL: data file donations is not an array');
     kofi_send(500, 'Data file donations invalid');
 }
 
-kofi_log("DATA_FILE currentMonthly=" . $store['currentMonthly'] . " donations_count=" . count($store['donations']));
+kofi_log('DATA_FILE currentMonthly=' . $store['currentMonthly'] . ' donations_count=' . count($store['donations']));
 
 foreach ($store['donations'] as $i => $existing) {
     if (!is_array($existing)) {
@@ -389,7 +396,7 @@ if ($isFirstMonthly) {
     $store['currentMonthly'] = (float)$store['currentMonthly'] + $amount;
     kofi_log("FIRST_SUBSCRIPTION amount={$amount} new_total=" . $store['currentMonthly']);
 } else {
-    kofi_log("NOT_FIRST_SUBSCRIPTION type={$type} is_first=" . var_export($isFirstSubscriptionPayment, true) . " - amount NOT added");
+    kofi_log("NOT_FIRST_SUBSCRIPTION type={$type} is_first=" . var_export($isFirstSubscriptionPayment, true) . ' - amount NOT added');
 }
 
 $store['donations'][] = $sanitized;
@@ -397,20 +404,20 @@ $store['lastUpdated'] = gmdate('Y-m-d\TH:i:s\Z');
 
 if (count($store['donations']) > KOFI_MAX_DONATIONS) {
     $store['donations'] = array_slice($store['donations'], -KOFI_MAX_DONATIONS);
-    kofi_log("DONATIONS_TRIMMED to " . KOFI_MAX_DONATIONS);
+    kofi_log('DONATIONS_TRIMMED to ' . KOFI_MAX_DONATIONS);
 }
 
 $jsonOut = json_encode($store, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
 if ($jsonOut === false) {
-    kofi_log("FATAL: json_encode returned false");
+    kofi_log('FATAL: json_encode returned false');
     kofi_send(500, 'JSON encode failed');
 }
 
-kofi_log("WRITING data file (" . strlen($jsonOut) . " bytes)");
+kofi_log('WRITING data file (' . strlen($jsonOut) . ' bytes)');
 kofi_atomic_write($dataFile, $jsonOut);
 
 if ($isFirstMonthly) {
-    kofi_log("PURGING_CACHE due to first subscription");
+    kofi_log('PURGING_CACHE due to first subscription');
     kofi_purge_cache();
 }
 

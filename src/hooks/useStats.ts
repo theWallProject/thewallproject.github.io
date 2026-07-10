@@ -30,7 +30,13 @@ export function useStats(): UseStatsResult {
       const res = await fetch("/dynamic/stats.php", { cache: "no-store" });
       const body: unknown = await res.json();
       if (!res.ok) {
-        setError(`HTTP ${res.status} from stats endpoint`);
+        // Server returns { error: true, message: "...", trace?: "..." }
+        if (body && typeof body === "object" && "message" in body) {
+          const errObj = body as { message: string; trace?: string };
+          setError(errObj.trace ? `${errObj.message}\n${errObj.trace}` : errObj.message);
+        } else {
+          setError(`HTTP ${res.status} from stats endpoint`);
+        }
         return;
       }
       const parsed = StatsResponseSchema.parse(body);

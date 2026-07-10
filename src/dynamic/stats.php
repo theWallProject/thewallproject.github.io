@@ -23,14 +23,14 @@ declare(strict_types=1);
 // Constants
 // -------------------------------------------------------------------------
 
-define('STATS_DEBUG', false);
+define('STATS_DEBUG', true); // flip to false in production
 
 // Site IDs for different tracked properties in Matomo.
 // Using named constants keeps the code generic and lets us add more
 // tracked properties (e.g. the browser addon telemetry) later without
 // touching any other file — stats.php reads MATOMO_STATS_SITE_ID.
 define('MATOMO_SITE_MARKETING', 2); // the-wall.win marketing website
-define('MATOMO_SITE_ADDON',     1); // browser addon / app telemetry (future)
+define('MATOMO_SITE_ADDON', 1); // browser addon / app telemetry (future)
 
 // Default site for /stats endpoint. Change to MATOMO_SITE_ADDON once addon
 // telemetry is wired up, or clone stats.php with a different default to
@@ -107,7 +107,8 @@ if (STATS_CACHE_TTL > 0) {
  * @return int
  * @throws StatsSchemaException
  */
-function expectInt($value, string $context): int {
+function expectInt($value, string $context): int
+{
     if (is_int($value)) {
         return $value;
     }
@@ -125,7 +126,8 @@ function expectInt($value, string $context): int {
  * @param string $context
  * @throws StatsSchemaException
  */
-function expectString($value, string $context): string {
+function expectString($value, string $context): string
+{
     if (is_string($value) && $value !== '') {
         return $value;
     }
@@ -140,7 +142,8 @@ function expectString($value, string $context): string {
  * @param string $context
  * @throws StatsSchemaException
  */
-function expectFloat($value, string $context): float {
+function expectFloat($value, string $context): float
+{
     if (is_float($value) || is_int($value)) {
         return (float)$value;
     }
@@ -155,7 +158,8 @@ function expectFloat($value, string $context): float {
  * @param string $context
  * @throws StatsSchemaException
  */
-function expectArray($value, string $context): array {
+function expectArray($value, string $context): array
+{
     if (is_array($value) && array_is_list($value)) {
         return $value;
     }
@@ -171,7 +175,8 @@ function expectArray($value, string $context): array {
  * @param string $context
  * @throws StatsSchemaException
  */
-function expectObject($value, string $context): array {
+function expectObject($value, string $context): array
+{
     if (!is_array($value)) {
         throw StatsSchemaException::unexpected($context . ': expected object', $value);
     }
@@ -181,8 +186,10 @@ function expectObject($value, string $context): array {
     return $value;
 }
 
-class StatsSchemaException extends Exception {
-    public static function unexpected(string $message, $value = null): self {
+class StatsSchemaException extends Exception
+{
+    public static function unexpected(string $message, $value = null): self
+    {
         $type = is_scalar($value) ? gettype($value) . '(' . var_export($value, true) . ')' : gettype($value);
         return new self("Stats schema violation: {$message}; got {$type}");
     }
@@ -192,13 +199,14 @@ class StatsSchemaException extends Exception {
  * Parse a single-period VisitsSummary.get response (Matomo returns a
  * metric object: { nb_visits, nb_uniq_visitors, nb_actions, ... }).
  */
-function parsePeriodSummary($raw, string $periodLabel): array {
+function parsePeriodSummary($raw, string $periodLabel): array
+{
     $obj = expectObject($raw, "VisitsSummary.{$periodLabel}");
     return [
-        'visits'         => expectInt($obj['nb_visits']        ?? 0, "VisitsSummary.{$periodLabel}.nb_visits"),
+        'visits' => expectInt($obj['nb_visits'] ?? 0, "VisitsSummary.{$periodLabel}.nb_visits"),
         'uniqueVisitors' => expectInt($obj['nb_uniq_visitors'] ?? 0, "VisitsSummary.{$periodLabel}.nb_uniq_visitors"),
-        'actions'        => expectInt($obj['nb_actions']       ?? 0, "VisitsSummary.{$periodLabel}.nb_actions"),
-        'bounceRate'     => expectFloat($obj['bounce_rate']   ?? 0, "VisitsSummary.{$periodLabel}.bounce_rate"),
+        'actions' => expectInt($obj['nb_actions'] ?? 0, "VisitsSummary.{$periodLabel}.nb_actions"),
+        'bounceRate' => expectFloat($obj['bounce_rate'] ?? 0, "VisitsSummary.{$periodLabel}.bounce_rate"),
         'avgVisitDuration' => expectInt($obj['avg_time_on_site'] ?? 0, "VisitsSummary.{$periodLabel}.avg_time_on_site"),
     ];
 }
@@ -207,14 +215,15 @@ function parsePeriodSummary($raw, string $periodLabel): array {
  * Parse a ranking response (Matomo returns list of { label, nb_visits, logo?, ... }).
  * Unknown keys are ignored here — only the declared subset is returned.
  */
-function parseRankingRows($raw, string $method, int $limit): array {
+function parseRankingRows($raw, string $method, int $limit): array
+{
     $rows = expectArray($raw, $method);
     $out = [];
     foreach (array_slice($rows, 0, $limit) as $row) {
         $obj = expectObject($row, "{$method}[]");
         $parsed = [
-            'label'  => expectString($obj['label']    ?? '', "{$method}[].label"),
-            'visits' => expectInt($obj['nb_visits']   ?? 0,   "{$method}[].nb_visits"),
+            'label' => expectString($obj['label'] ?? '', "{$method}[].label"),
+            'visits' => expectInt($obj['nb_visits'] ?? 0, "{$method}[].nb_visits"),
         ];
         if (isset($obj['logo']) && is_string($obj['logo']) && $obj['logo'] !== '') {
             $parsed['logo'] = $obj['logo'];
@@ -227,25 +236,27 @@ function parseRankingRows($raw, string $method, int $limit): array {
 /**
  * Parse VisitFrequency.get (new vs returning counts for the period).
  */
-function parseFrequency($raw): array {
+function parseFrequency($raw): array
+{
     $obj = expectObject($raw, 'VisitFrequency.get');
     return [
-        'newVisits'       => expectInt($obj['nb_visits_new']          ?? 0, 'VisitFrequency.nb_visits_new'),
-        'returningVisits' => expectInt($obj['nb_visits_returning']   ?? 0, 'VisitFrequency.nb_visits_returning'),
+        'newVisits' => expectInt($obj['nb_visits_new'] ?? 0, 'VisitFrequency.nb_visits_new'),
+        'returningVisits' => expectInt($obj['nb_visits_returning'] ?? 0, 'VisitFrequency.nb_visits_returning'),
     ];
 }
 
 /**
  * Parse Live.getCounters — returns list of one counter object.
  */
-function parseLiveCounters($raw): array {
+function parseLiveCounters($raw): array
+{
     $list = expectArray($raw, 'Live.getCounters');
     if (count($list) === 0) {
         return ['visits' => 0, 'actions' => 0];
     }
     $obj = expectObject($list[0], 'Live.getCounters[0]');
     return [
-        'visits'  => expectInt($obj['visits']  ?? 0, 'Live.getCounters.visits'),
+        'visits' => expectInt($obj['visits'] ?? 0, 'Live.getCounters.visits'),
         'actions' => expectInt($obj['actions'] ?? 0, 'Live.getCounters.actions'),
     ];
 }
@@ -254,7 +265,8 @@ function parseLiveCounters($raw): array {
  * Parse Events.getAction with flat=1 — Matomo returns rows keyed by event category
  * + action. We filter by action name client-side via $actionFilter.
  */
-function parseEventActions($raw, string $actionFilter): array {
+function parseEventActions($raw, string $actionFilter): array
+{
     $rows = expectArray($raw, 'Events.getAction');
     $out = [];
     foreach ($rows as $row) {
@@ -264,8 +276,8 @@ function parseEventActions($raw, string $actionFilter): array {
             continue;
         }
         $out[] = [
-            'label'  => expectString($obj['secondaryLabel'] ?? $action, 'Events.getAction[].secondaryLabel'),
-            'events' => expectInt($obj['nb_events']        ?? 0,          'Events.getAction[].nb_events'),
+            'label' => expectString($obj['secondaryLabel'] ?? $action, 'Events.getAction[].secondaryLabel'),
+            'events' => expectInt($obj['nb_events'] ?? 0, 'Events.getAction[].nb_events'),
         ];
     }
     return $out;
@@ -276,7 +288,8 @@ function parseEventActions($raw, string $actionFilter): array {
  * is OK (returns neutral zeros, not a hard fail — funding card degrades
  * gracefully but other stats still render).
  */
-function parseDonationsData(): array {
+function parseDonationsData(): array
+{
     if (!file_exists(STATS_DONATIONS_FILE) || !is_readable(STATS_DONATIONS_FILE)) {
         return ['currentMonthly' => 0, 'donations' => []];
     }
@@ -290,12 +303,14 @@ function parseDonationsData(): array {
     $donations = [];
     if (isset($raw['donations']) && is_array($raw['donations'])) {
         foreach ($raw['donations'] as $d) {
-            if (!is_array($d)) continue;
+            if (!is_array($d)) {
+                continue;
+            }
             $donations[] = [
-                'amount'    => expectFloat($d['amount']    ?? 0, 'donations[].amount'),
-                'currency'  => expectString($d['currency']  ?? 'USD', 'donations[].currency'),
+                'amount' => expectFloat($d['amount'] ?? 0, 'donations[].amount'),
+                'currency' => expectString($d['currency'] ?? 'USD', 'donations[].currency'),
                 'timestamp' => expectString($d['timestamp'] ?? '', 'donations[].timestamp'),
-                'type'      => expectString($d['type']      ?? 'Donation', 'donations[].type'),
+                'type' => expectString($d['type'] ?? 'Donation', 'donations[].type'),
             ];
         }
     }
@@ -306,14 +321,16 @@ function parseDonationsData(): array {
 // Matomo HTTP API client
 // -------------------------------------------------------------------------
 
-class MatomoStatsClient {
+class MatomoStatsClient
+{
     private string $apiUrl;
     private string $token;
     private string $siteId;
 
-    public function __construct(string $apiUrl, string $token, string $siteId) {
+    public function __construct(string $apiUrl, string $token, string $siteId)
+    {
         $this->apiUrl = $apiUrl;
-        $this->token  = $token;
+        $this->token = $token;
         $this->siteId = $siteId;
     }
 
@@ -321,14 +338,15 @@ class MatomoStatsClient {
      * @return mixed
      * @throws StatsSchemaException
      */
-    public function get(string $method, array $extraParams = []) {
+    public function get(string $method, array $extraParams = [])
+    {
         $params = array_merge([
-            'module'       => 'API',
-            'method'       => $method,
-            'idSite'       => $this->siteId,
-            'format'       => 'JSON',
+            'module' => 'API',
+            'method' => $method,
+            'idSite' => $this->siteId,
+            'format' => 'JSON',
             'format_metrics' => '0',
-            'token_auth'   => $this->token,
+            'token_auth' => $this->token,
         ], $extraParams);
 
         $url = $this->apiUrl . '?' . http_build_query($params);
@@ -339,15 +357,15 @@ class MatomoStatsClient {
             $ch = curl_init($url);
             curl_setopt_array($ch, [
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_TIMEOUT        => STATS_TIMEOUT,
+                CURLOPT_TIMEOUT => STATS_TIMEOUT,
                 CURLOPT_CONNECTTIMEOUT => 5,
                 CURLOPT_FOLLOWLOCATION => false,
                 CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_HTTPHEADER     => ['Accept: application/json'],
+                CURLOPT_HTTPHEADER => ['Accept: application/json'],
             ]);
-            $raw  = curl_exec($ch);
+            $raw = curl_exec($ch);
             $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $err  = curl_error($ch);
+            $err = curl_error($ch);
             curl_close($ch);
             if ($raw === false) {
                 throw new StatsSchemaException("Matomo curl error for {$method}: {$err}");
@@ -369,7 +387,8 @@ class MatomoStatsClient {
         return $decoded;
     }
 
-    private function fallbackGet(string $url): string {
+    private function fallbackGet(string $url): string
+    {
         $ctx = stream_context_create(['http' => [
             'timeout' => (string)STATS_TIMEOUT,
             'ignore_errors' => true,
@@ -386,36 +405,37 @@ class MatomoStatsClient {
 // Aggregation — one entry per stat block
 // -------------------------------------------------------------------------
 
-function fetchAll(MatomoStatsClient $client): array {
+function fetchAll(MatomoStatsClient $client): array
+{
     $range = STATS_ALL_TIME_START . ',' . STATS_ALL_TIME_END;
 
     // 1. Visitor totals — six periods
-    $today    = parsePeriodSummary($client->get('VisitsSummary.get', ['period' => 'day',   'date' => 'today']),     'today');
-    $yest     = parsePeriodSummary($client->get('VisitsSummary.get', ['period' => 'day',   'date' => 'yesterday']), 'yesterday');
-    $thisWeek = parsePeriodSummary($client->get('VisitsSummary.get', ['period' => 'week',  'date' => 'today']),     'thisWeek');
-    $monThis  = parsePeriodSummary($client->get('VisitsSummary.get', ['period' => 'month', 'date' => 'today']),     'thisMonth');
-    $monLast  = parsePeriodSummary($client->get('VisitsSummary.get', ['period' => 'month', 'date' => 'lastMonth']), 'lastMonth');
-    $allTime  = parsePeriodSummary($client->get('VisitsSummary.get', ['period' => 'range', 'date' => $range]),       'allTime');
+    $today = parsePeriodSummary($client->get('VisitsSummary.get', ['period' => 'day',   'date' => 'today']), 'today');
+    $yest = parsePeriodSummary($client->get('VisitsSummary.get', ['period' => 'day',   'date' => 'yesterday']), 'yesterday');
+    $thisWeek = parsePeriodSummary($client->get('VisitsSummary.get', ['period' => 'week',  'date' => 'today']), 'thisWeek');
+    $monThis = parsePeriodSummary($client->get('VisitsSummary.get', ['period' => 'month', 'date' => 'today']), 'thisMonth');
+    $monLast = parsePeriodSummary($client->get('VisitsSummary.get', ['period' => 'month', 'date' => 'lastMonth']), 'lastMonth');
+    $allTime = parsePeriodSummary($client->get('VisitsSummary.get', ['period' => 'range', 'date' => $range]), 'allTime');
 
     // 2. Top rankings — all-time range
-    $topCountries  = parseRankingRows($client->get('UserCountry.getCountry',        ['period' => 'range', 'date' => $range]), 'UserCountry.getCountry',  STATS_TOP_LIMIT);
-    $topContinents = parseRankingRows($client->get('UserCountry.getContinent',       ['period' => 'range', 'date' => $range]), 'UserCountry.getContinent', STATS_TOP_LIMIT);
-    $topBrowsers   = parseRankingRows($client->get('DevicesDetection.getBrowsers',   ['period' => 'range', 'date' => $range]), 'DevicesDetection.getBrowsers', STATS_TOP_LIMIT);
-    $topOs         = parseRankingRows($client->get('DevicesDetection.getOsVersions', ['period' => 'range', 'date' => $range]), 'DevicesDetection.getOsVersions', STATS_TOP_LIMIT);
-    $deviceTypes   = parseRankingRows($client->get('DevicesDetection.getType',      ['period' => 'range', 'date' => $range]), 'DevicesDetection.getType', STATS_TOP_LIMIT);
+    $topCountries = parseRankingRows($client->get('UserCountry.getCountry', ['period' => 'range', 'date' => $range]), 'UserCountry.getCountry', STATS_TOP_LIMIT);
+    $topContinents = parseRankingRows($client->get('UserCountry.getContinent', ['period' => 'range', 'date' => $range]), 'UserCountry.getContinent', STATS_TOP_LIMIT);
+    $topBrowsers = parseRankingRows($client->get('DevicesDetection.getBrowsers', ['period' => 'range', 'date' => $range]), 'DevicesDetection.getBrowsers', STATS_TOP_LIMIT);
+    $topOs = parseRankingRows($client->get('DevicesDetection.getOsVersions', ['period' => 'range', 'date' => $range]), 'DevicesDetection.getOsVersions', STATS_TOP_LIMIT);
+    $deviceTypes = parseRankingRows($client->get('DevicesDetection.getType', ['period' => 'range', 'date' => $range]), 'DevicesDetection.getType', STATS_TOP_LIMIT);
 
     // 3. Frequency (new vs returning) — all-time
     $frequency = parseFrequency($client->get('VisitFrequency.get', ['period' => 'range', 'date' => $range]));
 
     // 4. Referrers
     $referrerTypes = parseRankingRows($client->get('Referrers.getReferrerType', ['period' => 'range', 'date' => $range]), 'Referrers.getReferrerType', STATS_TOP_LIMIT);
-    $topWebsites   = parseRankingRows($client->get('Referrers.getWebsites',     ['period' => 'range', 'date' => $range]), 'Referrers.getWebsites',     STATS_TOP_LIMIT);
+    $topWebsites = parseRankingRows($client->get('Referrers.getWebsites', ['period' => 'range', 'date' => $range]), 'Referrers.getWebsites', STATS_TOP_LIMIT);
 
     // 5. Events — downloads and donations action breakdown. Matomo flat=1
     //    returns rows of { label, secondaryLabel, nb_events }; filter by action name.
-    $eventsRaw     = $client->get('Events.getAction', ['period' => 'range', 'date' => $range, 'secondaryDimension' => 'eventCategory', 'flat' => '1']);
-    $downloads     = parseEventActions($eventsRaw, 'download_click');
-    $donationsEv   = parseEventActions($eventsRaw, 'donation_click');
+    $eventsRaw = $client->get('Events.getAction', ['period' => 'range', 'date' => $range, 'secondaryDimension' => 'eventCategory', 'flat' => '1']);
+    $downloads = parseEventActions($eventsRaw, 'download_click');
+    $donationsEv = parseEventActions($eventsRaw, 'donation_click');
 
     // 6. Live counters (last 30 min)
     $liveNow = parseLiveCounters($client->get('Live.getCounters', ['lastMinutes' => 30]));
@@ -424,26 +444,26 @@ function fetchAll(MatomoStatsClient $client): array {
     $donationsData = parseDonationsData();
 
     return [
-        'generatedAt'    => gmdate('Y-m-d\TH:i:s\Z'),
+        'generatedAt' => gmdate('Y-m-d\TH:i:s\Z'),
         'visitors' => [
-            'today'     => $today,
+            'today' => $today,
             'yesterday' => $yest,
-            'thisWeek'  => $thisWeek,
+            'thisWeek' => $thisWeek,
             'thisMonth' => $monThis,
             'lastMonth' => $monLast,
-            'allTime'   => $allTime,
+            'allTime' => $allTime,
         ],
-        'topCountries'  => $topCountries,
+        'topCountries' => $topCountries,
         'topContinents' => $topContinents,
-        'topBrowsers'   => $topBrowsers,
-        'topOs'         => $topOs,
-        'deviceTypes'   => $deviceTypes,
-        'visitFrequency'=> $frequency,
+        'topBrowsers' => $topBrowsers,
+        'topOs' => $topOs,
+        'deviceTypes' => $deviceTypes,
+        'visitFrequency' => $frequency,
         'referrerTypes' => $referrerTypes,
-        'topWebsites'   => $topWebsites,
-        'downloads'     => $downloads,
-        'donations'     => $donationsEv,
-        'liveNow'       => $liveNow,
+        'topWebsites' => $topWebsites,
+        'downloads' => $downloads,
+        'donations' => $donationsEv,
+        'liveNow' => $liveNow,
         'donationsData' => $donationsData,
     ];
 }
@@ -452,11 +472,13 @@ function fetchAll(MatomoStatsClient $client): array {
 // Cache layer
 // -------------------------------------------------------------------------
 
-function cacheKey(): string {
+function cacheKey(): string
+{
     return STATS_CACHE_DIR . '/' . 'stats_v1_' . MATOMO_STATS_SITE_ID . '.json';
 }
 
-function tryServeCache(): void {
+function tryServeCache(): void
+{
     if (STATS_CACHE_TTL <= 0) {
         return;
     }
@@ -470,7 +492,8 @@ function tryServeCache(): void {
     }
 }
 
-function saveCache(string $payload): void {
+function saveCache(string $payload): void
+{
     if (STATS_CACHE_TTL <= 0) {
         return;
     }
@@ -485,8 +508,8 @@ tryServeCache();
 
 try {
     $client = new MatomoStatsClient(MATOMO_STATS_API_URL, MATOMO_STATS_TOKEN, (string)MATOMO_STATS_SITE_ID);
-    $stats  = fetchAll($client);
-    $json   = json_encode($stats, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+    $stats = fetchAll($client);
+    $json = json_encode($stats, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     if ($json === false) {
         throw new StatsSchemaException('json_encode failed: ' . json_last_error_msg());
     }
@@ -495,9 +518,19 @@ try {
 } catch (StatsSchemaException $e) {
     http_response_code(500);
     header('Content-Type: application/json; charset=utf-8');
-    echo json_encode(['error' => true, 'message' => $e->getMessage(), 'code' => 500]);
+    echo json_encode(buildErrorPayload($e));
 } catch (Throwable $e) {
     http_response_code(500);
     header('Content-Type: application/json; charset=utf-8');
-    echo json_encode(['error' => true, 'message' => 'Fatal: ' . $e->getMessage(), 'code' => 500]);
+    echo json_encode(buildErrorPayload($e));
+}
+
+function buildErrorPayload(Throwable $e): array
+{
+    $payload = ['error' => true, 'message' => $e->getMessage(), 'code' => 500];
+    if (STATS_DEBUG) {
+        $payload['trace'] = $e->getTraceAsString();
+        $payload['file'] = $e->getFile() . ':' . $e->getLine();
+    }
+    return $payload;
 }
