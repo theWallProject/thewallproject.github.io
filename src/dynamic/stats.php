@@ -359,7 +359,8 @@ class MatomoStatsClient
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_TIMEOUT => STATS_TIMEOUT,
                 CURLOPT_CONNECTTIMEOUT => 5,
-                CURLOPT_FOLLOWLOCATION => false,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_MAXREDIRS => 5,
                 CURLOPT_SSL_VERIFYPEER => false,
                 CURLOPT_HTTPHEADER => ['Accept: application/json'],
             ]);
