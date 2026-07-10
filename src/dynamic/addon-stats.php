@@ -111,15 +111,21 @@ define('ADDON_VIEWS_PREFIX', 'whatsnew_update_');
  */
 function parsePageTitleHits($raw, string $titleFilter): int
 {
-    $rows = expectArray($raw, 'Actions.getPageTitles');
-    foreach ($rows as $row) {
-        $obj = expectObject($row, 'Actions.getPageTitles[]');
-        $label = expectString($obj['label'] ?? '', 'Actions.getPageTitles[].label');
+    if (!is_array($raw)) {
+        throw new StatsSchemaException('Actions.getPageTitles: expected array, got ' . gettype($raw));
+    }
+    foreach ($raw as $row) {
+        if (!is_array($row) || array_is_list($row)) {
+            continue;
+        }
+        $label = isset($row['label']) && is_string($row['label']) ? $row['label'] : '';
         if ($label !== $titleFilter) {
             continue;
         }
-        $hits = $obj['nb_hits'] ?? 0;
-        return expectInt($hits, 'Actions.getPageTitles[].nb_hits');
+        if (!isset($row['nb_hits']) || !is_int($row['nb_hits'])) {
+            throw new StatsSchemaException('Actions.getPageTitles[].nb_hits: expected int, got ' . gettype($row['nb_hits'] ?? 'null'));
+        }
+        return $row['nb_hits'];
     }
     return 0;
 }
@@ -129,11 +135,13 @@ function parsePageTitleHits($raw, string $titleFilter): int
  * Sums events per group defined in ADDON_ACTION_GROUPS and implicitly
  * the whatsnewViews group (prefix match for ADDON_VIEWS_PREFIX). Any
  * row whose name is not in any group is ignored (we only surface the
- *Positive investor-facing groups).
+ * positive investor-facing groups).
  */
 function parseEventNameGroups($raw): array
 {
-    $rows = expectArray($raw, 'Events.getName');
+    if (!is_array($raw)) {
+        throw new StatsSchemaException('Events.getName: expected array, got ' . gettype($raw));
+    }
     $grouped = [
         'donationClicks' => 0,
         'shares' => 0,
@@ -142,10 +150,12 @@ function parseEventNameGroups($raw): array
         'whatsnewEngagement' => 0,
         'whatsnewViews' => 0,
     ];
-    foreach ($rows as $row) {
-        $obj = expectObject($row, 'Events.getName[]');
-        $name = expectString($obj['label'] ?? '', 'Events.getName[].label');
-        $events = expectInt($obj['nb_events'] ?? 0, 'Events.getName[].nb_events');
+    foreach ($raw as $row) {
+        if (!is_array($row) || array_is_list($row)) {
+            continue;
+        }
+        $name = isset($row['label']) && is_string($row['label']) ? $row['label'] : '';
+        $events = isset($row['nb_events']) && is_int($row['nb_events']) ? $row['nb_events'] : throw new StatsSchemaException('Events.getName[].nb_events: expected int, got ' . gettype($row['nb_events'] ?? 'null'));
 
         if (str_starts_with($name, ADDON_VIEWS_PREFIX)) {
             $grouped['whatsnewViews'] += $events;
