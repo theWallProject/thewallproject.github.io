@@ -6,6 +6,15 @@ RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 
+# Block direct web access to sensitive Matomo directories.
+# LiteSpeed's autoLoadHtaccess only honors rewrite directives, NOT Apache
+# <Files>/Require access-control, so the subfolder .htaccess files Matomo ships
+# are silently ignored. We enforce access control here via mod_rewrite [F].
+# Static-asset exception for tmp/ keeps the admin UI's compiled assets loading.
+RewriteRule ^matomo/tmp/.*\.(gif|ico|jpe?g|png|svg|js|css|woff2?|ttf|eot|map)$ - [L]
+RewriteRule ^matomo/(config|tmp|lang)(/|$) - [F,L]
+
+
 # Telegram bot webhook to Docker on port 3333
 RewriteRule ^webhook(/.*)?$ http://127.0.0.1:3333/webhook$1 [P,L]
 
