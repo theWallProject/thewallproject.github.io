@@ -1,9 +1,11 @@
 import { useEffect, useRef } from "react";
 import { trackEvent, MatomoEvent } from "../lib/matomo";
 
-// Fires a one-time `engagement.section_view` event when each tracked section
-// first scrolls into view (>=50% of viewport height). Uses IntersectionObserver
-// so it works regardless of Lenis/GSAP/normal scroll. Each section fires once.
+// Fires a one-time `engagement.section_view_<id>` event when each tracked
+// section first scrolls into view (>=50% of viewport height). Uses
+// IntersectionObserver so it works regardless of Lenis/GSAP/normal scroll.
+// Each section fires once, producing per-section actions like
+// section_view_hero, section_view_donate, section_view_testimonials, etc.
 export function useSectionTracking(sectionIds: string[]): void {
   const firedRef = useRef<Set<string>>(new Set());
 
@@ -18,7 +20,7 @@ export function useSectionTracking(sectionIds: string[]): void {
           if (!id || fired.has(id)) continue;
           if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
             fired.add(id);
-            trackEvent(MatomoEvent.category.engagement, MatomoEvent.action.sectionView, id);
+            trackEvent(MatomoEvent.category.engagement, `${MatomoEvent.action.sectionView}${id}`);
           }
         }
       },
