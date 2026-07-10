@@ -196,6 +196,43 @@
       "phrase1": "POUR PROTÉGER NOS VALEURS",
       "phrase2": "UNE BRIQUE À LA FOIS",
       "phrase3": "JUSQU'À CE QUE LA VÉRITÉ PRÉVALE"
+    },
+    "stats": {
+      "title": "Statistiques",
+      "subtitle": "Statistiques publiques pour The Wall Project",
+      "loading": "Chargement des statistiques…",
+      "error": "Échec du chargement des statistiques",
+      "generatedAt": "Généré à",
+      "visitors": "Visiteurs",
+      "liveNow": "En direct (30 min)",
+      "today": "Aujourd'hui",
+      "yesterday": "Hier",
+      "thisWeek": "Cette semaine",
+      "thisMonth": "Ce mois-ci",
+      "lastMonth": "Le mois dernier",
+      "allTime": "Total",
+      "topCountries": "Top des pays",
+      "topContinents": "Top des continents",
+      "topBrowsers": "Navigateurs",
+      "topOs": "Systèmes d'exploitation",
+      "deviceTypes": "Types d'appareils",
+      "visitFrequency": "Fréquence de visite",
+      "referrerTypes": "Types de référents",
+      "topWebsites": "Top des sites",
+      "downloads": "Téléchargements",
+      "donations": "Dons",
+      "events": "Événements",
+      "currentMonthly": "Mensuel actuel",
+      "totalDonations": "Total des dons"
+    },
+    "stat": {
+      "visits": "Visites",
+      "uniqueVisitors": "Visiteurs uniques",
+      "actions": "Actions",
+      "bounceRate": "Taux de rebond",
+      "avgDuration": "Durée moyenne",
+      "newVisits": "Nouvelles visites",
+      "returningVisits": "Visites de retour"
     }
   }
 }

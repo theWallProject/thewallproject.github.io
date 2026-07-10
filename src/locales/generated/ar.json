@@ -196,6 +196,43 @@
       "phrase1": "لنحمي قيمنا",
       "phrase2": "لبنة تلو الأخرى",
       "phrase3": "حتى تشرق الحقيقة"
+    },
+    "stats": {
+      "title": "الإحصائيات",
+      "subtitle": "تحليلات عامة لمشروع الجدار",
+      "loading": "جارٍ تحميل الإحصائيات…",
+      "error": "فشل تحميل الإحصائيات",
+      "generatedAt": "تم الإنشاء في",
+      "visitors": "الزوار",
+      "liveNow": "الآن (30 دقيقة)",
+      "today": "اليوم",
+      "yesterday": "أمس",
+      "thisWeek": "هذا الأسبوع",
+      "thisMonth": "هذا الشهر",
+      "lastMonth": "الشهر الماضي",
+      "allTime": "كلي",
+      "topCountries": "أهم الدول",
+      "topContinents": "أهم القارات",
+      "topBrowsers": "المتصفحات",
+      "topOs": "أنظمة التشغيل",
+      "deviceTypes": "أنواع الأجهزة",
+      "visitFrequency": "تكرار الزيارات",
+      "referrerTypes": "أنواع المصادر",
+      "topWebsites": "أهم المواقع",
+      "downloads": "التنزيلات",
+      "donations": "التبرعات",
+      "events": "الأحداث",
+      "currentMonthly": "الشهري الحالي",
+      "totalDonations": "إجمالي التبرعات"
+    },
+    "stat": {
+      "visits": "الزيارات",
+      "uniqueVisitors": "زوار فريدون",
+      "actions": "إجراءات",
+      "bounceRate": "معدل الارتداد",
+      "avgDuration": "متوسط المدة",
+      "newVisits": "زيارات جديدة",
+      "returningVisits": "زيارات عائدة"
     }
   }
 }

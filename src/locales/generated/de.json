@@ -196,6 +196,43 @@
       "phrase1": "UM UNSERE WERTE ZU SCHÜTZEN",
       "phrase2": "EIN STEIN ZUR ZEIT",
       "phrase3": "BIS DIE WAHRHEIT SIEGT"
+    },
+    "stats": {
+      "title": "Statistiken",
+      "subtitle": "Öffentliche Statistiken für The Wall Project",
+      "loading": "Statistiken werden geladen…",
+      "error": "Statistiken konnten nicht geladen werden",
+      "generatedAt": "Erstellt am",
+      "visitors": "Besucher",
+      "liveNow": "Aktuell (30 Min)",
+      "today": "Heute",
+      "yesterday": "Gestern",
+      "thisWeek": "Diese Woche",
+      "thisMonth": "Diesen Monat",
+      "lastMonth": "Letzten Monat",
+      "allTime": "Gesamt",
+      "topCountries": "Top-Länder",
+      "topContinents": "Top-Kontinente",
+      "topBrowsers": "Browser",
+      "topOs": "Betriebssysteme",
+      "deviceTypes": "Gerätetypen",
+      "visitFrequency": "Besuchshäufigkeit",
+      "referrerTypes": "Verweistypen",
+      "topWebsites": "Top-Websites",
+      "downloads": "Downloads",
+      "donations": "Spenden",
+      "events": "Ereignisse",
+      "currentMonthly": "Aktueller Monat",
+      "totalDonations": "Gesamte Spenden"
+    },
+    "stat": {
+      "visits": "Besuche",
+      "uniqueVisitors": "Eindeutige Besucher",
+      "actions": "Aktionen",
+      "bounceRate": "Absprungrate",
+      "avgDuration": "Ø Dauer",
+      "newVisits": "Neue Besuche",
+      "returningVisits": "Wiederkehrende Besuche"
     }
   }
 }

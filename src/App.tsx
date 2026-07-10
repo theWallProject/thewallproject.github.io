@@ -11,6 +11,7 @@ import Testimonials from "./components/Testimonials";
 import PlatformShowcase from "./components/PlatformShowcase";
 import Footer from "./components/Footer";
 import PrivacyPolicy from "./components/PrivacyPolicy";
+import Stats from "./components/Stats";
 
 import "./App.css";
 import ReactLenis from "lenis/react";
@@ -75,6 +76,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/stats" element={<Stats />} />
           </Routes>
         </Router>
       </LanguageProvider>

@@ -82,7 +82,7 @@ const TheBuildWall: React.FC = () => {
     handleResize();
     window.addEventListener("resize", handleResize, { passive: true });
     return () => window.removeEventListener("resize", handleResize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- aspect ratio is static
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- aspect ratioprefer is static
   }, []);
 
   const leftBricks = useMemo(

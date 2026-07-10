@@ -196,6 +196,43 @@
       "phrase1": "保护我们的价值观",
       "phrase2": "一块砖一块砖地",
       "phrase3": "直到真理胜利"
+    },
+    "stats": {
+      "title": "统计",
+      "subtitle": "The Wall 项目的公开统计数据",
+      "loading": "加载统计中…",
+      "error": "加载统计失败",
+      "generatedAt": "生成于",
+      "visitors": "访客",
+      "liveNow": "实时（30分钟）",
+      "today": "今天",
+      "yesterday": "昨天",
+      "thisWeek": "本周",
+      "thisMonth": "本月",
+      "lastMonth": "上月",
+      "allTime": "全部",
+      "topCountries": "热门国家",
+      "topContinents": "热门大洲",
+      "topBrowsers": "浏览器",
+      "topOs": "操作系统",
+      "deviceTypes": "设备类型",
+      "visitFrequency": "访问频率",
+      "referrerTypes": "来源类型",
+      "topWebsites": "热门网站",
+      "downloads": "下载",
+      "donations": "捐赠",
+      "events": "事件",
+      "currentMonthly": "本月",
+      "totalDonations": "捐赠总数"
+    },
+    "stat": {
+      "visits": "访问",
+      "uniqueVisitors": "独立访客",
+      "actions": "操作",
+      "bounceRate": "跳出率",
+      "avgDuration": "平均时长",
+      "newVisits": "新访问",
+      "returningVisits": "回访"
     }
   }
 }

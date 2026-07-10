@@ -21,5 +21,8 @@ export function useMatomoTracking(): void {
     if (location.pathname === "/privacy") {
       trackEvent(MatomoEvent.category.engagement, MatomoEvent.action.privacyView);
     }
+    if (location.pathname === "/stats") {
+      trackEvent(MatomoEvent.category.engagement, MatomoEvent.action.statsView);
+    }
   }, [location.pathname]);
 }

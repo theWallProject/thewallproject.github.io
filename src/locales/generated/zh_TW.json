@@ -196,6 +196,43 @@
       "phrase1": "保護我們的價值觀",
       "phrase2": "一塊磚一塊磚地",
       "phrase3": "直到真理勝利"
+    },
+    "stats": {
+      "title": "統計",
+      "subtitle": "The Wall 項目的公開統計數據",
+      "loading": "載入統計中…",
+      "error": "載入統計失敗",
+      "generatedAt": "生成於",
+      "visitors": "訪客",
+      "liveNow": "即時（30分鐘）",
+      "today": "今天",
+      "yesterday": "昨天",
+      "thisWeek": "本週",
+      "thisMonth": "本月",
+      "lastMonth": "上個月",
+      "allTime": "全部",
+      "topCountries": "熱門國家",
+      "topContinents": "熱門大洲",
+      "topBrowsers": "瀏覽器",
+      "topOs": "作業系統",
+      "deviceTypes": "設備類型",
+      "visitFrequency": "訪問頻率",
+      "referrerTypes": "來源類型",
+      "topWebsites": "熱門網站",
+      "downloads": "下載",
+      "donations": "捐款",
+      "events": "事件",
+      "currentMonthly": "本月",
+      "totalDonations": "捐款總數"
+    },
+    "stat": {
+      "visits": "訪問",
+      "uniqueVisitors": "獨立訪客",
+      "actions": "操作",
+      "bounceRate": "跳出率",
+      "avgDuration": "平均時長",
+      "newVisits": "新訪問",
+      "returningVisits": "回訪"
     }
   }
 }

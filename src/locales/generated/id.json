@@ -196,6 +196,43 @@
       "phrase1": "UNTUK MELINDUNGI NILAI-NILAI KAMI",
       "phrase2": "SATU BATA PADA SATU WAKTU",
       "phrase3": "SAMPAI KEBENARAN MENANG"
+    },
+    "stats": {
+      "title": "Statistik",
+      "subtitle": "Statistik publik untuk The Wall Project",
+      "loading": "Memuat statistik…",
+      "error": "Gagal memuat statistik",
+      "generatedAt": "Dibuat pada",
+      "visitors": "Pengunjung",
+      "liveNow": "Langsung (30 mnt)",
+      "today": "Hari ini",
+      "yesterday": "Kemarin",
+      "thisWeek": "Minggu ini",
+      "thisMonth": "Bulan ini",
+      "lastMonth": "Bulan lalu",
+      "allTime": "Total",
+      "topCountries": "Negara teratas",
+      "topContinents": "Benua teratas",
+      "topBrowsers": "Peramban",
+      "topOs": "Sistem operasi",
+      "deviceTypes": "Jenis perangkat",
+      "visitFrequency": "Frekuensi kunjungan",
+      "referrerTypes": "Jenis perujuk",
+      "topWebsites": "Situs teratas",
+      "downloads": "Unduhan",
+      "donations": "Donasi",
+      "events": "Peristiwa",
+      "currentMonthly": "Bulanan saat ini",
+      "totalDonations": "Total donasi"
+    },
+    "stat": {
+      "visits": "Kunjungan",
+      "uniqueVisitors": "Pengunjung unik",
+      "actions": "Tindakan",
+      "bounceRate": "Tingkat pental",
+      "avgDuration": "Durasi rata-rata",
+      "newVisits": "Kunjungan baru",
+      "returningVisits": "Kunjungan kembali"
     }
   }
 }

@@ -77,6 +77,11 @@ const Footer: React.FC = () => {
       href: "/privacy",
       label: t("privacy.title"),
     },
+    {
+      id: "stats",
+      href: "/stats",
+      label: t("stats.title"),
+    },
   ];
 
   return (

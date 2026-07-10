@@ -196,6 +196,43 @@
       "phrase1": "PARA PROTEGER NUESTROS VALORES",
       "phrase2": "UN LADRILLO A LA VEZ",
       "phrase3": "HASTA QUE PREVALEZCA LA VERDAD"
+    },
+    "stats": {
+      "title": "Estadísticas",
+      "subtitle": "Estadísticas públicas para The Wall Project",
+      "loading": "Cargando estadísticas…",
+      "error": "Error al cargar las estadísticas",
+      "generatedAt": "Generado a las",
+      "visitors": "Visitantes",
+      "liveNow": "En vivo (30 min)",
+      "today": "Hoy",
+      "yesterday": "Ayer",
+      "thisWeek": "Esta semana",
+      "thisMonth": "Este mes",
+      "lastMonth": "El mes pasado",
+      "allTime": "Total",
+      "topCountries": "Principales países",
+      "topContinents": "Principales continentes",
+      "topBrowsers": "Navegadores",
+      "topOs": "Sistemas operativos",
+      "deviceTypes": "Tipos de dispositivos",
+      "visitFrequency": "Frecuencia de visita",
+      "referrerTypes": "Tipos de referentes",
+      "topWebsites": "Principales sitios",
+      "downloads": "Descargas",
+      "donations": "Donaciones",
+      "events": "Eventos",
+      "currentMonthly": "Mensual actual",
+      "totalDonations": "Donaciones totales"
+    },
+    "stat": {
+      "visits": "Visitas",
+      "uniqueVisitors": "Visitantes únicos",
+      "actions": "Acciones",
+      "bounceRate": "Tasa de rebote",
+      "avgDuration": "Duración promedio",
+      "newVisits": "Visitas nuevas",
+      "returningVisits": "Visitas recurrentes"
     }
   }
 }

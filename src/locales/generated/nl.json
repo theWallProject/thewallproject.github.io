@@ -196,6 +196,43 @@
       "phrase1": "OM ONZE WAARDEN TE BESCHERMEN",
       "phrase2": "EEN STEEN TEGELIJK",
       "phrase3": "TOT DE WAARHEID OVERWINT"
+    },
+    "stats": {
+      "title": "Statistieken",
+      "subtitle": "Openbare statistieken voor The Wall Project",
+      "loading": "Statistieken laden…",
+      "error": "Statistieken laden mislukt",
+      "generatedAt": "Gegenereerd op",
+      "visitors": "Bezoekers",
+      "liveNow": "Live nu (30 min)",
+      "today": "Vandaag",
+      "yesterday": "Gisteren",
+      "thisWeek": "Deze week",
+      "thisMonth": "Deze maand",
+      "lastMonth": "Vorige maand",
+      "allTime": "Totaal",
+      "topCountries": "Top landen",
+      "topContinents": "Top continenten",
+      "topBrowsers": "Browsers",
+      "topOs": "Besturingssystemen",
+      "deviceTypes": "Apparaattypes",
+      "visitFrequency": "Bezoekfrequentie",
+      "referrerTypes": "Verwijzingstypes",
+      "topWebsites": "Top websites",
+      "downloads": "Downloads",
+      "donations": "Donaties",
+      "events": "Gebeurtenissen",
+      "currentMonthly": "Huidig maandelijks",
+      "totalDonations": "Totaal donaties"
+    },
+    "stat": {
+      "visits": "Bezoeken",
+      "uniqueVisitors": "Unieke bezoekers",
+      "actions": "Acties",
+      "bounceRate": "Bouncepercentage",
+      "avgDuration": "Gem. duur",
+      "newVisits": "Nieuwe bezoeken",
+      "returningVisits": "Terugkerende bezoeken"
     }
   }
 }

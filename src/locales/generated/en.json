@@ -196,6 +196,43 @@
       "phrase1": "TO PROTECT OUR VALUES",
       "phrase2": "ONE BRICK AT A TIME",
       "phrase3": "UNTIL THE TRUTH PREVAILS"
+    },
+    "stats": {
+      "title": "Stats",
+      "subtitle": "Public analytics for The Wall Project",
+      "loading": "Loading stats…",
+      "error": "Failed to load stats",
+      "generatedAt": "Generated at",
+      "visitors": "Visitors",
+      "liveNow": "Live now (30 min)",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "thisWeek": "This week",
+      "thisMonth": "This month",
+      "lastMonth": "Last month",
+      "allTime": "All time",
+      "topCountries": "Top countries",
+      "topContinents": "Top continents",
+      "topBrowsers": "Browsers",
+      "topOs": "Operating systems",
+      "deviceTypes": "Device types",
+      "visitFrequency": "Visit frequency",
+      "referrerTypes": "Referrer types",
+      "topWebsites": "Top websites",
+      "downloads": "Downloads",
+      "donations": "Donations",
+      "events": "Events",
+      "currentMonthly": "Current monthly",
+      "totalDonations": "Total donations"
+    },
+    "stat": {
+      "visits": "Visits",
+      "uniqueVisitors": "Unique visitors",
+      "actions": "Actions",
+      "bounceRate": "Bounce rate",
+      "avgDuration": "Avg duration",
+      "newVisits": "New visits",
+      "returningVisits": "Returning visits"
     }
   }
 }

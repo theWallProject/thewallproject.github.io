@@ -99,5 +99,6 @@ export const MatomoEvent = {
     donationClick: "donation_click",
     socialClick: "social_click",
     privacyView: "privacy_policy_view",
+    statsView: "stats_view",
   },
 } as const;
