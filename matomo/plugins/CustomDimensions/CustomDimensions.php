@@ -30,9 +30,6 @@ class CustomDimensions extends Plugin
      */
     private $configuration;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -321,13 +318,18 @@ class CustomDimensions extends Plugin
         $translationKeys[] = 'CustomDimensions_ExtractionsHelp';
         $translationKeys[] = 'CustomDimensions_ExtractValue';
         $translationKeys[] = 'CustomDimensions_ExampleValue';
+        $translationKeys[] = 'CustomDimensions_NameHelpText';
+        $translationKeys[] = 'CustomDimensions_DescriptionHelpText';
         $translationKeys[] = 'CustomDimensions_NoCustomDimensionConfigured';
         $translationKeys[] = 'CustomDimensions_ConfigureNewDimension';
         $translationKeys[] = 'CustomDimensions_ConfigureDimension';
+        $translationKeys[] = 'Goals_Optional';
         $translationKeys[] = 'CustomDimensions_XofYLeft';
         $translationKeys[] = 'CustomDimensions_CannotBeDeleted';
         $translationKeys[] = 'CustomDimensions_PageUrlParam';
         $translationKeys[] = 'CustomDimensions_NameAllowedCharacters';
+        $translationKeys[] = 'CustomDimensions_NamePlaceholder';
+        $translationKeys[] = 'CustomDimensions_DescriptionPlaceholder';
         $translationKeys[] = 'CustomDimensions_NameIsRequired';
         $translationKeys[] = 'CustomDimensions_NameIsTooLong';
         $translationKeys[] = 'CustomDimensions_ExceptionDimensionDoesNotExist';

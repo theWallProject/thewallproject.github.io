@@ -15,15 +15,34 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\SegmentArchiving;
+use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Config;
 use Piwik\Segment;
+use Piwik\Plugins\VisitsSummary;
 use Piwik\Cache;
 use Piwik\Url;
 
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.
+ *
+ * @phpstan-type StoredSegment array{
+ *     idsegment: int|string,
+ *     name: string,
+ *     definition: string,
+ *     hash: string,
+ *     login: string,
+ *     enable_all_users: int|string,
+ *     enable_only_idsite: int|string|null,
+ *     auto_archive: int|string,
+ *     ts_created: string|null,
+ *     ts_last_edit: string|null,
+ *     deleted: int|string,
+ *     starred: int|string,
+ *     starred_by: string|null
+ * }
  *
  * @method static \Piwik\Plugins\SegmentEditor\API getInstance()
  */
@@ -50,7 +69,8 @@ class API extends \Piwik\Plugin\API
     {
         $this->model = $model;
         $this->segmentArchiving = $segmentArchiving;
-        $this->processNewSegmentsFrom = StaticContainer::get('ini.General.process_new_segments_from');
+        $processNewSegmentsFrom = StaticContainer::get('ini.General.process_new_segments_from');
+        $this->processNewSegmentsFrom = is_scalar($processNewSegmentsFrom) ? (string)$processNewSegmentsFrom : '';
     }
 
     protected function checkSegmentValue(string $definition, ?int $idSite): string
@@ -101,25 +121,27 @@ class API extends \Piwik\Plugin\API
 
     protected function checkAutoArchive(bool $autoArchive, ?int $idSite): bool
     {
-        // Segment 'All websites' and pre-processed requires Super User
-        if (null === $idSite && $autoArchive) {
-            if (!Piwik::hasUserSuperUserAccess()) {
+        if (!$autoArchive) {
+            // if real-time segments are disabled, then allow user to create pre-processed report
+            $realTimeSegmentsEnabled = SegmentEditor::isCreateRealtimeSegmentsEnabled();
+            if (!$realTimeSegmentsEnabled) {
                 throw new Exception(
-                    "Please contact Support to make these changes on your behalf. " .
-                    " To modify a pre-processed segment for all websites, a user must have super user access. "
+                    "Real time segments are disabled. You need to enable auto archiving."
                 );
             }
-        }
+        } else {
+            // Segment 'All websites' and pre-processed requires Super User
+            if ($idSite === null) {
+                if (!Piwik::hasUserSuperUserAccess()) {
+                    throw new Exception(
+                        "Please contact Support to make these changes on your behalf. " .
+                        " To modify a pre-processed segment for all websites, a user must have super user access. "
+                    );
+                }
+            } else {
+                Piwik::checkUserHasViewAccess($idSite);
+            }
 
-        // if real-time segments are disabled, then allow user to create pre-processed report
-        $realTimeSegmentsEnabled = SegmentEditor::isCreateRealtimeSegmentsEnabled();
-        if (!$realTimeSegmentsEnabled && !$autoArchive) {
-            throw new Exception(
-                "Real time segments are disabled. You need to enable auto archiving."
-            );
-        }
-
-        if ($autoArchive) {
             if (Rules::isBrowserTriggerEnabled()) {
                 $message = "Pre-processed segments can only be created if browser triggered archiving is disabled.";
                 if (Piwik::hasUserSuperUserAccess()) {
@@ -127,19 +149,28 @@ class API extends \Piwik\Plugin\API
                 }
                 throw new Exception($message);
             }
-
-            Piwik::checkUserHasViewAccess($idSite);
         }
 
         return $autoArchive;
     }
 
+    /**
+     * @return StoredSegment
+     */
     protected function getSegmentOrFail(int $idSegment): array
     {
-        $segment = $this->get($idSegment);
+        Piwik::checkUserHasSomeViewAccess();
+
+        $segment = $this->getModel()->getSegment($idSegment);
 
         if (empty($segment)) {
             throw new Exception("Requested segment not found");
+        }
+
+        $this->checkUserHasViewAccessToSegmentSite($segment);
+
+        if ($segment['deleted']) {
+            throw new Exception("This segment is marked as deleted. ");
         }
 
         return $segment;
@@ -159,6 +190,12 @@ class API extends \Piwik\Plugin\API
         }
     }
 
+    /**
+     * Returns whether the current user can create a new stored segment.
+     *
+     * @param int|null $idSite If supplied, checks permissions for this site; otherwise checks whether the user can create an all-websites segment.
+     * @return bool `true` if the current user can add a segment for the requested scope, `false` otherwise.
+     */
     public function isUserCanAddNewSegment(?int $idSite): bool
     {
         if (Piwik::isUserIsAnonymous()) {
@@ -184,6 +221,9 @@ class API extends \Piwik\Plugin\API
         return $authorized;
     }
 
+    /**
+     * @param StoredSegment $segment
+     */
     protected function checkUserCanEditOrDeleteSegment(array $segment): void
     {
         if (Piwik::hasUserSuperUserAccess()) {
@@ -204,6 +244,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Deletes a stored segment.
      *
+     * @param int $idSegment The ID of the stored segment to delete.
      */
     public function delete(int $idSegment): void
     {
@@ -236,7 +277,7 @@ class API extends \Piwik\Plugin\API
      * @param int $idSegment The ID of the stored segment to modify.
      * @param string $name The new name of the segment.
      * @param string $definition The new definition of the segment.
-     * @param int|null $idSite If supplied, associates the stored segment with as single site.
+     * @param int|null $idSite If supplied, associates the stored segment with a single site.
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
      */
@@ -306,11 +347,10 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $name The new name of the segment.
      * @param string $definition The new definition of the segment.
-     * @param null|int $idSite If supplied, associates the stored segment with as single site.
+     * @param int|null $idSite If supplied, associates the stored segment with a single site.
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
-     *
-     * @return int The newly created segment Id
+     * @return int The newly created segment ID.
      */
     public function add(
         string $name,
@@ -360,12 +400,11 @@ class API extends \Piwik\Plugin\API
     /**
      * Stars a stored segment.
      *
-     * @return array{result: boolean, starred_by: string}
-     * @throws Exception if the user is not logged in or does not have the required permissions.
+     * @param int $idSegment The ID of the stored segment to star.
+     * @return array{result: bool, starred: 1, starred_by: string} The update result and new starred state.
      */
     public function star(int $idSegment): array
     {
-        Piwik::checkUserHasSomeViewAccess();
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
         $login = Piwik::getCurrentUserLogin();
@@ -378,6 +417,7 @@ class API extends \Piwik\Plugin\API
 
         return [
             'result' => $result,
+            'starred' => 1,
             'starred_by' => $login,
         ];
     }
@@ -385,12 +425,11 @@ class API extends \Piwik\Plugin\API
     /**
      * Unstars a stored segment.
      *
-     * @return array{result: boolean}
-     * @throws Exception if the user is not logged in or does not have the required permissions.
+     * @param int $idSegment The ID of the stored segment to unstar.
+     * @return array{result: bool, starred: 0} The update result and new starred state.
      */
     public function unstar(int $idSegment): array
     {
-        Piwik::checkUserHasSomeViewAccess();
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
         $bind = [
@@ -401,15 +440,16 @@ class API extends \Piwik\Plugin\API
         $result = $this->getModel()->updateSegment($idSegment, $bind);
 
         return [
+            'starred' => 0,
             'result' => $result,
         ];
     }
 
     /**
-     * Returns a stored segment by ID
+     * Returns a stored segment by ID.
      *
-     * @throws Exception
-     * @return array|null
+     * @param int $idSegment The ID of the stored segment to fetch.
+     * @return StoredSegment|null The stored segment, or `null` if it does not exist.
      */
     public function get(int $idSegment): ?array
     {
@@ -440,8 +480,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns all stored segments.
      *
-     * @param null|int $idSite Whether to return stored segments for a specific idSite, or all of them. If supplied, must be a valid site ID.
-     * @return array
+     * @param int|null $idSite If supplied, returns stored segments for one site only; otherwise returns all visible stored segments.
+     * @return list<StoredSegment> Stored segments visible to the current user.
      */
     public function getAll(?int $idSite = null): array
     {
@@ -477,9 +517,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Filter out any segments which cannot be initialized due to disable plugins or features
      *
-     * @param array<array> $segments
-     *
-     * @return array<array>
+     * @param array<int, StoredSegment> $segments
+     * @return array<int, StoredSegment>
      */
     private function filterSegmentsWithDisabledElements(array $segments, ?int $idSite = null): array
     {
@@ -494,8 +533,8 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param array<array> $segments
-     * @return array<array>
+     * @param array<int, StoredSegment> $segments
+     * @return array<int, StoredSegment>
      */
     private function filterSegmentsWithoutSiteAccess(array $segments): array
     {
@@ -515,6 +554,9 @@ class API extends \Piwik\Plugin\API
         return $segments;
     }
 
+    /**
+     * @param StoredSegment $segment
+     */
     private function checkUserHasViewAccessToSegmentSite(array $segment): void
     {
         if (Piwik::hasUserSuperUserAccess()) {
@@ -534,8 +576,8 @@ class API extends \Piwik\Plugin\API
      *  2) segments created by the super user that were shared with all users
      *  3) segments created by other users (which are visible to all super users)
      *
-     * @param array<array> $segments
-     * @return array<array>
+     * @param array<int, StoredSegment> $segments
+     * @return list<StoredSegment>
      */
     private function sortSegmentsCreatedByUserFirst(array $segments): array
     {
@@ -561,5 +603,100 @@ class API extends \Piwik\Plugin\API
     private function getMessageCannotEditSegmentCreatedBySuperUser(): string
     {
         return Piwik::translate('SegmentEditor_UpdatingForeignSegmentPermittedToSuperUser');
+    }
+
+    /**
+     * Returns visit and action totals for a pre-processed segment together with visit evolution.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                   containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string $segment Custom segment to filter the report.
+     *                        Example: "referrerName==example.com"
+     *                        Supports AND (;) and OR (,) operators.
+     * @return array{
+     *     nb_visits:int,
+     *     nb_actions:int,
+     *     evolution_visits_direction:string,
+     *     evolution_visits_icon:string,
+     *     evolution_visits:string
+     * } Visit totals, action totals, and visit evolution metadata for the segment.
+     */
+    public function getSegmentData(int $idSite, string $period, string $date, string $segment): array
+    {
+        $segmentDefinition = $segment ?: '';
+        $this->checkSegmentIsPreProcessed($segmentDefinition);
+        $data = VisitsSummary\API::getInstance()
+            ->get($idSite, $period, $date, $segmentDefinition)
+            ->getFirstRow()->getArrayCopy();
+        [$previousDate] = Range::getLastDate($date, $period);
+        $pastNbVisits = VisitsSummary\API::getInstance()
+            ->getVisits($idSite, $period, $previousDate, $segmentDefinition)
+            ->getFirstRow()->getColumn('nb_visits');
+
+        $nbVisits = (int)($data['nb_visits'] ?? 0);
+        $nbActions = (int)($data['nb_actions'] ?? 0);
+        $pastNbVisits = (int)$pastNbVisits;
+        $evolutionDirection = $this->getEvolutionDirection($nbVisits, $pastNbVisits);
+
+        return [
+            'nb_visits' => $nbVisits,
+            'nb_actions' => $nbActions,
+            'evolution_visits_direction' => $evolutionDirection,
+            'evolution_visits_icon' => $this->getEvolutionIcon($evolutionDirection),
+            'evolution_visits' => CalculateEvolutionFilter::calculate($nbVisits, $pastNbVisits, 0, true, false),
+        ];
+    }
+
+    private function getEvolutionDirection(int $currentValue, int $pastValue): string
+    {
+        if ($currentValue > $pastValue) {
+            return 'positive';
+        }
+
+        if ($currentValue < $pastValue) {
+            return 'negative';
+        }
+
+        return 'stable';
+    }
+
+    private function getEvolutionIcon(string $direction): string
+    {
+        if ($direction === 'positive') {
+            return 'plugins/MultiSites/images/arrow_up.svg';
+        }
+
+        if ($direction === 'negative') {
+            return 'plugins/MultiSites/images/arrow_down.svg';
+        }
+
+        return 'plugins/MultiSites/images/stop.svg';
+    }
+
+    /**
+     * Throw an exception if the segment is not pre-processed.
+     * We do not want to compute data for real-time segments to avoid performance issues.
+     */
+    private function checkSegmentIsPreProcessed(string $segmentDefinition): void
+    {
+        if (empty($segmentDefinition)) {
+            return;
+        }
+
+        $normalizedDefinition = Common::unsanitizeInputValue($segmentDefinition);
+        $segment = $this->model->getSegmentByDefinition($normalizedDefinition);
+
+        // Missing segments are allowed since we want data for "All Visits" too
+        if (!$segment) {
+            return;
+        }
+
+        if (empty((int)($segment['auto_archive'] ?? 0))) {
+            throw new Exception(Piwik::translate('SegmentEditor_ManageSegmentsRealtimeNoDataTooltip'));
+        }
     }
 }

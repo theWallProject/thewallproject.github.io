@@ -17,8 +17,6 @@ use Piwik\Category\Subcategory;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Plugin;
 
-/**
- */
 class Dashboard extends \Piwik\Plugin
 {
     /**
@@ -300,6 +298,7 @@ class Dashboard extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/dataTable.less";
         $stylesheets[] = "plugins/Dashboard/stylesheets/dashboard.less";
         $stylesheets[] = "plugins/Dashboard/stylesheets/widget.less";
+        $stylesheets[] = "plugins/Dashboard/vue/src/AddWidgetModal/AddWidgetModal.less";
     }
 
     public function deleteDashboardLayout($userLogin)
@@ -332,6 +331,7 @@ class Dashboard extends \Piwik\Plugin
         $translationKeys[] = 'General_HelpResources';
         $translationKeys[] = 'General_Refresh';
         $translationKeys[] = 'Dashboard_ManageDashboard';
+        $translationKeys[] = 'Dashboard_ExportThisDashboard';
         $translationKeys[] = 'Dashboard_AddAWidget';
         $translationKeys[] = 'Dashboard_ResetDashboard';
         $translationKeys[] = 'Dashboard_ChangeDashboardLayout';
@@ -340,5 +340,7 @@ class Dashboard extends \Piwik\Plugin
         $translationKeys[] = 'Dashboard_SetAsDefaultWidgets';
         $translationKeys[] = 'Dashboard_CopyDashboardToUser';
         $translationKeys[] = 'Dashboard_CreateNewDashboard';
+        $translationKeys[] = 'General_Add';
+        $translationKeys[] = 'General_Added';
     }
 }

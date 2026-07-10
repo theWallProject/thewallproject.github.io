@@ -9,17 +9,20 @@
 
 namespace Piwik\Plugins\UsersManager;
 
-use Piwik\Auth\Password;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Log\LoggerInterface;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\Sql\SiteAccessFilter;
 use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
+use Piwik\Session\SessionFingerprint;
+use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 use Piwik\SettingsPiwik;
 use Piwik\Validators\BaseValidator;
 use Piwik\Validators\CharacterLength;
@@ -36,6 +39,25 @@ use Piwik\Validators\NotEmpty;
  * or you can list all users and websites for a given permission via "getUsersSitesFromAccess". Permissions are set and updated
  * via the method "setUserAccess".
  * See also the documentation about <a href='https://matomo.org/docs/manage-users/' rel='noreferrer' target='_blank'>Managing Users</a> in Piwik.
+ *
+ * @phpstan-type UserRow array{
+ *     login: string,
+ *     password: string,
+ *     email: string,
+ *     twofactor_secret: string,
+ *     superuser_access: int|string,
+ *     date_registered: string|null,
+ *     ts_password_modified: string|null,
+ *     idchange_last_viewed: int|string|null,
+ *     invited_by: string|null,
+ *     invite_token: string|null,
+ *     invite_link_token: string|null,
+ *     invite_expired_at: string|null,
+ *     invite_accept_at: string|null,
+ *     ts_changes_shown: string|null,
+ *     ts_last_seen: string|null,
+ *     ts_inactivity_notified: string|null
+ * }
  */
 class Model
 {
@@ -46,14 +68,8 @@ class Model
     private $userTable;
     private $tokenTable;
 
-    /**
-     * @var Password
-     */
-    private $passwordHelper;
-
     public function __construct()
     {
-        $this->passwordHelper = new Password();
         $this->userTable = Common::prefixTable(self::$rawPrefix);
         $this->tokenTable = Common::prefixTable('user_token_auth');
     }
@@ -63,6 +79,7 @@ class Model
      *
      * @param string[] $userLogins List of users to select. If empty, will return all users
      * @return array the list of all the users
+     * @phpstan-return list<UserRow>
      */
     public function getUsers(array $userLogins)
     {
@@ -254,6 +271,11 @@ class Model
         return $sites;
     }
 
+    /**
+     * @param string $userLogin
+     * @return array
+     * @phpstan-return UserRow|array{}
+     */
     public function getUser($userLogin): array
     {
         $db = $this->getDb();
@@ -460,6 +482,11 @@ class Model
         );
     }
 
+    /**
+     * @param string $expiredSince
+     * @return array
+     * @phpstan-return list<UserRow>
+     */
     public function getExpiredInvites($expiredSince)
     {
         $db = $this->getDb();
@@ -581,13 +608,22 @@ class Model
         );
     }
 
+    /**
+     * @param string $userEmail
+     * @return array
+     * @phpstan-return UserRow|array{}
+     */
     public function getUserByEmail($userEmail)
     {
         $db = $this->getDb();
         return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE email = ?", $userEmail);
     }
 
-
+    /**
+     * @param string $tokenAuth
+     * @return array|null
+     * @phpstan-return UserRow|null
+     */
     public function getUserByInviteToken(
         #[\SensitiveParameter]
         $tokenAuth
@@ -597,25 +633,27 @@ class Model
             $db = $this->getDb();
             return $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `invite_token` = ? or `invite_link_token` = ?", [$token ,$token]);
         }
+
+        return null;
     }
 
     /**
      * Get an array of user data using the supplied token
      *
-     *
      * @return array|null
-     * @throws \Exception
+     * @phpstan-return UserRow|null
      */
     public function getUserByTokenAuth(
         #[\SensitiveParameter]
-        ?string $tokenAuth
+        ?string $tokenAuth,
+        bool $doNotCheckSecurity = false
     ): ?array {
         if ($tokenAuth === 'anonymous') {
             $row = $this->getUser('anonymous');
             return (!empty($row) ? $row : null);
         }
 
-        $isTokenProvidedSecurely = StaticContainer::get(AuthenticationToken::class)->wasTokenAuthProvidedSecurely();
+        $isTokenProvidedSecurely = $doNotCheckSecurity || StaticContainer::get(AuthenticationToken::class)->wasTokenAuthProvidedSecurely();
 
         $token = $this->getTokenByTokenAuthIfNotExpired($tokenAuth, $isTokenProvidedSecurely);
         if (!empty($token)) {
@@ -766,8 +804,44 @@ class Model
     public function deleteUser($userLogin): void
     {
         $this->deleteUserOnly($userLogin);
+        PluginSettingsTable::removeAllUserSettingsForUser($userLogin);
         $this->deleteUserOptions($userLogin);
         $this->deleteUserAccess($userLogin);
+    }
+
+    /**
+     * Deletes all active sessions for the given user from the session table.
+     * This effectively signs the user out of all devices. It does not delete any token_auths.
+     */
+    public function deleteUserSessions(string $userLogin): void
+    {
+        $userMarker = strlen(SessionFingerprint::USER_NAME_SESSION_VAR_NAME) . ':"';
+        $userMarker .= SessionFingerprint::USER_NAME_SESSION_VAR_NAME . '";s:' . strlen($userLogin);
+        $userMarker .= ':"' . $userLogin . '"';
+
+        $numCharactersToAdd = strlen($userMarker) % 3;
+
+        // ensure we work with a string length divisible by 3
+        if ($numCharactersToAdd === 1) {
+            $userMarker = 's:' . $userMarker;
+        } elseif ($numCharactersToAdd === 2) {
+            $userMarker = ':' . $userMarker;
+        }
+
+        // base64 encodes 3 input bytes → 4 characters. Test for different combinations as we don't know which
+        // 3 bytes were included originally. See also Zend_Session::buildSessionData()
+        $variations = [
+            '%' .  base64_encode($userMarker) . '%',
+            '%' .  base64_encode(substr($userMarker, 1) . ';') . '%',
+            '%' .  base64_encode(substr($userMarker, 2) . ';s') . '%', // in case string follows
+            '%' .  base64_encode(substr($userMarker, 2) . ';i') . '%', // in case integer follows
+        ];
+
+        $db = $this->getDb();
+        $sessionTable = Common::prefixTable('session');
+        $sql = 'DELETE FROM `' . $sessionTable . '`' . ' WHERE `data` LIKE ? or `data` LIKE ? or `data` LIKE ? or `data` LIKE ?';
+
+        $db->query($sql, $variations);
     }
 
     /**
@@ -787,12 +861,42 @@ class Model
          *
          * @param string $userLogins The login handle of the deleted user.
          */
-        Piwik::postEvent('UsersManager.deleteUser', array($userLogin));
+        try {
+            Piwik::postEvent('UsersManager.deleteUser', array($userLogin));
+        } catch (\Throwable $e) {
+            StaticContainer::get(LoggerInterface::class)->error(
+                'Error while processing event UsersManager.deleteUser',
+                ['exception' => $e]
+            );
+        }
     }
 
     public function deleteUserOptions($userLogin)
     {
+        // @todo Remove legacy option cleanup with Matomo 6 once user-scoped settings no longer use Option keys.
         Option::deleteLike('UsersManager.%.' . $userLogin);
+        Option::delete('Feedback.nextFeedbackReminder.' . $userLogin);
+        Option::delete($userLogin . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION);
+        Option::deleteLike('ProfessionalServices.DismissedWidget.%.' . $userLogin);
+
+        $preferences = [
+            API::PREFERENCE_DEFAULT_REPORT,
+            API::PREFERENCE_DEFAULT_REPORT_DATE,
+            'isLDAPUser',
+            'hideSegmentDefinitionChangeMessage',
+        ];
+        $customPreferences = StaticContainer::get('usersmanager.user_preference_names');
+        if (empty($customPreferences)) {
+            $customPreferences = [];
+        } elseif (!is_array($customPreferences)) {
+            $customPreferences = [$customPreferences];
+        }
+        $preferences = array_merge($preferences, $customPreferences);
+
+        // @todo remove with matomo 6
+        foreach ($preferences as $preference) {
+            Option::delete($userLogin . API::OPTION_NAME_PREFERENCE_SEPARATOR . $preference);
+        }
     }
 
     /**

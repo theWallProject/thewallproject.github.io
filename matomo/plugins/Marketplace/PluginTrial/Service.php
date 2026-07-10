@@ -22,7 +22,6 @@ final class Service
 
     /**
      * Creates a trial request (and sends a mail to all super users)
-     *
      */
     public function request(string $pluginName, string $pluginDisplayName): void
     {
@@ -37,7 +36,6 @@ final class Service
 
     /**
      * Returns if a plugin was already requested
-     *
      */
     public function wasRequested(string $pluginName): bool
     {
@@ -125,6 +123,6 @@ final class Service
 
     public function isEnabled(): bool
     {
-        return -1 !== (int) GeneralConfig::getConfigValue('plugin_trial_request_expiration_in_days');
+        return -1 !== GeneralConfig::getIntegerConfigValue('plugin_trial_request_expiration_in_days', 0);
     }
 }

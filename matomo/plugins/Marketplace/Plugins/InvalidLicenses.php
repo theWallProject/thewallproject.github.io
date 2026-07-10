@@ -17,9 +17,6 @@ use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 
-/**
- *
- */
 class InvalidLicenses
 {
     /**
@@ -45,7 +42,7 @@ class InvalidLicenses
     /**
      * @var array
      */
-    private $activatedPluginNames = array();
+    private $activatedPluginNames = [];
 
     private $plugins;
 

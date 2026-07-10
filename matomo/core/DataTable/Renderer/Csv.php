@@ -18,6 +18,7 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
+use Piwik\Request;
 
 /**
  * CSV export
@@ -57,11 +58,13 @@ class Csv extends Renderer
      */
     public const NO_DATA_AVAILABLE = 'No data available';
 
+    /**
+     * @var string[]
+     */
     private $unsupportedColumns = [];
 
     /**
      * Computes the dataTable output and returns the string/binary
-     *
      */
     public function render(): string
     {
@@ -77,8 +80,6 @@ class Csv extends Renderer
 
     /**
      * Enables / Disables unicode converting
-     *
-     * @param $bool
      */
     public function setConvertToUnicode(bool $convertToUnicode): void
     {
@@ -87,7 +88,6 @@ class Csv extends Renderer
 
     /**
      * Sets the column separator
-     *
      */
     public function setSeparator(string $separator): void
     {
@@ -97,7 +97,7 @@ class Csv extends Renderer
     /**
      * Computes the output of the given data table
      *
-     * @param DataTable|array $table
+     * @param DataTable|DataTable\Map|array $table
      * @param array $allColumns
      */
     protected function renderTable($table, array &$allColumns = []): string
@@ -217,7 +217,7 @@ class Csv extends Renderer
         $value = $this->formatFormulas($value);
 
         if (is_string($value)) {
-            $value = str_replace(["\t"], ' ', $value);
+            $value = str_replace(["\t", "\r"], ' ', $value);
 
             // surround value with double quotes if it contains a double quote or a commonly used separator
             if (
@@ -241,6 +241,10 @@ class Csv extends Renderer
         return $value;
     }
 
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
     protected function formatFormulas($value)
     {
         // Excel / Libreoffice formulas may start with one of these characters
@@ -273,8 +277,9 @@ class Csv extends Renderer
     {
         $fileName = Piwik::translate('General_Export');
 
-        $period = Common::getRequestVar('period', false);
-        $date = Common::getRequestVar('date', false);
+        $period = Request::fromRequest()->getStringParameter('period', '');
+        $date   = Request::fromRequest()->getStringParameter('date', '');
+
         if ($period || $date) {
             // in test cases, there are no request params set
 
@@ -382,7 +387,7 @@ class Csv extends Renderer
     }
 
     /**
-     * @param $table
+     * @param DataTable $table
      * @param array $allColumns
      * @return array of csv data
      */
@@ -448,7 +453,7 @@ class Csv extends Renderer
     }
 
     /**
-     * @param $str
+     * @param string $str
      * @return string
      */
     private function convertToUnicode($str)

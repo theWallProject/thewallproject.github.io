@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Access;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Changes\Model as ChangesModel;
 use Piwik\Changes\UserChanges;
@@ -125,8 +126,6 @@ abstract class Controller
     protected $securityPolicy = null;
 
     /**
-     * Constructor.
-     *
      * @api
      */
     public function __construct()
@@ -762,7 +761,9 @@ abstract class Controller
         $view->logoSVG = $customLogo->getSVGLogoUrl();
         $view->hasSVGLogo = $customLogo->hasSVGLogo();
         $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
-        $view->themeStyles = ThemeStyles::get();
+
+        $themeMode = (new UserPreferences())->getThemeMode();
+        $view->themeStyles = ThemeStyles::get($themeMode);
 
         $general = PiwikConfig::getInstance()->General;
         $view->enableFrames = $general['enable_framed_pages']
@@ -836,7 +837,6 @@ abstract class Controller
 
     /**
      * Set the template variables to show the what's new popup if appropriate
-     *
      */
     protected function showWhatIsNew(View $view): void
     {

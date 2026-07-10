@@ -2,7 +2,43 @@
 
 This is the Developer Changelog for Matomo platform developers. All changes in our HTTP APIs, Plugins, Themes, SDKs, etc. are listed below.
 
-The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
+The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues.
+
+## Matomo 5.11.0
+
+### New APIs
+* `SitesManager.addSite` and `SitesManager.updateSite` now accept an optional `description` parameter (up to 255 characters). Site entities
+  returned by the SitesManager APIs now include a `description` field.
+* `CustomDimensions.configureNewCustomDimension` and `CustomDimensions.configureExistingCustomDimension` now accept an optional `description`
+  parameter (up to 1000 characters) to provide additional context for a custom dimension.
+* New ViewDataTable display properties were added: `Config::$report_supports_flatten`, `Config::$show_flatten_table_export` and
+  `Config::$export_parameters_to_modify` / `RequestConfig::$export_parameters_to_modify`, allowing reports to control flattening availability and
+  export link parameters independently of the UI.
+* New Vue components are exported from CoreHome for use by plugins: `MatomoModal`, `DraggableList` and `SearchInput`.
+* Themes can now customize the alternative border color using `@theme-color-border-alternative`.
+
+### HTTP API
+* `ScheduledReports.sendReport` now accepts `range` as `period` parameter.
+* CSV/TSV exports now replace carriage return characters in values with spaces (in addition to tabs).
+
+### Deprecations
+* The theme variable `@theme-color-border` (`ThemeStyles::$colorBorder`) is deprecated; use `@theme-color-border-alternative` instead.
+
+## Matomo 5.10.0
+
+### New APIs
+* Widgets can now be declared as client-rendered through `WidgetConfig::setClientSideComponent()` and `WidgetConfig::setClientSideProps()`. `API.getWidgetMetadata` and `API.getReportPagesMetadata` now expose a `clientComponent` field for these widgets, and Widgetize/dashboard rendering supports bootstrapping them without an extra widget controller request.
+
+### Deprecations
+* The methods `ArchiveTableCreator::getNumericTable()` and `ArchiveTableCreator::getBlobTable()` now support a `$createIfMissing` parameter. Omitting this parameter is deprecated; pass `true` to create missing archive tables or `false` to return only existing tables. In Matomo 6 the default behavior for omitted calls will change to lookup-only.
+
+## Matomo 5.9.0
+
+### New APIs
+* `UsersManager.logoutUser` was added to sign a user out of all sessions.
+
+### Deprecations
+* The jQuery UI `liveWidget` API (`$.fn.liveWidget`) is now deprecated and will be removed in Matomo 6. Use `Live.AutoRefreshWidget` vue component instead.
 
 ## Matomo 5.8.0
 
@@ -11,6 +47,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Category names returned by `API.getReportMetadata` were updated to match UI terminology. Plugin integrations expecting old names may break:
     - `Actions` is now `Behaviour`
     - `Referrers` is now `Acquisition`
+* `AjaxHelper` no longer supports `returnResponseObject` for bulk requests (`API.getBulkRequest` / array-based `AjaxHelper.fetch`). Bulk requests now always resolve to merged response data.
 
 
 ### New config.ini.php settings

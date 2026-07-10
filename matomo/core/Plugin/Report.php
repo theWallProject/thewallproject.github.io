@@ -345,7 +345,6 @@ class Report
     }
 
     /**
-     *
      * Processing a uniqueId for each report, can be used by UIs as a key to match a given report
      * @return string
      */
@@ -597,6 +596,14 @@ class Report
     public function supportsFlatten()
     {
         return $this->supportsFlatten;
+    }
+
+    /**
+     * @ignore
+     */
+    public function hasConstantRowsCount(): bool
+    {
+        return $this->constantRowsCount;
     }
 
     /**
@@ -1142,7 +1149,6 @@ class Report
     /**
      * Returns the name of the column/metadata that uniquely identifies rows in this report. See
      * {@link self::$rowIdentifier} for more information.
-     *
      */
     public function getRowIdentifier(): string
     {

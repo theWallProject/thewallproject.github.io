@@ -114,6 +114,7 @@ class Mysql implements SchemaInterface
             'site'    => "CREATE TABLE {$prefixTables}site (
                           idsite INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
                           name VARCHAR(90) NOT NULL,
+                          description VARCHAR(255) NOT NULL DEFAULT '',
                           main_url VARCHAR(255) NOT NULL,
                             ts_created TIMESTAMP NULL,
                             ecommerce TINYINT DEFAULT 0,
@@ -328,7 +329,7 @@ class Mysql implements SchemaInterface
                                       date2 DATE NULL,
                                       period TINYINT UNSIGNED NULL,
                                       ts_archived DATETIME NULL,
-                                      value MEDIUMBLOB NULL,
+                                      value LONGBLOB NULL,
                                         PRIMARY KEY(idarchive, name),
                                         INDEX index_period_archived(period, ts_archived)
                                       ) $tableOptions
@@ -712,7 +713,6 @@ class Mysql implements SchemaInterface
      *
      * Will return an empty string for an unknown charset
      * (can happen for alias charsets like "utf8").
-     *
      *
      * @throws Exception
      */

@@ -5,7 +5,7 @@
  * Description: View log messages logged by Matomo
  * Author: Matomo
  * Author URI: https://matomo.org
- * Version: 5.0.5
+ * Version: 5.0.6
  */
 ?><?php
 

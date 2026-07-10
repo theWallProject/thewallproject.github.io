@@ -11,14 +11,14 @@ namespace Piwik;
 
 use Exception;
 use Piwik\CliMulti\Process;
+use Piwik\Config\DatabaseConfig;
+use Piwik\Config\GeneralConfig;
+use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Log\LoggerInterface;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
-use Piwik\Plugins\PrivacyManager\Settings\CampaignTrackingParametersDisabled;
-use Piwik\Tracker\Cache as TrackerCache;
+use Piwik\Tracker\TrackerConfig;
 
 /**
  * Contains helper methods used by both Piwik Core and the Piwik Tracking engine.
@@ -27,6 +27,8 @@ use Piwik\Tracker\Cache as TrackerCache;
  */
 class Common
 {
+    private const FLOAT_REGEX = "/^[-+]?((([0-9]+(_[0-9]+)*)|(([0-9]+(_[0-9]+)*)?\.([0-9]+(_[0-9]+)*))|(([0-9]+(_[0-9]+)*)\.([0-9]+(_[0-9]+)*)?))([eE][+-]?([0-9]+(_[0-9]+)*))?)$/";
+
     // constants used to map the referrer type to an integer in the log_visit table
     public const REFERRER_TYPE_DIRECT_ENTRY = 1;
     public const REFERRER_TYPE_SEARCH_ENGINE = 2;
@@ -54,7 +56,7 @@ class Common
     /**
      * Hashes a string into an integer which should be very low collision risks
      * @param string $string String to hash
-     * @return int  Resulting int hash
+     * @return string Resulting numeric hash
      */
     public static function hashStringToInt($string)
     {
@@ -72,9 +74,9 @@ class Common
      * @return string  The prefixed name, ie "piwik-production_log_visit".
      * @api
      */
-    public static function prefixTable($table)
+    public static function prefixTable($table): string
     {
-        $prefix = Config::getInstance()->database['tables_prefix'];
+        $prefix = DatabaseConfig::getConfigValue('tables_prefix');
         return $prefix . $table;
     }
 
@@ -86,7 +88,7 @@ class Common
      */
     public static function prefixTables(...$tables)
     {
-        $result = array();
+        $result = [];
         foreach ($tables as $table) {
             $result[] = self::prefixTable($table);
         }
@@ -105,7 +107,7 @@ class Common
      */
     public static function unprefixTable($table)
     {
-        $prefixTable = Config::getInstance()->database['tables_prefix'];
+        $prefixTable = DatabaseConfig::getConfigValue('tables_prefix');
 
         if (
             empty($prefixTable)
@@ -120,12 +122,12 @@ class Common
     /*
      * Tracker
      */
-    public static function isGoalPluginEnabled()
+    public static function isGoalPluginEnabled(): bool
     {
         return Plugin\Manager::getInstance()->isPluginActivated('Goals');
     }
 
-    public static function isActionsPluginEnabled()
+    public static function isActionsPluginEnabled(): bool
     {
         return Plugin\Manager::getInstance()->isPluginActivated('Actions');
     }
@@ -136,7 +138,7 @@ class Common
      * @since added in 0.4.4
      * @return bool true if PHP invoked as a CGI or from CLI
      */
-    public static function isPhpCliMode()
+    public static function isPhpCliMode(): bool
     {
         if (is_bool(self::$isCliMode)) {
             return self::$isCliMode;
@@ -159,7 +161,7 @@ class Common
      * @since added in 0.4.4
      * @return bool true if PHP invoked as a CGI
      */
-    public static function isPhpCgiType()
+    public static function isPhpCgiType(): bool
     {
         $sapiType = php_sapi_name();
 
@@ -171,10 +173,8 @@ class Common
      * ./console xx:yy
      * or
      * php console xx:yy
-     *
-     * @return bool
      */
-    public static function isRunningConsoleCommand()
+    public static function isRunningConsoleCommand(): bool
     {
         $searched = 'console';
         $consolePos = strpos($_SERVER['SCRIPT_NAME'], $searched);
@@ -520,7 +520,8 @@ class Common
         if (
             empty($varName)
             || !isset($requestArrayToUse[$varName])
-            || (!is_array($requestArrayToUse[$varName])
+            || (
+                !is_array($requestArrayToUse[$varName])
                 && strlen($requestArrayToUse[$varName]) === 0
             )
         ) {
@@ -640,7 +641,7 @@ class Common
         static $hashAlgorithm = null;
 
         if (is_null($hashAlgorithm)) {
-            $hashAlgorithm = @Config::getInstance()->General['hash_algorithm'];
+            $hashAlgorithm = GeneralConfig::getConfigValue('hash_algorithm');
         }
 
         if ($hashAlgorithm) {
@@ -892,7 +893,7 @@ class Common
      * @param string $browserLanguage
      * @param array $validCountries Array of valid countries
      * @param bool $enableLanguageToCountryGuess (if true, will guess country based on language that lacks region information)
-     * @return array Array of 2 letter ISO codes
+     * @return string 2 letter ISO code
      */
     public static function extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess)
     {
@@ -1023,23 +1024,12 @@ class Common
      *            1 => array( ... ) // campaign keyword parameters
      * );
      */
-    public static function getCampaignParameters(?int $idSite = null, bool $skipCompliancePolicyCheck = false)
+    public static function getCampaignParameters()
     {
-        if (!$skipCompliancePolicyCheck) {
-            $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-            if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-                $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-                $cacheKey = CampaignTrackingParametersDisabled::class;
-                if (($cache[$cacheKey] ?? false) === true) {
-                    return [[], []];
-                }
-            }
-        }
-
-        $return = array(
-            Config::getInstance()->Tracker['campaign_var_name'],
-            Config::getInstance()->Tracker['campaign_keyword_var_name'],
-        );
+        $return = [
+            TrackerConfig::getConfigValue('campaign_var_name'),
+            TrackerConfig::getConfigValue('campaign_keyword_var_name'),
+        ];
 
         foreach ($return as &$list) {
             if (strpos($list, ',') !== false) {
@@ -1084,8 +1074,9 @@ class Common
      * Force the separator for decimal point to be a dot. See https://github.com/piwik/piwik/issues/6435
      * If for instance a German locale is used it would be a comma otherwise.
      *
-     * @param  float|string $value
-     * @return string
+     * @param float|string|null|false $value
+     * @return string|null|false
+     * @phpstan-return ($value is null ? null : ($value is false ? false : string))
      */
     public static function forceDotAsSeparatorForDecimalPoint($value)
     {
@@ -1094,6 +1085,26 @@ class Common
         }
 
         return str_replace(',', '.', $value);
+    }
+
+    /**
+     * Parses the given value as float and returns null if it cannot be represented as a PHP float.
+     *
+     * Supports the same string notations as PHP floats, including underscore notation.
+     *
+     * @param mixed $value
+     */
+    public static function parseFloat($value): ?float
+    {
+        if (is_float($value) || is_int($value)) {
+            return (float)$value;
+        }
+
+        if (is_string($value) && preg_match(self::FLOAT_REGEX, $value)) {
+            return (float)str_replace('_', '', $value);
+        }
+
+        return null;
     }
 
     /**
