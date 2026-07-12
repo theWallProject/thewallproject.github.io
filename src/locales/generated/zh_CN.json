@@ -224,7 +224,7 @@
       "donations": "捐赠",
       "events": "事件",
       "currentMonthly": "本月",
-      "totalDonations": "支持者总数",
+      "totalDonations": "月度支持者总数",
       "tab": {
         "website": "网站",
         "addon": "插件"
@@ -252,6 +252,7 @@
       "techForPalestine": "跳转到 Tech for Palestine",
       "alternativesShown": "显示的替代品",
       "hintsClicked": "点击的提示",
+      "reportMistakes": "报告的错误",
       "allTime": "全部",
       "thisWeek": "本周",
       "thisMonth": "本月"

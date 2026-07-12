@@ -224,7 +224,7 @@
       "donations": "Donaties",
       "events": "Gebeurtenissen",
       "currentMonthly": "Huidig maandelijks",
-      "totalDonations": "Totaal aanhangers",
+      "totalDonations": "Totaal maandelijkse aanhangers",
       "tab": {
         "website": "Website",
         "addon": "Addon"
@@ -252,6 +252,7 @@
       "techForPalestine": "Doorverwijzingen naar Tech for Palestine",
       "alternativesShown": "Alternatieven getoond",
       "hintsClicked": "Hints aangeklikt",
+      "reportMistakes": "Gerapporteerde fouten",
       "allTime": "Alle tijd",
       "thisWeek": "Deze week",
       "thisMonth": "Deze maand"

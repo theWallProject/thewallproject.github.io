@@ -224,7 +224,7 @@
       "donations": "التبرعات",
       "events": "الأحداث",
       "currentMonthly": "الشهري الحالي",
-      "totalDonations": "إجمالي الداعمين",
+      "totalDonations": "إجمالي الداعمين الشهريين",
       "tab": {
         "website": "الموقع",
         "addon": "الإضافة"
@@ -252,6 +252,7 @@
       "techForPalestine": "إعادة التوجيه إلى Tech for Palestine",
       "alternativesShown": "البدائل المعروضة",
       "hintsClicked": "التلميحات المنقورة",
+      "reportMistakes": "الأخطاء المبلّغ عنها",
       "allTime": "كلي",
       "thisWeek": "هذا الأسبوع",
       "thisMonth": "هذا الشهر"

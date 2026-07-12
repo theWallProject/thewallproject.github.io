@@ -224,7 +224,7 @@
       "donations": "Donations",
       "events": "Events",
       "currentMonthly": "Current monthly",
-      "totalDonations": "Total supporters",
+      "totalDonations": "Total monthly supporters",
       "tab": {
         "website": "Website",
         "addon": "Addon"
@@ -252,6 +252,7 @@
       "techForPalestine": "Redirections to Tech for Palestine",
       "alternativesShown": "Alternatives shown",
       "hintsClicked": "Hints clicked",
+      "reportMistakes": "Reported mistakes",
       "allTime": "All time",
       "thisWeek": "This week",
       "thisMonth": "This month"

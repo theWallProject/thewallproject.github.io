@@ -224,7 +224,7 @@
       "donations": "Donasi",
       "events": "Peristiwa",
       "currentMonthly": "Bulanan saat ini",
-      "totalDonations": "Total pendukung",
+      "totalDonations": "Total pendukung bulanan",
       "tab": {
         "website": "Situs web",
         "addon": "Addon"
@@ -252,6 +252,7 @@
       "techForPalestine": "Pengalihan ke Tech for Palestine",
       "alternativesShown": "Alternatif ditampilkan",
       "hintsClicked": "Petunjuk diklik",
+      "reportMistakes": "Kesalahan yang dilaporkan",
       "allTime": "Sepanjang waktu",
       "thisWeek": "Minggu ini",
       "thisMonth": "Bulan ini"

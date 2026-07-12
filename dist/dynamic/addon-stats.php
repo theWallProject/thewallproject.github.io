@@ -218,6 +218,7 @@ function parseEventNameGroupsDetailed($rawAll, $rawWeek, $rawMonth): array
         'shares' => $sumPeriod(ADDON_ACTION_GROUPS['shares']),
         'altClicks' => $onePeriod('show_alternatives'),
         'techForPalestine' => $onePeriod('support_pal'),
+        'reportMistakes' => $onePeriod('report_mistake'),
         'hintClicks' => $onePeriod('hint_link'),
         'whatsnewViewsTotal' => $sumPeriod($whatsnewViewNames),
         'whatsnewEngagementTotal' => $sumPeriod(ADDON_WHATSNEW_ACTION_NAMES),

@@ -183,6 +183,7 @@ export const AddonActionsSchema = z
     shares: PeriodCountsSchema,
     altClicks: PeriodCountsSchema,
     techForPalestine: PeriodCountsSchema,
+    reportMistakes: PeriodCountsSchema,
     hintClicks: PeriodCountsSchema,
     whatsnewViewsTotal: PeriodCountsSchema,
     whatsnewEngagementTotal: PeriodCountsSchema,

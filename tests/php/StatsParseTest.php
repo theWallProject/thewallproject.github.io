@@ -121,6 +121,8 @@ final class StatsParseTest extends TestCase
         $this->assertSame(['allTime' => 828, 'week' => 11, 'month' => 17], $parsed['altClicks']);
         // techForPalestine = support_pal button.
         $this->assertSame(['allTime' => 3986, 'week' => 41, 'month' => 65], $parsed['techForPalestine']);
+        // reportMistakes = report_mistake button ("Report a mistake" link in the banner).
+        $this->assertSame(['allTime' => 398, 'week' => 3, 'month' => 5], $parsed['reportMistakes']);
         // hintClicks = hint_link (opening the hint URL).
         $this->assertSame(['allTime' => 2454, 'week' => 45, 'month' => 81], $parsed['hintClicks']);
         // whatsnewViewsTotal = sum of all whatsnew_update_* rows across the 3 periods.
@@ -258,6 +260,7 @@ final class StatsParseTest extends TestCase
         $this->assertSame($zeros, $parsed['shares']);
         $this->assertSame($zeros, $parsed['altClicks']);
         $this->assertSame($zeros, $parsed['techForPalestine']);
+        $this->assertSame($zeros, $parsed['reportMistakes']);
         $this->assertSame($zeros, $parsed['hintClicks']);
         $this->assertSame($zeros, $parsed['whatsnewViewsTotal']);
         $this->assertSame($zeros, $parsed['whatsnewEngagementTotal']);
