@@ -86,32 +86,29 @@ const DownloadEventsTable: React.FC<{ rows: EventRow[]; eventsLabel: string }> =
 );
 
 // ---------------------------------------------------------------------------
-// Engagement-card helpers — used by the Addon tab to render each headline
-// engagement metric (banner / hint / whatsnew / donations) as three
-// separate StatCards: all-time, this-week, this-month. Mirrors the per-
-// period layout used by the "Total blocks" visitor cards (one card per
-// period, no subtitles). The counts come from three Events.getName
-// snapshots fetched server-side — see parseEventNameGroupsDetailed() in
-// src/dynamic/addon-stats.php.
+// Engagement-section helper — used by the Addon tab to render each
+// engagement metric (banner / hint / whatsnew / donations / shares) as
+// its own titled section, mirroring the per-period layout of the
+// "Total blocks" visitor section: one section title, then three short-
+// labeled cards "All time" / "This week" / "This month". Counts come
+// from three Events.getName snapshots fetched server-side — see
+// parseEventNameGroupsDetailed() in src/dynamic/addon-stats.php.
 // ---------------------------------------------------------------------------
 
-/**
- * Render one engagement metric as three StatCards (all-time / week / month).
- * The `label` is suffixed with the period short-tag shared across the
- * dashboard ("All time", "This week", "This month"). `accent` flags the
- * all-time card as the headline value.
- */
-const MetricCards: React.FC<{
-  label: string;
+const MetricSection: React.FC<{
+  titleKey: string;
   counts: PeriodCounts;
   accent?: boolean;
   t: (k: string) => string;
-}> = ({ label, counts, accent, t }) => (
-  <>
-    <StatCard label={`${label} — ${t("stat.allTime")}`} value={formatNum(counts.allTime)} accent={accent} />
-    <StatCard label={`${label} — ${t("stat.thisWeek")}`} value={formatNum(counts.week)} />
-    <StatCard label={`${label} — ${t("stat.thisMonth")}`} value={formatNum(counts.month)} />
-  </>
+}> = ({ titleKey, counts, accent, t }) => (
+  <section className={styles.section}>
+    <h2 className={styles.sectionTitle}>{t(titleKey)}</h2>
+    <div className={styles.cards}>
+      <StatCard label={t("stat.allTime")} value={formatNum(counts.allTime)} accent={accent} />
+      <StatCard label={t("stat.thisWeek")} value={formatNum(counts.week)} />
+      <StatCard label={t("stat.thisMonth")} value={formatNum(counts.month)} />
+    </div>
+  </section>
 );
 
 // Tab identifier. Persisted to URL hash so links open a specific tab.
@@ -300,38 +297,21 @@ const AddonStatsTab: React.FC = () => {
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{t("stat.bannerEngagement")}</h2>
-        <div className={styles.cards}>
-          <MetricCards label={t("stat.techForPalestine")} counts={a.techForPalestine} accent t={t} />
-          <MetricCards label={t("stat.alternativesShown")} counts={a.altClicks} accent t={t} />
-          <MetricCards label={t("stat.reportMistakes")} counts={a.reportMistakes} t={t} />
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{t("stat.hintEngagement")}</h2>
-        <div className={styles.cards}>
-          <MetricCards label={t("stat.hintsClicked")} counts={a.hintClicks} accent t={t} />
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{t("stats.whatsnewPage")}</h2>
-        <div className={styles.cards}>
-          <MetricCards label={t("stat.whatsnewViews")} counts={a.whatsnewViewsTotal} accent t={t} />
-          <MetricCards label={t("stat.whatsnewEngagement")} counts={a.whatsnewEngagementTotal} t={t} />
-        </div>
-      </section>
-
-      <section className={styles.section}>
         <h2 className={styles.sectionTitle}>{t("stats.donations")}</h2>
         <div className={styles.cards}>
           <StatCard label="Monthly" value={`$${formatNum(data.donationsData.currentMonthly)}`} accent />
           <StatCard label={t("stats.totalDonations")} value={formatNum(data.donationsData.donations.length)} />
-          <MetricCards label={t("stat.donationClicks")} counts={a.donationClicks} accent t={t} />
-          <MetricCards label={t("stat.shares")} counts={a.shares} t={t} />
         </div>
       </section>
+
+      <MetricSection titleKey="stat.techForPalestine" counts={a.techForPalestine} accent t={t} />
+      <MetricSection titleKey="stat.alternativesShown" counts={a.altClicks} accent t={t} />
+      <MetricSection titleKey="stat.reportMistakes" counts={a.reportMistakes} t={t} />
+      <MetricSection titleKey="stat.hintsClicked" counts={a.hintClicks} accent t={t} />
+      <MetricSection titleKey="stat.whatsnewViews" counts={a.whatsnewViewsTotal} accent t={t} />
+      <MetricSection titleKey="stat.whatsnewEngagement" counts={a.whatsnewEngagementTotal} t={t} />
+      <MetricSection titleKey="stat.donationClicks" counts={a.donationClicks} accent t={t} />
+      <MetricSection titleKey="stat.shares" counts={a.shares} t={t} />
 
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>{t("stats.topCountries")}</h2>
