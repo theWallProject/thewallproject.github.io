@@ -98,13 +98,12 @@ const DownloadEventsTable: React.FC<{ rows: EventRow[]; eventsLabel: string }> =
 const MetricSection: React.FC<{
   titleKey: string;
   counts: PeriodCounts;
-  accent?: boolean;
   t: (k: string) => string;
-}> = ({ titleKey, counts, accent, t }) => (
+}> = ({ titleKey, counts, t }) => (
   <section className={styles.section}>
     <h2 className={styles.sectionTitle}>{t(titleKey)}</h2>
     <div className={styles.cards}>
-      <StatCard label={t("stat.allTime")} value={formatNum(counts.allTime)} accent={accent} />
+      <StatCard label={t("stat.allTime")} value={formatNum(counts.allTime)} accent />
       <StatCard label={t("stat.thisWeek")} value={formatNum(counts.week)} />
       <StatCard label={t("stat.thisMonth")} value={formatNum(counts.month)} />
     </div>
@@ -304,13 +303,13 @@ const AddonStatsTab: React.FC = () => {
         </div>
       </section>
 
-      <MetricSection titleKey="stat.techForPalestine" counts={a.techForPalestine} accent t={t} />
-      <MetricSection titleKey="stat.alternativesShown" counts={a.altClicks} accent t={t} />
+      <MetricSection titleKey="stat.techForPalestine" counts={a.techForPalestine} t={t} />
+      <MetricSection titleKey="stat.alternativesShown" counts={a.altClicks} t={t} />
       <MetricSection titleKey="stat.reportMistakes" counts={a.reportMistakes} t={t} />
-      <MetricSection titleKey="stat.hintsClicked" counts={a.hintClicks} accent t={t} />
-      <MetricSection titleKey="stat.whatsnewViews" counts={a.whatsnewViewsTotal} accent t={t} />
+      <MetricSection titleKey="stat.hintsClicked" counts={a.hintClicks} t={t} />
+      <MetricSection titleKey="stat.whatsnewViews" counts={a.whatsnewViewsTotal} t={t} />
       <MetricSection titleKey="stat.whatsnewEngagement" counts={a.whatsnewEngagementTotal} t={t} />
-      <MetricSection titleKey="stat.donationClicks" counts={a.donationClicks} accent t={t} />
+      <MetricSection titleKey="stat.donationClicks" counts={a.donationClicks} t={t} />
       <MetricSection titleKey="stat.shares" counts={a.shares} t={t} />
 
       <section className={styles.section}>
