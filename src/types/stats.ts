@@ -135,20 +135,62 @@ export type StatsResponse = z.infer<typeof StatsResponseSchema>;
 // --- Addon telemetry tab (MATOMO_SITE_ADDON) ---
 //
 // The addon fires an anonymous page view "wall" per banner shown and
-// custom events grouped by name. The PHP server-side rolls those events
-// into AddonActions (donations, shares, banner/hint/whatsnew engagement
-// + changelog views). totalBlocks is the nb_hits of the "wall" page
-// title. topBlockedSites are Matomo referrer-type websites (the blocked
-// domain is captured as the bg.gif referrer).
+// custom events grouped by name. The PHP server-side splits those
+// events into per-action breakdown tables carrying all-time + this-week
+// + this-month counts, plus period-aware headline aggregates
+// (donations, shares, altClicks = show_alternatives, techForPalestine
+// = support_pal, hintClicks = hint_link, whatsnewViewsTotal,
+// whatsnewEngagementTotal). totalBlocks is the nb_hit of the "wall"
+// page title. topBlockedSites are Matomo referrer-type websites (the
+// blocked domain is captured as the bg.gif referrer).
+
+/**
+ * Three-period count tuple used by every headline addon aggregate.
+ * Mirrors the PHP `{ allTime, week, month }` shape produced by
+ * parseEventNameGroupsDetailed().
+ */
+export const PeriodCountsSchema = z
+  .object({
+    allTime: NonNegIntSchema,
+    week: NonNegIntSchema,
+    month: NonNegIntSchema,
+  })
+  .strict();
+
+export type PeriodCounts = z.infer<typeof PeriodCountsSchema>;
+
+/**
+ * Per-action breakdown row. `label` is the Matomo event name
+ * (e.g. `show_alternatives`, `hint_link`, `whatsnew_update_1_14_0_to_1_15_2`).
+ * The three count columns drive the engagement breakdown tables.
+ */
+export const DetailedActionRowSchema = z
+  .object({
+    label: NonEmptyStringSchema,
+    allTime: NonNegIntSchema,
+    week: NonNegIntSchema,
+    month: NonNegIntSchema,
+  })
+  .strict();
+
+export type DetailedActionRow = z.infer<typeof DetailedActionRowSchema>;
 
 export const AddonActionsSchema = z
   .object({
-    donationClicks: NonNegIntSchema,
-    shares: NonNegIntSchema,
-    bannerEngagement: NonNegIntSchema,
-    hintEngagement: NonNegIntSchema,
-    whatsnewEngagement: NonNegIntSchema,
-    whatsnewViews: NonNegIntSchema,
+    // Headline aggregates (period-aware) — REPLACE the legacy
+    // bannerEngagement / hintEngagement / whatsnewEngagement / whatsnewViews integer sums.
+    donationClicks: PeriodCountsSchema,
+    shares: PeriodCountsSchema,
+    altClicks: PeriodCountsSchema,
+    techForPalestine: PeriodCountsSchema,
+    hintClicks: PeriodCountsSchema,
+    whatsnewViewsTotal: PeriodCountsSchema,
+    whatsnewEngagementTotal: PeriodCountsSchema,
+    // Per-action breakdown tables (sorted by allTime desc server-side).
+    bannerActions: z.array(DetailedActionRowSchema),
+    hintActions: z.array(DetailedActionRowSchema),
+    whatsnewActions: z.array(DetailedActionRowSchema),
+    whatsnewViews: z.array(DetailedActionRowSchema),
   })
   .strict();
 

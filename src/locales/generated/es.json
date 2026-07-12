@@ -224,14 +224,15 @@
       "donations": "Donaciones",
       "events": "Eventos",
       "currentMonthly": "Mensual actual",
-      "totalDonations": "Donaciones totales",
+      "totalDonations": "Total de seguidores",
       "tab": {
         "website": "Sitio web",
         "addon": "Addon"
       },
       "totalBlocks": "Bloqueos totales",
       "topBlockedSites": "Sitios más bloqueados",
-      "addonActions": "Acciones del addon"
+      "addonActions": "Acciones del addon",
+      "whatsnewPage": "Página de novedades"
     },
     "stat": {
       "visits": "Visitas",
@@ -247,7 +248,13 @@
       "bannerEngagement": "Interacción con banner",
       "hintEngagement": "Interacción con pistas",
       "whatsnewEngagement": "Interacción con novedades",
-      "whatsnewViews": "Vistas de novedades"
+      "whatsnewViews": "Vistas de novedades",
+      "techForPalestine": "Redirecciones a Tech for Palestine",
+      "alternativesShown": "Alternativas mostradas",
+      "hintsClicked": "Pistas cliqueadas",
+      "allTime": "Todo el tiempo",
+      "thisWeek": "Esta semana",
+      "thisMonth": "Este mes"
     }
   }
 }

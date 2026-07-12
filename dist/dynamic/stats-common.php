@@ -589,7 +589,17 @@ class MatomoStatsClient
         }
 
         if (STATS_DEBUG) {
-            $dumpFile = STATS_DEBUG_DIR . '/' . $this->siteId . '_' . str_replace('.', '_', $method) . '.json';
+            // Append the period to the debug dump filename when the call
+            // uses a non-range period (e.g. week / month). This prevents
+            // successive Events.getName calls with different periods from
+            // clobbering each other in the debug dir, and mirrors the
+            // period-suffixed fixture filenames used by tests.
+            $periodSuffix = '';
+            $period = $extraParams['period'] ?? '';
+            if ($period !== '' && $period !== 'range') {
+                $periodSuffix = '_' . $period;
+            }
+            $dumpFile = STATS_DEBUG_DIR . '/' . $this->siteId . '_' . str_replace('.', '_', $method) . $periodSuffix . '.json';
             @file_put_contents($dumpFile, json_encode($decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         }
 

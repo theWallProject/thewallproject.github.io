@@ -224,14 +224,15 @@
       "donations": "捐款",
       "events": "事件",
       "currentMonthly": "本月",
-      "totalDonations": "捐款總數",
+      "totalDonations": "支持者總數",
       "tab": {
         "website": "網站",
         "addon": "附加元件"
       },
       "totalBlocks": "總封鎖數",
       "topBlockedSites": "被封鎖最多的網站",
-      "addonActions": "附加元件操作"
+      "addonActions": "附加元件操作",
+      "whatsnewPage": "更新頁面"
     },
     "stat": {
       "visits": "訪問",
@@ -247,7 +248,13 @@
       "bannerEngagement": "橫幅互動",
       "hintEngagement": "提示互動",
       "whatsnewEngagement": "更新互動",
-      "whatsnewViews": "更新瀏覽"
+      "whatsnewViews": "更新瀏覽",
+      "techForPalestine": "跳轉到 Tech for Palestine",
+      "alternativesShown": "顯示的替代品",
+      "hintsClicked": "點擊的提示",
+      "allTime": "全部",
+      "thisWeek": "本週",
+      "thisMonth": "本月"
     }
   }
 }

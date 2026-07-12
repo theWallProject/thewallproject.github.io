@@ -100,7 +100,7 @@ if (!TOKEN) {
 const RANGE_PARAMS = { period: "range", date: ALL_TIME_RANGE };
 
 /**
- * @typedef {{ siteId: number, method: string, extraParams?: Record<string,string> }} Call
+ * @typedef {{ siteId: number, method: string, extraParams?: Record<string,string>, suffix?: string }} Call
  */
 
 /** @type {Call[]} */
@@ -118,7 +118,14 @@ const CALLS = [
   { siteId: 1, method: "Live.getCounters", extraParams: { lastMinutes: "30" } },
   // Addon-specific
   { siteId: 1, method: "Actions.getPageTitles", extraParams: { ...RANGE_PARAMS, flat: "1" } },
+  // Events.getName — all-time + this-week + this-month. The engagement
+  // breakdown tables on the stats page need per-period counts for every
+  // banner/hint action name, so we fetch three snapshots. The suffix
+  // disambiguates the fixture files (the all-time call keeps the legacy
+  // unsuffixed name for backwards compatibility with existing tests).
   { siteId: 1, method: "Events.getName", extraParams: { ...RANGE_PARAMS, flat: "1" } },
+  { siteId: 1, method: "Events.getName", extraParams: { period: "week", date: "today", flat: "1" }, suffix: "week" },
+  { siteId: 1, method: "Events.getName", extraParams: { period: "month", date: "today", flat: "1" }, suffix: "month" },
 
   // Shared calls — marketing (site 2)
   { siteId: 2, method: "VisitsSummary.get", extraParams: RANGE_PARAMS },
@@ -143,8 +150,9 @@ const CALLS = [
 // Helpers
 // -------------------------------------------------------------------------
 
-function fixtureFilename(siteId, method) {
-  return `${siteId}_${method.replace(/\./g, "_")}.json`;
+function fixtureFilename(siteId, method, suffix) {
+  const base = `${siteId}_${method.replace(/\./g, "_")}`;
+  return suffix ? `${base}_${suffix}.json` : `${base}.json`;
 }
 
 function clearFixtures() {
@@ -215,7 +223,7 @@ async function main() {
   let ok = 0;
   let failed = 0;
   for (const call of CALLS) {
-    const filename = fixtureFilename(call.siteId, call.method);
+    const filename = fixtureFilename(call.siteId, call.method, call.suffix);
     const dest = path.join(FIXTURES_DIR, filename);
     process.stdout.write(`  ${filename.padEnd(42)} ... `);
     try {

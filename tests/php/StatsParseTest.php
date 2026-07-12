@@ -24,8 +24,8 @@ final class StatsParseTest extends TestCase
         $raw = loadFixture('1_VisitsSummary_get.json');
         $parsed = parsePeriodSummary($raw, 'allTime');
 
-        $this->assertSame(88836, $parsed['visits']);
-        $this->assertSame(181757, $parsed['actions']);
+        $this->assertSame(88854, $parsed['visits']);
+        $this->assertSame(181790, $parsed['actions']);
         $this->assertSame(0, $parsed['uniqueVisitors'], 'Matomo omits nb_uniq_visitors for range periods');
         $this->assertSame(81, $parsed['avgVisitDuration']);
     }
@@ -102,20 +102,165 @@ final class StatsParseTest extends TestCase
     }
 
     // -----------------------------------------------------------------------
-    // Events.getName → parseEventNameGroups (grouped investor sums)
+    // Events.getName → parseEventNameGroupsDetailed (period-aware
+    // per-action breakdown — replaces the legacy parseEventNameGroups)
     // -----------------------------------------------------------------------
 
-    public function testEventNameGroupsSums(): void
+    public function testEventNameGroupsDetailedPeriodSums(): void
     {
-        $raw = loadFixture('1_Events_getName.json');
-        $grouped = parseEventNameGroups($raw);
+        $rawAll = loadFixture('1_Events_getName.json');
+        $rawWeek = loadFixture('1_Events_getName_week.json');
+        $rawMonth = loadFixture('1_Events_getName_month.json');
+        $parsed = parseEventNameGroupsDetailed($rawAll, $rawWeek, $rawMonth);
 
-        $this->assertSame(594, $grouped['donationClicks']);
-        $this->assertSame(463, $grouped['shares']);
-        $this->assertSame(6054, $grouped['bannerEngagement']);
-        $this->assertSame(12925, $grouped['hintEngagement']);
-        $this->assertSame(88, $grouped['whatsnewEngagement']);
-        $this->assertSame(4231, $grouped['whatsnewViews']);
+        // Headline period-aware aggregates — REPLACE the legacy single-int
+        // bannerEngagement / hintEngagement / whatsnewEngagement / whatsnewViews fields.
+        $this->assertSame(['allTime' => 594, 'week' => 7, 'month' => 9], $parsed['donationClicks']);
+        $this->assertSame(['allTime' => 463, 'week' => 6, 'month' => 7], $parsed['shares']);
+        // altClicks = show_alternatives (banner alternatives dropdown opened).
+        $this->assertSame(['allTime' => 828, 'week' => 11, 'month' => 17], $parsed['altClicks']);
+        // techForPalestine = support_pal button.
+        $this->assertSame(['allTime' => 3986, 'week' => 41, 'month' => 65], $parsed['techForPalestine']);
+        // hintClicks = hint_link (opening the hint URL).
+        $this->assertSame(['allTime' => 2454, 'week' => 45, 'month' => 81], $parsed['hintClicks']);
+        // whatsnewViewsTotal = sum of all whatsnew_update_* rows across the 3 periods.
+        $this->assertGreaterThan(0, $parsed['whatsnewViewsTotal']['allTime']);
+        $this->assertGreaterThanOrEqual(0, $parsed['whatsnewViewsTotal']['week']);
+        $this->assertGreaterThanOrEqual(0, $parsed['whatsnewViewsTotal']['month']);
+        // whatsnewEngagementTotal = whatsnew_youtube_telpshow + visit_website + contact + report.
+        $this->assertSame(88, $parsed['whatsnewEngagementTotal']['allTime']);
+        $this->assertSame(2, $parsed['whatsnewEngagementTotal']['week']);
+        $this->assertSame(5, $parsed['whatsnewEngagementTotal']['month']);
+    }
+
+    public function testEventNameGroupsDetailedBannerActionsRows(): void
+    {
+        $rawAll = loadFixture('1_Events_getName.json');
+        $rawWeek = loadFixture('1_Events_getName_week.json');
+        $rawMonth = loadFixture('1_Events_getName_month.json');
+        $parsed = parseEventNameGroupsDetailed($rawAll, $rawWeek, $rawMonth);
+
+        $rows = $parsed['bannerActions'];
+        $byName = [];
+        foreach ($rows as $r) {
+            $byName[$r['label']] = $r;
+        }
+
+        // The banner breakdown table carries every ADDON_BANNER_ACTION_NAMES
+        // entry with all-time + this-week + this-month counts.
+        $this->assertSame(count(\ADDON_BANNER_ACTION_NAMES), count($rows));
+        $this->assertContains('show_alternatives', array_keys($byName));
+        $this->assertContains('show_bds_guide', array_keys($byName));
+        $this->assertContains('support_pal', array_keys($byName));
+        $this->assertContains('report_mistake', array_keys($byName));
+        $this->assertContains('dismiss_close', array_keys($byName));
+
+        $this->assertSame(
+            ['label' => 'show_alternatives', 'allTime' => 828, 'week' => 11, 'month' => 17],
+            $byName['show_alternatives'],
+        );
+        $this->assertSame(
+            ['label' => 'support_pal', 'allTime' => 3986, 'week' => 41, 'month' => 65],
+            $byName['support_pal'],
+        );
+        $this->assertSame(
+            ['label' => 'show_bds_guide', 'allTime' => 842, 'week' => 16, 'month' => 33],
+            $byName['show_bds_guide'],
+        );
+        $this->assertSame(
+            ['label' => 'report_mistake', 'allTime' => 398, 'week' => 3, 'month' => 5],
+            $byName['report_mistake'],
+        );
+
+        // Rows must be sorted by allTime desc.
+        for ($i = 1; $i < count($rows); $i++) {
+            $this->assertGreaterThanOrEqual($rows[$i]['allTime'], $rows[$i - 1]['allTime']);
+        }
+    }
+
+    public function testEventNameGroupsDetailedHintActionsRows(): void
+    {
+        $rawAll = loadFixture('1_Events_getName.json');
+        $rawWeek = loadFixture('1_Events_getName_week.json');
+        $rawMonth = loadFixture('1_Events_getName_month.json');
+        $parsed = parseEventNameGroupsDetailed($rawAll, $rawWeek, $rawMonth);
+
+        $rows = $parsed['hintActions'];
+        $byName = [];
+        foreach ($rows as $r) {
+            $byName[$r['label']] = $r;
+        }
+
+        $this->assertSame(count(\ADDON_HINT_ACTION_NAMES), count($rows));
+        $this->assertContains('hint_link', array_keys($byName));
+        $this->assertContains('hint_expand', array_keys($byName));
+        $this->assertContains('hint_dismiss_this', array_keys($byName));
+        $this->assertContains('hint_disable_all', array_keys($byName));
+        $this->assertContains('hint_toggle_system', array_keys($byName));
+        $this->assertContains('hint_reset_dismissed', array_keys($byName));
+
+        // hint_link headline row directly mirrors the hintClicks aggregate.
+        $this->assertSame(
+            ['label' => 'hint_link', 'allTime' => 2454, 'week' => 45, 'month' => 81],
+            $byName['hint_link'],
+        );
+        $this->assertSame(
+            ['label' => 'hint_expand', 'allTime' => 9391, 'week' => 233, 'month' => 414],
+            $byName['hint_expand'],
+        );
+    }
+
+    public function testEventNameGroupsDetailedWhatsnewViewsRowsCapped(): void
+    {
+        $rawAll = loadFixture('1_Events_getName.json');
+        $rawWeek = loadFixture('1_Events_getName_week.json');
+        $rawMonth = loadFixture('1_Events_getName_month.json');
+        $parsed = parseEventNameGroupsDetailed($rawAll, $rawWeek, $rawMonth);
+
+        // whatsnewViews tables are capped to ADDON_WHATSNEW_VIEWS_LIMIT top
+        // version pairs by all-time count desc.
+        $this->assertLessThanOrEqual(\ADDON_WHATSNEW_VIEWS_LIMIT, count($parsed['whatsnewViews']));
+        $this->assertNotEmpty($parsed['whatsnewViews']);
+        $first = $parsed['whatsnewViews'][0];
+        $this->assertSame('whatsnew_update_1_14_0_to_1_15_2', $first['label']);
+        $this->assertSame(2153, $first['allTime']);
+    }
+
+    public function testEventNameGroupsDetailedSkipsTemplateLiteralNoise(): void
+    {
+        // Malformed `${encodeURIComponent(name)}` rows from old addon builds
+        // must not surface in any breakdown table or headline aggregate.
+        // The noise name is filtered by eventNameRowsToMap(); the only rows
+        // that appear are the configured ADDON_*_ACTION_NAMES, all with 0
+        // counts since the only input fixture is the noise row.
+        $noiseRow = [
+            [
+                'label' => '${encodeURIComponent(name)} - Click',
+                'nb_events' => 999,
+                'Events_EventName' => '${encodeURIComponent(name)}',
+                'Events_EventAction' => 'Click',
+            ],
+        ];
+
+        $parsed = parseEventNameGroupsDetailed($noiseRow, $noiseRow, $noiseRow);
+
+        // No row label should contain the template-literal `$` leak.
+        foreach (['bannerActions', 'hintActions', 'whatsnewActions', 'whatsnewViews'] as $group) {
+            foreach ($parsed[$group] as $row) {
+                $this->assertStringNotContainsString('$', $row['label'], "noise leaked into {$group}");
+            }
+        }
+
+        // Every headline aggregate must be zeroed — the noise row's
+        // 999 clicks never reach any group.
+        $zeros = ['allTime' => 0, 'week' => 0, 'month' => 0];
+        $this->assertSame($zeros, $parsed['donationClicks']);
+        $this->assertSame($zeros, $parsed['shares']);
+        $this->assertSame($zeros, $parsed['altClicks']);
+        $this->assertSame($zeros, $parsed['techForPalestine']);
+        $this->assertSame($zeros, $parsed['hintClicks']);
+        $this->assertSame($zeros, $parsed['whatsnewViewsTotal']);
+        $this->assertSame($zeros, $parsed['whatsnewEngagementTotal']);
     }
 
     // -----------------------------------------------------------------------
@@ -127,7 +272,7 @@ final class StatsParseTest extends TestCase
         $raw = loadFixture('1_VisitFrequency_get.json');
         $freq = parseFrequency($raw);
 
-        $this->assertSame(88830, $freq['newVisits']);
+        $this->assertSame(88848, $freq['newVisits']);
         $this->assertSame(6, $freq['returningVisits']);
     }
 
@@ -140,8 +285,8 @@ final class StatsParseTest extends TestCase
         $raw = loadFixture('1_Live_getCounters.json');
         $live = parseLiveCounters($raw);
 
-        $this->assertSame(9, $live['visits']);
-        $this->assertSame(18, $live['actions']);
+        $this->assertSame(2, $live['visits']);
+        $this->assertSame(4, $live['actions']);
     }
 
     // -----------------------------------------------------------------------

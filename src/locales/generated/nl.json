@@ -224,14 +224,15 @@
       "donations": "Donaties",
       "events": "Gebeurtenissen",
       "currentMonthly": "Huidig maandelijks",
-      "totalDonations": "Totaal donaties",
+      "totalDonations": "Totaal aanhangers",
       "tab": {
         "website": "Website",
         "addon": "Addon"
       },
       "totalBlocks": "Totaal blokkeringen",
       "topBlockedSites": "Meest geblokkeerde sites",
-      "addonActions": "Addon-acties"
+      "addonActions": "Addon-acties",
+      "whatsnewPage": "Wat is er nieuw-pagina"
     },
     "stat": {
       "visits": "Bezoeken",
@@ -247,7 +248,13 @@
       "bannerEngagement": "Banner-betrokkenheid",
       "hintEngagement": "Hint-betrokkenheid",
       "whatsnewEngagement": "Release-betrokkenheid",
-      "whatsnewViews": "Release-weergaven"
+      "whatsnewViews": "Release-weergaven",
+      "techForPalestine": "Doorverwijzingen naar Tech for Palestine",
+      "alternativesShown": "Alternatieven getoond",
+      "hintsClicked": "Hints aangeklikt",
+      "allTime": "Alle tijd",
+      "thisWeek": "Deze week",
+      "thisMonth": "Deze maand"
     }
   }
 }

@@ -224,14 +224,15 @@
       "donations": "التبرعات",
       "events": "الأحداث",
       "currentMonthly": "الشهري الحالي",
-      "totalDonations": "إجمالي التبرعات",
+      "totalDonations": "إجمالي الداعمين",
       "tab": {
         "website": "الموقع",
         "addon": "الإضافة"
       },
       "totalBlocks": "إجمالي الحظر",
       "topBlockedSites": "أكثر المواقع المحظورة",
-      "addonActions": "إجراءات الإضافة"
+      "addonActions": "إجراءات الإضافة",
+      "whatsnewPage": "صفحة التحديثات"
     },
     "stat": {
       "visits": "الزيارات",
@@ -247,7 +248,13 @@
       "bannerEngagement": "تفاعل اللافتة",
       "hintEngagement": "تفاعل التلميحات",
       "whatsnewEngagement": "تفاعل التحديثات",
-      "whatsnewViews": "مشاهدات التحديث"
+      "whatsnewViews": "مشاهدات التحديث",
+      "techForPalestine": "إعادة التوجيه إلى Tech for Palestine",
+      "alternativesShown": "البدائل المعروضة",
+      "hintsClicked": "التلميحات المنقورة",
+      "allTime": "كلي",
+      "thisWeek": "هذا الأسبوع",
+      "thisMonth": "هذا الشهر"
     }
   }
 }

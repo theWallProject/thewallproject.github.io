@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useStats, useAddonStats } from "../hooks/useStats";
-import type { RankingRow, EventRow } from "../types/stats";
+import type { RankingRow, EventRow, DetailedActionRow, PeriodCounts } from "../types/stats";
 import Header from "./Header";
 import Footer from "./Footer";
 import styles from "./Stats.module.css";
@@ -85,6 +85,77 @@ const DownloadEventsTable: React.FC<{ rows: EventRow[]; eventsLabel: string }> =
   </table>
 );
 
+// ---------------------------------------------------------------------------
+// Engagement-breakdown helpers — used by the Addon tab to render the
+// banner / hint / whatsnew per-action tables with three count columns
+// (all-time + this-week + this-month). The data is computed server-side
+// from three Events.getName snapshots (range / week / month) — see
+// parseEventNameGroupsDetailed() in src/dynamic/addon-stats.php.
+// ---------------------------------------------------------------------------
+
+// Pretty-print a whatsnew_update_<from>_to_<to> version-pair label:
+//   whatsnew_update_1_14_0_to_1_15_2  →  "1.14.0 → 1.15.2"
+// Falls back to the raw label for anything that doesn't match.
+const formatVersionPair = (label: string): string => {
+  const m = label.match(/^whatsnew_update_(.+)_to_(.+)$/);
+  if (!m) return label;
+  const v1 = m[1].replace(/_/g, ".");
+  const v2 = m[2].replace(/_/g, ".");
+  return `${v1} → ${v2}`;
+};
+
+const PeriodRankingTable: React.FC<{
+  rows: DetailedActionRow[];
+  allLabel: string;
+  weekLabel: string;
+  monthLabel: string;
+  formatLabel?: (label: string) => string;
+}> = ({ rows, allLabel, weekLabel, monthLabel, formatLabel }) => (
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th className={styles.periodCount}>{allLabel}</th>
+        <th className={styles.periodCount}>{weekLabel}</th>
+        <th className={styles.periodCount}>{monthLabel}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row, i) => {
+        const display = formatLabel ? formatLabel(row.label) : row.label;
+        return (
+          <tr key={`${row.label}-${i}`}>
+            <td>
+              <span className={styles.trackedLabel}>
+                <span>{display}</span>
+              </span>
+            </td>
+            <td className={styles.periodCount}>{formatNum(row.allTime)}</td>
+            <td className={row.week > 0 ? styles.periodCount : styles.periodCountMuted}>{formatNum(row.week)}</td>
+            <td className={row.month > 0 ? styles.periodCount : styles.periodCountMuted}>{formatNum(row.month)}</td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+);
+
+// Period-aware headline StatCard: shows the all-time number large with
+// this-week / this-month counts as a sub-line (mirrors the card pattern
+// used for "Today" and "Live now" cards).
+const periodSub = (counts: PeriodCounts, t: (k: string) => string): string => {
+  const week = `${formatNum(counts.week)} ${t("stat.thisWeek").toLowerCase()}`;
+  const month = `${formatNum(counts.month)} ${t("stat.thisMonth").toLowerCase()}`;
+  return `${week} · ${month}`;
+};
+
+const PeriodStatCard: React.FC<{ label: string; counts: PeriodCounts; accent?: boolean; t: (k: string) => string }> = ({
+  label,
+  counts,
+  accent,
+  t,
+}) => <StatCard label={label} value={formatNum(counts.allTime)} accent={accent} sub={periodSub(counts, t)} />;
+
 // Tab identifier. Persisted to URL hash so links open a specific tab.
 type TabId = "website" | "addon";
 
@@ -150,6 +221,8 @@ const WebsiteStatsTab: React.FC = () => {
             accent
             sub={`${formatNum(data.liveNow.actions)} ${t("stat.actions").toLowerCase()}`}
           />
+          <StatCard label={t("stat.newVisits")} value={formatNum(data.visitFrequency.newVisits)} />
+          <StatCard label={t("stat.returningVisits")} value={formatNum(data.visitFrequency.returningVisits)} />
         </div>
       </section>
 
@@ -182,14 +255,6 @@ const WebsiteStatsTab: React.FC = () => {
             <h3 className={styles.tableTitle}>{t("stats.deviceTypes")}</h3>
             <RankingTable rows={data.deviceTypes} visitsLabel={t("stat.visits").toLowerCase()} />
           </div>
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{t("stats.visitFrequency")}</h2>
-        <div className={styles.cards}>
-          <StatCard label={t("stat.newVisits")} value={formatNum(data.visitFrequency.newVisits)} accent />
-          <StatCard label={t("stat.returningVisits")} value={formatNum(data.visitFrequency.returningVisits)} />
         </div>
       </section>
 
@@ -277,18 +342,68 @@ const AddonStatsTab: React.FC = () => {
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>User engagement</h2>
+        <h2 className={styles.sectionTitle}>{t("stat.bannerEngagement")}</h2>
         <div className={styles.cards}>
-          <StatCard label={t("stat.shares")} value={formatNum(a.shares)} />
-          <StatCard label={t("stat.bannerEngagement")} value={formatNum(a.bannerEngagement)} />
-          <StatCard label={t("stat.hintEngagement")} value={formatNum(a.hintEngagement)} />
-          <StatCard
-            label={t("stat.whatsnewEngagement")}
-            value={formatNum(a.whatsnewEngagement)}
-            accent
-            sub="WhatsNew release page"
-          />
-          <StatCard label={t("stat.whatsnewViews")} value={formatNum(a.whatsnewViews)} sub="WhatsNew release page" />
+          <PeriodStatCard label={t("stat.techForPalestine")} counts={a.techForPalestine} accent t={t} />
+          <PeriodStatCard label={t("stat.alternativesShown")} counts={a.altClicks} accent t={t} />
+        </div>
+        <div className={styles.tables}>
+          <div className={styles.tableBlock}>
+            <h3 className={styles.tableTitle}>{t("stat.bannerEngagement")}</h3>
+            <PeriodRankingTable
+              rows={a.bannerActions}
+              allLabel={t("stat.allTime")}
+              weekLabel={t("stat.thisWeek")}
+              monthLabel={t("stat.thisMonth")}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>{t("stat.hintEngagement")}</h2>
+        <div className={styles.cards}>
+          <PeriodStatCard label={t("stat.hintsClicked")} counts={a.hintClicks} accent t={t} />
+        </div>
+        <div className={styles.tables}>
+          <div className={styles.tableBlock}>
+            <h3 className={styles.tableTitle}>{t("stat.hintEngagement")}</h3>
+            <PeriodRankingTable
+              rows={a.hintActions}
+              allLabel={t("stat.allTime")}
+              weekLabel={t("stat.thisWeek")}
+              monthLabel={t("stat.thisMonth")}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>{t("stats.whatsnewPage")}</h2>
+        <div className={styles.cards}>
+          <PeriodStatCard label={t("stat.whatsnewViews")} counts={a.whatsnewViewsTotal} accent t={t} />
+          <PeriodStatCard label={t("stat.whatsnewEngagement")} counts={a.whatsnewEngagementTotal} t={t} />
+        </div>
+        <div className={styles.tables}>
+          <div className={styles.tableBlock}>
+            <h3 className={styles.tableTitle}>{t("stat.whatsnewViews")}</h3>
+            <PeriodRankingTable
+              rows={a.whatsnewViews}
+              allLabel={t("stat.allTime")}
+              weekLabel={t("stat.thisWeek")}
+              monthLabel={t("stat.thisMonth")}
+              formatLabel={formatVersionPair}
+            />
+          </div>
+          <div className={styles.tableBlock}>
+            <h3 className={styles.tableTitle}>{t("stat.whatsnewEngagement")}</h3>
+            <PeriodRankingTable
+              rows={a.whatsnewActions}
+              allLabel={t("stat.allTime")}
+              weekLabel={t("stat.thisWeek")}
+              monthLabel={t("stat.thisMonth")}
+            />
+          </div>
         </div>
       </section>
 
@@ -297,7 +412,8 @@ const AddonStatsTab: React.FC = () => {
         <div className={styles.cards}>
           <StatCard label="Monthly" value={`$${formatNum(data.donationsData.currentMonthly)}`} accent />
           <StatCard label={t("stats.totalDonations")} value={formatNum(data.donationsData.donations.length)} />
-          <StatCard label={t("stat.donationClicks")} value={formatNum(a.donationClicks)} accent />
+          <PeriodStatCard label={t("stat.donationClicks")} counts={a.donationClicks} accent t={t} />
+          <PeriodStatCard label={t("stat.shares")} counts={a.shares} t={t} />
         </div>
       </section>
 

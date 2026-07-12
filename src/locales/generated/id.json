@@ -224,14 +224,15 @@
       "donations": "Donasi",
       "events": "Peristiwa",
       "currentMonthly": "Bulanan saat ini",
-      "totalDonations": "Total donasi",
+      "totalDonations": "Total pendukung",
       "tab": {
         "website": "Situs web",
         "addon": "Addon"
       },
       "totalBlocks": "Total blokir",
       "topBlockedSites": "Situs paling diblokir",
-      "addonActions": "Aksi addon"
+      "addonActions": "Aksi addon",
+      "whatsnewPage": "Halaman pembaruan"
     },
     "stat": {
       "visits": "Kunjungan",
@@ -247,7 +248,13 @@
       "bannerEngagement": "Interaksi banner",
       "hintEngagement": "Interaksi petunjuk",
       "whatsnewEngagement": "Interaksi pembaruan",
-      "whatsnewViews": "Tampilan pembaruan"
+      "whatsnewViews": "Tampilan pembaruan",
+      "techForPalestine": "Pengalihan ke Tech for Palestine",
+      "alternativesShown": "Alternatif ditampilkan",
+      "hintsClicked": "Petunjuk diklik",
+      "allTime": "Sepanjang waktu",
+      "thisWeek": "Minggu ini",
+      "thisMonth": "Bulan ini"
     }
   }
 }
