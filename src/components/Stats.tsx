@@ -45,7 +45,18 @@ const RankingTable: React.FC<{ rows: RankingRow[]; visitsLabel: string }> = ({ r
   </table>
 );
 
-const EventsTable: React.FC<{ rows: EventRow[]; eventsLabel: string }> = ({ rows, eventsLabel }) => (
+// Maps the per-platform download event name (e.g. "download.android") to a
+// cleaned display label and one of our own platform SVG icons. Falls back to
+// the raw label and no icon for unmapped platforms so future download events
+// still surface in the table without breaking the layout.
+const DOWNLOAD_ROW_META: Record<string, { label: string; icon: string }> = {
+  "download.android": { label: "Android", icon: "./files/common/google-play-store-icon.svg" },
+  "download.chrome": { label: "Chrome", icon: "./files/common/icon-chrome.svg" },
+  "download.firefox": { label: "Firefox", icon: "./files/common/icon-firefox.svg" },
+  "download.ios": { label: "iOS", icon: "./files/common/icon-safari.svg" },
+};
+
+const DownloadEventsTable: React.FC<{ rows: EventRow[]; eventsLabel: string }> = ({ rows, eventsLabel }) => (
   <table>
     <thead>
       <tr>
@@ -54,12 +65,22 @@ const EventsTable: React.FC<{ rows: EventRow[]; eventsLabel: string }> = ({ rows
       </tr>
     </thead>
     <tbody>
-      {rows.map((row, i) => (
-        <tr key={`${row.label}-${i}`}>
-          <td>{row.label}</td>
-          <td className={styles.visits}>{formatNum(row.events)}</td>
-        </tr>
-      ))}
+      {rows.map((row, i) => {
+        const meta = DOWNLOAD_ROW_META[row.label];
+        const label = meta?.label ?? row.label;
+        const icon = meta?.icon;
+        return (
+          <tr key={`${row.label}-${i}`}>
+            <td>
+              <span className={styles.trackedLabel}>
+                {icon && <img src={icon} alt="" loading="lazy" />}
+                <span>{label}</span>
+              </span>
+            </td>
+            <td className={styles.visits}>{formatNum(row.events)}</td>
+          </tr>
+        );
+      })}
     </tbody>
   </table>
 );
@@ -116,19 +137,19 @@ const WebsiteStatsTab: React.FC = () => {
         <h2 className={styles.sectionTitle}>{t("stats.visitors")}</h2>
         <p className={styles.dataHint}>Data collection started 11.7.2026</p>
         <div className={styles.cards}>
-          <StatCard
-            label={t("stats.liveNow")}
-            value={formatNum(data.liveNow.visits)}
-            accent
-            sub={`${formatNum(data.liveNow.actions)} ${t("stat.actions").toLowerCase()}`}
-          />
+          <StatCard label={t("stats.allTime")} value={formatNum(v.allTime.visits)} accent />
           <StatCard
             label={t("stats.today")}
             value={formatNum(v.today.visits)}
             accent
             sub={`${formatNum(v.today.uniqueVisitors)} ${t("stat.uniqueVisitors").toLowerCase()}`}
           />
-          <StatCard label={t("stats.allTime")} value={formatNum(v.allTime.visits)} accent />
+          <StatCard
+            label={t("stats.liveNow")}
+            value={formatNum(data.liveNow.visits)}
+            accent
+            sub={`${formatNum(data.liveNow.actions)} ${t("stat.actions").toLowerCase()}`}
+          />
         </div>
       </section>
 
@@ -186,22 +207,13 @@ const WebsiteStatsTab: React.FC = () => {
         </div>
       </section>
 
-      {(data.downloads.length > 0 || data.donations.length > 0) && (
+      {data.downloads.length > 0 && (
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>{t("stats.downloads")}</h2>
           <div className={styles.tables}>
-            {data.downloads.length > 0 && (
-              <div className={styles.tableBlock}>
-                <h3 className={styles.tableTitle}>{t("stats.downloads")}</h3>
-                <EventsTable rows={data.downloads} eventsLabel={t("stats.downloads").toLowerCase()} />
-              </div>
-            )}
-            {data.donations.length > 0 && (
-              <div className={styles.tableBlock}>
-                <h3 className={styles.tableTitle}>{t("stats.donations")}</h3>
-                <EventsTable rows={data.donations} eventsLabel={t("stats.donations").toLowerCase()} />
-              </div>
-            )}
+            <div className={styles.tableBlock}>
+              <DownloadEventsTable rows={data.downloads} eventsLabel={t("stats.downloads").toLowerCase()} />
+            </div>
           </div>
         </section>
       )}
