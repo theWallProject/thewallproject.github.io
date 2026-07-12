@@ -7,12 +7,6 @@ import Footer from "./Footer";
 import styles from "./Stats.module.css";
 
 const formatNum = (n: number): string => n.toLocaleString();
-const formatDuration = (sec: number): string => {
-  if (sec < 60) return `${sec}s`;
-  const m = Math.floor(sec / 60);
-  const s = sec % 60;
-  return s === 0 ? `${m}m` : `${m}m ${s}s`;
-};
 
 const StatCard: React.FC<{ label: string; value: string; accent?: boolean; sub?: string }> = ({
   label,
@@ -242,11 +236,12 @@ const AddonStatsTab: React.FC = () => {
   const v = data.visitors;
   const a = data.addonActions;
   const desktopMobile = data.deviceTypes.filter((d) => /desktop|smartphone/i.test(d.label));
+  const blocksLabel = t("stat.blocks").toLowerCase();
 
   return (
     <>
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{t("stats.visitors")}</h2>
+        <h2 className={styles.sectionTitle}>{t("stats.totalBlocks")}</h2>
         <div className={styles.cards}>
           <StatCard label={t("stats.totalBlocks")} value={formatNum(data.totalBlocks)} accent sub={t("stat.blocks")} />
           <StatCard
@@ -260,44 +255,11 @@ const AddonStatsTab: React.FC = () => {
           <StatCard label={t("stats.thisWeek")} value={formatNum(v.thisWeek.visits)} />
           <StatCard label={t("stats.thisMonth")} value={formatNum(v.thisMonth.visits)} />
           <StatCard label={t("stats.lastMonth")} value={formatNum(v.lastMonth.visits)} />
-          <StatCard label={t("stat.avgDuration")} value={formatDuration(v.allTime.avgVisitDuration)} />
         </div>
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{t("stats.topCountries")}</h2>
-        <div className={styles.tables}>
-          <div className={styles.tableBlock}>
-            <h3 className={styles.tableTitle}>{t("stats.topCountries")}</h3>
-            <RankingTable rows={data.topCountries} visitsLabel={t("stat.visits").toLowerCase()} />
-          </div>
-          <div className={styles.tableBlock}>
-            <h3 className={styles.tableTitle}>{t("stats.topContinents")}</h3>
-            <RankingTable rows={data.topContinents} visitsLabel={t("stat.visits").toLowerCase()} />
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{t("stats.topBrowsers")}</h2>
-        <div className={styles.tables}>
-          <div className={styles.tableBlock}>
-            <h3 className={styles.tableTitle}>{t("stats.topBrowsers")}</h3>
-            <RankingTable rows={data.topBrowsers} visitsLabel={t("stat.visits").toLowerCase()} />
-          </div>
-          <div className={styles.tableBlock}>
-            <h3 className={styles.tableTitle}>{t("stats.topOs")}</h3>
-            <RankingTable rows={data.topOs} visitsLabel={t("stat.visits").toLowerCase()} />
-          </div>
-          <div className={styles.tableBlock}>
-            <h3 className={styles.tableTitle}>{t("stats.deviceTypes")}</h3>
-            <RankingTable rows={desktopMobile} visitsLabel={t("stat.visits").toLowerCase()} />
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{t("stats.addonActions")}</h2>
+        <h2 className={styles.sectionTitle}>User engagement</h2>
         <div className={styles.cards}>
           <StatCard label={t("stat.donationClicks")} value={formatNum(a.donationClicks)} accent />
           <StatCard label={t("stat.shares")} value={formatNum(a.shares)} />
@@ -314,14 +276,42 @@ const AddonStatsTab: React.FC = () => {
       </section>
 
       <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>{t("stats.topCountries")}</h2>
+        <div className={styles.tables}>
+          <div className={styles.tableBlock}>
+            <h3 className={styles.tableTitle}>{t("stats.topCountries")}</h3>
+            <RankingTable rows={data.topCountries} visitsLabel={blocksLabel} />
+          </div>
+          <div className={styles.tableBlock}>
+            <h3 className={styles.tableTitle}>{t("stats.topContinents")}</h3>
+            <RankingTable rows={data.topContinents} visitsLabel={blocksLabel} />
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.section}>
         <h2 className={styles.sectionTitle}>{t("stats.donations")}</h2>
         <div className={styles.cards}>
-          <StatCard
-            label={t("stats.currentMonthly")}
-            value={`$${formatNum(data.donationsData.currentMonthly)}`}
-            accent
-          />
+          <StatCard label="Monthly" value={`$${formatNum(data.donationsData.currentMonthly)}`} accent />
           <StatCard label={t("stats.totalDonations")} value={formatNum(data.donationsData.donations.length)} />
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>{t("stats.topBrowsers")}</h2>
+        <div className={styles.tables}>
+          <div className={styles.tableBlock}>
+            <h3 className={styles.tableTitle}>{t("stats.topBrowsers")}</h3>
+            <RankingTable rows={data.topBrowsers} visitsLabel={blocksLabel} />
+          </div>
+          <div className={styles.tableBlock}>
+            <h3 className={styles.tableTitle}>{t("stats.topOs")}</h3>
+            <RankingTable rows={data.topOs} visitsLabel={blocksLabel} />
+          </div>
+          <div className={styles.tableBlock}>
+            <h3 className={styles.tableTitle}>{t("stats.deviceTypes")}</h3>
+            <RankingTable rows={desktopMobile} visitsLabel={blocksLabel} />
+          </div>
         </div>
       </section>
 
@@ -380,7 +370,7 @@ const Stats: React.FC = () => {
     <div className={styles.stats}>
       <Header />
       <div className={styles.container}>
-        <h1 className={styles.title}>{t("stats.title")}</h1>
+        <h1 className={styles.title}>Wall of Fame</h1>
         <p className={styles.subtitle}>{t("stats.subtitle")}</p>
 
         <div className={styles.tabs} role="tablist">
