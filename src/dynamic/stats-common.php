@@ -38,7 +38,7 @@ use CuyZ\Valinor\MapperBuilder;
 // -------------------------------------------------------------------------
 
 if (!defined('STATS_DEBUG')) {
-    define('STATS_DEBUG', false); // flip to false in production
+    define('STATS_DEBUG', true); // flip to false in production
 }
 
 define('STATS_CONFIG_FILE', __DIR__ . '/../../dynamic/config.php');
