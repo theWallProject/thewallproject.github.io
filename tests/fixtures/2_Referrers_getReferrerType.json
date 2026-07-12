@@ -1,15 +1,57 @@
 [
   {
     "label": "Direct Entry",
-    "nb_visits": 14,
-    "nb_actions": 119,
-    "max_actions": 36,
-    "sum_visit_length": 4276,
-    "bounce_count": 3,
+    "nb_visits": 46,
+    "nb_actions": 413,
+    "max_actions": 70,
+    "sum_visit_length": 14023,
+    "bounce_count": 7,
     "nb_visits_converted": 0,
-    "sum_daily_nb_uniq_visitors": 9,
+    "sum_daily_nb_uniq_visitors": 33,
     "sum_daily_nb_users": 0,
     "segment": "referrerType==direct",
     "referrer_type": 1
+  },
+  {
+    "label": "Search Engines",
+    "nb_visits": 4,
+    "nb_actions": 15,
+    "max_actions": 5,
+    "sum_visit_length": 116,
+    "bounce_count": 0,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 4,
+    "sum_daily_nb_users": 0,
+    "segment": "referrerType==search",
+    "referrer_type": 2,
+    "idsubdatatable": 2
+  },
+  {
+    "label": "Websites",
+    "nb_visits": 4,
+    "nb_actions": 20,
+    "max_actions": 13,
+    "sum_visit_length": 1914,
+    "bounce_count": 2,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 2,
+    "sum_daily_nb_users": 0,
+    "segment": "referrerType==website",
+    "referrer_type": 3,
+    "idsubdatatable": 3
+  },
+  {
+    "label": "Social Networks",
+    "nb_visits": 2,
+    "nb_actions": 14,
+    "max_actions": 7,
+    "sum_visit_length": 119,
+    "bounce_count": 0,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 2,
+    "sum_daily_nb_users": 0,
+    "segment": "referrerType==social",
+    "referrer_type": 7,
+    "idsubdatatable": 7
   }
 ]

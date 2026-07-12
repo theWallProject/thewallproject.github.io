@@ -63,9 +63,11 @@ function fetchAllMarketing(MatomoStatsClient $client): array
     $referrerTypes = parseRankingRows($client->get('Referrers.getReferrerType', ['period' => 'range', 'date' => $range]), 'Referrers.getReferrerType', STATS_TOP_LIMIT);
     $topWebsites = parseRankingRows($client->get('Referrers.getWebsites', ['period' => 'range', 'date' => $range]), 'Referrers.getWebsites', STATS_TOP_LIMIT);
 
-    // 5. Events — downloads and donations action breakdown. Matomo flat=1
-    //    returns rows of { label, secondaryLabel, nb_events }; filter by action name.
-    $eventsRaw = $client->get('Events.getAction', ['period' => 'range', 'date' => $range, 'secondaryDimension' => 'eventCategory', 'flat' => '1']);
+    // 5. Events — downloads and donations action breakdown. secondaryDimension=eventName
+    //    splits rows by event name (download.android, download.chrome, etc.) so the
+    //    Stats page can render per-platform counts. eventCategory would collapse all
+    //    download_click rows into one and discard Events_EventName entirely.
+    $eventsRaw = $client->get('Events.getAction', ['period' => 'range', 'date' => $range, 'secondaryDimension' => 'eventName', 'flat' => '1']);
     $downloads = parseEventActions($eventsRaw, 'download_click');
     $donationsEv = parseEventActions($eventsRaw, 'donation_click');
 

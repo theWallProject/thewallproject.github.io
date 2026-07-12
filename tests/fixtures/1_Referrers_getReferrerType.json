@@ -1,13 +1,13 @@
 [
   {
     "label": "Direct Entry",
-    "nb_visits": 88012,
-    "nb_actions": 179907,
+    "nb_visits": 88267,
+    "nb_actions": 180447,
     "max_actions": 256,
-    "sum_visit_length": 7146526,
-    "bounce_count": 33458,
+    "sum_visit_length": 7170127,
+    "bounce_count": 33521,
     "nb_visits_converted": 0,
-    "sum_daily_nb_uniq_visitors": 88011,
+    "sum_daily_nb_uniq_visitors": 88266,
     "sum_daily_nb_users": 0,
     "segment": "referrerType==direct",
     "referrer_type": 1

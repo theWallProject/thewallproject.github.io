@@ -212,8 +212,8 @@ final class LiveCounterDto
 final class EventActionDto
 {
     public function __construct(
-        public readonly string $label = '',
-        public readonly string $secondaryLabel = '',
+        public readonly string $Events_EventAction = '',
+        public readonly string $Events_EventName = '',
         public readonly int $nb_events = 0,
     ) {
     }
@@ -363,8 +363,19 @@ function parseLiveCounters($raw): array
 }
 
 /**
- * Parse Events.getAction with flat=1 — Matomo returns rows keyed by
- * event category + action. We filter by action name.
+ * Parse Events.getAction flat=1 with secondaryDimension=eventName — Matomo
+ * returns one row per (action, name) with Events_EventAction and
+ * Events_EventName populated. We filter by Events_EventAction (the clean
+ * action field, NOT the display `label`) and surface Events_EventName as
+ * the row label so the Stats page shows per-platform rows like
+ * download.android, download.chrome, etc.
+ *
+ * Rows with an empty Events_EventName are SKIPPED, not fallback-labeled.
+ * Matomo legitimately omits Events_EventName for events that were sent
+ * without a name (e.g. legacy section_view_<id> tracking from before the
+ * React unification). Those rows cannot be displayed per-name anyway, so
+ * we drop them. The label remains strictly Events_EventName — there is no
+ * fallback to action or display label.
  */
 function parseEventActions($raw, string $actionFilter): array
 {
@@ -383,11 +394,14 @@ function parseEventActions($raw, string $actionFilter): array
         } catch (\CuyZ\Valinor\Mapper\MappingError $e) {
             throw new StatsSchemaException("Events.getAction[{$i}] validation failed: " . $e->getMessage(), 0, $e);
         }
-        if ($dto->label !== $actionFilter) {
+        if ($dto->Events_EventAction !== $actionFilter) {
+            continue;
+        }
+        if ($dto->Events_EventName === '') {
             continue;
         }
         $out[] = [
-            'label' => $dto->secondaryLabel !== '' ? $dto->secondaryLabel : $dto->label,
+            'label' => $dto->Events_EventName,
             'events' => $dto->nb_events,
         ];
     }

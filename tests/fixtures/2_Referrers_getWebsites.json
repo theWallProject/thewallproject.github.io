@@ -1,1 +1,28 @@
-[]
+[
+  {
+    "label": "chromewebstore.google.com",
+    "nb_visits": 3,
+    "nb_actions": 15,
+    "max_actions": 13,
+    "sum_visit_length": 1903,
+    "bounce_count": 2,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 1,
+    "sum_daily_nb_users": 0,
+    "segment": "referrerName==chromewebstore.google.com",
+    "idsubdatatable": 1
+  },
+  {
+    "label": "thewallproject.github.io",
+    "nb_visits": 1,
+    "nb_actions": 5,
+    "max_actions": 5,
+    "sum_visit_length": 11,
+    "bounce_count": 0,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 1,
+    "sum_daily_nb_users": 0,
+    "segment": "referrerName==thewallproject.github.io",
+    "idsubdatatable": 2
+  }
+]

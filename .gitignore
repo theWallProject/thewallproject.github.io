@@ -35,3 +35,4 @@ dist/.htaccess
 # PHP tooling (php-cs-fixer, phpunit) — installed locally, not committed
 vendor/
 .php-cs-fixer.cache
+.env

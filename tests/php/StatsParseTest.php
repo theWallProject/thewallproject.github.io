@@ -24,8 +24,8 @@ final class StatsParseTest extends TestCase
         $raw = loadFixture('1_VisitsSummary_get.json');
         $parsed = parsePeriodSummary($raw, 'allTime');
 
-        $this->assertSame(88416, $parsed['visits']);
-        $this->assertSame(180885, $parsed['actions']);
+        $this->assertSame(88836, $parsed['visits']);
+        $this->assertSame(181757, $parsed['actions']);
         $this->assertSame(0, $parsed['uniqueVisitors'], 'Matomo omits nb_uniq_visitors for range periods');
         $this->assertSame(81, $parsed['avgVisitDuration']);
     }
@@ -40,7 +40,7 @@ final class StatsParseTest extends TestCase
 
         $hits = parsePageTitleHits($raw, 'wall');
 
-        $this->assertSame(94873, $hits);
+        $this->assertSame(95145, $hits);
     }
 
     public function testPageTitleUnknownReturnsZero(): void
@@ -77,25 +77,25 @@ final class StatsParseTest extends TestCase
             $byName[$r['name']] = $r['events'];
         }
 
-        // Exact counts from frozen fixture
-        $this->assertSame(34489, $byName['allow_month']);
-        $this->assertSame(20366, $byName['dismiss_close']);
-        $this->assertSame(9357, $byName['hint_expand']);
-        $this->assertSame(3980, $byName['support_pal']);
-        $this->assertSame(2451, $byName['hint_link']);
-        $this->assertSame(2152, $byName['whatsnew_update_1_14_0_to_1_15_2']);
-        $this->assertSame(841, $byName['show_bds_guide']);
-        $this->assertSame(827, $byName['show_alternatives']);
+        // Exact counts from refreshed server snapshot
+        $this->assertSame(34493, $byName['allow_month']);
+        $this->assertSame(20541, $byName['dismiss_close']);
+        $this->assertSame(9391, $byName['hint_expand']);
+        $this->assertSame(3986, $byName['support_pal']);
+        $this->assertSame(2454, $byName['hint_link']);
+        $this->assertSame(2153, $byName['whatsnew_update_1_14_0_to_1_15_2']);
+        $this->assertSame(842, $byName['show_bds_guide']);
+        $this->assertSame(828, $byName['show_alternatives']);
         $this->assertSame(587, $byName['options_vote_sadaqah']);
         $this->assertSame(63, $byName['donation_bricks']);
         $this->assertSame(227, $byName['options_donate']);
         $this->assertSame(225, $byName['support_ko_fi']);
         $this->assertSame(23, $byName['whatsnew_donate_monthly']);
-        $this->assertSame(55, $byName['whatsnew_donation_image']);
+        $this->assertSame(56, $byName['whatsnew_donation_image']);
         $this->assertSame(97, $byName['share_li']);
         $this->assertSame(47, $byName['share_fb']);
         $this->assertSame(39, $byName['share_tw']);
-        $this->assertSame(59, $byName['whatsnew_youtube_telpshow']);
+        $this->assertSame(60, $byName['whatsnew_youtube_telpshow']);
         $this->assertSame(21, $byName['whatsnew_visit_website']);
         $this->assertSame(4, $byName['whatsnew_contact']);
         $this->assertSame(3, $byName['whatsnew_report']);
@@ -110,12 +110,12 @@ final class StatsParseTest extends TestCase
         $raw = loadFixture('1_Events_getName.json');
         $grouped = parseEventNameGroups($raw);
 
-        $this->assertSame(593, $grouped['donationClicks']);
-        $this->assertSame(462, $grouped['shares']);
-        $this->assertSame(6046, $grouped['bannerEngagement']);
-        $this->assertSame(12885, $grouped['hintEngagement']);
-        $this->assertSame(87, $grouped['whatsnewEngagement']);
-        $this->assertSame(4220, $grouped['whatsnewViews']);
+        $this->assertSame(594, $grouped['donationClicks']);
+        $this->assertSame(463, $grouped['shares']);
+        $this->assertSame(6054, $grouped['bannerEngagement']);
+        $this->assertSame(12925, $grouped['hintEngagement']);
+        $this->assertSame(88, $grouped['whatsnewEngagement']);
+        $this->assertSame(4231, $grouped['whatsnewViews']);
     }
 
     // -----------------------------------------------------------------------
@@ -127,7 +127,7 @@ final class StatsParseTest extends TestCase
         $raw = loadFixture('1_VisitFrequency_get.json');
         $freq = parseFrequency($raw);
 
-        $this->assertSame(88410, $freq['newVisits']);
+        $this->assertSame(88830, $freq['newVisits']);
         $this->assertSame(6, $freq['returningVisits']);
     }
 
@@ -140,8 +140,8 @@ final class StatsParseTest extends TestCase
         $raw = loadFixture('1_Live_getCounters.json');
         $live = parseLiveCounters($raw);
 
-        $this->assertSame(6, $live['visits']);
-        $this->assertSame(11, $live['actions']);
+        $this->assertSame(9, $live['visits']);
+        $this->assertSame(18, $live['actions']);
     }
 
     // -----------------------------------------------------------------------
@@ -155,7 +155,7 @@ final class StatsParseTest extends TestCase
 
         $this->assertCount(3, $rows);
         $this->assertSame('Direct Entry', $rows[0]['label']);
-        $this->assertSame(88012, $rows[0]['visits']);
+        $this->assertSame(88267, $rows[0]['visits']);
         $this->assertSame('Campaigns', $rows[1]['label']);
         $this->assertSame(392, $rows[1]['visits']);
         $this->assertSame('AI Assistants', $rows[2]['label']);
@@ -185,10 +185,10 @@ final class StatsParseTest extends TestCase
 
         $this->assertCount(10, $rows);
         $this->assertSame('Egypt', $rows[0]['label']);
-        $this->assertSame(24729, $rows[0]['visits']);
+        $this->assertSame(24805, $rows[0]['visits']);
         $this->assertArrayHasKey('logo', $rows[0]);
         $this->assertSame('United States', $rows[1]['label']);
-        $this->assertSame(14506, $rows[1]['visits']);
+        $this->assertSame(14546, $rows[1]['visits']);
     }
 
     // -----------------------------------------------------------------------
@@ -202,7 +202,7 @@ final class StatsParseTest extends TestCase
 
         $this->assertCount(8, $rows);
         $this->assertSame('Africa', $rows[0]['label']);
-        $this->assertSame(29392, $rows[0]['visits']);
+        $this->assertSame(29489, $rows[0]['visits']);
     }
 
     // -----------------------------------------------------------------------
@@ -216,7 +216,7 @@ final class StatsParseTest extends TestCase
 
         $this->assertCount(10, $rows);
         $this->assertSame('Chrome', $rows[0]['label']);
-        $this->assertSame(62378, $rows[0]['visits']);
+        $this->assertSame(62553, $rows[0]['visits']);
     }
 
     // -----------------------------------------------------------------------
@@ -247,8 +247,65 @@ final class StatsParseTest extends TestCase
         $raw = loadFixture('2_Events_getAction.json');
         $labels = array_map(fn(array $r): string => $r['label'] ?? '', $raw);
 
-        $this->assertContains('download_click - engagement', $labels);
-        $this->assertContains('donation_click - engagement', $labels);
+        // secondaryDimension=eventName splits rows by event name — labels
+        // carry the per-name suffix (download.android, kofi, etc.), not
+        // the bare "engagement" category suffix the eventCategory query
+        // produced. The parser filters on Events_EventAction and surfaces
+        // Events_EventName as the row label.
+        $this->assertContains('download_click - download.android', $labels);
+        $this->assertContains('donation_click - kofi', $labels);
+    }
+
+    public function testParseEventActionsReturnsPerNameRows(): void
+    {
+        $raw = loadFixture('2_Events_getAction.json');
+        $rows = parseEventActions($raw, 'download_click');
+
+        $byName = [];
+        foreach ($rows as $r) {
+            $byName[$r['label']] = $r['events'];
+        }
+
+        // Per-platform download rows from the refreshed snapshot
+        $this->assertSame(5, $byName['download.android']);
+        $this->assertSame(5, $byName['download.chrome']);
+        $this->assertSame(4, $byName['download.firefox']);
+        $this->assertSame(2, $byName['download.ios']);
+    }
+
+    public function testParseEventActionsDonationRows(): void
+    {
+        $raw = loadFixture('2_Events_getAction.json');
+        $rows = parseEventActions($raw, 'donation_click');
+
+        $this->assertCount(1, $rows);
+        $this->assertSame('kofi', $rows[0]['label']);
+        $this->assertSame(3, $rows[0]['events']);
+    }
+
+    public function testParseEventActionsSkipsRowMissingEventName(): void
+    {
+        // A row matching the action filter but lacking Events_EventName
+        // must be skipped (not fallback-labeled, not thrown). Matomo
+        // legitimately omits Events_EventName for events without a name.
+        $rowWithoutName = [
+            'label' => 'download_click - engagement',
+            'nb_events' => 7,
+            'Events_EventAction' => 'download_click',
+            'Events_EventName' => '',
+        ];
+        $rowWithName = [
+            'label' => 'download_click - download.chrome',
+            'nb_events' => 5,
+            'Events_EventAction' => 'download_click',
+            'Events_EventName' => 'download.chrome',
+        ];
+
+        $rows = parseEventActions([$rowWithoutName, $rowWithName], 'download_click');
+
+        $this->assertCount(1, $rows);
+        $this->assertSame('download.chrome', $rows[0]['label']);
+        $this->assertSame(5, $rows[0]['events']);
     }
 
     // -----------------------------------------------------------------------
@@ -277,7 +334,7 @@ final class StatsParseTest extends TestCase
 
         $this->assertCount(10, $rows);
         $this->assertSame('Windows 10', $rows[0]['label']);
-        $this->assertSame(45196, $rows[0]['visits']);
+        $this->assertSame(45329, $rows[0]['visits']);
     }
 
     // -----------------------------------------------------------------------

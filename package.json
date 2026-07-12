@@ -26,7 +26,8 @@
     "test:php": "php vendor/bin/phpunit --bootstrap tests/php/bootstrap.php tests/php/",
     "composer": "C:\\Windows\\System32\\cmd.exe /c composer.bat",
     "deploy": "node scripts/check-clean.js && git push && node scripts/deploy.js",
-    "deploy:php": "node scripts/copy-dynamic.js && git push --no-verify && node scripts/deploy.js"
+    "deploy:php": "node scripts/copy-dynamic.js && git push --no-verify && node scripts/deploy.js",
+    "update_fixtures": "node scripts/update-fixtures.js && npm run format"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

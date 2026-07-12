@@ -1,29 +1,42 @@
 [
   {
-    "label": "Desktop",
-    "nb_visits": 7,
-    "nb_actions": 97,
-    "max_actions": 36,
-    "sum_visit_length": 4178,
-    "bounce_count": 0,
+    "label": "Smartphone",
+    "nb_visits": 30,
+    "nb_actions": 149,
+    "max_actions": 26,
+    "sum_visit_length": 1518,
+    "bounce_count": 3,
     "nb_visits_converted": 0,
-    "sum_daily_nb_uniq_visitors": 3,
+    "sum_daily_nb_uniq_visitors": 23,
+    "sum_daily_nb_users": 0,
+    "segment": "deviceType==smartphone",
+    "logo": "plugins/Morpheus/icons/dist/devices/smartphone.png"
+  },
+  {
+    "label": "Desktop",
+    "nb_visits": 25,
+    "nb_actions": 308,
+    "max_actions": 70,
+    "sum_visit_length": 14618,
+    "bounce_count": 6,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 16,
     "sum_daily_nb_users": 0,
     "segment": "deviceType==desktop",
     "logo": "plugins/Morpheus/icons/dist/devices/desktop.png"
   },
   {
-    "label": "Smartphone",
-    "nb_visits": 7,
-    "nb_actions": 22,
-    "max_actions": 7,
-    "sum_visit_length": 98,
-    "bounce_count": 3,
+    "label": "Phablet",
+    "nb_visits": 1,
+    "nb_actions": 5,
+    "max_actions": 5,
+    "sum_visit_length": 36,
+    "bounce_count": 0,
     "nb_visits_converted": 0,
-    "sum_daily_nb_uniq_visitors": 5,
+    "sum_daily_nb_uniq_visitors": 1,
     "sum_daily_nb_users": 0,
-    "segment": "deviceType==smartphone",
-    "logo": "plugins/Morpheus/icons/dist/devices/smartphone.png"
+    "segment": "deviceType==phablet",
+    "logo": "plugins/Morpheus/icons/dist/devices/phablet.png"
   },
   {
     "label": "Camera",
@@ -54,12 +67,6 @@
     "nb_visits": 0,
     "segment": "deviceType==peripheral",
     "logo": "plugins/Morpheus/icons/dist/devices/peripheral.png"
-  },
-  {
-    "label": "Phablet",
-    "nb_visits": 0,
-    "segment": "deviceType==phablet",
-    "logo": "plugins/Morpheus/icons/dist/devices/phablet.png"
   },
   {
     "label": "Portable media player",

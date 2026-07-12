@@ -1,15 +1,51 @@
 [
   {
     "label": "Asia",
-    "nb_visits": 7,
-    "nb_actions": 99,
-    "max_actions": 36,
-    "sum_visit_length": 4249,
+    "nb_visits": 21,
+    "nb_actions": 255,
+    "max_actions": 70,
+    "sum_visit_length": 12191,
     "bounce_count": 0,
     "nb_visits_converted": 0,
-    "sum_daily_nb_uniq_visitors": 5,
+    "sum_daily_nb_uniq_visitors": 17,
     "sum_daily_nb_users": 0,
     "code": "Asia"
+  },
+  {
+    "label": "Africa",
+    "nb_visits": 12,
+    "nb_actions": 101,
+    "max_actions": 54,
+    "sum_visit_length": 3323,
+    "bounce_count": 5,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 8,
+    "sum_daily_nb_users": 0,
+    "code": "Africa"
+  },
+  {
+    "label": "North America",
+    "nb_visits": 10,
+    "nb_actions": 61,
+    "max_actions": 26,
+    "sum_visit_length": 497,
+    "bounce_count": 1,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 9,
+    "sum_daily_nb_users": 0,
+    "code": "North America"
+  },
+  {
+    "label": "Europe",
+    "nb_visits": 9,
+    "nb_actions": 39,
+    "max_actions": 7,
+    "sum_visit_length": 159,
+    "bounce_count": 0,
+    "nb_visits_converted": 0,
+    "sum_daily_nb_uniq_visitors": 8,
+    "sum_daily_nb_users": 0,
+    "code": "Europe"
   },
   {
     "label": "Oceania",
@@ -24,39 +60,15 @@
     "code": "Oceania"
   },
   {
-    "label": "North America",
-    "nb_visits": 2,
-    "nb_actions": 6,
-    "max_actions": 4,
-    "sum_visit_length": 20,
-    "bounce_count": 0,
-    "nb_visits_converted": 0,
-    "sum_daily_nb_uniq_visitors": 2,
-    "sum_daily_nb_users": 0,
-    "code": "North America"
-  },
-  {
-    "label": "Africa",
+    "label": "South America",
     "nb_visits": 1,
-    "nb_actions": 6,
-    "max_actions": 6,
-    "sum_visit_length": 3,
+    "nb_actions": 3,
+    "max_actions": 3,
+    "sum_visit_length": 2,
     "bounce_count": 0,
     "nb_visits_converted": 0,
     "sum_daily_nb_uniq_visitors": 1,
     "sum_daily_nb_users": 0,
-    "code": "Africa"
-  },
-  {
-    "label": "Europe",
-    "nb_visits": 1,
-    "nb_actions": 5,
-    "max_actions": 5,
-    "sum_visit_length": 4,
-    "bounce_count": 0,
-    "nb_visits_converted": 0,
-    "sum_daily_nb_uniq_visitors": 1,
-    "sum_daily_nb_users": 0,
-    "code": "Europe"
+    "code": "South America"
   }
 ]

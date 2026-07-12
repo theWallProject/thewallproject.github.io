@@ -93,7 +93,7 @@ export const MatomoEvent = {
     engagement: "engagement",
   },
   action: {
-    sectionView: "section_view_",
+    sectionView: "section_view",
     downloadClick: "download_click",
     languageSwitch: "language_switch",
     donationClick: "donation_click",
