@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { isWebGLAvailable } from "../lib/webgl";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -113,6 +114,7 @@ const MorphingBackground: React.FC<MorphingBackgroundProps> = ({ color = "#b72b0
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [webglFailed, setWebglFailed] = useState(false);
   const webglStateRef = useRef<WebGLState | null>(null);
   const frameIdRef = useRef<number | null>(null);
 
@@ -135,6 +137,14 @@ const MorphingBackground: React.FC<MorphingBackgroundProps> = ({ color = "#b72b0
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // WebGL unavailable (broken driver / software rasterizer / headless): bail
+    // out and render the static fallback instead of throwing and blanking the
+    // whole app.
+    if (!isWebGLAvailable()) {
+      setWebglFailed(true);
+      return;
+    }
+
     const hexToRgb = (hex: string) => {
       const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       return result
@@ -148,12 +158,19 @@ const MorphingBackground: React.FC<MorphingBackgroundProps> = ({ color = "#b72b0
 
     if (!webglStateRef.current) {
       const rgb = hexToRgb(color);
-      const renderer = new THREE.WebGLRenderer({
-        canvas,
-        alpha: true,
-        antialias: false,
-        powerPreference: "low-power",
-      });
+      let renderer: THREE.WebGLRenderer;
+      try {
+        renderer = new THREE.WebGLRenderer({
+          canvas,
+          alpha: true,
+          antialias: false,
+          powerPreference: "low-power",
+        });
+      } catch (err) {
+        console.warn("[MorphingBackground] WebGL renderer creation failed — using static fallback.", err);
+        setWebglFailed(true);
+        return;
+      }
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
       renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -244,7 +261,17 @@ const MorphingBackground: React.FC<MorphingBackgroundProps> = ({ color = "#b72b0
 
   return (
     <div ref={containerRef} className="absolute inset-0 pointer-events-none z-0">
-      <canvas ref={canvasRef} className="w-full h-full" />
+      {webglFailed ? (
+        <div
+          aria-hidden
+          className="w-full h-full"
+          style={{
+            background: `linear-gradient(to top, ${color} 0%, rgba(0,0,0,0) 70%)`,
+          }}
+        />
+      ) : (
+        <canvas ref={canvasRef} className="w-full h-full" />
+      )}
     </div>
   );
 };

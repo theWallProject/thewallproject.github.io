@@ -9,9 +9,10 @@ test.describe("Footer", () => {
     const footer = page.locator("footer");
     await expect(footer).toBeVisible();
 
-    // Check for social links (GitHub and Email) - only in footer
+    // Check for social links (Telegram, YouTube, Twitter/X, GitHub, Email) plus
+    // the designer-credit link, all of which open in a new tab
     const socialLinks = footer.locator("a[target='_blank']");
-    await expect(socialLinks).toHaveCount(2);
+    await expect(socialLinks).toHaveCount(6);
 
     // Check for footer links (Privacy) - only in footer
     const footerLinks = footer.locator("a[href='/privacy']");
@@ -26,14 +27,12 @@ test.describe("Footer", () => {
 
   test("should have correct social link URLs", async ({ page }) => {
     const footer = page.locator("footer");
-    const socialLinks = footer.locator("a[target='_blank']");
 
-    // Check GitHub link
-    const githubLink = socialLinks.filter({ hasText: /github/i });
+    // Social icons contain only an <img> (no text), so select by href.
+    const githubLink = footer.locator('a[href="https://github.com/theWallProject/mono"]');
     await expect(githubLink).toHaveAttribute("href", "https://github.com/theWallProject/mono");
 
-    // Check Email link
-    const emailLink = socialLinks.filter({ hasText: /email/i });
+    const emailLink = footer.locator('a[href="mailto:the.wall.addon@proton.me"]');
     await expect(emailLink).toHaveAttribute("href", "mailto:the.wall.addon@proton.me");
   });
 

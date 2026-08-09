@@ -91,14 +91,16 @@ const Footer: React.FC = () => {
           {/* Left Column - Branding and Social */}
           <div className={styles.brandingSection}>
             <div className={styles.logoContainer}>
-              <img
-                src="./files/common/logo-light.svg"
-                alt={t("alt.theWallLogo")}
-                className={styles.logo}
-                onError={(e) => {
-                  e.currentTarget.src = "https://via.placeholder.com/230x78/C24233/FFFFFF?text=THE+WALL";
-                }}
-              />
+              <Link to="/" aria-label={t("alt.theWallLogo")}>
+                <img
+                  src="./files/common/logo-light.svg"
+                  alt={t("alt.theWallLogo")}
+                  className={styles.logo}
+                  onError={(e) => {
+                    e.currentTarget.src = "https://via.placeholder.com/230x78/C24233/FFFFFF?text=THE+WALL";
+                  }}
+                />
+              </Link>
             </div>
             <div className={styles.socialLinks}>
               {socialLinks.map((link) => (

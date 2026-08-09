@@ -10,8 +10,9 @@ test.describe("Hero Section", () => {
     const heroSection = page.locator("section").first();
     await expect(heroSection).toBeVisible();
 
-    // Check for intro text within hero section
-    const introText = heroSection.locator("p");
+    // Check for intro text within hero section. The intro is rendered by
+    // SplitText as several word-level <p> elements, so target the first one.
+    const introText = heroSection.locator("p").first();
     await expect(introText).toBeVisible();
 
     // Check that intro text has content

@@ -107,13 +107,16 @@ const Testimonials: React.FC = () => {
         <LogoLoop
           logos={testimonialList}
           direction="left"
-          speed={40}
+          speed={22}
           gap={window.innerWidth < 768 ? 20 : 60}
           logoHeight={0}
           renderItem={renderTestimonial}
           pauseOnHover={true}
         />
       </div>
+      <p className="mt-6 text-center text-[0.6rem] md:text-xs text-white/30 uppercase tracking-[0.25em] font-bold">
+        {t("testimonials.hoverToPause")}
+      </p>
 
       {/* Trust Seal */}
       <div className="mt-28 flex justify-center items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500">

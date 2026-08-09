@@ -6,8 +6,8 @@ test.describe("Features Section", () => {
   });
 
   test("should display features section with all feature items", async ({ page }) => {
-    // Check for features section (third section in the page)
-    const featuresSection = page.locator("section").nth(2);
+    // The features section is identified by its id (section order varies).
+    const featuresSection = page.locator("#features");
     await expect(featuresSection).toBeVisible();
 
     // Check for all feature titles (4 total features)
@@ -21,7 +21,7 @@ test.describe("Features Section", () => {
   });
 
   test("should display feature titles and descriptions", async ({ page }) => {
-    const featuresSection = page.locator("section").nth(2);
+    const featuresSection = page.locator("#features");
 
     // Check for feature titles and descriptions within features section
     const featureTitles = featuresSection.locator("h3");

@@ -54,36 +54,37 @@
     },
     "testimonial": {
       "2": {
-        "quote": "Incredible design and works perfectly offline. I use it on both my browser and Android phone. Essential for conscious consumers.",
-        "author": "Sarah Ahmed",
-        "role": "Android user"
+        "quote": "Absolutely amazing - helping me recover my faith in humanity one step at a time. Boycott!!",
+        "author": "Mohammed Ali",
+        "role": "Chrome Web Store review"
       },
       "3": {
-        "quote": "Finally a way to boycott effectively without manually searching every time. The visual feedback is powerful and clear.",
-        "author": "Omar Khaled",
-        "role": "Firefox user"
+        "quote": "Very helpful, May Allah bless you.",
+        "author": "Ahmad Ali",
+        "role": "Chrome Web Store review"
       },
       "4": {
-        "quote": "Detailed reasons for each block. I love that it cites Crunchbase and founder data. Transparency build trust.",
-        "author": "Layla Hassan",
-        "role": "Safari user"
+        "quote": "Great app for revealing any company related to the Israeli terrorism regime.",
+        "author": "Eslam Abdulazim Taha",
+        "role": "Chrome Web Store review"
       },
       "5": {
-        "quote": "This project is a game changer for the BDS movement. Highly recommended for everyone who wants to make a difference.",
-        "author": "Youssef Ibrahim",
-        "role": "Brave user"
+        "quote": "Helps easily identify companies that should be boycotted without breaking a sweat!",
+        "author": "Chouaib Sid",
+        "role": "Chrome Web Store review"
       },
       "6": {
-        "quote": "The Android app is so lightweight and doesn't drain battery. Works in the background silently keeping me informed.",
-        "author": "Mariam Ali",
-        "role": "Android user"
+        "quote": "Such an amazing app helped me avoid so many zionist tech and products.",
+        "author": "medo angel",
+        "role": "Chrome Web Store review"
       },
-      "quote": "The most seamless and awesome plugin I've ever used! It has informed me about a lot of companies that I stopped using.",
-      "author": "Abdo Wahba",
-      "role": "{{browser}} user"
+      "quote": "This is what it's all about. Fighting back against the foreign power that is infiltrating our military and our privacy.",
+      "author": "Anon Ymous",
+      "role": "Chrome Web Store review"
     },
     "testimonials": {
       "community": "COMMUNITY",
+      "hoverToPause": "Hover to pause",
       "title": "What people are saying",
       "subtitle": "Join thousands of conscious users worldwide."
     },
@@ -166,6 +167,7 @@
     },
     "privacy": {
       "title": "Privacy Policy",
+      "backToHome": "Back to Home",
       "intro": "To provide the best service, we ONLY track a very limited number of events.",
       "noData": "WE WILL NEVER COLLECT USER IDENTIFYING DATA NOR NAVIGATION HISTORY!",
       "eventsTracked": "Those are the events we track:",

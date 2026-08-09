@@ -54,36 +54,37 @@
     },
     "testimonial": {
       "2": {
-        "quote": "令人難以置信的設計，離線完美運行。我在瀏覽器和安卓手機上都使用它。對於有意識的消費者來說必不可少。",
-        "author": "Sarah Ahmed",
-        "role": "安卓用戶"
+        "quote": "Absolutely amazing - helping me recover my faith in humanity one step at a time. Boycott!!",
+        "author": "Mohammed Ali",
+        "role": "Chrome 線上應用程式商店評價"
       },
       "3": {
-        "quote": "終於有一種有效抵制的方法，無需每次手動搜索。視覺反饋強大而清晰。",
-        "author": "Omar Khaled",
-        "role": "Firefox 用戶"
+        "quote": "Very helpful, May Allah bless you.",
+        "author": "Ahmad Ali",
+        "role": "Chrome 線上應用程式商店評價"
       },
       "4": {
-        "quote": "每個封鎖的詳細原因。我喜歡它引用 Crunchbase 和創始人數據。透明建立信任。",
-        "author": "Layla Hassan",
-        "role": "Safari 用戶"
+        "quote": "Great app for revealing any company related to the Israeli terrorism regime.",
+        "author": "Eslam Abdulazim Taha",
+        "role": "Chrome 線上應用程式商店評價"
       },
       "5": {
-        "quote": "這個項目是 BDS 運動的遊戲規則改變者。強烈推薦給每一個想要產生影響的人。",
-        "author": "Youssef Ibrahim",
-        "role": "Brave 用戶"
+        "quote": "Helps easily identify companies that should be boycotted without breaking a sweat!",
+        "author": "Chouaib Sid",
+        "role": "Chrome 線上應用程式商店評價"
       },
       "6": {
-        "quote": "安卓應用非常輕量，不耗電池。在後台靜默運行，讓我隨時了解情況。",
-        "author": "Mariam Ali",
-        "role": "安卓用戶"
+        "quote": "Such an amazing app helped me avoid so many zionist tech and products.",
+        "author": "medo angel",
+        "role": "Chrome 線上應用程式商店評價"
       },
-      "quote": "我使用過的最流暢、最棒的插件！它讓我了解了很多我已經停止使用的公司。",
-      "author": "Abdo Wahba",
-      "role": "{{browser}} 用戶"
+      "quote": "This is what it's all about. Fighting back against the foreign power that is infiltrating our military and our privacy.",
+      "author": "Anon Ymous",
+      "role": "Chrome 線上應用程式商店評價"
     },
     "testimonials": {
       "community": "社區",
+      "hoverToPause": "懸停以暫停",
       "title": "人們怎麼說",
       "subtitle": "加入全球數千名有意識的用戶。"
     },
@@ -166,6 +167,7 @@
     },
     "privacy": {
       "title": "隱私政策",
+      "backToHome": "返回首頁",
       "intro": "為了提供最佳服務，我們僅跟踪非常有限數量的事件。",
       "noData": "我們永遠不會收集用戶識別數據或導航歷史！",
       "eventsTracked": "這些是我們跟踪的事件：",

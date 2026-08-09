@@ -12,10 +12,14 @@ import PlatformShowcase from "./components/PlatformShowcase";
 import Footer from "./components/Footer";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import Stats from "./components/Stats";
+import DonationsPage from "./components/DonationsPage";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 import "./App.css";
 import ReactLenis from "lenis/react";
 import { useLenis } from "lenis/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import DonationSection from "./components/DonationSection";
 import { useScrollDebugger } from "./hooks/useScrollDebugger";
 import { useBrowserDetection } from "./components/BrowserDetector";
@@ -39,8 +43,16 @@ const HomePage: React.FC = () => {
     document.title = "The Wall Project";
   }, []);
 
+  // Keep GSAP ScrollTrigger in sync with Lenis's smoothed scroll position.
+  // Without this, pinned scrub timelines (TheBuildWall, Features) lag or feel
+  // jerky. lagSmoothing(0) is the documented companion setting for Lenis.
+  useEffect(() => {
+    gsap.ticker.lagSmoothing(0);
+  }, []);
+
   useLenis((lenis) => {
     if (isMobile) return;
+    ScrollTrigger.update();
     console.warn(
       "[Lenis] scroll:",
       Math.round(lenis.scroll),
@@ -59,9 +71,9 @@ const HomePage: React.FC = () => {
       <Hero />
       <PlatformShowcase />
       <Features />
-      <DonationSection />
       <TheBuildWall />
       <Testimonials />
+      <DonationSection />
       <Footer />
     </div>
   );
@@ -72,12 +84,15 @@ const App: React.FC = () => {
     <I18nextProvider i18n={i18n}>
       <LanguageProvider>
         <Router>
-          <MatomoTrackingBoundary />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/stats" element={<Stats />} />
-          </Routes>
+          <ErrorBoundary>
+            <MatomoTrackingBoundary />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/donate" element={<DonationsPage />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/stats" element={<Stats />} />
+            </Routes>
+          </ErrorBoundary>
         </Router>
       </LanguageProvider>
     </I18nextProvider>

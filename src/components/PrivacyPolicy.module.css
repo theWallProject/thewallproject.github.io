@@ -1,8 +1,27 @@
 .privacyPolicy {
-  padding: 2rem 0;
+  padding: 7rem 0 4rem;
   min-height: 100vh;
-  background-color: #f0e7e6;
-  font-family: "Tinos", serif;
+  background-color: #050505;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #b72b00;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.backLink:hover {
+  color: #ff5a33;
+  border-color: currentColor;
 }
 
 .container {
@@ -15,37 +34,46 @@
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  color: #333;
+  color: #ffffff;
+}
+
+.container h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #ffffff;
 }
 
 .container hr {
   border: none;
-  height: 2px;
-  background-color: #333;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.15);
   margin: 2rem 0;
 }
 
 .container p {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   line-height: 1.7;
   margin-bottom: 1rem;
-  color: #333;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .container ol {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   line-height: 1.7;
   margin: 1rem 0;
   padding-left: 2rem;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .container li {
   margin-bottom: 0.5rem;
-  color: #333;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 /* RTL support */
 html[dir="rtl"] .container h1,
+html[dir="rtl"] .container h2,
 html[dir="rtl"] .container p,
 html[dir="rtl"] .container li {
   text-align: right;
@@ -68,7 +96,7 @@ html[dir="rtl"] .container ol {
 
   .container p,
   .container ol {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 }
 
@@ -79,6 +107,6 @@ html[dir="rtl"] .container ol {
 
   .container p,
   .container ol {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 }

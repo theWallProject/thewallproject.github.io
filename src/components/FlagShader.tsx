@@ -1,5 +1,6 @@
 import { useRef, useEffect, forwardRef, useImperativeHandle, useState } from "react";
 import * as THREE from "three";
+import { isWebGLAvailable } from "../lib/webgl";
 
 const vertexShader = `
   varying vec2 vUv;
@@ -116,6 +117,7 @@ export const FlagShader = forwardRef<FlagShaderRef, FlagShaderProps>(({ progress
   const webglRef = useRef<WebGLResources | null>(null);
   const frameIdRef = useRef<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [webglFailed, setWebglFailed] = useState(false);
   const isVisibleRef = useRef(false);
 
   useEffect(() => {
@@ -155,13 +157,28 @@ export const FlagShader = forwardRef<FlagShaderRef, FlagShaderProps>(({ progress
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // WebGL unavailable (broken driver / software rasterizer / headless): bail
+    // out and render the static fallback instead of throwing and blanking the
+    // whole app.
+    if (!isWebGLAvailable()) {
+      setWebglFailed(true);
+      return;
+    }
+
     if (!webglRef.current) {
-      const renderer = new THREE.WebGLRenderer({
-        canvas,
-        alpha: true,
-        antialias: true,
-        powerPreference: "low-power",
-      });
+      let renderer: THREE.WebGLRenderer;
+      try {
+        renderer = new THREE.WebGLRenderer({
+          canvas,
+          alpha: true,
+          antialias: true,
+          powerPreference: "low-power",
+        });
+      } catch (err) {
+        console.warn("[FlagShader] WebGL renderer creation failed — using static fallback.", err);
+        setWebglFailed(true);
+        return;
+      }
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
       renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -239,7 +256,17 @@ export const FlagShader = forwardRef<FlagShaderRef, FlagShaderProps>(({ progress
 
   return (
     <div ref={containerRef} className="absolute inset-0 z-4 pointer-events-none">
-      <canvas ref={canvasRef} className="w-full h-full opacity-[0.65] mix-blend-screen" />
+      {webglFailed ? (
+        <img
+          src="/files/common/flag.webp"
+          alt=""
+          aria-hidden
+          loading="lazy"
+          className="w-full h-full object-cover opacity-[0.4] mix-blend-screen"
+        />
+      ) : (
+        <canvas ref={canvasRef} className="w-full h-full opacity-[0.65] mix-blend-screen" />
+      )}
     </div>
   );
 });

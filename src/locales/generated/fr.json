@@ -54,36 +54,37 @@
     },
     "testimonial": {
       "2": {
-        "quote": "Design incroyable et fonctionne parfaitement hors ligne. Je l'utilise sur mon navigateur et mon téléphone Android. Essentiel pour les consommateurs conscients.",
-        "author": "Sarah Ahmed",
-        "role": "Utilisateur Android"
+        "quote": "Absolutely amazing - helping me recover my faith in humanity one step at a time. Boycott!!",
+        "author": "Mohammed Ali",
+        "role": "Avis du Chrome Web Store"
       },
       "3": {
-        "quote": "Enfin un moyen de boycotter efficacement sans chercher manuellement à chaque fois. Le retour visuel est puissant et clair.",
-        "author": "Omar Khaled",
-        "role": "Utilisateur Firefox"
+        "quote": "Very helpful, May Allah bless you.",
+        "author": "Ahmad Ali",
+        "role": "Avis du Chrome Web Store"
       },
       "4": {
-        "quote": "Raisons détaillées pour chaque blocage. J'adore qu'il cite les données Crunchbase et des fondateurs. La transparence construit la confiance.",
-        "author": "Layla Hassan",
-        "role": "Utilisateur Safari"
+        "quote": "Great app for revealing any company related to the Israeli terrorism regime.",
+        "author": "Eslam Abdulazim Taha",
+        "role": "Avis du Chrome Web Store"
       },
       "5": {
-        "quote": "Ce projet change la donne pour le mouvement BDS. Fortement recommandé pour tous ceux qui veulent faire une différence.",
-        "author": "Youssef Ibrahim",
-        "role": "Utilisateur Brave"
+        "quote": "Helps easily identify companies that should be boycotted without breaking a sweat!",
+        "author": "Chouaib Sid",
+        "role": "Avis du Chrome Web Store"
       },
       "6": {
-        "quote": "L'application Android est si légère et ne draine pas la batterie. Fonctionne en arrière-plan en me tenant informé silencieusement.",
-        "author": "Mariam Ali",
-        "role": "Utilisateur Android"
+        "quote": "Such an amazing app helped me avoid so many zionist tech and products.",
+        "author": "medo angel",
+        "role": "Avis du Chrome Web Store"
       },
-      "quote": "Le plugin le plus fluide et génial que j'aie jamais utilisé ! Il m'a informé sur beaucoup d'entreprises que j'ai arrêté d'utiliser.",
-      "author": "Abdo Wahba",
-      "role": "Utilisateur {{browser}}"
+      "quote": "This is what it's all about. Fighting back against the foreign power that is infiltrating our military and our privacy.",
+      "author": "Anon Ymous",
+      "role": "Avis du Chrome Web Store"
     },
     "testimonials": {
       "community": "COMMUNAUTÉ",
+      "hoverToPause": "Survolez pour mettre en pause",
       "title": "Ce que les gens disent",
       "subtitle": "Rejoignez des milliers d'utilisateurs conscients dans le monde."
     },
@@ -166,6 +167,7 @@
     },
     "privacy": {
       "title": "Politique de confidentialité",
+      "backToHome": "Retour à l'accueil",
       "intro": "Pour fournir le meilleur service, nous ne suivons QU'UN nombre très limité d'événements.",
       "noData": "NOUS NE COLLECTERONS JAMAIS DE DONNÉES D'IDENTIFICATION UTILISATEUR NI D'HISTORIQUE DE NAVIGATION !",
       "eventsTracked": "Voici les événements que nous suivons :",

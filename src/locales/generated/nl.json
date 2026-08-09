@@ -54,36 +54,37 @@
     },
     "testimonial": {
       "2": {
-        "quote": "Ongeloellig ontwerp en werkt perfect offline. Ik gebruik het op zowel mijn browser als mijn Android-telefoon. Essentieel voor bewuste consumenten.",
-        "author": "Sarah Ahmed",
-        "role": "Android-gebruiker"
+        "quote": "Absolutely amazing - helping me recover my faith in humanity one step at a time. Boycott!!",
+        "author": "Mohammed Ali",
+        "role": "Chrome Web Store recensie"
       },
       "3": {
-        "quote": "Eindelijk een manier om effectief te boycotten zonder elke keer handmatig te zoeken. De visuele feedback is krachtig en duidelijk.",
-        "author": "Omar Khaled",
-        "role": "Firefox-gebruiker"
+        "quote": "Very helpful, May Allah bless you.",
+        "author": "Ahmad Ali",
+        "role": "Chrome Web Store recensie"
       },
       "4": {
-        "quote": "Gedetailleerde redenen voor elke blokkering. Ik vind het geweldig dat het Crunchbase-en oprichterdata aanhaalt. Transparantie bouwt vertrouwen op.",
-        "author": "Layla Hassan",
-        "role": "Safari-gebruiker"
+        "quote": "Great app for revealing any company related to the Israeli terrorism regime.",
+        "author": "Eslam Abdulazim Taha",
+        "role": "Chrome Web Store recensie"
       },
       "5": {
-        "quote": "Dit project is een gamechanger voor de BDS-beweging. Zeer aanbevolen voor iedereen die een verschil wil maken.",
-        "author": "Youssef Ibrahim",
-        "role": "Brave-gebruiker"
+        "quote": "Helps easily identify companies that should be boycotted without breaking a sweat!",
+        "author": "Chouaib Sid",
+        "role": "Chrome Web Store recensie"
       },
       "6": {
-        "quote": "De Android-app is zo lichtgewicht en put de batterij niet uit. Werkt op de achtergrond en houdt me stilletjes op de hoogte.",
-        "author": "Mariam Ali",
-        "role": "Android-gebruiker"
+        "quote": "Such an amazing app helped me avoid so many zionist tech and products.",
+        "author": "medo angel",
+        "role": "Chrome Web Store recensie"
       },
-      "quote": "De meest naadloze en geweldige plugin die ik ooit heb gebruikt! Het heeft me geïnformeerd over veel bedrijven die ik niet meer gebruik.",
-      "author": "Abdo Wahba",
-      "role": "{{browser}} gebruiker"
+      "quote": "This is what it's all about. Fighting back against the foreign power that is infiltrating our military and our privacy.",
+      "author": "Anon Ymous",
+      "role": "Chrome Web Store recensie"
     },
     "testimonials": {
       "community": "GEMEENSCHAP",
+      "hoverToPause": "Hover om te pauzeren",
       "title": "Wat mensen zeggen",
       "subtitle": "Sluit u aan bij duizenden bewuste gebruikers wereldwijd."
     },
@@ -166,6 +167,7 @@
     },
     "privacy": {
       "title": "Privacybeleid",
+      "backToHome": "Terug naar Home",
       "intro": "Om de beste service te bieden, volgen we ALLEEN een zeer beperkt aantal gebeurtenissen op.",
       "noData": "WE ZULLEN NOOIT GEBRUIKERSIDENTIFICERENDE GEGEVENS OF NAVIGATIEGESCHIEDENIS VERZAMELEN!",
       "eventsTracked": "Dit zijn de gebeurtenissen die we volgen:",

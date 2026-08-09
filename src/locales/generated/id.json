@@ -54,36 +54,37 @@
     },
     "testimonial": {
       "2": {
-        "quote": "Desain luar biasa dan bekerja sempurna secara offline. Saya menggunakannya di browser dan ponsel Android saya. Penting untuk konsumen yang sadar.",
-        "author": "Sarah Ahmed",
-        "role": "Pengguna Android"
+        "quote": "Absolutely amazing - helping me recover my faith in humanity one step at a time. Boycott!!",
+        "author": "Mohammed Ali",
+        "role": "Ulasan Chrome Web Store"
       },
       "3": {
-        "quote": "Akhirnya cara untuk memboikot secara efektif tanpa mencari secara manual setiap kali. Umpan balik visualnya kuat dan jelas.",
-        "author": "Omar Khaled",
-        "role": "Pengguna Firefox"
+        "quote": "Very helpful, May Allah bless you.",
+        "author": "Ahmad Ali",
+        "role": "Ulasan Chrome Web Store"
       },
       "4": {
-        "quote": "Alasan terperinci untuk setiap pemblokiran. Saya suka karena mengutip data Crunchbase dan pendiri. Transparansi membangun kepercayaan.",
-        "author": "Layla Hassan",
-        "role": "Pengguna Safari"
+        "quote": "Great app for revealing any company related to the Israeli terrorism regime.",
+        "author": "Eslam Abdulazim Taha",
+        "role": "Ulasan Chrome Web Store"
       },
       "5": {
-        "quote": "Proyek ini mengubah permainan bagi gerakan BDS. Sangat direkomendasikan untuk semua orang yang ingin membuat perubahan.",
-        "author": "Youssef Ibrahim",
-        "role": "Pengguna Brave"
+        "quote": "Helps easily identify companies that should be boycotted without breaking a sweat!",
+        "author": "Chouaib Sid",
+        "role": "Ulasan Chrome Web Store"
       },
       "6": {
-        "quote": "Aplikasi Android sangat ringan dan tidak menguras baterai. Bekerja di latar belakang secara diam-diam memberi tahu saya.",
-        "author": "Mariam Ali",
-        "role": "Pengguna Android"
+        "quote": "Such an amazing app helped me avoid so many zionist tech and products.",
+        "author": "medo angel",
+        "role": "Ulasan Chrome Web Store"
       },
-      "quote": "Plugin yang paling mulus dan luar biasa yang pernah saya gunakan! Ini telah memberi tahu saya tentang banyak perusahaan yang saya berhenti gunakan.",
-      "author": "Abdo Wahba",
-      "role": "Pengguna {{browser}}"
+      "quote": "This is what it's all about. Fighting back against the foreign power that is infiltrating our military and our privacy.",
+      "author": "Anon Ymous",
+      "role": "Ulasan Chrome Web Store"
     },
     "testimonials": {
       "community": "KOMUNITAS",
+      "hoverToPause": "Arahkan untuk menjeda",
       "title": "Apa kata orang",
       "subtitle": "Bergabunglah dengan ribuan pengguna sadar di seluruh dunia."
     },
@@ -166,6 +167,7 @@
     },
     "privacy": {
       "title": "Kebijakan Privasi",
+      "backToHome": "Kembali ke Beranda",
       "intro": "Untuk memberikan layanan terbaik, kami HANYA melacak sejumlah peristiwa yang sangat terbatas.",
       "noData": "KAMI TIDAK AKAN PERNAH MENGUMPULKAN DATA IDENTIFIKASI PENGGUNA ATAU RIWAYAT NAVIGASI!",
       "eventsTracked": "Berikut adalah peristiwa yang kami lacak:",

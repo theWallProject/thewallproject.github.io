@@ -54,36 +54,37 @@
     },
     "testimonial": {
       "2": {
-        "quote": "تصميم مذهل ويعمل بشكل مثالي بدون إنترنت. أستخدمه على المتصفح وهاتف الأندرويد. ضروري لكل مستهلك واعي.",
-        "author": "سارة أحمد",
-        "role": "مستخدم أندرويد"
+        "quote": "Absolutely amazing - helping me recover my faith in humanity one step at a time. Boycott!!",
+        "author": "محمد علي",
+        "role": "مراجعة متجر كروم"
       },
       "3": {
-        "quote": "أخيراً وسيلة للمقاطعة بفعالية دون الحاجة للبحث يدوياً في كل مرة. الرد البصري قوي وواضح.",
-        "author": "عمر خالد",
-        "role": "مستخدم فايرفوكس"
+        "quote": "Very helpful, May Allah bless you.",
+        "author": "أحمد علي",
+        "role": "مراجعة متجر كروم"
       },
       "4": {
-        "quote": "أسباب مفصلة لكل حظر. يعجبني أنه يستشهد ببيانات كرانشبيس وبيانات المؤسسين. الشفافية تبني الثقة.",
-        "author": "ليلى حسن",
-        "role": "مستخدم سفاري"
+        "quote": "Great app for revealing any company related to the Israeli terrorism regime.",
+        "author": "إسلام عبد العظيم طه",
+        "role": "مراجعة متجر كروم"
       },
       "5": {
-        "quote": "هذا المشروع مغير لقواعد اللعبة لحركة BDS. نوصي به بشدة لكل من يريد إحداث فرق.",
-        "author": "يوسف إبراهيم",
-        "role": "مستخدم برايف"
+        "quote": "Helps easily identify companies that should be boycotted without breaking a sweat!",
+        "author": "شعيب سيد",
+        "role": "مراجعة متجر كروم"
       },
       "6": {
-        "quote": "تطبيق الأندرويد خفيف جداً ولا يستهلك البطارية. يعمل في الخلفية بصمت ويبقيني على اطلاع.",
-        "author": "مريم علي",
-        "role": "مستخدم أندرويد"
+        "quote": "Such an amazing app helped me avoid so many zionist tech and products.",
+        "author": "medo angel",
+        "role": "مراجعة متجر كروم"
       },
-      "quote": "أفضل إضافة استخدمتها على الإطلاق! لقد أبلغتني عن الكثير من الشركات التي توقفت عن استخدامها.",
-      "author": "عبده وهبة",
-      "role": "مستخدم {{browser}}"
+      "quote": "This is what it's all about. Fighting back against the foreign power that is infiltrating our military and our privacy.",
+      "author": "Anon Ymous",
+      "role": "مراجعة متجر كروم"
     },
     "testimonials": {
       "community": "المجتمع",
+      "hoverToPause": "مرر الماوس للإيقاف",
       "title": "ماذا يقول الناس",
       "subtitle": "انضم إلى آلاف المستهلكين الواعين حول العالم."
     },
@@ -166,6 +167,7 @@
     },
     "privacy": {
       "title": "سياسة الخصوصية",
+      "backToHome": "العودة إلى الرئيسية",
       "intro": "لتقديم أفضل خدمة، نحن نتابع عدداً محدوداً جداً من الأحداث فقط.",
       "noData": "لن نجمع أبداً بيانات تعريف المستخدم أو سجل التصفح!",
       "eventsTracked": "هذه هي الأحداث التي نتابعها:",

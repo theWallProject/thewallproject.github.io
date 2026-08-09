@@ -13,12 +13,13 @@ test.describe("Privacy Policy Page", () => {
     await expect(title).toBeVisible();
     await expect(title).toContainText("Privacy Policy");
 
-    // Check for content paragraphs
-    const paragraphs = page.locator("p");
-    await expect(paragraphs).toHaveCount(3);
+    // Check for content paragraphs (scoped to the privacy content, since the
+    // page now also renders the shared Header/Footer)
+    const paragraphs = page.locator('[data-testid="privacy-content"] p');
+    await expect(paragraphs).toHaveCount(5);
 
     // Check that paragraphs have content
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
       const paragraph = paragraphs.nth(i);
       const textContent = await paragraph.textContent();
       expect(textContent).toBeTruthy();

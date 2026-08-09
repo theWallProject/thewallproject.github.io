@@ -171,7 +171,7 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Bottom Section: Details & Play/Action */}
-        <div className="w-full max-w-[1600px] flex flex-col lg:flex-row justify-between items-end gap-8 md:gap-10 lg:gap-8 md:py-4 pb-12 hero-bottom-anim text-center md:text-left">
+        <div className="w-full max-w-[1600px] flex flex-col lg:flex-row justify-center items-center gap-8 md:gap-10 lg:gap-16 md:py-4 pb-12 hero-bottom-anim text-center md:text-left">
           <div className="w-full lg:flex-1 max-w-[480px] flex flex-col gap-8 md:gap-10 lg:gap-6 items-center lg:items-start mx-auto lg:mx-0">
             <div className="flex flex-col items-center gap-3 md:gap-6">
               <InstallButton />
@@ -188,7 +188,7 @@ const Hero: React.FC = () => {
                       href={browser.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex items-center gap-1 md:gap-2 transition-all hover:opacity-100 opacity-80"
+                      className="group flex items-center gap-1 md:gap-2 transition-all hover:opacity-80"
                       onClick={() =>
                         trackEvent(
                           MatomoEvent.category.engagement,
@@ -201,9 +201,9 @@ const Hero: React.FC = () => {
                         src={browser.icon.replace(/^\.\//, "/")}
                         alt={browser.displayName}
                         loading="lazy"
-                        className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 shrink-0"
+                        className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]"
                       />
-                      <span className="text-[0.55rem] md:text-[0.85rem] lg:text-[0.95rem] border-b border-white/10 group-hover:border-white/40 transition-colors">
+                      <span className="text-[0.55rem] md:text-[0.85rem] lg:text-[0.95rem] border-b border-white/20 group-hover:border-white/40 transition-colors">
                         {browser.displayName}
                       </span>
                     </a>
@@ -214,9 +214,9 @@ const Hero: React.FC = () => {
           </div>
 
           <div className="relative w-full lg:w-auto mt-6 lg:mt-0 flex justify-center">
-            <div className="w-full max-w-[480px] lg:w-[480px] aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.8)] relative translate-y-4">
+            <div className="w-full max-w-[560px] lg:w-[560px] aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.8)] relative">
               <iframe
-                className="w-full h-full opacity-90"
+                className="w-full h-full"
                 src={getVideoUrl()}
                 title="How it works"
                 frameBorder="0"

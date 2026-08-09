@@ -12,18 +12,35 @@
   filter: brightness(1.1);
 }
 
-.installButton:hover .installButtonImage {
-  filter: brightness(1.1);
-}
-
 .installButton:active {
   transform: translateY(0);
 }
 
-.installButtonImage {
-  height: auto;
-  display: block;
-  max-width: 100%;
+.installButtonBody {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #00b445 0%, #006f2a 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.installButtonIcon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.installButtonText {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .storeBadge {
@@ -41,8 +58,8 @@
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .installButtonImage {
-    transform: scale(0.75);
+  .installButtonBody {
+    transform: scale(0.9);
     transform-origin: center center;
   }
   .storeBadge {
@@ -51,9 +68,12 @@
 }
 
 @media (max-width: 480px) {
-  .installButtonImage {
-    transform: scale(0.55);
-    transform-origin: center center;
+  .installButtonIcon {
+    width: 32px;
+    height: 32px;
+  }
+  .installButtonText {
+    font-size: 15px;
   }
   .storeBadge {
     height: 86px;
