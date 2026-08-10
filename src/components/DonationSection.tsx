@@ -3,6 +3,17 @@ import { useTranslation, Trans } from "react-i18next";
 import { trackEvent, MatomoEvent } from "../lib/matomo";
 import styles from "./DonationSection.module.css";
 
+// In dev mode we serve the generated donation image from the local PHP dev
+// server (scripts/dev-donations.mjs) so the latest edits always show, and bust
+// the browser cache on each load. Production uses the live endpoint.
+const DEV_DONATIONS_BASE = "http://localhost:8080";
+const DEV_CACHE_BUST = import.meta.env.DEV ? Date.now() : "";
+
+const donationsUrl = (maxRowBricks: number): string => {
+  const base = import.meta.env.DEV ? DEV_DONATIONS_BASE : "https://the-wall.win";
+  return `${base}/dynamic/donations.png?maxRowBricks=${maxRowBricks}${DEV_CACHE_BUST ? `&t=${DEV_CACHE_BUST}` : ""}`;
+};
+
 const DonationSection: React.FC = () => {
   const { t, i18n } = useTranslation();
 
@@ -65,7 +76,7 @@ const DonationSection: React.FC = () => {
           href="https://ko-fi.com/thewalladdon"
           target="_blank"
           rel="noopener noreferrer"
-          className={`${styles.kofiBtn} inline-flex items-center gap-3 mt-10 px-8 py-3.5 bg-white/5 border border-white/10 hover:border-[#b72b00]/50 hover:bg-[#b72b00]/10 text-white rounded-full backdrop-blur-md transition-all duration-500 ease-out group`}
+          className={`${styles.kofiBtn} inline-flex items-center gap-3 mt-10 px-8 py-3.5 bg-white/5 hover:bg-[#b72b00]/10 text-white rounded-full backdrop-blur-md transition-all duration-500 ease-out group`}
           onClick={() => trackEvent(MatomoEvent.category.engagement, MatomoEvent.action.donationClick, "kofi")}
         >
           <img
@@ -91,10 +102,10 @@ const DonationSection: React.FC = () => {
         onClick={() => trackEvent(MatomoEvent.category.engagement, MatomoEvent.action.donationClick, "kofi")}
       >
         <picture>
-          <source media="(min-width: 1024px)" srcSet="https://the-wall.win/dynamic/donations.png?maxRowBricks=15" />
-          <source media="(min-width: 640px)" srcSet="https://the-wall.win/dynamic/donations.png?maxRowBricks=11" />
+          <source media="(min-width: 1024px)" srcSet={donationsUrl(15)} />
+          <source media="(min-width: 640px)" srcSet={donationsUrl(11)} />
           <img
-            src="https://the-wall.win/dynamic/donations.png?maxRowBricks=7"
+            src={donationsUrl(7)}
             alt="Donation progress wall"
             className={`${styles.brickImage} w-full cursor-pointer transition-all duration-500 ease-out`}
           />

@@ -38,7 +38,21 @@ export const useBrowserDetection = (): BrowserInfo => {
           try {
             const userAgent = window.navigator.userAgent.toLowerCase();
 
-            // Browsers that support Chrome Web Store extensions
+            // Explicit Chromium-family markers. This catches Brave, Edge, Opera,
+            // Vivaldi, Yandex, Samsung Internet, etc. even when Bowser reports
+            // them under a different name — e.g. Brave on iPadOS presenting a
+            // Safari-style WebKit UA (which would otherwise route to the macOS
+            // App Store instead of the Chrome extension).
+            if (
+              /(chrome|crios|chromium|edg\/|opr\/|brave|vivaldi|yabrowser|samsungbrowser|ucbrowser|mxbrowser|googleweblight)/.test(
+                userAgent
+              )
+            ) {
+              return true;
+            }
+
+            // Bowser-derived name fallback for any other Chromium-compatible engine.
+            const browserNameLower = browserData.name?.toLowerCase() || "";
             const chromeCompatibleBrowsers = [
               "chrome",
               "chromium",
@@ -54,20 +68,7 @@ export const useBrowserDetection = (): BrowserInfo => {
               "qq browser",
               "uc browser",
             ];
-
-            // Check if browser name matches any Chrome-compatible browser
-            const browserNameLower = browserData.name?.toLowerCase() || "";
             if (chromeCompatibleBrowsers.some((name) => browserNameLower.includes(name))) {
-              return true;
-            }
-
-            // Additional checks for specific user agent patterns
-            if (userAgent.includes("chrome") && !userAgent.includes("firefox") && !userAgent.includes("safari")) {
-              return true;
-            }
-
-            // Check for Chromium-based browsers
-            if (userAgent.includes("chromium")) {
               return true;
             }
 
@@ -110,13 +111,15 @@ export const useBrowserDetection = (): BrowserInfo => {
           if (browserNameLower === "firefox") {
             browserName = "firefox";
             recommendedDownload = "firefox";
+          } else if (supportsChromeExtensions()) {
+            // Any Chromium-compatible engine (Chrome, Edge, Opera, Brave,
+            // Vivaldi, …) is treated as Chrome — checked before Safari so
+            // Brave's Safari-style iPadOS UA still resolves to Chrome.
+            browserName = "chrome";
+            recommendedDownload = "chrome";
           } else if (browserNameLower === "safari") {
             browserName = "safari";
             recommendedDownload = "macos";
-          } else if (supportsChromeExtensions()) {
-            // Any browser that supports Chrome extensions is treated as Chrome
-            browserName = "chrome";
-            recommendedDownload = "chrome";
           } else {
             // If we can't determine with certainty, don't recommend anything
             browserName = "unknown";

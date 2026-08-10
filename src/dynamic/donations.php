@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 ini_set('display_errors', 1);
 
 define('DYNAMIC_DIR', __DIR__ . '/../../dynamic');
@@ -61,8 +61,11 @@ if ($goalBricks <= $currentBricks) {
 $totalPositions = $goalBricks + 1;
 
 // --- Cache ---
+// Under the PHP built-in dev server (`php -S`) we always regenerate so the
+// latest edits are visible immediately; production keeps the 1h file cache.
+$isDevServer = php_sapi_name() === 'cli-server';
 
-$cacheKey = md5(serialize([$currentMonthly, $goalAmount, $maxRowBricks, 'v2']));
+$cacheKey = md5(serialize([$currentMonthly, $goalAmount, $maxRowBricks, 'v6']));
 $cacheDir = sys_get_temp_dir() . '/donations_cache';
 $cacheFile = $cacheDir . '/donations_' . $cacheKey . '.png';
 $cacheTtl = 3600;
@@ -74,7 +77,7 @@ if (!is_dir($cacheDir)) {
     }
 }
 
-if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < $cacheTtl) {
+if (!$isDevServer && file_exists($cacheFile) && (time() - filemtime($cacheFile)) < $cacheTtl) {
     header('Content-Type: image/png');
     header('Cache-Control: public, max-age=3600');
     header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 3600) . ' GMT');
@@ -85,8 +88,20 @@ if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < $cacheTtl) {
 
 // --- Image generation prerequisites ---
 
-$brickPath = __DIR__ . '/../files/common/brick.png';
-$fontPath = __DIR__ . '/../files/common/Roboto-Variable.ttf';
+// In the local dev server the repo layout differs from production (where this
+// script runs from dist/dynamic and reads ../files). Point straight at the
+// public dir when running under `php -S`.
+$assetDir = $isDevServer ? __DIR__ . '/../../public/files' : __DIR__ . '/../files';
+$brickPath = $assetDir . '/common/brick.png';
+// Prefer the website font — bold for the CTA — and fall back to the variable
+// Roboto if the statics aren't deployed yet.
+$fontPath = $assetDir . '/common/Outfit-Bold.ttf';
+if (!file_exists($fontPath)) {
+    $fontPath = $assetDir . '/common/Outfit-Variable.ttf';
+}
+if (!file_exists($fontPath)) {
+    $fontPath = $assetDir . '/common/Roboto-Variable.ttf';
+}
 
 if (!function_exists('imagecreatefrompng')) {
     http_response_code(500);
@@ -155,14 +170,20 @@ $goalBrickW = (int)round($brickW * $goalScaleFactor);
 $goalBrickH = (int)round($brickH * $goalScaleFactor);
 
 $ctaFontSize = 36;
-$ctaLineHeight = (int)($ctaFontSize * 1.3);
-$ctaY1 = (int)($ctaFontSize * 1.2);
-$ctaY2 = $ctaY1 + $ctaLineHeight;
-$ctaY3 = $ctaY2 + $ctaLineHeight;
-$topPadding = $ctaY3 + $ctaLineHeight;
+$ctaLineHeight = (int)($ctaFontSize * 1.45); // ~52px — roomier line spacing
+$ctaLines = [
+    'Click to donate ANY monthly amount!',
+    'Each brick = 10$ Monthly donations.',
+    "Current: $$currentMonthly Goal: $$goalAmount",
+];
+$ctaLineCount = count($ctaLines);
+$ctaBlockH = $ctaLineCount * $ctaLineHeight;
+// Small inset keeps the oversized GOAL brick flush with the top edge instead
+// of clipping — there is no large transparent band above the wall anymore.
+$topInset = (int)(($goalBrickH - $brickH) / 2);
 $bottomPadding = 4;
 $canvasW = $maxRowBricks * $brickW;
-$canvasH = $topPadding + $rows * $brickH + $bottomPadding;
+$canvasH = $topInset + $rows * $brickH + $bottomPadding;
 
 $canvas = imagecreatetruecolor($canvasW, $canvasH);
 if ($canvas === false) {
@@ -249,8 +270,6 @@ if ($ghostHalfBrick === false) {
 }
 imagecopy($ghostHalfBrick, $ghostFullBrick, 0, 0, 0, 0, $halfW, $brickH);
 
-imagedestroy($brickOnWhite);
-
 // --- Create goal brick (slightly larger, fully opaque, with "GOAL" text) ---
 $goalBrick = imagecreatetruecolor($goalBrickW, $goalBrickH);
 if ($goalBrick === false) {
@@ -303,7 +322,7 @@ function indexToRowPos($index, $maxRowBricks)
 }
 
 // --- Helper: get x,y pixel position for a brick index (rows grow from bottom up) ---
-function getBrickPosition($index, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding, $canvasW)
+function getBrickPosition($index, $maxRowBricks, $halfW, $brickW, $brickH, $topInset, $rows, $canvasH, $bottomPadding, $canvasW)
 {
     list($row, $posInRow) = indexToRowPos($index, $maxRowBricks);
     $y = $canvasH - $bottomPadding - ($row + 1) * $brickH;
@@ -330,7 +349,7 @@ function getBrickPosition($index, $maxRowBricks, $halfW, $brickW, $brickH, $topP
 
 // --- 1. Place GHOST bricks (positions $currentBricks to $goalBricks - 1) ---
 for ($i = $currentBricks; $i < $goalBricks; $i++) {
-    $pos = getBrickPosition($i, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding, $canvasW);
+    $pos = getBrickPosition($i, $maxRowBricks, $halfW, $brickW, $brickH, $topInset, $rows, $canvasH, $bottomPadding, $canvasW);
     if ($pos['useHalf']) {
         imagecopy($canvas, $ghostHalfBrick, $pos['x'], $pos['y'], 0, 0, $halfW, $brickH);
     } else {
@@ -340,7 +359,7 @@ for ($i = $currentBricks; $i < $goalBricks; $i++) {
 
 // --- 2. Place REAL bricks (positions 0 to $currentBricks - 1) ---
 for ($i = 0; $i < $currentBricks; $i++) {
-    $pos = getBrickPosition($i, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding, $canvasW);
+    $pos = getBrickPosition($i, $maxRowBricks, $halfW, $brickW, $brickH, $topInset, $rows, $canvasH, $bottomPadding, $canvasW);
     if ($pos['useHalf']) {
         imagecopy($canvas, $halfBrick, $pos['x'], $pos['y'], 0, 0, $halfW, $brickH);
     } else {
@@ -349,17 +368,19 @@ for ($i = 0; $i < $currentBricks; $i++) {
 }
 
 // --- 3. Place GOAL brick (position $goalBricks, slightly larger, centered) ---
-$goalPos = getBrickPosition($goalBricks, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding, $canvasW);
+$goalPos = getBrickPosition($goalBricks, $maxRowBricks, $halfW, $brickW, $brickH, $topInset, $rows, $canvasH, $bottomPadding, $canvasW);
 $goalOffsetX = (int)(($brickW - $goalBrickW) / 2);
 $goalOffsetY = (int)(($brickH - $goalBrickH) / 2);
 imagecopy($canvas, $goalBrick, $goalPos['x'] + $goalOffsetX, $goalPos['y'] + $goalOffsetY, 0, 0, $goalBrickW, $goalBrickH);
 
 // --- 4. Place FLYING brick (rotated, at position $currentBricks) ---
 if ($currentBricks > 0) {
-    $flyingPos = getBrickPosition($currentBricks, $maxRowBricks, $halfW, $brickW, $brickH, $topPadding, $rows, $canvasH, $bottomPadding, $canvasW);
+    $flyingPos = getBrickPosition($currentBricks, $maxRowBricks, $halfW, $brickW, $brickH, $topInset, $rows, $canvasH, $bottomPadding, $canvasW);
     $flyingSrc = $flyingPos['useHalf'] ? $halfBrick : $resizedBrick;
     $flyingW = $flyingPos['useHalf'] ? $halfW : $brickW;
-    $liftY = (int)($brickH * 0.35);
+    // Clamp the lift so the flying brick never pokes above the canvas top now
+    // that there is no padding band.
+    $liftY = min((int)($brickH * 0.35), $flyingPos['y']);
     $rotateAngle = -8;
     $bgTransparent = imagecolorallocatealpha($flyingSrc, 0, 0, 0, 127);
     $rotatedBrick = imagerotate($flyingSrc, $rotateAngle, $bgTransparent);
@@ -376,27 +397,51 @@ if ($currentBricks > 0) {
     $drawY = $flyingPos['y'] - $liftY - (int)(($rotH - $brickH) / 2);
 
     imagecopy($canvas, $rotatedBrick, $drawX, $drawY, 0, 0, $rotW, $rotH);
-    imagedestroy($rotatedBrick);
 }
 
-// --- 5. CTA text (2 lines, left-aligned, white) ---
-$ctaText1 = 'Click to donate ANY monthly amount!';
-$ctaText2 = 'Each brick = 10$ Monthly donations.';
-$ctaText3 = "Current: $$currentMonthly Goal: $$goalAmount";
-$ctaShadowColor = imagecolorallocate($canvas, 255, 255, 255);
-$ctaColor = imagecolorallocate($canvas, 0, 0, 0);
-$ctaX = 4;
-$shadowOffsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]];
+// --- 5. CTA text (centered over the wall, on a plain dark box) ---
+$ctaTextColor = imagecolorallocate($canvas, 255, 255, 255);
+$ctaShadowColor = imagecolorallocate($canvas, 0, 0, 0);
+$ctaBandColor = imagecolorallocatealpha($canvas, 0, 0, 0, 60); // ~53% opaque
+$ctaBlockTop = (int)(($canvasH - $ctaBlockH) / 2);
 
-foreach ([$ctaText1, $ctaText2, $ctaText3] as $lineIndex => $ctaLine) {
-    $ctaY = $lineIndex === 0 ? $ctaY1 : ($lineIndex === 1 ? $ctaY2 : $ctaY3);
+// Measure each line so the block can be centered horizontally as a whole.
+$lineWidths = [];
+$lineHeights = [];
+$maxLineWidth = 0;
+foreach ($ctaLines as $ctaLine) {
+    $bbox = imageftbbox($ctaFontSize, 0, $fontPath, $ctaLine);
+    if ($bbox === false) {
+        http_response_code(500);
+        exit('Failed to measure CTA text');
+    }
+    $lineWidths[] = $bbox[4] - $bbox[6];
+    $lineHeights[] = $bbox[1] - $bbox[7];
+    $maxLineWidth = max($maxLineWidth, $lineWidths[count($lineWidths) - 1]);
+}
+
+// Plain semi-transparent dark box behind the text (a clean rectangle — no
+// rounded corners that can render as weird artifacts).
+$bandPadX = (int)($ctaFontSize * 1.1);
+$bandPadY = (int)($ctaFontSize * 0.7);
+$bandX = (int)(($canvasW - $maxLineWidth) / 2) - $bandPadX;
+$bandY = $ctaBlockTop - $bandPadY;
+$bandW = $maxLineWidth + $bandPadX * 2;
+$bandH = $ctaBlockH + $bandPadY * 2;
+imagefilledrectangle($canvas, $bandX, $bandY, $bandX + $bandW, $bandY + $bandH, $ctaBandColor);
+
+// Bold white text with a subtle dark shadow for extra definition.
+$shadowOffsets = [[-1, -1], [-1, 1], [1, -1], [1, 1], [-1, 0], [1, 0], [0, -1], [0, 1]];
+foreach ($ctaLines as $lineIndex => $ctaLine) {
+    $lineX = (int)(($canvasW - $lineWidths[$lineIndex]) / 2);
+    $lineY = $ctaBlockTop + $lineIndex * $ctaLineHeight + (int)(($ctaLineHeight + $lineHeights[$lineIndex]) / 2);
     foreach ($shadowOffsets as $off) {
-        if (imagettftext($canvas, $ctaFontSize, 0, $ctaX + $off[0], $ctaY + $off[1], $ctaShadowColor, $fontPath, $ctaLine) === false) {
+        if (imagettftext($canvas, $ctaFontSize, 0, $lineX + $off[0], $lineY + $off[1], $ctaShadowColor, $fontPath, $ctaLine) === false) {
             http_response_code(500);
             exit('Failed to render CTA shadow');
         }
     }
-    if (imagettftext($canvas, $ctaFontSize, 0, $ctaX, $ctaY, $ctaColor, $fontPath, $ctaLine) === false) {
+    if (imagettftext($canvas, $ctaFontSize, 0, $lineX, $lineY, $ctaTextColor, $fontPath, $ctaLine) === false) {
         http_response_code(500);
         exit('Failed to render CTA text');
     }
@@ -404,9 +449,13 @@ foreach ([$ctaText1, $ctaText2, $ctaText3] as $lineIndex => $ctaLine) {
 
 // --- Output ---
 header('Content-Type: image/png');
-header('Cache-Control: public, max-age=3600');
-header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 3600) . ' GMT');
-header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+if ($isDevServer) {
+    header('Cache-Control: no-store');
+} else {
+    header('Cache-Control: public, max-age=3600');
+    header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 3600) . ' GMT');
+    header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+}
 imagealphablending($canvas, false);
 imagesavealpha($canvas, true);
 
@@ -419,17 +468,11 @@ if ($imageData === false) {
     exit('Failed to render image');
 }
 
-$cacheWritten = file_put_contents($cacheFile, $imageData);
-if ($cacheWritten === false) {
-    error_log("donations.php: failed to write cache file {$cacheFile}");
+if (!$isDevServer) {
+    $cacheWritten = file_put_contents($cacheFile, $imageData);
+    if ($cacheWritten === false) {
+        error_log("donations.php: failed to write cache file {$cacheFile}");
+    }
 }
 
 echo $imageData;
-
-imagedestroy($canvas);
-imagedestroy($srcImage);
-imagedestroy($resizedBrick);
-imagedestroy($halfBrick);
-imagedestroy($ghostFullBrick);
-imagedestroy($ghostHalfBrick);
-imagedestroy($goalBrick);
