@@ -55,38 +55,37 @@
     "testimonial": {
       "2": {
         "quote": "Absolutely amazing - helping me recover my faith in humanity one step at a time. Boycott!!",
-        "author": "Mohammed Ali",
-        "role": "Chrome Web Store review"
+        "author": "Mohammed Ali"
       },
       "3": {
         "quote": "Very helpful, May Allah bless you.",
-        "author": "Ahmad Ali",
-        "role": "Chrome Web Store review"
+        "author": "Ahmad Ali"
       },
       "4": {
         "quote": "Great app for revealing any company related to the Israeli terrorism regime.",
-        "author": "Eslam Abdulazim Taha",
-        "role": "Chrome Web Store review"
+        "author": "Eslam Abdulazim Taha"
       },
       "5": {
         "quote": "Helps easily identify companies that should be boycotted without breaking a sweat!",
-        "author": "Chouaib Sid",
-        "role": "Chrome Web Store review"
+        "author": "Chouaib Sid"
       },
       "6": {
         "quote": "Such an amazing app helped me avoid so many zionist tech and products.",
-        "author": "medo angel",
-        "role": "Chrome Web Store review"
+        "author": "medo angel"
       },
       "quote": "This is what it's all about. Fighting back against the foreign power that is infiltrating our military and our privacy.",
-      "author": "Anon Ymous",
-      "role": "Chrome Web Store review"
+      "author": "Anon Ymous"
     },
     "testimonials": {
       "community": "COMMUNITY",
-      "hoverToPause": "Hover to pause",
-      "title": "What people are saying",
-      "subtitle": "Join thousands of conscious users worldwide."
+      "onlyRealReviews": "Only real reviews. Click to leave yours!",
+      "openStore": "Open on Chrome Web Store",
+      "viewAll": "View all reviews on the Chrome Web Store",
+      "trustedBy": "Trusted by over 10k global users",
+      "previous": "Previous review",
+      "next": "Next review",
+      "reviewNumber": "Review {{n}}",
+      "title": "What people are saying"
     },
     "video": {
       "watchHowItWorks": "Watch how it works"

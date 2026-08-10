@@ -55,38 +55,37 @@
     "testimonial": {
       "2": {
         "quote": "Absolutely amazing - helping me recover my faith in humanity one step at a time. Boycott!!",
-        "author": "Mohammed Ali",
-        "role": "Chrome 線上應用程式商店評價"
+        "author": "Mohammed Ali"
       },
       "3": {
         "quote": "Very helpful, May Allah bless you.",
-        "author": "Ahmad Ali",
-        "role": "Chrome 線上應用程式商店評價"
+        "author": "Ahmad Ali"
       },
       "4": {
         "quote": "Great app for revealing any company related to the Israeli terrorism regime.",
-        "author": "Eslam Abdulazim Taha",
-        "role": "Chrome 線上應用程式商店評價"
+        "author": "Eslam Abdulazim Taha"
       },
       "5": {
         "quote": "Helps easily identify companies that should be boycotted without breaking a sweat!",
-        "author": "Chouaib Sid",
-        "role": "Chrome 線上應用程式商店評價"
+        "author": "Chouaib Sid"
       },
       "6": {
         "quote": "Such an amazing app helped me avoid so many zionist tech and products.",
-        "author": "medo angel",
-        "role": "Chrome 線上應用程式商店評價"
+        "author": "medo angel"
       },
       "quote": "This is what it's all about. Fighting back against the foreign power that is infiltrating our military and our privacy.",
-      "author": "Anon Ymous",
-      "role": "Chrome 線上應用程式商店評價"
+      "author": "Anon Ymous"
     },
     "testimonials": {
       "community": "社區",
-      "hoverToPause": "懸停以暫停",
-      "title": "人們怎麼說",
-      "subtitle": "加入全球數千名有意識的用戶。"
+      "onlyRealReviews": "只有真實評價。點擊留下你的評價！",
+      "openStore": "在 Chrome 線上應用程式商店開啟",
+      "viewAll": "在 Chrome 線上應用程式商店查看所有評價",
+      "trustedBy": "受到全球超過 1 萬名用戶的信賴",
+      "previous": "上一則評價",
+      "next": "下一則評價",
+      "reviewNumber": "評價 {{n}}",
+      "title": "人們怎麼說"
     },
     "video": {
       "watchHowItWorks": "觀看工作原理"

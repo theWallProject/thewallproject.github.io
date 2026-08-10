@@ -55,38 +55,37 @@
     "testimonial": {
       "2": {
         "quote": "Absolutely amazing - helping me recover my faith in humanity one step at a time. Boycott!!",
-        "author": "محمد علي",
-        "role": "مراجعة متجر كروم"
+        "author": "محمد علي"
       },
       "3": {
         "quote": "Very helpful, May Allah bless you.",
-        "author": "أحمد علي",
-        "role": "مراجعة متجر كروم"
+        "author": "أحمد علي"
       },
       "4": {
         "quote": "Great app for revealing any company related to the Israeli terrorism regime.",
-        "author": "إسلام عبد العظيم طه",
-        "role": "مراجعة متجر كروم"
+        "author": "إسلام عبد العظيم طه"
       },
       "5": {
         "quote": "Helps easily identify companies that should be boycotted without breaking a sweat!",
-        "author": "شعيب سيد",
-        "role": "مراجعة متجر كروم"
+        "author": "شعيب سيد"
       },
       "6": {
         "quote": "Such an amazing app helped me avoid so many zionist tech and products.",
-        "author": "medo angel",
-        "role": "مراجعة متجر كروم"
+        "author": "medo angel"
       },
       "quote": "This is what it's all about. Fighting back against the foreign power that is infiltrating our military and our privacy.",
-      "author": "Anon Ymous",
-      "role": "مراجعة متجر كروم"
+      "author": "Anon Ymous"
     },
     "testimonials": {
       "community": "المجتمع",
-      "hoverToPause": "مرر الماوس للإيقاف",
-      "title": "ماذا يقول الناس",
-      "subtitle": "انضم إلى آلاف المستهلكين الواعين حول العالم."
+      "onlyRealReviews": "مراجعات حقيقية فقط. انقر لترك مراجعتك!",
+      "openStore": "افتح على متجر كروم",
+      "viewAll": "عرض جميع المراجعات على متجر كروم",
+      "trustedBy": "موثوق به من قبل أكثر من 10 آلاف مستخدم حول العالم",
+      "previous": "المراجعة السابقة",
+      "next": "المراجعة التالية",
+      "reviewNumber": "المراجعة {{n}}",
+      "title": "ماذا يقول الناس"
     },
     "video": {
       "watchHowItWorks": "شاهد كيف يعمل"

@@ -55,38 +55,37 @@
     "testimonial": {
       "2": {
         "quote": "Absolutely amazing - helping me recover my faith in humanity one step at a time. Boycott!!",
-        "author": "Mohammed Ali",
-        "role": "Chrome Web Store recensie"
+        "author": "Mohammed Ali"
       },
       "3": {
         "quote": "Very helpful, May Allah bless you.",
-        "author": "Ahmad Ali",
-        "role": "Chrome Web Store recensie"
+        "author": "Ahmad Ali"
       },
       "4": {
         "quote": "Great app for revealing any company related to the Israeli terrorism regime.",
-        "author": "Eslam Abdulazim Taha",
-        "role": "Chrome Web Store recensie"
+        "author": "Eslam Abdulazim Taha"
       },
       "5": {
         "quote": "Helps easily identify companies that should be boycotted without breaking a sweat!",
-        "author": "Chouaib Sid",
-        "role": "Chrome Web Store recensie"
+        "author": "Chouaib Sid"
       },
       "6": {
         "quote": "Such an amazing app helped me avoid so many zionist tech and products.",
-        "author": "medo angel",
-        "role": "Chrome Web Store recensie"
+        "author": "medo angel"
       },
       "quote": "This is what it's all about. Fighting back against the foreign power that is infiltrating our military and our privacy.",
-      "author": "Anon Ymous",
-      "role": "Chrome Web Store recensie"
+      "author": "Anon Ymous"
     },
     "testimonials": {
       "community": "GEMEENSCHAP",
-      "hoverToPause": "Hover om te pauzeren",
-      "title": "Wat mensen zeggen",
-      "subtitle": "Sluit u aan bij duizenden bewuste gebruikers wereldwijd."
+      "onlyRealReviews": "Alleen echte reviews. Klik om die van jou achter te laten!",
+      "openStore": "Openen in Chrome Web Store",
+      "viewAll": "Bekijk alle reviews in de Chrome Web Store",
+      "trustedBy": "Vertrouwd door meer dan 10.000 gebruikers wereldwijd",
+      "previous": "Vorige review",
+      "next": "Volgende review",
+      "reviewNumber": "Review {{n}}",
+      "title": "Wat mensen zeggen"
     },
     "video": {
       "watchHowItWorks": "Bekijk hoe het werkt"

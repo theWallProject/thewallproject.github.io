@@ -1,130 +1,293 @@
-import React from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LogoLoop, type LogoItem } from "./LogoLoop";
-import { useDownloadLinks } from "./useDownloadLinks";
 
-const TestimonialCard: React.FC<{
-  quote: string;
-  author: string;
-  role: string;
-}> = ({ quote, author, role }) => {
-  const { i18n } = useTranslation();
-  return (
-    <div
-      className={`relative w-[280px] sm:w-[380px] p-6 sm:p-9 rounded-4xl border border-white/5 shadow-xl overflow-hidden group transition-all duration-700 hover:border-brand-orange/30 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] ${
-        i18n.language === "ar" ? "text-right" : "text-left"
-      }`}
-      style={{
-        background: "linear-gradient(165deg, rgba(30, 30, 30, 0.4) 0%, rgba(10, 10, 10, 0.9) 100%)",
-        backdropFilter: "blur(25px)",
-      }}
-    >
-      {/* Decorative Glow */}
-      <div className="absolute -top-32 -right-32 w-64 h-64 bg-brand-orange/5 rounded-full blur-[100px] group-hover:bg-brand-orange/10 transition-colors duration-1000" />
+const REVIEWS_URL =
+  "https://chromewebstore.google.com/detail/the-wall-boycott-assistan/kocebhffdnlgdahkbfeopdokcoikipam/reviews";
 
-      {/* Quote Icon */}
-      <div
-        className={`text-5xl sm:text-6xl absolute top-2 font-serif text-brand-orange/15 leading-none mb-2 select-none ${i18n.language === "ar" ? "-mr-1" : "-ml-1"}`}
-      >
-        &ldquo;
-      </div>
+const AUTO_ADVANCE_MS = 6000;
 
-      <p
-        className={`relative z-10 text-sm sm:text-base text-white/80 font-serif leading-relaxed mb-6 italic tracking-tight ${i18n.language === "ar" ? "font-arabic font-medium leading-[1.8]" : ""}`}
-      >
-        {quote}
-      </p>
+// GPU-friendly easing: snappy ease-out-quint. Position is driven by `left` and
+// `width`, which are transitioned in lockstep so the card stays centred; the
+// visual growth and depth use transform + opacity only.
+const SNAP_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 
-      <div className="flex items-center gap-3 mt-auto border-t border-white/5 pt-6">
-        <div className="w-10 h-10 rounded-full bg-linear-to-br from-brand-orange/80 to-brand-red/80 flex items-center justify-center text-white/90 font-bold text-lg shadow-inner ring-1 ring-white/10">
-          {author[0]}
-        </div>
-        <div>
-          <h4
-            className={`text-white/90 font-bold text-sm tracking-tight ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
-          >
-            {author}
-          </h4>
-          <p
-            className={`text-white/30 text-[10px] sm:text-xs tracking-widest uppercase font-bold ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
-          >
-            {role}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
+interface CardDims {
+  cardW: number;
+  centerW: number;
+  step: number;
+}
+
+const getDims = (): CardDims => {
+  if (typeof window === "undefined") return { cardW: 340, centerW: 680, step: 530 };
+  const w = window.innerWidth;
+  if (w >= 1024) return { cardW: 340, centerW: 680, step: 530 };
+  if (w >= 640) return { cardW: 240, centerW: 480, step: 374 };
+  return { cardW: 170, centerW: 340, step: 267 };
 };
 
+// Maps a raw index delta to the nearest slot in a wrap-around loop so only the
+// middle slot (0) and its neighbours (-1, +1) are ever on screen.
+const normalizeOffset = (delta: number, count: number): number => {
+  const half = count / 2;
+  return ((((delta + half) % count) + count) % count) - half;
+};
+
+const Star: React.FC<{ small?: boolean }> = ({ small }) => (
+  <svg viewBox="0 0 20 20" className={small ? "h-3.5 w-3.5" : "h-5 w-5 md:h-6 md:w-6"} aria-hidden>
+    <path fill="#f6b500" d="M10 1.5l2.47 5.01 5.53.8-4 3.9.94 5.5L10 14.03l-4.94 2.6.94-5.5-4-3.9 5.53-.8z" />
+  </svg>
+);
+
+const TestimonialCard = React.memo<{ quote: string; author: string; isCenter: boolean }>(
+  ({ quote, author, isCenter }) => {
+    const { t, i18n } = useTranslation();
+    return (
+      <a
+        href={REVIEWS_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${author} — ${t("testimonials.openStore")}`}
+        className={`group relative flex h-full w-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white text-center shadow-[0_18px_50px_rgba(0,0,0,0.08)] transition-shadow duration-300 hover:shadow-[0_26px_64px_rgba(0,0,0,0.14)] ${
+          isCenter ? "p-6 md:p-10" : "p-4 md:p-5"
+        } ${i18n.language === "ar" ? "text-right" : "text-left"}`}
+      >
+        {/* Brand accent bar */}
+        <span
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-1.5 bg-linear-to-r from-brand-orange via-brand-red to-brand-orange"
+        />
+
+        {/* Corner arrow (visible on hover) */}
+        <span className="absolute right-3 top-3 text-sm text-brand-orange opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:right-4 md:top-4 md:text-lg">
+          ↗
+        </span>
+
+        {/* Star rating — every store review is 5.0 */}
+        <div
+          className={`mt-3 mb-3 flex justify-center gap-1 ${isCenter ? "mb-4 md:mb-5" : ""} ${i18n.language === "ar" ? "flex-row-reverse" : ""}`}
+        >
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star key={i} small={!isCenter} />
+          ))}
+        </div>
+
+        <p
+          className={`flex-1 overflow-hidden font-serif italic leading-relaxed text-[#1a1a1a] ${
+            isCenter ? "line-clamp-4 text-[16px] md:text-[18px]" : "line-clamp-3 text-[12px] md:text-[13px]"
+          } ${
+            i18n.language === "ar"
+              ? `font-arabic ${isCenter ? "text-[15px] leading-[1.7] md:text-[17px]" : "text-[12px] md:text-[13px]"}`
+              : ""
+          }`}
+        >
+          &ldquo;{quote}&rdquo;
+        </p>
+
+        <p
+          className={`mt-4 font-bold tracking-wide text-[#333] ${
+            isCenter ? "text-[14px] md:text-[16px]" : "text-[12px] md:text-[13px]"
+          } ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+        >
+          {author}
+        </p>
+      </a>
+    );
+  }
+);
+TestimonialCard.displayName = "TestimonialCard";
+
 const Testimonials: React.FC = () => {
-  const { t } = useTranslation();
-  const { browserDisplayName } = useDownloadLinks();
+  const { t, i18n } = useTranslation();
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [dims, setDims] = useState<CardDims>(getDims);
+  const [reduced, setReduced] = useState(false);
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
 
-  const testimonialList = [1, 2, 3, 4, 5, 6].map((idx) => {
-    const quoteKey = idx === 1 ? "testimonial.quote" : `testimonial.${idx}.quote`;
-    const authorKey = idx === 1 ? "testimonial.author" : `testimonial.${idx}.author`;
-    const roleKey = idx === 1 ? "testimonial.role" : `testimonial.${idx}.role`;
+  const reviews = useMemo(
+    () =>
+      [1, 2, 3, 4, 5, 6].map((idx) => ({
+        quote: t(idx === 1 ? "testimonial.quote" : `testimonial.${idx}.quote`),
+        author: t(idx === 1 ? "testimonial.author" : `testimonial.${idx}.author`),
+      })),
+    [t]
+  );
 
-    return {
-      node: (
-        <TestimonialCard quote={t(quoteKey)} author={t(authorKey)} role={t(roleKey, { browser: browserDisplayName })} />
-      ),
+  // Respect prefers-reduced-motion and keep dims in sync with the viewport
+  // (resize is throttled through rAF so it never causes jank).
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const onMotionChange = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mq.addEventListener("change", onMotionChange);
+
+    let raf = 0;
+    const onResize = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => setDims(getDims()));
     };
-  });
+    window.addEventListener("resize", onResize, { passive: true });
 
-  const renderTestimonial = (item: LogoItem, key: React.Key) => {
-    if ("node" in item && item.node) {
-      return <div key={key}>{item.node}</div>;
-    }
-    return null;
-  };
+    return () => {
+      mq.removeEventListener("change", onMotionChange);
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+
+  // Snappy auto-advance; stops for reduced-motion, hover or focus.
+  useEffect(() => {
+    if (paused || reduced) return;
+    const id = setInterval(() => setActive((a) => (a + 1) % reviews.length), AUTO_ADVANCE_MS);
+    return () => clearInterval(id);
+  }, [paused, reduced, reviews.length]);
+
+  const goPrev = useCallback(() => setActive((a) => (a - 1 + reviews.length) % reviews.length), [reviews.length]);
+  const goNext = useCallback(() => setActive((a) => (a + 1) % reviews.length), [reviews.length]);
+
+  const arrowBtn =
+    "flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-xl leading-none text-[#333] transition-all duration-300 hover:border-brand-orange hover:bg-brand-orange hover:text-white disabled:pointer-events-none disabled:opacity-40 md:h-12 md:w-12";
+
+  const transition = reduced
+    ? "none"
+    : `left 500ms ${SNAP_EASE}, width 500ms ${SNAP_EASE}, transform 500ms ${SNAP_EASE}, opacity 420ms ease`;
 
   return (
-    <section id="testimonials" className="relative w-full py-24 md:py-32 overflow-hidden">
-      {/* Background with Fixed Image and Gradient Overlay */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-90"
-          style={{
-            backgroundImage: 'url("/files/common/palestine-flag-over-sunrise-75yqzvkpketv5cob.webp")',
-          }}
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-[#050505] via-black/60 to-transparent" />
-        <div className="absolute inset-0 bg-linear-to-t from-[#050505] via-transparent to-[#050505]" />
-      </div>
+    <section
+      id="testimonials"
+      className="relative w-full overflow-hidden py-24 text-[#333] md:py-32"
+      style={{
+        background:
+          "radial-gradient(70% 60% at 50% 0%, rgba(183,43,0,0.10), transparent 65%), linear-gradient(180deg, #fdf8f3 0%, #f6ede2 100%)",
+      }}
+    >
+      {/* Faint flag watermark for identity */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none opacity-[0.04] bg-cover bg-center"
+        style={{
+          backgroundImage: 'url("/files/common/palestine-flag-over-sunrise-75yqzvkpketv5cob.webp")',
+        }}
+      />
 
-      <div className="relative z-10 text-center mb-16 px-4">
-        <span className="inline-block text-[10px] font-bold tracking-[0.3em] text-white/40 uppercase mb-3 px-4 py-1 border border-white/5 rounded-full">
+      {/* Heading */}
+      <div className="relative z-10 mb-14 px-4 text-center">
+        <span className="inline-block rounded-full border border-brand-orange/25 px-4 py-1 text-[10px] font-bold uppercase tracking-[0.3em] text-brand-orange">
           {t("testimonials.community")}
         </span>
-        <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-4">
+        <h2
+          className={`mb-4 text-3xl font-black uppercase tracking-tighter text-[#1a1a1a] md:text-5xl ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+        >
           {t("testimonials.title")}
         </h2>
-        <div className="w-24 h-1 bg-linear-to-r from-transparent via-brand-orange to-transparent mx-auto opacity-30" />
+        {/* Real-reviews tagline doubles as the CTA to leave a review */}
+        <a
+          href={REVIEWS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`mx-auto inline-block max-w-xl text-sm font-semibold text-brand-orange underline-offset-4 transition-colors hover:text-[#8f2000] hover:underline md:text-base ${
+            i18n.language === "ar" ? "font-arabic" : "font-sans"
+          }`}
+        >
+          {t("testimonials.onlyRealReviews")} ↗
+        </a>
+        <div className="mx-auto mt-5 h-1 w-24 bg-linear-to-r from-transparent via-brand-orange to-transparent" />
       </div>
 
-      <div dir="ltr">
-        <LogoLoop
-          logos={testimonialList}
-          direction="left"
-          speed={22}
-          gap={window.innerWidth < 768 ? 20 : 60}
-          logoHeight={0}
-          renderItem={renderTestimonial}
-          pauseOnHover={true}
-        />
-      </div>
-      <p className="mt-6 text-center text-[0.6rem] md:text-xs text-white/30 uppercase tracking-[0.25em] font-bold">
-        {t("testimonials.hoverToPause")}
-      </p>
+      {/* Coverflow carousel — fixed-height stage; absolute cards positioned by
+          left/width in lockstep so the 2x-wide centre stays perfectly centred. */}
+      <div
+        ref={viewportRef}
+        role="group"
+        aria-roledescription="carousel"
+        aria-label={t("testimonials.title")}
+        className="relative z-10 mx-auto h-[380px] w-full max-w-[1440px] sm:h-[440px] lg:h-[500px]"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocus={() => setPaused(true)}
+        onBlur={() => setPaused(false)}
+      >
+        {reviews.map((review, i) => {
+          const offset = normalizeOffset(i - active, reviews.length);
+          const hidden = Math.abs(offset) > 1;
+          const isCenter = offset === 0;
+          const w = isCenter ? dims.centerW : dims.cardW;
+          const tx = hidden ? (offset > 0 ? 2 : -2) * dims.step : offset * dims.step;
+          const y = isCenter ? 0 : 14;
+          const scale = isCenter ? 1 : 0.9;
+          const opacity = hidden ? 0 : isCenter ? 1 : 0.55;
 
-      {/* Trust Seal */}
-      <div className="mt-28 flex justify-center items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-500">
-        <div className="h-px w-16 bg-white/20" />
-        <p className="text-white text-[10px] md:text-sm font-bold tracking-[0.2em] uppercase">
-          Trusted by over 10k global users
-        </p>
-        <div className="h-px w-16 bg-white/20" />
+          return (
+            <div
+              key={i}
+              aria-hidden={hidden}
+              className="absolute"
+              style={{
+                top: 28,
+                left: `calc(50% + ${tx - w / 2}px)`,
+                width: w,
+                height: "calc(100% - 56px)",
+                zIndex: isCenter ? 20 : 10,
+                opacity,
+                pointerEvents: hidden ? "none" : "auto",
+                transform: `translateY(${y}px) scale(${scale})`,
+                transformOrigin: "center center",
+                transition,
+                willChange: "transform, opacity",
+              }}
+            >
+              <TestimonialCard quote={review.quote} author={review.author} isCenter={isCenter} />
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Controls */}
+      <div className="relative z-10 mt-8 flex items-center justify-center gap-6">
+        <button type="button" onClick={goPrev} aria-label={t("testimonials.previous")} className={arrowBtn}>
+          ‹
+        </button>
+        <div className="flex items-center gap-2" role="tablist" aria-label={t("testimonials.title")}>
+          {reviews.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              role="tab"
+              aria-selected={i === active}
+              aria-label={`${t("testimonials.reviewNumber", { n: i + 1 })} — ${reviews[i].author}`}
+              onClick={() => setActive(i)}
+              className={`h-2.5 rounded-full transition-all duration-300 ${
+                i === active ? "w-7 bg-brand-orange" : "w-2.5 bg-black/15 hover:bg-black/30"
+              }`}
+            />
+          ))}
+        </div>
+        <button type="button" onClick={goNext} aria-label={t("testimonials.next")} className={arrowBtn}>
+          ›
+        </button>
+      </div>
+
+      {/* Trust seal */}
+      <div className="relative z-10 mt-16 flex flex-col items-center gap-4 px-4">
+        <div className="flex items-center justify-center gap-2 opacity-70">
+          <div className="h-px w-16 bg-black/15" />
+          <p
+            className={`text-[10px] font-bold uppercase tracking-[0.2em] text-[#333] md:text-sm ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+          >
+            {t("testimonials.trustedBy")}
+          </p>
+          <div className="h-px w-16 bg-black/15" />
+        </div>
+        <a
+          href={REVIEWS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`inline-flex items-center gap-1 text-sm font-bold text-brand-orange underline-offset-4 transition-colors hover:text-[#8f2000] hover:underline ${
+            i18n.language === "ar" ? "font-arabic" : "font-sans"
+          }`}
+        >
+          {t("testimonials.viewAll")} ↗
+        </a>
       </div>
     </section>
   );

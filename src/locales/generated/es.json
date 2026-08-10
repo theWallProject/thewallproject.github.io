@@ -55,38 +55,37 @@
     "testimonial": {
       "2": {
         "quote": "Absolutely amazing - helping me recover my faith in humanity one step at a time. Boycott!!",
-        "author": "Mohammed Ali",
-        "role": "Reseña de Chrome Web Store"
+        "author": "Mohammed Ali"
       },
       "3": {
         "quote": "Very helpful, May Allah bless you.",
-        "author": "Ahmad Ali",
-        "role": "Reseña de Chrome Web Store"
+        "author": "Ahmad Ali"
       },
       "4": {
         "quote": "Great app for revealing any company related to the Israeli terrorism regime.",
-        "author": "Eslam Abdulazim Taha",
-        "role": "Reseña de Chrome Web Store"
+        "author": "Eslam Abdulazim Taha"
       },
       "5": {
         "quote": "Helps easily identify companies that should be boycotted without breaking a sweat!",
-        "author": "Chouaib Sid",
-        "role": "Reseña de Chrome Web Store"
+        "author": "Chouaib Sid"
       },
       "6": {
         "quote": "Such an amazing app helped me avoid so many zionist tech and products.",
-        "author": "medo angel",
-        "role": "Reseña de Chrome Web Store"
+        "author": "medo angel"
       },
       "quote": "This is what it's all about. Fighting back against the foreign power that is infiltrating our military and our privacy.",
-      "author": "Anon Ymous",
-      "role": "Reseña de Chrome Web Store"
+      "author": "Anon Ymous"
     },
     "testimonials": {
       "community": "COMUNIDAD",
-      "hoverToPause": "Pasa el cursor para pausar",
-      "title": "Lo que dice la gente",
-      "subtitle": "Únete a miles de usuarios conscientes en todo el mundo."
+      "onlyRealReviews": "Solo reseñas reales. ¡Haz clic para dejar la tuya!",
+      "openStore": "Abrir en Chrome Web Store",
+      "viewAll": "Ver todas las reseñas en Chrome Web Store",
+      "trustedBy": "Con la confianza de más de 10 mil usuarios en todo el mundo",
+      "previous": "Reseña anterior",
+      "next": "Reseña siguiente",
+      "reviewNumber": "Reseña {{n}}",
+      "title": "Lo que dice la gente"
     },
     "video": {
       "watchHowItWorks": "Mira cómo funciona"
