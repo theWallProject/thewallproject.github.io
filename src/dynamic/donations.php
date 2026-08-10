@@ -65,7 +65,7 @@ $totalPositions = $goalBricks + 1;
 // latest edits are visible immediately; production keeps the 1h file cache.
 $isDevServer = php_sapi_name() === 'cli-server';
 
-$cacheKey = md5(serialize([$currentMonthly, $goalAmount, $maxRowBricks, 'v6']));
+$cacheKey = md5(serialize([$currentMonthly, $goalAmount, $maxRowBricks, 'v8']));
 $cacheDir = sys_get_temp_dir() . '/donations_cache';
 $cacheFile = $cacheDir . '/donations_' . $cacheKey . '.png';
 $cacheTtl = 3600;
@@ -178,12 +178,26 @@ $ctaLines = [
 ];
 $ctaLineCount = count($ctaLines);
 $ctaBlockH = $ctaLineCount * $ctaLineHeight;
+$ctaBandPadY = (int)($ctaFontSize * 0.7);
+$ctaMinMargin = 10; // minimum gap above/below the box, so it never touches the wall edge
+
 // Small inset keeps the oversized GOAL brick flush with the top edge instead
 // of clipping — there is no large transparent band above the wall anymore.
 $topInset = (int)(($goalBrickH - $brickH) / 2);
 $bottomPadding = 4;
 $canvasW = $maxRowBricks * $brickW;
 $canvasH = $topInset + $rows * $brickH + $bottomPadding;
+
+// Very wide walls have fewer rows (shorter canvas). If the text box + margins
+// can't fit at the full font size, scale the font down so the box always keeps
+// the same (centered) top/bottom spacing and is never clipped.
+$requiredH = $ctaBlockH + 2 * $ctaBandPadY + 2 * $ctaMinMargin;
+if ($canvasH < $requiredH) {
+    $ctaFontSize = max(13, (int)($ctaFontSize * ($canvasH / $requiredH)));
+    $ctaLineHeight = (int)($ctaFontSize * 1.45);
+    $ctaBlockH = $ctaLineCount * $ctaLineHeight;
+    $ctaBandPadY = (int)($ctaFontSize * 0.7);
+}
 
 $canvas = imagecreatetruecolor($canvasW, $canvasH);
 if ($canvas === false) {
@@ -347,8 +361,19 @@ function getBrickPosition($index, $maxRowBricks, $halfW, $brickW, $brickH, $topI
     return ['x' => $x, 'y' => $y, 'useHalf' => $useHalf];
 }
 
-// --- 1. Place GHOST bricks (positions $currentBricks to $goalBricks - 1) ---
-for ($i = $currentBricks; $i < $goalBricks; $i++) {
+// Total brick capacity across all rows — used to fill the top row completely
+// so the wall never has transparent gaps at its top edge.
+$totalCapacity = 0;
+for ($r = 0; $r < $rows; $r++) {
+    $totalCapacity += ($r % 2 === 0) ? ($maxRowBricks + 1) : $maxRowBricks;
+}
+
+// --- 1. Place GHOST bricks (positions $currentBricks to $totalCapacity - 1,
+// excluding the GOAL slot which is drawn separately) ---
+for ($i = $currentBricks; $i < $totalCapacity; $i++) {
+    if ($i === $goalBricks) {
+        continue;
+    }
     $pos = getBrickPosition($i, $maxRowBricks, $halfW, $brickW, $brickH, $topInset, $rows, $canvasH, $bottomPadding, $canvasW);
     if ($pos['useHalf']) {
         imagecopy($canvas, $ghostHalfBrick, $pos['x'], $pos['y'], 0, 0, $halfW, $brickH);
@@ -423,7 +448,7 @@ foreach ($ctaLines as $ctaLine) {
 // Plain semi-transparent dark box behind the text (a clean rectangle — no
 // rounded corners that can render as weird artifacts).
 $bandPadX = (int)($ctaFontSize * 1.1);
-$bandPadY = (int)($ctaFontSize * 0.7);
+$bandPadY = $ctaBandPadY;
 $bandX = (int)(($canvasW - $maxLineWidth) / 2) - $bandPadX;
 $bandY = $ctaBlockTop - $bandPadY;
 $bandW = $maxLineWidth + $bandPadX * 2;
