@@ -40,16 +40,16 @@ const Star: React.FC<{ small?: boolean }> = ({ small }) => (
 
 const TestimonialCard = React.memo<{ quote: string; author: string; isCenter: boolean }>(
   ({ quote, author, isCenter }) => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     return (
       <a
         href={REVIEWS_URL}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`${author} — ${t("testimonials.openStore")}`}
-        className={`group relative flex h-full w-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white text-center shadow-[0_18px_50px_rgba(0,0,0,0.08)] transition-shadow duration-300 hover:shadow-[0_26px_64px_rgba(0,0,0,0.14)] ${
+        className={`group relative flex h-full w-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white text-left shadow-[0_18px_50px_rgba(0,0,0,0.08)] transition-shadow duration-300 hover:shadow-[0_26px_64px_rgba(0,0,0,0.14)] ${
           isCenter ? "p-6 md:p-10" : "p-4 md:p-5"
-        } ${i18n.language === "ar" ? "text-right" : "text-left"}`}
+        }`}
       >
         {/* Brand accent bar */}
         <span
@@ -63,9 +63,7 @@ const TestimonialCard = React.memo<{ quote: string; author: string; isCenter: bo
         </span>
 
         {/* Star rating — every store review is 5.0 */}
-        <div
-          className={`mt-3 mb-3 flex justify-center gap-1 ${isCenter ? "mb-4 md:mb-5" : ""} ${i18n.language === "ar" ? "flex-row-reverse" : ""}`}
-        >
+        <div className={`mt-3 mb-3 flex justify-center gap-1 ${isCenter ? "mb-4 md:mb-5" : ""}`}>
           {Array.from({ length: 5 }).map((_, i) => (
             <Star key={i} small={!isCenter} />
           ))}
@@ -74,19 +72,15 @@ const TestimonialCard = React.memo<{ quote: string; author: string; isCenter: bo
         <p
           className={`flex-1 overflow-hidden font-serif italic leading-relaxed text-[#1a1a1a] ${
             isCenter ? "line-clamp-4 text-[16px] md:text-[18px]" : "line-clamp-3 text-[12px] md:text-[13px]"
-          } ${
-            i18n.language === "ar"
-              ? `font-arabic ${isCenter ? "text-[15px] leading-[1.7] md:text-[17px]" : "text-[12px] md:text-[13px]"}`
-              : ""
           }`}
         >
           &ldquo;{quote}&rdquo;
         </p>
 
         <p
-          className={`mt-4 font-bold tracking-wide text-[#333] ${
+          className={`mt-4 font-sans font-bold tracking-wide text-[#333] ${
             isCenter ? "text-[14px] md:text-[16px]" : "text-[12px] md:text-[13px]"
-          } ${i18n.language === "ar" ? "font-arabic" : "font-sans"}`}
+          }`}
         >
           {author}
         </p>

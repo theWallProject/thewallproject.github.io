@@ -40,7 +40,7 @@ const LOGO_FILES = [
 ];
 
 const TheBuildWall: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const leftRef = useRef<HTMLDivElement>(null);
@@ -389,10 +389,10 @@ const TheBuildWall: React.FC = () => {
           {TEXT_PHASES.map((text, i) => (
             <div
               key={i}
-              className={`phase-text phase-${i} absolute w-full max-w-4xl flex flex-wrap justify-center px-8 text-center ltr:font-sans font-black uppercase`}
+              className={`phase-text phase-${i} absolute w-full max-w-4xl flex flex-wrap justify-center px-8 text-center ltr:font-sans ${i18n.language === "ar" ? "font-arabic" : ""} font-black uppercase`}
               style={{
-                fontSize: "clamp(1.2rem, 5vw, 2.5rem)",
-                letterSpacing: "0.15em",
+                fontSize: i18n.language === "ar" ? "clamp(1.6rem, 7vw, 3.6rem)" : "clamp(1.5rem, 6.5vw, 3.4rem)",
+                letterSpacing: i18n.language === "ar" ? "0" : "0.15em",
                 color: "#fff",
                 textShadow: "0 0 25px rgba(0,0,0,0.95)",
                 perspective: "1000px",
