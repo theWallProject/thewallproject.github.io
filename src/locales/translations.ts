@@ -105,7 +105,7 @@ export const translations = {
   },
   "hero.relatedWebsites": {
     en: "Related Websites",
-    ar: "موقع ذو صلة",
+    ar: "موقع",
     fr: "Sites Web Liés",
     es: "Sitios Web Relacionados",
     de: "Verwandte Websites",

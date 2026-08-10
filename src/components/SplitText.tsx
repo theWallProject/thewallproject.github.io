@@ -75,25 +75,21 @@ const SplitText: React.FC<SplitTextProps> = ({
 
       // Presets
       if (animationType === "assemble") {
+        // Subtle: words fade in with a gentle rise and soft blur — no chaotic
+        // fly-ins or full rotations.
         animationFrom = {
           opacity: 0,
-          x: () => Math.random() * 600 - 300,
-          y: () => Math.random() * 600 - 300,
-          z: () => Math.random() * 1000 + 500,
-          rotationX: () => Math.random() * 360,
-          rotationY: () => Math.random() * 360,
-          filter: "blur(0px)", // User wants clarity
+          y: () => Math.random() * 28 - 14,
+          filter: "blur(6px)",
           ...from,
         };
         animationTo = {
           opacity: 1,
-          x: 0,
           y: 0,
           z: 0,
-          rotationX: 0,
-          rotationY: 0,
+          filter: "blur(0px)",
           autoAlpha: 1,
-          ease: "expo.out",
+          ease: "power3.out",
           ...to,
         };
       } else if (animationType === "3d-blur") {
