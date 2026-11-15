@@ -1,0 +1,189 @@
+.noooooo {
+  padding: 7rem 0 4rem;
+  min-height: 100vh;
+  background-color: #050505;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #b72b00;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.backLink:hover {
+  color: #ff5a33;
+  border-color: currentColor;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 2.9rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 1.25rem;
+  color: #ffffff;
+}
+
+.subtitle {
+  font-size: 1.15rem;
+  line-height: 1.75;
+  margin-bottom: 1.75rem;
+  /* Brighter than a typical muted body: this is the argument for staying to
+     answer, it has to be comfortably readable, not decorative. */
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.cause {
+  font-size: 1.15rem;
+  line-height: 1.75;
+  margin: 0 0 2.5rem;
+  padding-inline-start: 1.25rem;
+  border-inline-start: 3px solid #b72b00;
+  color: rgba(255, 255, 255, 0.82);
+  font-style: italic;
+}
+
+.reasonTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1.25rem;
+  color: #ffffff;
+}
+
+/* Measured content height of the rendered form (1034px at 1280px wide, 906px
+   at 390px) plus room, so nothing is clipped. Tally only auto-grows when
+   dynamicHeight is requested, and that mode renders its dark text against this
+   page's black background — hence fixed, generous heights. Re-measure if the
+   Tally form itself gains questions. */
+.embed {
+  display: block;
+  width: 100%;
+  height: 1060px;
+  border: 0;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+/* 0.7 alpha on #050505 is ~7:1 — comfortably past WCAG AA. The trust line must
+   not be the faintest text on the page. */
+.privacyNote {
+  margin-top: 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.container hr {
+  border: none;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.15);
+  margin: 2.5rem 0;
+}
+
+.telegramLine,
+.emailLine {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 0 0 1.25rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.actions {
+  margin-bottom: 2rem;
+}
+
+/* Telegram is the preferred channel: it is where a reply actually happens. */
+.primaryAction {
+  display: inline-block;
+  padding: 0.95rem 2.25rem;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #b72b00;
+  border-radius: 4px;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.primaryAction:hover {
+  background-color: #ff3e1a;
+}
+
+.primaryAction:active {
+  transform: scale(0.98);
+}
+
+.secondaryAction {
+  display: inline-block;
+  padding: 0.85rem 2rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.secondaryAction:hover {
+  border-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* RTL support — Arabic runs right to left, including the accent border. */
+html[dir="rtl"] .container,
+html[dir="rtl"] .title,
+html[dir="rtl"] .subtitle,
+html[dir="rtl"] .cause,
+html[dir="rtl"] .reasonTitle,
+html[dir="rtl"] .telegramLine,
+html[dir="rtl"] .emailLine {
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .noooooo {
+    padding: 6rem 0 3rem;
+  }
+
+  .title {
+    font-size: 2.1rem;
+  }
+
+  .subtitle,
+  .cause {
+    font-size: 1rem;
+  }
+
+  .embed {
+    height: 940px;
+  }
+
+  .primaryAction,
+  .secondaryAction {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+}

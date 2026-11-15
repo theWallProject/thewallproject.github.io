@@ -12,7 +12,10 @@ declare global {
 const MATOMO_CONTAINER_URL = "//the-wall.win/matomo/js/container_MG7eAHG2.js";
 
 // Disable tracking in local development to keep analytics clean.
-const isTrackingEnabled = (): boolean => {
+// This is the ONLY gate every tracker must respect — Matomo _paq events and
+// any direct pixel alike — so a test run, a local dev session or a preview
+// build can never write into the production numbers.
+export const isTrackingEnabled = (): boolean => {
   if (typeof window === "undefined") return false;
   const host = window.location.hostname;
   return host !== "localhost" && host !== "127.0.0.1" && host !== "0.0.0.0";

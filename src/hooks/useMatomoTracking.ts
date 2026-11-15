@@ -15,6 +15,14 @@ export function useMatomoTracking(): void {
   }, []);
 
   useEffect(() => {
+    // /noooooo is the addon's uninstall landing page. Counting it as a site
+    // pageview would inflate marketing traffic with visits from people who
+    // just removed the extension, and the page fires its own uninstall event.
+    if (location.pathname === "/noooooo") {
+      isFirstRender.current = false;
+      return;
+    }
+
     trackPageView();
     isFirstRender.current = false;
 

@@ -257,6 +257,17 @@
       "allTime": "Todo el tiempo",
       "thisWeek": "Esta semana",
       "thisMonth": "Este mes"
+    },
+    "noooooo": {
+      "title": "No te vayas sin decir nada",
+      "subtitle": "Has quitado el Muro — es tu derecho. Pero tu razón vale más de lo que crees: cada queja es un fallo que corregimos, una empresa que añadimos, una grieta que cerramos.",
+      "cause": "El Muro solo se vuelve más fuerte cuando la gente nos dice dónde les falló. Tu opinión es parte de este trabajo.",
+      "reasonTitle": "¿Qué salió mal?",
+      "telegram": "O quéjate directamente — alguien lee y responde de verdad.",
+      "telegramBtn": "Unirse al grupo de Telegram",
+      "email": "¿Prefieres escribir en privado? Tu mensaje llega a una persona, no a un formulario.",
+      "emailBtn": "Enviar un correo",
+      "privacyNote": "Anónimo. Sin cuenta, sin correo, nada que te identifique."
     }
   }
 }

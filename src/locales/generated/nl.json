@@ -257,6 +257,17 @@
       "allTime": "Alle tijd",
       "thisWeek": "Deze week",
       "thisMonth": "Deze maand"
+    },
+    "noooooo": {
+      "title": "Ga niet weg zonder een woord",
+      "subtitle": "Je hebt de Muur verwijderd — je goed recht. Maar je reden is waardevoller dan je denkt: elke klacht is een fout die we oplossen, een bedrijf dat we toevoegen, een gat dat we dichten.",
+      "cause": "De Muur wordt alleen sterker als mensen ons vertellen waar hij hen in de steek liet. Jouw feedback is deel van dit werk.",
+      "reasonTitle": "Wat ging er mis?",
+      "telegram": "Of klaag direct — iemand leest en antwoordt echt.",
+      "telegramBtn": "Word lid van de Telegram-groep",
+      "email": "Liever privé schrijven? Je bericht bereikt een persoon, geen formulier.",
+      "emailBtn": "Stuur een e-mail",
+      "privacyNote": "Anoniem. Geen account, geen e-mail, niets dat je identificeert."
     }
   }
 }

@@ -257,6 +257,17 @@
       "allTime": "Gesamtzeit",
       "thisWeek": "Diese Woche",
       "thisMonth": "Diesen Monat"
+    },
+    "noooooo": {
+      "title": "Geh nicht ohne ein Wort",
+      "subtitle": "Du hast die Mauer entfernt — dein gutes Recht. Aber dein Grund ist wertvoller, als du denkst: jede Beschwerde ist ein Fehler, den wir beheben, ein Unternehmen, das wir ergänzen, eine Lücke, die wir schließen.",
+      "cause": "Die Mauer wird nur stärker, wenn Menschen uns sagen, wo sie sie im Stich gelassen hat. Deine Rückmeldung ist Teil dieser Arbeit.",
+      "reasonTitle": "Was lief schief?",
+      "telegram": "Oder beschwer dich direkt — jemand liest und antwortet wirklich.",
+      "telegramBtn": "Der Telegram-Gruppe beitreten",
+      "email": "Lieber privat schreiben? Deine Nachricht erreicht einen Menschen, kein Formular.",
+      "emailBtn": "E-Mail senden",
+      "privacyNote": "Anonym. Kein Konto, keine E-Mail, nichts, was dich identifiziert."
     }
   }
 }

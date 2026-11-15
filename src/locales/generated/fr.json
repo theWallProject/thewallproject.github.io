@@ -257,6 +257,17 @@
       "allTime": "Tout temps",
       "thisWeek": "Cette semaine",
       "thisMonth": "Ce mois-ci"
+    },
+    "noooooo": {
+      "title": "Ne partez pas sans un mot",
+      "subtitle": "Vous avez retiré le Mur — c'est votre droit. Mais votre raison vaut plus que vous ne le pensez : chaque plainte est un défaut que nous corrigeons, une entreprise que nous ajoutons, une faille que nous fermons.",
+      "cause": "Le Mur ne devient plus fort que lorsque les gens nous disent où il les a trahis. Votre retour fait partie de ce travail.",
+      "reasonTitle": "Qu'est-ce qui n'a pas marché ?",
+      "telegram": "Ou plaignez-vous directement — quelqu'un lit et répond vraiment.",
+      "telegramBtn": "Rejoindre le groupe Telegram",
+      "email": "Vous préférez écrire en privé ? Votre message arrive à une personne, pas à un formulaire.",
+      "emailBtn": "Envoyer un e-mail",
+      "privacyNote": "Anonyme. Sans compte, sans e-mail, rien qui vous identifie."
     }
   }
 }

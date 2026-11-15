@@ -257,6 +257,17 @@
       "allTime": "Sepanjang waktu",
       "thisWeek": "Minggu ini",
       "thisMonth": "Bulan ini"
+    },
+    "noooooo": {
+      "title": "Jangan pergi tanpa sepatah kata",
+      "subtitle": "Kamu mencabut Tembok — itu hakmu. Tapi alasanmu lebih berharga dari yang kamu duga: setiap keluhan adalah cacat yang kami perbaiki, perusahaan yang kami tambahkan, celah yang kami tutup.",
+      "cause": "Tembok hanya semakin kuat ketika orang memberi tahu di mana ia mengecewakan mereka. Masukanmu adalah bagian dari kerja ini.",
+      "reasonTitle": "Apa yang salah?",
+      "telegram": "Atau mengeluh langsung — ada yang benar-benar membaca dan membalas.",
+      "telegramBtn": "Gabung grup Telegram",
+      "email": "Lebih suka menulis pribadi? Pesanmu sampai ke orang, bukan formulir.",
+      "emailBtn": "Kirim email",
+      "privacyNote": "Anonim. Tanpa akun, tanpa email, tidak ada yang mengidentifikasi kamu."
     }
   }
 }

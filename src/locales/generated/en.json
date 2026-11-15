@@ -257,6 +257,17 @@
       "allTime": "All time",
       "thisWeek": "This week",
       "thisMonth": "This month"
+    },
+    "noooooo": {
+      "title": "Don't leave without a word",
+      "subtitle": "You removed the Wall — that is your right. But your reason is worth more than you think: every complaint is a bug we fix, a company we add, a gap we close.",
+      "cause": "The Wall only grows stronger when people tell us where it failed them. Your feedback is part of this work.",
+      "reasonTitle": "What went wrong?",
+      "telegram": "Or complain to us directly — someone actually reads and replies.",
+      "telegramBtn": "Join the Telegram group",
+      "email": "Prefer to write privately? Your message reaches a person, not a form.",
+      "emailBtn": "Send an email",
+      "privacyNote": "Anonymous. No account, no email required, nothing that identifies you."
     }
   }
 }

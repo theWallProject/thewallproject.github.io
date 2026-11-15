@@ -11,6 +11,7 @@ import Testimonials from "./components/Testimonials";
 import PlatformShowcase from "./components/PlatformShowcase";
 import Footer from "./components/Footer";
 import PrivacyPolicy from "./components/PrivacyPolicy";
+import NooooooPage from "./components/NooooooPage";
 import Stats from "./components/Stats";
 import DonationsPage from "./components/DonationsPage";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -91,6 +92,7 @@ const App: React.FC = () => {
               <Route path="/donate" element={<DonationsPage />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/stats" element={<Stats />} />
+              <Route path="/noooooo" element={<NooooooPage />} />
             </Routes>
           </ErrorBoundary>
         </Router>
