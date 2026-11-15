@@ -46,9 +46,9 @@ class CorePluginsAdmin extends Plugin
     }
 
     /**
-     * Remove any changes from a plugin that has been uninstalled
+     * Remove any changes from a plugin that has been deactivated
      *
-     * @param string $pluginName The name of the plugin that was uninstalled
+     * @param string $pluginName The name of the plugin that was deactivated
      */
     public function removePluginChanges(string $pluginName)
     {
@@ -170,7 +170,12 @@ class CorePluginsAdmin extends Plugin
         $translations[] = 'UsersManager_ConfirmWithPassword';
         $translations[] = 'UsersManager_ConfirmWithReAuthentication';
         $translations[] = 'UsersManager_YourCurrentPassword';
-        $translations[] = 'PrivacyManager_PolicyControlledSetting';
+        $translations[] = 'PrivacyManager_PolicyControlledSettingLockedConfig';
+        $translations[] = 'PrivacyManager_PolicyControlledSettingLockedInstance';
+        $translations[] = 'PrivacyManager_PolicyControlledSettingLockedWebsite';
+        $translations[] = 'PrivacyManager_PolicyControlledSettingConstrainedConfig';
+        $translations[] = 'PrivacyManager_PolicyControlledSettingConstrainedInstance';
+        $translations[] = 'PrivacyManager_PolicyControlledSettingConstrainedWebsite';
         $translations[] = 'PrivacyManager_ViewPrivacyComplianceOverview';
     }
 }

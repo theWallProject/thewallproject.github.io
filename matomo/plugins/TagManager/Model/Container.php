@@ -320,6 +320,15 @@ class Container extends BaseModel
         }
     }
 
+    public function hasRelease($idSite, $idContainer, $environment)
+    {
+        $this->checkContainerExists($idSite, $idContainer);
+
+        $release = $this->releasesDao->getReleaseForContainerVersion($idSite, $idContainer, $environment);
+
+        return !empty($release);
+    }
+
     public function publishVersion($idSite, $idContainer, $idContainerVersion, $environment, $releaseLogin)
     {
         $this->checkContainerVersionExists($idSite, $idContainer, $idContainerVersion);
@@ -523,7 +532,13 @@ class Container extends BaseModel
 
         $exported = $this->getExport()->exportContainerVersion($idSite, $idContainer, $container['draft']['idcontainerversion']);
         $import = StaticContainer::get('Piwik\Plugins\TagManager\API\Import');
-        $import->importContainerVersion($exported, $idDestinationSite, $idContainerNew, $idContainerNewVersion);
+
+        try {
+            $import->importContainerVersion($exported, $idDestinationSite, $idContainerNew, $idContainerNewVersion);
+        } catch (Exception $e) {
+            $this->deleteContainer($idDestinationSite, $idContainerNew);
+            throw $e;
+        }
 
         // Make sure to record the activity for the report being copied
         if (class_exists('\Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData')) {

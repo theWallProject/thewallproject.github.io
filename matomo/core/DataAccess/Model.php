@@ -688,7 +688,7 @@ class Model
      * @param string $archiveTableName
      * @param array $segments  List of segments to match against
      * @param string $oldestToKeep Datetime string
-     * @return array With keys idarchive, name, idsite
+     * @return int[] List of idarchive values.
      */
     public function getArchiveIdsForSegments($archiveTableName, array $segments, $oldestToKeep)
     {
@@ -718,14 +718,17 @@ class Model
     {
         $idSite = (int)$segment['enable_only_idsite'];
         $segmentHash = $segment['hash'] ?? '';
-        // Valid segment hashes are md5 strings - just confirm that it is so it's safe for SQL injection
-        if (!ctype_xdigit($segmentHash)) {
+        // Valid segment hashes are md5 strings - confirm that it is one, so it is safe for SQL injection and
+        // the name clause below can only match the done flag of this one segment
+        if (strlen($segmentHash) !== 32 || !ctype_xdigit($segmentHash)) {
             throw new Exception($segmentHash . ' expected to be an md5 hash');
         }
 
         $nameClause = 'name LIKE "done' . $segmentHash . '%"';
         $idSiteClause = '';
-        if ($idSite > 0) {
+        // Only 0 (or NULL) means the segment was enabled for all websites. Every other value is applied as
+        // a site restriction.
+        if ($idSite !== 0) {
             $idSiteClause = ' AND idsite = ' . $idSite;
         } elseif (! empty($segment['idsites_to_preserve'])) {
             // A segment for all sites was deleted, but there are segments for a single site with the same definition
@@ -931,7 +934,7 @@ class Model
     /**
      * Returns true if there is an archive that exists that can be used when aggregating an archive for $period.
      *
-     * @param $idSite
+     * @param int $idSite
      * @return bool
      * @throws Exception
      */

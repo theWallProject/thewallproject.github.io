@@ -59,7 +59,6 @@ class TagManager extends \Piwik\Plugin
             'PluginManager.pluginDeactivated' => 'onPluginActivateOrInstall',
             'PluginManager.pluginUninstalled' => 'onPluginActivateOrInstall',
             'TagManager.regenerateContainerReleases' => 'regenerateReleasedContainers',
-            'Updater.componentUpdated' => 'regenerateReleasedContainers',
             'Controller.CoreHome.checkForUpdates.end' => 'regenerateReleasedContainers',
             'CustomJsTracker.trackerJsChanged' => 'regenerateReleasedContainers', // in case a Matomo tracker is bundled
             'SitesManager.deleteSite.end' => 'onSiteDeleted',
@@ -73,7 +72,6 @@ class TagManager extends \Piwik\Plugin
             'API.addGlossaryItems' => 'addGlossaryItems',
             'Template.bodyClass' => 'addBodyClass',
             'Access.Capability.addCapabilities' => 'addCapabilities',
-            'TwoFactorAuth.requiresTwoFactorAuthentication' => 'requiresTwoFactorAuthentication',
             'Db.getTablesInstalled' => 'getTablesInstalled',
             'Template.siteWithoutDataTab.ReactJs.content' => 'embedReactTagManagerTrackingCode',
             'SitesManager.getMessagesToWarnOnSiteRemoval' => 'getMessagesToWarnOnSiteRemoval'
@@ -93,13 +91,6 @@ class TagManager extends \Piwik\Plugin
         $allTablesInstalled[] = Common::prefixTable('tagmanager_tag');
         $allTablesInstalled[] = Common::prefixTable('tagmanager_trigger');
         $allTablesInstalled[] = Common::prefixTable('tagmanager_variable');
-    }
-
-    public function requiresTwoFactorAuthentication(&$requiresAuth, $module, $action, $parameters)
-    {
-        if ($module == 'TagManager' && $action === 'debug') {
-            $requiresAuth = false;
-        }
     }
 
     public function addBodyClass(&$out, $type)
@@ -962,6 +953,7 @@ class TagManager extends \Piwik\Plugin
         $stylesheets[] = "plugins/TagManager/stylesheets/manageList.less";
         $stylesheets[] = "plugins/TagManager/stylesheets/manageEdit.less";
         $stylesheets[] = "plugins/TagManager/stylesheets/containerMenu.less";
+        $stylesheets[] = "plugins/TagManager/stylesheets/previewDebugNotification.less";
         $stylesheets[] = "plugins/TagManager/vue/src/Tag/TagEdit.less";
         $stylesheets[] = "plugins/TagManager/vue/src/VariableSelectType/VariableSelectType.less";
         $stylesheets[] = "plugins/TagManager/vue/src/Field/FieldVariableTemplate.less";

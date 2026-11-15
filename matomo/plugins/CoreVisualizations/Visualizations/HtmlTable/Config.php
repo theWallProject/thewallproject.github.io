@@ -12,7 +12,7 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\ViewDataTable\Config as VisualizationConfig;
 
 /**
- * DataTable Visualization that derives from HtmlTable and sets show_extra_columns to true.
+ * Configuration for the HtmlTable visualization.
  */
 class Config extends VisualizationConfig
 {
@@ -107,6 +107,16 @@ class Config extends VisualizationConfig
      * @var array
      */
     public $report_ratio_columns = array();
+
+    /**
+     * Whether this report displays at least one column that has a meaningful percentage value,
+     * ie. whether the setting to show percentage values should be offered for this report.
+     *
+     * Derived from columns_to_display, so it is only accurate once those are final. A visualization
+     * that rewrites the columns after HtmlTable::beforeRender() has run must set this again.
+     * @var bool
+     */
+    public $report_supports_percentage_values = false;
 
     /**
      * The minimum width for the label column in table visualizations.

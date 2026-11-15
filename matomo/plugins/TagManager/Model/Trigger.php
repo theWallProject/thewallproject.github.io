@@ -13,6 +13,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\TagManager\API\TagReference;
 use Piwik\Plugins\TagManager\Dao\TriggersDao;
+use Piwik\Plugins\TagManager\Input\AccessValidator;
 use Piwik\Plugins\TagManager\Input\IdSite;
 use Piwik\Plugins\TagManager\Input\Name;
 use Piwik\Plugins\TagManager\Validators\TriggerConditions;
@@ -141,6 +142,22 @@ class Trigger extends BaseModel
         return $this->enrichTrigger($trigger);
     }
 
+    public function usesCustomTemplates(int $idSite, int $idContainerVersion, int $idTrigger, array &$checkedVariableNames = []): bool
+    {
+        $trigger = $this->getContainerTrigger($idSite, $idContainerVersion, $idTrigger);
+
+        if (empty($trigger)) {
+            return false;
+        }
+
+        if (!empty($trigger['type']) && $this->triggersProvider->isCustomTemplate($trigger['type'])) {
+            return true;
+        }
+
+        return StaticContainer::get(Variable::class)
+            ->doesEntityReferenceCustomTemplates($trigger, $idSite, $idContainerVersion, $checkedVariableNames);
+    }
+
     /**
      * Look up a trigger by its name.
      *
@@ -171,6 +188,7 @@ class Trigger extends BaseModel
     {
         $idDestinationSite = $idDestinationSite ?: $idSite;
         $idDestinationVersion = $idDestinationVersion ?: $idContainerVersion;
+        $this->checkWriteCapabilityForContainerVersion($idDestinationSite, $idDestinationVersion);
 
         $trigger = $this->getContainerTrigger($idSite, $idContainerVersion, $idTrigger);
         $existingTrigger = $this->findTriggerByName($idDestinationSite, $idDestinationVersion, $trigger['name']);
@@ -179,6 +197,7 @@ class Trigger extends BaseModel
             return $existingTrigger['idtrigger'];
         }
 
+        $this->checkDestinationCanUseCustomTemplate($trigger, $idSite, $idDestinationSite);
         StaticContainer::get(Variable::class)->copyReferencedVariables($trigger, $idSite, $idContainerVersion, $idDestinationSite, $idDestinationVersion);
 
         $newName = $this->dao->makeCopyNameUnique($idDestinationSite, $trigger['name'], $idDestinationVersion);
@@ -211,9 +230,13 @@ class Trigger extends BaseModel
         $idDestinationVersion = $idContainerVersion;
         if ($idDestinationSite !== null && !empty($idDestinationContainer)) {
             $idDestinationVersion = $this->getDraftContainerVersion($idDestinationSite, $idDestinationContainer);
+            $this->checkWriteCapabilityForContainerVersion($idDestinationSite, $idDestinationVersion, $idDestinationContainer);
+        } else {
+            $this->checkWriteCapabilityForContainerVersion($idDestinationSite, $idDestinationVersion);
         }
 
         $trigger = $this->getContainerTrigger($idSite, $idContainerVersion, $idTrigger);
+        $this->checkDestinationCanUseCustomTemplate($trigger, $idSite, $idDestinationSite);
         StaticContainer::get(Variable::class)->copyReferencedVariables($trigger, $idSite, $idContainerVersion, $idDestinationSite, $idDestinationVersion);
 
         $newName = $this->dao->makeCopyNameUnique($idDestinationSite, $trigger['name'], $idDestinationVersion);
@@ -227,6 +250,26 @@ class Trigger extends BaseModel
             $trigger['conditions'],
             $trigger['description']
         );
+    }
+
+    private function checkDestinationCanUseCustomTemplate(array $trigger, int $idSite, int $idDestinationSite): void
+    {
+        if ($idSite === $idDestinationSite || empty($trigger['type'])) {
+            return;
+        }
+
+        $checkedVariableNames = [];
+        if (
+            (!empty($trigger['type']) && $this->triggersProvider->isCustomTemplate($trigger['type']))
+            || StaticContainer::get(Variable::class)->doesEntityReferenceCustomTemplates(
+                $trigger,
+                $idSite,
+                $trigger['idcontainerversion'],
+                $checkedVariableNames
+            )
+        ) {
+            StaticContainer::get(AccessValidator::class)->checkUseCustomTemplatesCapability($idDestinationSite);
+        }
     }
 
     private function updateTriggerColumns($idSite, $idContainerVersion, $idTrigger, $columns)

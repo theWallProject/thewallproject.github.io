@@ -274,10 +274,20 @@ class DataRounding
             return;
         }
 
+        $existingValue = $row->getColumn($metricName);
         $computedValue = $processedMetric->compute($row);
-        if ($computedValue !== false) {
-            $row->setColumn($metricName, $computedValue);
+        if ($computedValue === false) {
+            return;
         }
+
+        // If the metric was already formatted upstream (e.g. an inner API call's post-processor turned it into "0%"),
+        // re-format the recomputed quotient so we don't downgrade the output. The outer applyMetricsFormatting step
+        // would otherwise skip this table because its PROCESSED_METRICS_FORMATTED_FLAG is already set.
+        if (!is_numeric($existingValue) && is_numeric($computedValue)) {
+            $computedValue = $processedMetric->format($computedValue, new Metrics\Formatter());
+        }
+
+        $row->setColumn($metricName, $computedValue);
     }
 
     /**
@@ -545,6 +555,22 @@ class DataRounding
         return $columnName;
     }
 
+    /**
+     * Round a single count value using the same rule as the segmented-data rounding (nearest ten,
+     * with a minimum of ten for any non-zero count). Use this for count values that are exposed
+     * outside the DataTable rounding pipeline, e.g. the real-time visit counters.
+     *
+     * @param mixed $value
+     */
+    public static function roundCount($value): int
+    {
+        if (!self::shouldRoundValue($value)) {
+            return (int) $value;
+        }
+
+        return self::roundToNearestTen((float) $value);
+    }
+
     private static function roundToNearestTen(float $value): int
     {
         if ($value === 0.0) {
@@ -610,15 +636,12 @@ class DataRounding
         try {
             $requestObject = new Request($request);
             $idSite = $requestObject->getParameter('idSite', null);
-            if (is_null($idSite)) {
-                $idSite = $requestObject->getParameter('idsite', null);
-            }
 
-            if (!is_scalar($idSite) || trim((string) $idSite) === '') {
+            if (!is_array($idSite) && !is_scalar($idSite)) {
                 return [];
             }
 
-            return Site::getIdSitesFromIdSitesString((string) $idSite, false, false);
+            return Site::getIdSitesFromIdSitesString($idSite, false, false);
         } catch (Throwable $e) {
             return [];
         }

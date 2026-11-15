@@ -14,6 +14,7 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Plugins\Marketplace\Plugins;
+use Piwik\Plugins\Marketplace\SiteAwareLinks;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 
@@ -162,10 +163,7 @@ class InvalidLicenses
 
     private function getSubscritionSummaryMessage()
     {
-        $url = Url::getCurrentQueryStringWithParametersModified(array(
-            'module' => 'Marketplace', 'action' => 'subscriptionOverview',
-        ));
-
+        $url = (new SiteAwareLinks())->getActionUrl('subscriptionOverview');
         $link = '<a href="' . $url . '">';
 
         return "<br/>" .  $this->translator->translate('Marketplace_ViewSubscriptionsSummary', array($link, '</a>'));
@@ -188,6 +186,12 @@ class InvalidLicenses
         if (!empty($paidPlugins)) {
             foreach ($paidPlugins as $plugin) {
                 if (!empty($plugin['isFree'])) {
+                    continue;
+                }
+                // the paid listing also carries bundles, which are licence products rather than
+                // installable plugins; they cannot be activated or deactivated, so naming one in
+                // "deactivated because you have no license" would be meaningless
+                if (!empty($plugin['isBundle'])) {
                     continue;
                 }
                 $pluginName = $plugin['name'];

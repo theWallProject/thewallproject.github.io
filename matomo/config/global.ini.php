@@ -480,6 +480,8 @@ csp_enabled = 1
 
 ; If set, and csp_enabled is on, Matomo will send a report-uri in the Content-Security-Policy-Report-Only header
 ; instead of a Content-Security-Policy header.
+; Responses that carry data rather than application UI (API output, exports, generated reports) are not
+; covered: their policy is always enforced.
 csp_report_only = 0
 
 ; If set to 1 Matomo will prefer using SERVER_NAME variable over HTTP_HOST.
@@ -573,7 +575,7 @@ auth_token_rotation_notification_days = 180
 auth_token_default_expiration_days = 180
 
 ; Number of days before the expiration date of a personal auth token, where an email notification is sent to the user.
-; If set to 0 days, notifications won't be sent. 
+; If set to 0 days, notifications won't be sent.
 ; Recommended to keep enabled for best security.
 auth_token_expiration_notification_days = 30
 
@@ -624,6 +626,9 @@ datatable_archiving_maximum_rows_subtable_custom_dimensions = 1000
 
 ; maximum number of rows for any of the Actions tables (pages, downloads, outlinks)
 datatable_archiving_maximum_rows_actions = 500
+; maximum number of rows used when archiving flat page/title actions before rebuilding hierarchy
+; if set to 0, legacy hierarchical-only Actions archiving is used
+datatable_archiving_maximum_rows_actions_flat = 0
 ; maximum number of rows for pages in categories (sub pages, when clicking on the + for a page category)
 ; note: should not exceed the display limit in Piwik\Actions\Controller::ACTIONS_REPORT_ROWS_DISPLAY
 ; because each subdirectory doesn't have paging at the bottom, so all data should be displayed if possible.
@@ -643,6 +648,11 @@ datatable_archiving_maximum_rows_products = 10000
 datatable_archiving_maximum_rows_bots = 250
 ; maximum number of page/document rows listed per AI Assistant in Bot Tracking reports
 datatable_archiving_maximum_rows_subtable_bots = 250
+; maximum number of content URLs (pages/documents) listed in the AI Chatbots Content Requests reports
+datatable_archiving_maximum_rows_ai_chatbot_content = 50000
+; maximum number of page URLs listed in the Human-Favoured / AI-Favoured Pages reports
+; (these span the full human page-URL set, matching the content reports cap)
+datatable_archiving_maximum_rows_ai_chatbot_favoured_pages = 50000
 
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500
@@ -667,6 +677,11 @@ live_widget_visitor_count_last_minutes = 3
 ; by default visitor profile will show aggregated information for the last up to 100 visits of a visitor
 ; this limit can be adjusted by changing this value
 live_visitor_profile_max_visits_to_aggregate = 100
+
+; maximum number of AI chatbots listed in the real-time AI Chatbots reports
+live_ai_chatbots_maximum_rows = 100
+; maximum number of page URLs listed in the real-time AI Chatbots top page URL reports
+live_ai_chatbots_top_page_urls_maximum_rows = 100
 
 ; If configured, will abort a MySQL query after the configured amount of seconds and show an error in the UI to for
 ; example lower the date range or tweak the segment (if one is applied). Set it to -1 if the query time should not be
@@ -872,6 +887,13 @@ enable_update_communication = 1
 ; If you may need to download GeoIP updates or other stuff using other protocols like ftp you may need to extend this list.
 allowed_outgoing_protocols = 'http,https'
 
+; HTTP requests fetching a user-configured URL (e.g. a site's URL for site content detection) refuse to
+; contact private, loopback or otherwise reserved IP addresses, so they cannot be pointed at other servers
+; in this Matomo's network. If this Matomo tracks intranet sites hosted on such addresses, allowlist their
+; ranges here. Accepts single IPs, CIDR notation and wildcards, both IPv4 and IPv6.
+; allowed_private_egress_ranges[] = "10.0.0.0/8"
+; allowed_private_egress_ranges[] = "192.168.1.*"
+
 ; This option forces matomo marketplace and matomo api requests to use HTTP, as default we use HTTPS to improve security
 ; If you have a problem loading the marketplace, please enable this config option
 force_matomo_http_request = 0
@@ -1014,8 +1036,12 @@ window_look_back_for_visitor = 0
 default_time_one_page_visit = 0
 
 ; Comma separated list of URL query string variable names that will be removed from your tracked URLs
-; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
-url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,twclid,wbraid,gbraid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid,li_fat_id"
+; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters
+; and advertising/attribution tracking parameters)
+; An entry can either be a parameter name (eg. gclid) or a regular expression including its delimiters, as used below.
+; As this list is split on commas, a regular expression must not contain a
+; comma. Matching is case insensitive, so entries should always be written in lower case.
+url_query_parameter_to_exclude_from_url = "gclid,fbclid,msclkid,twclid,wbraid,gbraid,yclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid,li_fat_id,token_auth,token,gad_source,gad_campaignid,/^hsa_(acc|ad|cam|grp|kw|la|mt|net|ol|src|tgt|ver)$/"
 
 ; If set to 1, Matomo will use the default provider if no other provider is configured.
 ; In addition the default provider will be used as a fallback when the configure provider does not return any results.
@@ -1324,6 +1350,7 @@ Plugins[] = JsTrackerInstallCheck
 Plugins[] = FeatureFlags
 Plugins[] = AIAgents
 Plugins[] = BotTracking
+Plugins[] = AIProviders
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics
@@ -1362,6 +1389,18 @@ time_dom_completion_cap_duration_ms = 0
 
 ; Cap for On load time: avg/high 10ms (recommended value: 1000)
 time_on_load_cap_duration_ms = 0
+
+[Live]
+; When enabled, the visits log asks the joined log tables for a match with a subquery instead of
+; grouping away the rows they duplicate. Grouping by log_visit.idvisit while ordering by
+; log_visit.visit_last_action_time makes MySQL sort every matching visit before it can apply the
+; LIMIT, so the query costs as much as the whole date range even when a single page of visits is
+; requested. Both forms return the same visits in the same order, a visit matching several actions
+; still counting once, see https://github.com/matomo-org/matomo/issues/13861
+; The subquery form only stops early when an index serves the order by, which is the case when the
+; visits log is asked for a single site. Asking for several sites at once sorts the matching visits
+; either way.
+use_semi_join_query = 0
 
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call
@@ -1604,5 +1643,13 @@ CommonPIIParams[] = webhooksecret
 CommonPIIParams[] = website
 CommonPIIParams[] = zip
 CommonPIIParams[] = zipcode
+
+[Goals]
+; Maximum number of same-origin pages fetched when analysing a website for goal recommendations
+recommendation_max_crawl_pages = 50
+
+; Maximum number of AI-assisted goal recommendation scans allowed per site and day.
+; Set to 0 for no limit. Useful for managed environments to cap AI provider usage.
+recommendation_ai_daily_scan_limit = 0
 
 ; NOTE: do not directly edit this file! See notice at the top

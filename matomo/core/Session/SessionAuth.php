@@ -59,7 +59,7 @@ class SessionAuth implements Auth
 
     public function getName()
     {
-        // empty
+        return null;
     }
 
     public function setTokenAuth(
@@ -74,11 +74,13 @@ class SessionAuth implements Auth
         if (isset($this->user['login'])) {
             return $this->user['login'];
         }
+
+        return null;
     }
 
     public function getTokenAuthSecret()
     {
-        // empty
+        return null;
     }
 
     public function setLogin($login)
@@ -237,7 +239,9 @@ class SessionAuth implements Auth
             Session::getSameSiteCookieValue()
         );
 
-        // ...and we also update the expiration time stored server side so we can prevent expired sessions from being reused
+        // ...and we keep the expiration stored server side in step with it, which is the value that
+        // actually prevents expired sessions from being reused. That one is only written once it
+        // has moved on materially, so it can lag the cookie slightly.
         $sessionFingerprint->updateSessionExpirationTime();
     }
 

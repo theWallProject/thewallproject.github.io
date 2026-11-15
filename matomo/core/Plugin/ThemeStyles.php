@@ -22,6 +22,10 @@ class ThemeStyles
         'fontFamilyBase' => 'theme-fontFamily-base',
         'colorBrand' => 'theme-color-brand',
         'colorBrandContrast' => 'theme-color-brand-contrast',
+        'colorNewBrand' => 'theme-color-new-brand',
+        'colorSuccess' => 'theme-color-success',
+        'colorWarning' => 'theme-color-warning',
+        'colorDanger' => 'theme-color-danger',
         'colorFocusRing' => 'theme-color-focus-ring',
         'colorFocusRingAlternative' => 'theme-color-focus-ring-alternative',
         'colorTextHighContrast' => 'theme-color-text-highContrast',
@@ -30,10 +34,12 @@ class ThemeStyles
         'colorTextLight' => 'theme-color-text-light',
         'colorTextLighter' => 'theme-color-text-lighter',
         'colorTextOnDisabled' => 'theme-color-text-on-disabled',
+        'colorTextPlaceholder' => 'theme-color-text-placeholder',
         'colorTextInvert' => 'theme-color-text-invert',
         'colorTextInvertContrast' => 'theme-color-text-invert-contrast',
         'colorTextInvertLight' => 'theme-color-text-invert-light',
         'colorTextDisabled' => 'theme-color-text-disabled',
+        'colorTextBrand' => 'theme-color-text-brand',
         'colorLink' => 'theme-color-link',
         'colorBaseSeries' => 'theme-color-base-series',
         'colorHeadlineAlternative' => 'theme-color-headline-alternative',
@@ -51,11 +57,15 @@ class ThemeStyles
         'colorBackgroundLowContrast' => 'theme-color-background-lowContrast',
         'colorBackgroundContrast' => 'theme-color-background-contrast',
         'colorBackgroundHighContrast' => 'theme-color-background-highContrast',
+        'colorBackgroundBrandTinyContrast' => 'theme-color-background-brand-tinyContrast',
+        'colorBackgroundBrandLowContrast' => 'theme-color-background-brand-lowContrast',
         'colorBackgroundDisabled' => 'theme-color-background-disabled',
         'colorBorder' => 'theme-color-border',
         'colorBorderAlternative' => 'theme-color-border-alternative',
         'colorBorderLight' => 'theme-color-border-light',
+        'colorBorderBrand' => 'theme-color-border-brand',
         'colorBoxShadow' => 'theme-color-boxShadow',
+        'shadowOverlay' => 'theme-shadow-overlay',
         'colorCode' => 'theme-color-code',
         'colorCodeBackground' => 'theme-color-code-background',
         'colorWidgetBackground' => 'theme-color-widget-background',
@@ -83,6 +93,39 @@ class ThemeStyles
      * @var string|array<string>
      */
     public $colorBrandContrast = ['#fff', '#ffffff'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorNewBrand = '#00b4be';
+
+    /**
+     * Semantic "all is fine / success / positive" green. Kept theme-independent from
+     * $colorBrand so that success states stay green even when a theme overrides the brand.
+     *
+     * @var string|array<string>
+     * @since Matomo 5.14.1
+     */
+    public $colorSuccess = ['#43a047', '#66bb6a'];
+
+    /**
+     * Semantic "needs attention / not yet fatal" amber, the counterpart to $colorSuccess. Kept
+     * theme-independent from $colorBrand for the same reason.
+     *
+     * @var string|array<string>
+     * @since Matomo 5.14.1
+     */
+    public $colorWarning = ['#a18a0b', '#d4b93c'];
+
+    /**
+     * Semantic "this has failed / is blocking" red, completing $colorSuccess and $colorWarning.
+     * Kept theme-independent from $colorBrand for the same reason, and a pair rather than
+     * the flat @color-red-matomo it replaces, which does not reach 4.5:1 on a dark background.
+     *
+     * @var string|array<string>
+     * @since Matomo 5.14.1
+     */
+    public $colorDanger = ['#c0322e', '#ef7f7c'];
 
     /**
      * @var string|array<string>
@@ -126,6 +169,12 @@ class ThemeStyles
 
     /**
      * @var string|array<string>
+     * @since Matomo 5.12.0
+     */
+    public $colorTextPlaceholder = ['#d1d1d1', '#565656'];
+
+    /**
+     * @var string|array<string>
      */
     public $colorTextInvert = ['#ccc', '#555'];
 
@@ -148,6 +197,15 @@ class ThemeStyles
      * @var string|array<string>
      */
     public $colorLink = ['#1976D2', '#778fd4'];
+
+    /**
+     * Text sitting on $colorBackgroundBrandTinyContrast or $colorBackgroundBrandLowContrast, where
+     * $colorBrand itself does not reach the required contrast ratio.
+     *
+     * @var string|array<string>
+     * @since Matomo 5.14.1
+     */
+    public $colorTextBrand = ['#186f72', '#4ad3dc'];
 
     /**
      * @var string|array<string>
@@ -240,9 +298,34 @@ class ThemeStyles
     public $colorBackgroundDisabled = ['#d9d9d9', '#303339'];
 
     /**
+     * Brand-tinted surfaces, for panels and chips that should read as part of the product rather
+     * than as neutral chrome. "Tiny" is the fainter of the two, for large areas; "low" carries
+     * enough contrast for a selected or highlighted control.
+     *
+     * @var string|array<string>
+     * @since Matomo 5.14.1
+     */
+    public $colorBackgroundBrandTinyContrast = ['#f3fdff', '#152e2d'];
+
+    /**
+     * @var string|array<string>
+     * @since Matomo 5.14.1
+     */
+    public $colorBackgroundBrandLowContrast = ['#e1fbfb', '#16302f'];
+
+    /**
      * @var string|array<string>
      */
     public $colorBorderLight = ['#a9a399', '#645e54'];
+
+    /**
+     * Brand-tinted border, the counterpart to $colorBorderAlternative for elements drawn on a
+     * brand-tinted surface.
+     *
+     * @var string|array<string>
+     * @since Matomo 5.14.1
+     */
+    public $colorBorderBrand = ['#bfe7e9', '#2f5e5e'];
 
     /**
      * @var string|array<string>
@@ -263,6 +346,11 @@ class ThemeStyles
      * @var string|array<string>
      */
     public $colorBoxShadow = ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $shadowOverlay = ['0 0 3px #A5B1CA4D, 0 10px 40px #A5B1CA4D', '0 0 3px #00000080, 0 10px 40px #00000080'];
 
     /**
      * @var string|array<string>

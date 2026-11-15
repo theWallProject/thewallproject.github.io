@@ -448,7 +448,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
             var widthOfAllColumns = 0;
             columnsInFirstRow.each(function (index, column) {
-                widthOfAllColumns += $(column).outerWidth();
+                // Round each measurement so the sum is a stable integer; raw sub-pixel widths
+                // made the label width (and where labels get truncated) jitter between runs.
+                widthOfAllColumns += Math.round($(column).outerWidth());
             });
 
             if (tableWidth - widthOfAllColumns >= minLabelWidth) {
@@ -1034,12 +1036,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var $next = $('.dataTableNext', domElem);
 
         // Display the next link if the total Rows is greater than the current end row
+        // and filter_limit is a positive number (not "show all")
         $next.each(function () {
             var offsetEnd = Number(self.param.filter_offset)
                 + Number(self.param.filter_limit);
             var totalRows = Number(self.param.totalRows);
             if (self.param.keep_summary_row == 1) --totalRows;
-            if (offsetEnd < totalRows) {
+            if (offsetEnd < totalRows && Number(self.param.filter_limit) > 0) {
                 $(this).css('visibility', 'visible');
             }
         });
@@ -1102,8 +1105,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
                     piwik.annotations.placeEvolutionIcons(annotations, domElem);
 
-                    // add new section under axis
-                    annotations.insertBefore($('.dataTableFooterNavigation', domElem));
+                    piwik.annotations.placeEvolutionAnnotations(annotations, domElem);
 
                     // reposition annotation icons every time the graph is resized
                     $('.piwik-graph', domElem).on('resizeGraph', function () {
@@ -1343,6 +1345,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         $('.dataTableShowTotalsRow', domElem)
             .click(generateClickCallback('keep_totals_row'));
 
+        // handle percentage values
+        $('.dataTableShowPercentageValues', domElem)
+            .click(generateClickCallback('show_percentage_values'));
+
         $('.dataTableIncludeAggregateRows', domElem)
             .click(generateClickCallback('include_aggregate_rows', function () {
                 if (self.param.include_aggregate_rows == 1) {
@@ -1450,11 +1456,15 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         $domElement.data('tooltip', 'enabled');
 
-        if (!isTextEllipsized($domElement)) {
+        // a label with a title of its own always needs the tooltip to render it; one that only
+        // repeats the cell text needs it just when that text is cut off
+        if (!$domElement.attr('title') && !isTextEllipsized($domElement)) {
             return;
         }
 
-        var customToolTipText = $domElement.attr('title') || $domElement.text();
+        // the cell's own text is escaped once, as the tooltip renders its title as HTML
+        var customToolTipText = $domElement.attr('title')
+            || piwikHelper.htmlEntities($domElement.text());
 
         if (customToolTipText) {
             $domElement.attr('title', customToolTipText);
@@ -1462,6 +1472,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         $domElement.tooltip({
             track: true,
+            content: window.CoreHome.tooltipContent,
             show: false,
             hide: false
         });
@@ -1675,7 +1686,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 			track: true,
 			items: 'span',
 			content: function() {
-				return $(this).parent().data('tooltip');
+				return window.vueSanitizeTooltip($(this).parent().data('tooltip'));
 			},
 			show: false,
 			hide: false,
@@ -1683,10 +1694,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 		});
         domElem.find('span.ratio').tooltip({
             track: true,
-            content: function() {
-                var title = $(this).attr('title');
-                return piwikHelper.escape(title.replace(/\n/g, '<br />'));
-            },
+            content: window.CoreHome.tooltipContent,
             show: {delay: 700, duration: 200},
             hide: false
         })
@@ -1822,7 +1830,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
     handleSummaryRow: function (domElem) {
         var details = _pk_translate('General_LearnMore', [' (<a href="'
-        + _pk_externalRawLink('https://matomo.org/faq/how-to/faq_54/') + '" rel="noreferrer noopener" target="_blank">', '</a>)']);
+        + _pk_externalRawLink('https://matomo.org/faq/reports/understanding-row-limits-and-others-rows/') + '" rel="noreferrer noopener" target="_blank">', '</a>)']);
 
         domElem.find('tr.summaryRow').each(function () {
             var labelSpan = $(this).find('.label .value').filter(function(index, elem){

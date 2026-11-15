@@ -433,11 +433,23 @@ class Segment
             // then we would join an extra table per segment when we ideally want to join each table only once. However, we still need
             // to see which table/column it joins to join it accurately each table extra if the same table is joined with different columns;
             $tableAlias = $join->getTable() . '_segment_' . str_replace('.', '', $sqlName ?: '');
+
+            $joinConditions = [$sqlName . ' = ' . $tableAlias . '.' . $join->getColumn()];
+
+            // additional key columns scope the join to the same row on both tables (eg the site id),
+            // so a value cannot match a row that only shares the primary join column
+            $sourceTable = strpos((string) $sqlName, '.') !== false ? strstr($sqlName, '.', true) : null;
+            if ($sourceTable !== null) {
+                foreach ($join->getAdditionalKeyColumns() as $keyColumn) {
+                    $joinConditions[] = $sourceTable . '.' . $keyColumn . ' = ' . $tableAlias . '.' . $keyColumn;
+                }
+            }
+
             $joinTable = [
                 'table' => $join->getTable(),
                 'tableAlias' => $tableAlias,
                 'field' => $tableAlias . '.' . $join->getTargetColumn(),
-                'joinOn' => $sqlName . ' = ' . $tableAlias . '.' . $join->getColumn(),
+                'joinOn' => implode(' AND ', $joinConditions),
             ];
 
             if ($dbDiscriminator) {
@@ -595,10 +607,14 @@ class Segment
      * @param false|string $groupBy (optional) Group by clause, eg, `"t2.col2"`.
      * @param int $limit Limit number of result to $limit
      * @param int $offset Specified the offset of the first row to return
-     * @param bool $forceGroupBy Force the group by and not using a subquery. Note: This may make the query slower see https://github.com/matomo-org/matomo/issues/9200#issuecomment-183641293
-     *                           A $groupBy value needs to be set for this to work.
-     * @param int If set to value >= 1 then the Select query (and All inner queries) will be LIMIT'ed by this value.
-     *              Use only when you're not aggregating or it will sample the data.
+     * @param bool $forceGroupBy Keep the group by in the query instead of moving it into a subquery,
+     *                           see https://github.com/matomo-org/matomo/issues/9200#issuecomment-183641293
+     *                           A $groupBy value needs to be set for this to work. When the [Live]
+     *                           use_semi_join_query setting is enabled, which it is not by default, a
+     *                           query built the way the visits log builds it can get the group by
+     *                           replaced by a subquery matching the joined tables instead, which
+     *                           returns the same visits without sorting the whole date range first.
+     *                           Every other query keeps the group by.
      * @return array{sql: string, bind: array<scalar>} The entire select query.
      */
     public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false, $limit = 0, $offset = 0, $forceGroupBy = false, bool $withRollup = false)

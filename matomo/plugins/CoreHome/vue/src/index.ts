@@ -23,6 +23,7 @@ export { default as useExternalPluginComponent } from './useExternalPluginCompon
 export { default as DirectiveUtilities } from './directiveUtilities';
 export { default as debounce } from './debounce';
 export { default as clone } from './clone';
+export { default as ucfirst } from './ucfirst';
 export { default as VueEntryContainer } from './VueEntryContainer/VueEntryContainer.vue';
 export { default as ActivityIndicator } from './ActivityIndicator/ActivityIndicator.vue';
 export { default as MatomoLoader } from './MatomoLoader/MatomoLoader.vue';
@@ -40,6 +41,7 @@ export { default as DropdownMenu } from './DropdownMenu/DropdownMenu';
 export { default as FocusAnywhereButHere } from './FocusAnywhereButHere/FocusAnywhereButHere';
 export { default as FocusIf } from './FocusIf/FocusIf';
 export { default as Tooltips } from './Tooltips/Tooltips';
+export { default as tooltipContent } from './Tooltips/tooltipContent';
 export { default as MatomoDialog } from './MatomoDialog/MatomoDialog.vue';
 export { default as MatomoModal } from './MatomoModal/MatomoModal.vue';
 export { default as ExpandOnClick } from './ExpandOnClick/ExpandOnClick';
@@ -75,6 +77,8 @@ export { default as ReportingMenuStore } from './ReportingMenu/ReportingMenu.sto
 export { default as ReportingPagesStore } from './ReportingPages/ReportingPages.store';
 export { default as ReportMetadataStore } from './ReportMetadata/ReportMetadata.store';
 export { default as WidgetsStore } from './Widget/Widgets.store';
+export { default as ReportHeader } from './ReportHeader/ReportHeader.vue';
+export { default as WidgetControls } from './WidgetControls/WidgetControls.vue';
 export { default as WidgetLoader } from './WidgetLoader/WidgetLoader.vue';
 export { default as ClientWidgetRenderer } from './Widget/ClientWidgetRenderer.vue';
 export { default as WidgetContainer } from './WidgetContainer/WidgetContainer.vue';

@@ -12,7 +12,6 @@ namespace Piwik\Plugins\TagManager;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\Filechecks;
 use Piwik\Menu\MenuTop;
 use Piwik\Nonce;
@@ -25,9 +24,6 @@ use Piwik\Plugins\TagManager\Model\Environment;
 use Piwik\Plugins\TagManager\Model\Tag;
 use Piwik\Plugins\TagManager\Model\Trigger;
 use Piwik\Plugins\TagManager\Model\Variable;
-use Piwik\Plugins\TagManager\Template\Tag\TagsProvider;
-use Piwik\Plugins\TagManager\Template\Trigger\TriggersProvider;
-use Piwik\Plugins\TagManager\Template\Variable\VariablesProvider;
 use Piwik\Site;
 use Piwik\Url;
 use Piwik\View;
@@ -324,21 +320,13 @@ class Controller extends \Piwik\Plugin\Controller
                     $version = ' (' . Piwik::translate('TagManager_VersionX', $release['version_name']) . ')';
                 }
 
-                $mtmPreviewId = PreviewCookie::COOKIE_NAME . '=' . $idContainer;
-                $mtmPreviewId = SafeDecodeLabel::decodeLabelSafe($mtmPreviewId);
                 $previewCookie = new PreviewCookie();
                 $debugSiteUrl = $previewCookie->getDebugSiteUrl();
-                $previewUrl = '';
-                if (!empty($debugSiteUrl)) {
-                    $previewUrl = $debugSiteUrl . (stripos($debugSiteUrl, '?') !== false ? '&' : '?') . $mtmPreviewId;
-                }
 
                 $notificationMessage = $this->renderTemplate('previewDebugNotification.twig', array(
                         'idcontainer' => $release['idcontainer'],
                         'debugSiteUrl' => $debugSiteUrl,
-                        'version' => $version,
-                        'mtmPreviewId' => $mtmPreviewId,
-                        'previewUrl' => $previewUrl
+                        'version' => $version
                     ));
 
                 $notification = new Notification($notificationMessage);
@@ -496,6 +484,9 @@ class Controller extends \Piwik\Plugin\Controller
             $idDestinationSite = $request->getIntegerParameter('idDestinationSite');
             // Confirm tha the user has permission to copy to the selected site
             $this->accessValidator->checkWriteCapability($idDestinationSite);
+            // The copy imports the whole container version into the destination site, which may contain custom
+            // templates. Check the capability up front so we don't fail half way through the copy.
+            $this->accessValidator->checkUseCustomTemplatesCapability($idDestinationSite);
             $idContainer = $request->getStringParameter('idContainer');
 
             $idContainerNew = $this->container->copyContainer($this->idSite, $idContainer, $idDestinationSite);
@@ -553,11 +544,11 @@ class Controller extends \Piwik\Plugin\Controller
             $idContainerVersion = $request->getIntegerParameter('idContainerVersion');
 
             $tagModel = StaticContainer::get(Tag::class);
-            if ($this->idSite !== $idDestinationSite) {
-                $tag = $tagModel->getContainerTag($this->idSite, $idContainerVersion, $idTag);
-                if (!empty($tag) && StaticContainer::get(TagsProvider::class)->isCustomTemplate($tag['type'])) {
-                    $this->accessValidator->checkUseCustomTemplatesCapability($idDestinationSite);
-                }
+            if (
+                $this->idSite !== $idDestinationSite
+                && $tagModel->usesCustomTemplates($this->idSite, $idContainerVersion, $idTag)
+            ) {
+                $this->accessValidator->checkUseCustomTemplatesCapability($idDestinationSite);
             }
 
             $idTagNew = $tagModel->copyTag($this->idSite, $idContainerVersion, $idTag, $idDestinationSite, $idDestinationContainer);
@@ -617,11 +608,11 @@ class Controller extends \Piwik\Plugin\Controller
             $idContainerVersion = $request->getIntegerParameter('idContainerVersion');
 
             $triggerModel = StaticContainer::get(Trigger::class);
-            if ($this->idSite !== $idDestinationSite) {
-                $trigger = $triggerModel->getContainerTrigger($this->idSite, $idContainerVersion, $idTrigger);
-                if (!empty($trigger) && StaticContainer::get(TriggersProvider::class)->isCustomTemplate($trigger['type'])) {
-                    $this->accessValidator->checkUseCustomTemplatesCapability($idDestinationSite);
-                }
+            if (
+                $this->idSite !== $idDestinationSite
+                && $triggerModel->usesCustomTemplates($this->idSite, $idContainerVersion, $idTrigger)
+            ) {
+                $this->accessValidator->checkUseCustomTemplatesCapability($idDestinationSite);
             }
 
             $idTriggerNew = $triggerModel->copyTrigger($this->idSite, $idContainerVersion, $idTrigger, $idDestinationSite, $idDestinationContainer);
@@ -681,11 +672,11 @@ class Controller extends \Piwik\Plugin\Controller
             $idContainerVersion = $request->getIntegerParameter('idContainerVersion');
 
             $variableModel = StaticContainer::get(Variable::class);
-            if ($this->idSite !== $idDestinationSite) {
-                $variable = $variableModel->getContainerVariable($this->idSite, $idContainerVersion, $idVariable);
-                if (!empty($variable) && StaticContainer::get(VariablesProvider::class)->isCustomTemplate($variable['type'])) {
-                    $this->accessValidator->checkUseCustomTemplatesCapability($idDestinationSite);
-                }
+            if (
+                $this->idSite !== $idDestinationSite
+                && $variableModel->usesCustomTemplates($this->idSite, $idContainerVersion, $idVariable)
+            ) {
+                $this->accessValidator->checkUseCustomTemplatesCapability($idDestinationSite);
             }
 
             $idVariableNew = $variableModel->copyVariable($this->idSite, $idContainerVersion, $idVariable, $idDestinationSite, $idDestinationContainer);

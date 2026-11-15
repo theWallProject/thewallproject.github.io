@@ -36,13 +36,14 @@ widgetsHelper.getAvailableWidgets = function (callback) {
 
     function mergeCategoriesAndSubCategories(availableWidgets)
     {
-        var categorized = {};
+        var categorized = Object.create(null);
 
         $.each(availableWidgets, function (index, widget) {
             var category = widget.category.name;
 
             if (!categorized[category]) {
-                categorized[category] = {'-': []};
+                categorized[category] = Object.create(null);
+                categorized[category]['-'] = [];
             }
 
             var subcategory = '-';
@@ -57,7 +58,7 @@ widgetsHelper.getAvailableWidgets = function (callback) {
             categorized[category][subcategory].push(widget);
         });
 
-        var moved = {};
+        var moved = Object.create(null);
 
         $.each(categorized, function (category, widgets) {
             $.each(widgets, function (subcategory, subwidgets) {
@@ -449,7 +450,9 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
 
                     widgetName = piwikHelper.escape(piwikHelper.htmlEntities(widgetName));
 
-                    widgetList.append('<li class="' + widgetClass + '" uniqueid="' + widgetUniqueId + '">' + widgetName + '</li>');
+                    var $widget = $('<li></li>').addClass(widgetClass.trim()).attr('uniqueid', widgetUniqueId);
+                    $widget.append(widgetName);
+                    widgetList.append($widget);
                 }
 
                 // delay widget preview a few milliseconds
@@ -526,6 +529,14 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                             .text(_pk_translate('Dashboard_WidgetPreview'))
                     );
                     previewElement.html(emptyWidgetHtml);
+
+                    // Render the shared ReportHeader (title only, no controls) into the preview
+                    // chrome. The widget title lives in ReportHeader now, not in a `.widgetName`
+                    // node, so it must be passed as the `title` prop here.
+                    piwikHelper.compileVueEntryComponents($('.widgetTop', previewElement), {
+                        title: _pk_translate('Dashboard_WidgetPreview'),
+                        context: 'preview'
+                    });
 
                     var onWidgetLoadedCallback = function (response) {
                         var widgetElement = previewElement.children('.widget').first();

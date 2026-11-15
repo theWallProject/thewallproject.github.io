@@ -277,7 +277,10 @@ declare global {
     _pk_externalRawLink(url: string, values: (string|null)[]): string;
     require(p: string): any;
     initTopControls(): void;
+    initializeSparklines(): void;
     vueSanitize(content: string): string;
+    // Strict profile for content read back from `title` attributes, see the implementation.
+    vueSanitizeTooltip(content?: unknown): string;
     vueSanitizeUrl(url: string): string;
     showEmptyDashboardNotification(): void;
   }
