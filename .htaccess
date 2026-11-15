@@ -2,6 +2,16 @@
 
 # HTTP to HTTPS redirect
 RewriteEngine On
+# ---- security hardening: deny VCS, source, tooling, secrets ----
+RewriteRule ^\.well-known/ - [L]
+RewriteRule (^|/)\. - [F,L]
+RewriteRule ^(src|vendor|node_modules|tests|docs|scripts)(/|$) - [F,L]
+RewriteRule ^(package|package-lock|composer|tsconfig|vite\.config|playwright\.config|eslint\.config) - [F,L]
+RewriteRule ^(router-dev\.php|phpunit\.xml|README\.md|AI\.md) - [F,L]
+RewriteRule ^matomo/(config|tmp|misc|vendor|lang)(/|$) - [F,L]
+RewriteCond %{REQUEST_URI} (^|/)dynamic/(stats-common|config)\.php$ [NC]
+RewriteRule ^ - [F,L]
+# ---- end security hardening ----
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 

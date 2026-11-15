@@ -36,3 +36,6 @@ dist/.htaccess
 vendor/
 .php-cs-fixer.cache
 .env
+
+# Server-only Matomo config (contains DB credentials, never commit)
+matomo/config/config.ini.php
